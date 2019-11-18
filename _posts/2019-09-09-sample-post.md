@@ -25,7 +25,7 @@ Hi, This is Sample Post.
 
 - img using directory (/post_img)
 
-      <img src="..\post_img\picture195.png" alt="png"/>
+     <img src="..\post_img\picture195.png" alt="png"/>
 
 
 
