@@ -3,7 +3,7 @@ layout: post
 title: Sample Post (title name)
 summary: This is Sample post
 categories: Sample
-# featured-img: calculus
+featured-img: calculus
 # mathjax: true
 ---
 
