@@ -23,6 +23,8 @@ featured-img: piano
     - 화음은 기본적으로 3도씩 쌓어서 만듦
     - 악보에서 3도는 줄과 줄 사이, 칸과 칸 사이
 
+<img src="..\post_img\piano.jpg" alt="png"/>
+
 ## 메이저 코드(Major Chord)
 
 - Major Chord, 밝은 느낌의 화음
@@ -46,8 +48,4 @@ featured-img: piano
 
 ## 왼손 연주 (Left Hand)
 
-
-
-- img using directory (/post_img)
-
-     <img src="..\post_img\picture195.png" alt="png"/>
+- 
