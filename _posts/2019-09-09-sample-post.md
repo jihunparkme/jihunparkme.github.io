@@ -30,5 +30,7 @@ Hi, This is Sample Post.
 
 
 
-## Other
+## Logo
 
+- Make in PPT -> Save as picture(JPG) 
+  - -> Convert to SVG file -> SVG sizing (width less than 50) 
