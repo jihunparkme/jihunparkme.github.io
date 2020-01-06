@@ -9,6 +9,19 @@ featured-img: sample
 
 
 
+# Table of Contents
+
+* [Data structure](#Data-structure)
+  
+  * [선형 자료구조](#선형-자료구조)
+    * [stack](#stack)
+  
+* [Sorting Algorithm](#SortingAlgorithm )
+
+  * [Bubble Sort](#Bubble-Sort)
+
+  
+
 # Data structure 
 
 <br>
