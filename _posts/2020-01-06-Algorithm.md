@@ -33,7 +33,7 @@ featured-img: sample
   - push : O(1)
   - pop : O(1)
 
-   <img src="E:/JH/Github/Knowledge-Property/img/picture254.png" alt="img" style="zoom: 70%;" />
+   <img src="..\post_img\picture254.png" alt="img" style="zoom: 70%;" />
 
 - stack class
 
@@ -136,7 +136,7 @@ featured-img: sample
   - enqueue : O(1)
   - dequeue : O(N)
 
-  <img src="E:/JH/Github/Knowledge-Property/img/picture253.png" alt="img" style="zoom: 70%;" /> 
+  <img src="..\post_img\picture253.png" alt="img" style="zoom: 70%;" /> 
 
 - Queue class
 
@@ -352,7 +352,7 @@ featured-img: sample
   3.  더 이상 들어갈 길이 없을 때(인접한 모든 정점이 이미 방문한 정점일 때), 방문하지 않은 인접한 정점을 찾을 때까지 들어간 길을 돌아나옴
   4.  위 과정을 반복
 
-   <img src="E:/JH/Github/Knowledge-Property/img/dfs.png" alt="img" style="zoom: 60%;" />
+   <img src="..\post_img\dfs.png" alt="img" style="zoom: 70%;" />
 
   ```python
   def dfs(v):		# 정점 v부터 탐색
@@ -410,7 +410,7 @@ featured-img: sample
   4. 큐에 있는 정점에 대해 인접하면서 아직 방문하지 않은 정점들로 새로운 큐를 구성
   5. 위 과정을 반복
 
-   <img src="E:/JH/Github/Knowledge-Property/img/dfs.png" alt="img" style="zoom: 60%;" />
+   <img src="..\post_img\dfs.png" alt="img" style="zoom: 70%;" />
 
   ```python
   def bfs(v):
