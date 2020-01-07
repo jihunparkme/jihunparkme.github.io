@@ -13,20 +13,37 @@ featured-img: sample
 
 * [Data structure](#Data-structure)
   
-  * [선형 자료구조](#선형-자료구조)
+  * [Linear data structure](#Linear-data-structure)
     * [stack](#stack)
+    * [Queue](#Queue)
+    * [Deque](#Deque)
+    * [Linked list](#Linked-list)
+    * [선형 구조의 자료 탐색법](#선형-구조의-자료-탐색법)
+  * [Nonlinear data structure](#Nonlinear-data-structure)
+    * [graph](#Graph)
+    * [DFS](#DFS)
+    * [BFS](#BFS)
+    * [Tree](#Tree)
+    * [Binary Search Tree](# Binary-Search-Tree)
   
 * [Sorting Algorithm](#SortingAlgorithm )
 
   * [Bubble Sort](#Bubble-Sort)
-
+* [Selection Sort](#Selection-Sort)
+  * [Insertion Sort](#Insertion Sort)
+  * [Merge Sort](#[Merge Sort)
+  * [Quick Sort](#Quick Sort)
+  * [Shell Sort](#Shell Sort)
+  * [Heap Sort](#Heap Sort)
+  * [Radix Sort](#Radix Sort)
+  
   
 
 # Data structure 
 
 <br>
 
-## 선형 자료구조
+## Linear data structure
 
 - 한 종류의 데이터가 선처럼 길게 나열된 자료구조
 - 모든 자료에 O(1)으로 접근이 보장되는 자료구조에는 배열과 해시(key:value)가 있음
@@ -220,6 +237,12 @@ featured-img: sample
 
 <br>
 
+### Hash
+
+- Key-value 쌍으로 데이터를 저장하는 자료구조
+- 빠른 검색 속도
+- Hash Table에 Hash를 저장
+
 ### Linked list
 
 - (= 연결 리스트), 값과 다음 노드를 가짐
@@ -342,17 +365,17 @@ featured-img: sample
 
 <br>
 
-## 비선형 자료구조
+## Nonlinear data structure
 
 - 선형 자료구조가 아닌 모든 자료구조
 
-### 그래프
+### Graph
 
 - 객체들 사이의 관계를 정점(vertex)과 간선(edge)로 나타낸 그림
 
-### 깊이 우선 탐색(DFS)
+### DFS
 
-- Depth First Search
+- Depth First Search (깊이 우선 탐색)
 
 - 방문한 정점으로부터 깊게 들어가며 탐색한 후, 되돌아 나오다가 탐색하지 않은 노드를 탐색하는 방식 
 
@@ -409,9 +432,9 @@ featured-img: sample
   A -> B -> C -> D -> E -> F -> G -> H -> I -> J -> K -> L -> M
   ```
 
-###  너비 우선 탐색(BFS)
+###  BFS
 
-- Breadth First Search 
+- Breadth First Search (너비 우선 탐색)
 
 - 넓게 퍼져가며 정점을 방문 
 
@@ -468,7 +491,7 @@ featured-img: sample
   A -> B -> C -> H -> D -> G -> I -> J -> M -> E -> K -> F -> L
   ```
 
-### 트리
+### Tree
 
 - 그래프의 일종
 - 정점(node)과 간선(branch)로 이루어짐
@@ -482,7 +505,7 @@ featured-img: sample
   - 중위 순회
   - 후위 순회
 
-### 이진 검색 트리
+###  Binary Search Tree 
 
 - 일자로 나열된 정렬된 데이터에서 원하는 데이터를 빠르게 찾는 방법 
 
@@ -797,22 +820,9 @@ featured-img: sample
 
 
 
-## Attach Image
-
-- img using issues
-
-    - Repositort -> Issues -> New issue -> paste image
-
-        ![picture195](https://user-images.githubusercontent.com/35000355/69053245-5484c100-0a4c-11ea-90f4-e787321d3b15.png) 
-
-- img using directory (/post_img)
-
-     <img src="..\post_img\picture195.png" alt="png"/>
 
 
-
-
-## Logo
+Logo
 
 - Make in PPT -> Save as picture(JPG) 
   - -> Convert to SVG file -> SVG sizing (width less than 50) 
