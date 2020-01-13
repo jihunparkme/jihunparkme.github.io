@@ -14,10 +14,10 @@ featured-img: algorithms
 * [Data structure](#Data-structure)
   
   * [Linear data structure](#Linear-data-structure)
-    * [stack](#stack)
+    * [stack](#Stack)
     * [Queue](#Queue)
     * [Deque](#Deque)
-    * [Linked list](#Linked-list)
+    * [Linked list](#Linked list)
     * [선형 구조의 자료 탐색법](#선형-구조의-자료-탐색법)
   * [Nonlinear data structure](#Nonlinear-data-structure)
     * [graph](#Graph)
