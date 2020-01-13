@@ -2,12 +2,12 @@ import os
 from PIL import Image
 
 # Changing the working path
-path = input("input working path") + '/'
+path = input("input working path : ") + '/'
 os.chdir(path)
 os.getcwd()
 
 # image size conversion
-thumb = input("input thumb name")
+thumb = input("input thumb name(.jpg) : ")
 if thumb + '.jpg' in os.listdir(path) :
     image = Image.open(thumb + '.jpg')
 

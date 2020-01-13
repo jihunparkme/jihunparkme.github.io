@@ -3,7 +3,7 @@ layout: post
 title: Algorithm
 summary: Collect all algorithms
 categories: Algorithm
-featured-img: sample
+featured-img: algorithms
 # mathjax: true
 ---
 
