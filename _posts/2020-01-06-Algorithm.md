@@ -29,7 +29,7 @@ featured-img: algorithms
 * [Sorting Algorithm](#SortingAlgorithm )
 
   * [Bubble Sort](#Bubble-Sort)
-* [Selection Sort](#Selection-Sort)
+  * [Selection Sort](#Selection-Sort)
   * [Insertion Sort](#Insertion Sort)
   * [Merge Sort](#[Merge Sort)
   * [Quick Sort](#Quick Sort)
