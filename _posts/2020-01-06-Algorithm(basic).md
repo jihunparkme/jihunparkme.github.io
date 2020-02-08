@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Algorithm
+title: Algorithm(basic)
 summary: Collect basic algorithms
 categories: Algorithm
 featured-img: algorithms
@@ -16,23 +16,23 @@ featured-img: algorithms
     * [stack](#Stack)
     * [Queue](#Queue)
     * [Deque](#Deque)
-    * [Linked list](#Linked list)
+    * [Linked list](#Linked-list)
     * [선형 구조의 자료 탐색법](#선형-구조의-자료-탐색법)
   * [Nonlinear data structure](#Nonlinear-data-structure)
     * [graph](#Graph)
     * [DFS](#DFS)
     * [BFS](#BFS)
     * [Tree](#Tree)
-    * [Binary Search Tree](# Binary-Search-Tree)
-* [Sorting Algorithm](#Sorting-Algorithm )
+    * [Binary Search Tree](#Binary-Search-Tree)
+* [Sorting Algorithm](#Sorting-Algorithm)
   * [Bubble Sort](#Bubble-Sort)
   * [Selection Sort](#Selection-Sort)
-  * [Insertion Sort](#Insertion Sort)
-  * [Merge Sort](#[Merge Sort)
-  * [Quick Sort](#Quick Sort)
-  * [Shell Sort](#Shell Sort)
-  * [Heap Sort](#Heap Sort)
-  * [Radix Sort](#Radix Sort)
+  * [Insertion Sort](#Insertion-Sort)
+  * [Merge Sort](#[Merge-Sort)
+  * [Quick Sort](#Quick-Sort)
+  * [Shell Sort](#Shell-Sort)
+  * [Heap Sort](#Heap-Sort)
+  * [Radix Sort](#Radix-Sort)
 
 # Data structure 
 
