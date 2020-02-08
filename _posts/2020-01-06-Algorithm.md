@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Algorithm
-summary: Collect all algorithms
+summary: Collect basic algorithms
 categories: Algorithm
 featured-img: algorithms
 # mathjax: true
@@ -12,7 +12,6 @@ featured-img: algorithms
 # Table of Contents
 
 * [Data structure](#Data-structure)
-  
   * [Linear data structure](#Linear-data-structure)
     * [stack](#Stack)
     * [Queue](#Queue)
@@ -25,9 +24,7 @@ featured-img: algorithms
     * [BFS](#BFS)
     * [Tree](#Tree)
     * [Binary Search Tree](# Binary-Search-Tree)
-  
-* [Sorting Algorithm](#SortingAlgorithm )
-
+* [Sorting Algorithm](#Sorting-Algorithm )
   * [Bubble Sort](#Bubble-Sort)
   * [Selection Sort](#Selection-Sort)
   * [Insertion Sort](#Insertion Sort)
@@ -36,10 +33,6 @@ featured-img: algorithms
   * [Shell Sort](#Shell Sort)
   * [Heap Sort](#Heap Sort)
   * [Radix Sort](#Radix Sort)
-  
-* [Dynamic Programming](#Dynamic-Programming)
-
-  
 
 # Data structure 
 
@@ -811,54 +804,3 @@ featured-img: algorithms
   3. 그리고 그다음 단계에서는 백의 자리에 대해서 정렬을 수행
   4. 1, 2, 3에서 진행되었던 것처럼 자릿수만큼 반복하여 정렬을 수행
 - 복잡하지만 효율적
-
-# Dynamic Programming
-
-- 동적 계획법
-
-  - 문제의 답을 여러 번 계산하는 대신 한 번만 계산하고 계산 결과를 재활용함으로써 속도의 향상를 꾀함
-  - 두 번 이상 반복 계산되는 부분 문제들의 답을 미리 저장함으로써 속도의 향상을 꾀하는 알고리즘 설계 기법
-  - 캐시(cache) : 이미 계산한 값을 저장해 두는 메모리의 장소
-  - 중복되는 부분 문제(overlapping subproblems) : 두 번 이상 계산되는 부분 문제
-
-- 메모이제이션(memoization) : 함수의 결과를 저장하는 장소를 마련해 두고, 한 번 계산한 값을 저장해 뒀다 재활용하는 최적화 기법, 메모이제이션은 참조적 투명 함수의 경우에만 적용 가능
-
-  - 참조적 투명 함수(referential transparent function) : 입력이 고정되어 있을 떄, 그 결과가 항상 같은 함수
-  - 메모이제이션의 패턴
-
-  ```c++
-  #include <iostream>
-  
-  using namespace std;
-  
-  int cache[2500][2500];
-  
-  // a와 b는 [0, 2500) 구간 안의 정수
-  int someObsureFunction(int a, int b) {
-  	// 기저 사례를 처음으로 처리.ex) 입력 범위를 벗어난 경우
-  	if (...) return ...;
-  	// (a,b)에 대한 답을 구한 적이 있으면 바로 반환
-  	int& rst = cache[a][b];
-  	if (rst != -1) return rst;
-  	// 답 계산
-  	...;
-  	return rst;
-  }
-  
-  int main() {
-  	ios_base::sync_with_stdio(false);
-  	cin.tie(NULL); cout.tie(NULL);
-  
-  	// memset()함수를 이용하여 cache 배열을 초기화
-  	memset(cache, -1, sizeof(cache))
-  }
-  ```
-
-  
-
-  
-
-Logo
-
-- Make in PPT -> Save as picture(JPG) 
-  - -> Convert to SVG file -> SVG sizing (width less than 50) 
