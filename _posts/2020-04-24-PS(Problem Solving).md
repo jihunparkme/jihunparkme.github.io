@@ -76,6 +76,8 @@ featured-img: PS
   - SW 역량테스트
     - https://swexpertacademy.com/main/capacityTest/main.do
     - [B형 공부](https://baactree.tistory.com/53)
+- 운영체제
+  - https://parksb.github.io/article/5.html
 
 
 
