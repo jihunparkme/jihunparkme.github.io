@@ -73,6 +73,8 @@ featured-img: PS
   - 브루트 포스, DP, 큐/스택, DFS, BFS, 탐욕법
   - 카카오
     - https://programmers.co.kr/learn/challenges?tab=all_challenges
+    - https://www.hackerrank.com/
+    - https://leetcode.com/
   - SW 역량테스트
     - https://swexpertacademy.com/main/capacityTest/main.do
     - [B형 공부](https://baactree.tistory.com/53)
