@@ -54,7 +54,7 @@ featured-img: PS
 
 ---
 
-#### 코딩테스트
+## 코딩테스트(?)
 
 - 개발자의 기초적인 소양을 보는 시험 : 주어진 시간 동안 주어진 문제를 요구사항에 맞게 프로그래밍
   - 기초 소양 :  (문제 > 모델링(추상화) > 절차적 사고 > 구현)
@@ -66,6 +66,8 @@ featured-img: PS
     - 탐색 : 탐색(BFS, DFS), 완전탐색(백트래킹)
     - 자료구조 : 스택, 큐 힙 등
     - 알고리즘 : Greedy, DP, 이분탐색 등
+  - 구현 : 어떤 내용이 구체적인 사실로 나타나게 함 -> 문제 조건을 코드로 작성하게 돌아가게 함
+    - 모든 프로그래밍 = 구현 문제
   - 환경 체크(사용 언어) : 장/단점에 따라 언어를 바꿔 사용하는 것이 포인트
     - C++ : 비교적 문법은 어렵지만 빠른 속도, STL 등의 장점(재귀함수, 자료구조 사용 시)
     - Python : 쉽고 문법이 간단, 범용성이 넓음, 하지만 느린 단점(string, 정렬, 파싱 등 객체를 다룰 시)
@@ -94,11 +96,16 @@ featured-img: PS
       - 필수 알고리즘은 암기
       - 설명과 함께 풀어보기
       - 유형 많이 풀어보기
-    - 구현
+    - 구현 
       - 디버깅 연습 필수
       - print() 를 활용하여 디버깅 
       - 쉽고 간단한 문제를 많이 풀기
       - 본인만의 스타일 만들기
+
+---
+
+## 코딩테스트 준비
+
 - 가장 기본적인 준비
   - C++ / Python 기본 문법 공부
     - 코드업 기초 100제
@@ -124,9 +131,101 @@ featured-img: PS
 - 운영체제
   - https://parksb.github.io/article/5.html
 
+### Python
+
+Python 의 기본 자료형
+
+- single
+  - Integer
+    - 수의 크기 제한이 없음
+    - str(123)로 쉬운 형변환
+    - 연산, 함수 사용 시, float 로 변환되는 경우를 체크
+      - 나눗셈은 / 가 아닌 // 로 안전하기 나누기 (또는 divmod 사용)
+  - Float
+    - 연산에서는 사용하지 말자! (실수 오차 발생), (필요할 경우 Decimal 사용)
+    - 유리수 연산은 가능하면 tuple 등으로 분자/분모를 따로 처리
+  - String
+    - String은 변하지 않는(immutable)변수이므로 list로 변환하여 사용
+    - '+' 연산과 '*' 연산 조심하기
+      - join() method 활용
+    - .split() .replace() .find() 등 다양한 method 활용
+    - Slicing이 자유로움
+    - char를 ord와 chr로 다루기 (ASCII code 사용 시)
+  - Boolean
+    - 논리 연산과 활용
+    - Short Circuit (앞 항에서 결과가 결정되면 뒷 항은 확인하지 않음)
+      - or 연산 앞 항이 참이거나 and 연산에 앞 항이 거짓일 경우
+    - 모든 문제의 기본 : True/False
+
+- container
+
+  - List (like array)
+
+    - List Comprehension 사용
+
+      - ```python
+        list_arr = [i for i in range(100)]
+        ```
+
+    - sort, sorted 구분
+
+      - lst.sort() : 원본 객체가 정렬된 결과로 변경
+      - sorted(lst) : 정렬이 된 객체를 반환하고 원본 객체는 변하지 않음
+
+    - len, sum, max, min 등 활용
+
+    - slicing, [-1] 등 음수 인덱스 활용
+
+      - ```python
+        # 첫 번째 인덱스에 값을 삽입하는 방법
+        lst = [1] + lst
+        
+        lst[:0] = [1]
+        
+        # 마지막 인덱스 원소 확인
+        lst[-1]
+        ```
+
+    - reduce, filter 도 활용
+
+  - Tuple
+
+    - 초기 상태 표현 시 간결하게 사용 가능
+
+      - ```python
+        a, b, c = 0, 0, 0
+        ```
+
+    - Map과 함께 사용하여 입력 받기
+
+      - ```python
+        # a, b 를 한 줄에 입력받는 경우
+        a, b = map(int, input().split())
+        ```
+
+    - 동시에 변해야하는 객체에 효율적으로 표현 가능
+
+      - ```python
+        # Swap
+        a, b = b, a
+        ```
+
+  - Dictionary
+
+    - Keys()나 values()를 사용하여 효율적으로 필요한 데이터만 추출	
+    - 반복문 
+    - 문자열 자체를 index로 사용할 경우
+
+  - Set
+
+    - 중복 체크 가능
+    - 합집합, 여집합, 차집합 등 집합 연산 가능 (단, 시간복잡도가 큼)
+
+
+
 ---
 
-#### 취업
+## 취업
 
 - 명확한 분야 선택
   - 웹, 앱, 4차산업관련(IOT, 인공지능, 음성처리 등)
@@ -149,7 +248,11 @@ featured-img: PS
   - [멀티캠퍼스](https://www.multicampus.com/system/menu/iframe?p_url=L3B1Ymxpc2gvcGFnZXMvZWR1XzR0aC5odG1s&p_menu=MTE3I01BSU4=&p_gubun=Qw==&param2=106000000000000&param3=106001000000000)
   - [KFQ](http://kcm.kfq.or.kr/)
 
+- 면접
 
+  - https://github.com/JaeYeopHan/Interview_Question_for_Beginner
+
+    
 
 > reference
 >
