@@ -111,6 +111,14 @@ featured-img: PS
     - 코드업 기초 100제
       - https://codeup.kr/problemsetsol.php?psid=23
     - 그리디, 탐색유형(BFS, DFS), DP 유형 문제 풀이
+      - BFS/DFS + 재귀가 가장 기본 (구현)
+        - 부분 상태 탐색 (위치 이동, 수) : 상태에 대한 체크 함수
+        - 전체 상태 탐색(전체 map) : N차원 배열을 조정하는 방법
+        - 그외 : Flood Fill, 트리 순회
+      - 알고리즘 지식
+        - 위상정렬(Topological Sort)
+        - 최소신장트리(MST)
+        - 최단 거리
     - BOJ
     - 특정 기업 대상 기출문제
       - 삼성전자(BOJ, SW역평기출)
@@ -123,7 +131,7 @@ featured-img: PS
   - 브루트 포스, DP, 큐/스택, DFS, BFS, 탐욕법
   - 카카오
     - https://programmers.co.kr/learn/challenges?tab=all_challenges
-    - https://www.hackerrank.com/
+    - https://www.hackerrank.com/dashboard
     - https://leetcode.com/
   - SW 역량테스트
     - https://swexpertacademy.com/main/capacityTest/main.do
@@ -264,3 +272,4 @@ Python 의 기본 자료형
 > - [PS 시작하기](https://plzrun.tistory.com/entry/알고리즘-문제풀이PS-시작하기)
 > - [코딩테스트 문제 리스트와 연습 팁](https://www.notion.so/580c3a42f21b49b497b7089f539a9f78)
 
+P
