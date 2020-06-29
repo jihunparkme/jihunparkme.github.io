@@ -9,22 +9,23 @@ featured-img: spring
 
 # Table of Contents
 
-* [개요 소개](#개요 소개)
-  * [스프링 개요](#스프링 개요)
-* [스프링 프레임워크](#스프링 프레임워크)
-  * [개발 환경 구축](#개발 환경 구축)
-* [프로젝트 생성](#프로젝트 생성)
+* [개요 소개](#개요-소개)
+  * [스프링 개요](#스프링-개요)
+* [스프링 프레임워크](#스프링-프레임워크)
+  * [개발 환경 구축](#개발-환경-구축)
+* [프로젝트 생성](#프로젝트-생성)
   * [test](#test)
 * [의존객체](#의존객체)
-  * [DI(Dependency injection)](#DI(Dependency injection))
-  * [다양한 의존 객체 주입](#다양한 의존 객체 주입)
+  * [DI(Dependency injection)](#DI(Dependency-injection))
+  * [다양한 의존 객체 주입](#다양한-의존-객체-주입)
   * [스프링 설정 파일 분리](#스프링-설정-파일-분리)
+  * [의존객체 자동 주입](#의존객체-자동-주입)
 
 
 
-# 개요 소개
+# 개요-소개
 
-## 스프링 개요
+## 스프링-개요
 
 #### 주요 기능
 - DI
@@ -43,9 +44,9 @@ featured-img: spring
 - 스프링에서 객체를 생성하고 조립하는 컨테이너(container)로, 
   컨테이너를 통해 생성된 객체를 빈(Bean)이라고 부름
   
-# 스프링 프레임워크
+# 스프링-프레임워크
 
-## 개발 환경 구축
+## 개발-환경-구축
 
 #### 폴더 및 pom.xml 파일 이해
 - pjt project : 스프링 프로젝트
@@ -58,7 +59,7 @@ pom.xml 파일은 메이븐 설정파일로 메이븐은 라이브러리를 연�
 
 pom.xml에 의해서 필요한 라이브러리만 다운로드 해서 사용
 
-# 프로젝트 생성
+# 프로젝트-생성
 
 ## test
 
@@ -108,7 +109,7 @@ public class MainClass {
 		// xml 파일을 이용하여 객체를 생성
 
 		/*
-		1. 컨테이너 생성
+		1. Spring Container 생성
 		xml을 사용하므로 GenericXmlApplicationContext class 를 사용
 		이 class를 생성할 때, 그 안쪽에 리소스(xml)의 내용을 작성.
 		*/
@@ -132,7 +133,7 @@ public class MainClass {
 
 # 의존객체
 
-## DI(Dependency injection)
+## DI(Dependency-Injection)
 
 의존성 주입
 
@@ -319,7 +320,7 @@ StudentAllSelectService allSelectService =
     ctx.getBean("allSelectService", StudentAllSelectService.class);
 ```
 
-## 다양한 의존 객체 주입
+## 다양한-의존-객체-주입
 
 1. 생성자를 이용한 의존 객체 주입 (constructor-arg TAG)
 
@@ -790,4 +791,102 @@ StudentAllSelectService allSelectService =
   </bean>
   ```
 
-  
+## 의존객체-자동-주입
+
+- 의존객체 자동 주입 : 
+  - 스프링 설정 파일에서 의존 객체를 주입할 때  또는  태그로 의존 대상 객체를 명시하지 않아도 스프링 컨테이너 가 자동으로 필요한 의존 대상 객체를 찾아서 의존 대상 객체가 필요한 객체에 주입해 주는 기능
+  - 구현 방법은 @Autowired와 @Resource 어노테이션을 이용해서 쉽게 구현
+
+- @Autowired
+
+  - 주입하려고 하는 **객체의 타입**이 일치하는 객체를 자동으로 주입
+
+  - @Autowired가 적용되어 있는 구문에 필요한 객체의 데이터 타입을 가지고 있는 Bean 객체를 Ctx.xml 에서 찾고, 알맞는 데이터 타입을 넣어 주는 방식
+
+    - appCtx.xml
+
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    
+    <beans xmlns="http://www.springframework.org/schema/beans"
+    	xmlns:context="http://www.springframework.org/schema/context" <!-- +추가 -->
+    	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+     		http://www.springframework.org/schema/beans/spring-beans.xsd  <!-- +추가 -->
+     		http://www.springframework.org/schema/context  <!-- +추가 -->
+     		http://www.springframework.org/schema/context/spring-context.xsd" <!-- +추가 -->>
+    
+    	<context:annotation-config /> <!-- +추가 --> 
+    
+    	<bean id="wordDao" class="com.word.dao.WordDao" />
+    	<bean id="registerService" class="com.word.service.WordRegisterServiceUseAutowired" />
+    	<!-- constructor-arg ref="wordDao" /> -제거 -->
+    	<bean id="searchService" class="com.word.service.WordSearchServiceUseAutowired" />
+    	<!-- constructor-arg ref="wordDao" /> -제거 -->
+    	
+    </beans>
+    ```
+
+    - java
+
+    ```java
+    // WordRegisterService.java
+    
+    	@Autowired
+    	public WordRegisterService(WordDao wordDao) {
+    		this.wordDao = wordDao;
+    	}
+    
+    // WordSearchService.java
+    
+        @Autowired
+        public WordSearchService(WordDao wordDao) {
+    		this.wordDao = wordDao;
+    	}
+    ```
+
+  - property나 method에 @Autowired 사용 시 default 생성자 필요
+
+    ```java
+    	@Autowired
+    	private WordDao wordDao;
+    	
+    	public WordRegisterService() {
+    	}
+    
+    	@Autowired
+    	public void setWordDao(WordDao wordDao) {
+    		this.wordDao = wordDao;
+    	}
+    ```
+
+    
+
+- @Resource 
+
+  - 주입하려고 하는 **객체의 이름**이 일치하는 객체를 자동으로 주입
+
+  - 생성자에서는 사용할 수 없고, property나 method에 사용 가능
+
+  - property나 method에 적용하기 위해서는 default 생성자 필요
+
+  - 객체가 일단 생성되어야 property나 method에 자동주입이 가능하므로
+
+    - appCtx.xml 은 @Autowired 과 동일
+    - Java
+
+    ```java
+    	@Resource
+    	private WordDao wordDao;
+    	
+    	public WordRegisterService() {
+    	}
+    
+    	@Resource
+    	public void setWordDao(WordDao wordDao) {
+    		this.wordDao = wordDao;
+    	}
+    ```
+
+    
+
