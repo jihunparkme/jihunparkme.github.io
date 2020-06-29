@@ -20,6 +20,7 @@ featured-img: spring
   * [다양한 의존 객체 주입](#다양한-의존-객체-주입)
   * [스프링 설정 파일 분리](#스프링-설정-파일-분리)
   * [의존객체 자동 주입](#의존객체-자동-주입)
+  * [의존객체 선택](#의존객체-선택)
 
 
 
@@ -796,6 +797,7 @@ StudentAllSelectService allSelectService =
 - 의존객체 자동 주입 : 
   - 스프링 설정 파일에서 의존 객체를 주입할 때  또는  태그로 의존 대상 객체를 명시하지 않아도 스프링 컨테이너 가 자동으로 필요한 의존 대상 객체를 찾아서 의존 대상 객체가 필요한 객체에 주입해 주는 기능
   - 구현 방법은 @Autowired와 @Resource 어노테이션을 이용해서 쉽게 구현
+  - 실무에서도 많이 사용
 
 - @Autowired
 
@@ -860,8 +862,6 @@ StudentAllSelectService allSelectService =
     	}
     ```
 
-    
-
 - @Resource 
 
   - 주입하려고 하는 **객체의 이름**이 일치하는 객체를 자동으로 주입
@@ -888,5 +888,4 @@ StudentAllSelectService allSelectService =
     	}
     ```
 
-    
-
+## 의존객체-선택
