@@ -56,6 +56,12 @@ pom.xml에 의해서 필요한 라이브러리만 다운로드 해서 사용
 
 가장 큰 차이점은 Java 파일에서 이용한 new 연산자를 이용하지 않고 스프링 설정파일(XML)을 이용
 
+1. 스프링 설정 파일(applicationContext.xml)에 Bean tag로 명시된 tag들이
+2. GenericXmlApplicationContext  class에 의해
+3.  Spring Containr 안에 객체로 생성
+   - DI가 적용된 객체들도 존재
+4. 이렇게 생성된 Bean 객체들은 getBean() method로 사용
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 
@@ -79,12 +85,16 @@ public class MainClass {
 
 	public static void main(String[] args) {
 		
-// 일반 java framework
+///////////////////////
+//일반 java framework
+///////////////////////
 		// TransportationWalk transportationWalk = new TransportationWalk();
 		// transportationWalk.move();
 		
 
-// spring framework
+///////////////////////
+//spring framework
+///////////////////////
 		// xml 파일을 이용하여 객체를 생성
 
 		/*
@@ -108,6 +118,154 @@ public class MainClass {
 }
 ```
 
+<br>
+
 # 의존객체
 
 ## DI(Dependency injection)
+
+의존성 주입
+
+**Example)**
+
+- 장난감 배터리 주입 (in Java)
+
+```java
+// 배터리 일체형 장난감
+public class ElectronicCarToy {
+    private Battery battery;
+
+    public ElectronicCarToy() {
+        // 생성자에서 주입
+        battery = new NormalBattery(); 
+    }
+}
+
+// 배터리 분리형 장난감
+public class ElectronicRobotToy {
+    private Battery battery;
+    
+    public ElectronicRobotToy() {
+        // 배터리가 들어있지 않은 빈 장난감
+    }
+    
+    public void setBattery(Battery battery) {
+        // 필요 시 setBattery() method를 사용하여 배터리 주입
+    	this.battery = battery;	
+    }
+}
+
+// 배터리 분리형 장난감(구매 시 건전지 포함)
+public class ElectronicRadioToy {
+    private Battery battery;
+    
+    public ElectronicRadioToy(Battery battery) {
+        // 배터리가 들어있는 장난감
+    	this.battery = battery; 
+    }
+    
+    public void setBattery(Battery battery) {
+        // 필요 시 setBattery() method를 사용하여 배터리 주입
+    	this.battery = battery; 
+    }
+}
+```
+
+**DI ?**
+
+- 한 객체를 다른 객체가 생성될 때 주입
+
+**Java VS Spring**
+
+- Java
+
+```java
+/*
+ems.member.assembler.StudentAssembler.java
+*/
+public StudentAssembler() {
+    studentDao = new StudentDao();
+    registerService = new StudentRegisterService(studentDao);
+    // registerService, modifyService 는 studentDao 객체의 의존(의존 주입)
+	modifyService = new StudentModifyService(studentDao);
+	deleteService = new StudentDeleteService(studentDao);
+	selectService = new StudentSelectService(studentDao);
+	allSelectService = new StudentAllSelectService(studentDao);
+}
+
+/*
+ems.member.main.MainClass.java
+*/
+StudentAssembler assembler = new StudentAssembler();
+
+StudentRegisterService registerService = assembler.getRegisterService();
+		
+StudentModifyService modifyService = assembler.getModifyService();
+
+StudentSelectService selectService = assembler.getSelectService();
+				
+StudentAllSelectService allSelectService = assembler.getAllSelectService();
+```
+
+- Spring
+
+```xml
+<!-- 
+src/main/resources/applicationContext.xml
+ -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+ 		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Dao 객체 생성 -->
+	<bean id="studentDao" class="ems.member.dao.StudentDao" ></bean>
+	
+    <!-- constructor-arg tag를 이용한 StdentDao 객체 주입 -->
+	<bean id="registerService" class="ems.member.service.StudentRegisterService">
+		<constructor-arg ref="studentDao" ></constructor-arg>
+	</bean>
+	
+	<bean id="modifyService" class="ems.member.service.StudentModifyService">
+		<constructor-arg ref="studentDao" ></constructor-arg>
+	</bean>
+	
+	<bean id="deleteService" class="ems.member.service.StudentDeleteService">
+		<constructor-arg ref="studentDao" ></constructor-arg>
+	</bean>
+	
+	<bean id="selectService" class="ems.member.service.StudentSelectService">
+		<constructor-arg ref="studentDao" ></constructor-arg>
+	</bean>
+	
+	<bean id="allSelectService" class="ems.member.service.StudentAllSelectService">
+		<constructor-arg ref="studentDao" ></constructor-arg>
+	</bean>
+    
+	<!-- ... -->
+    
+</beans>
+```
+
+```java
+/* 
+ems.member.main.MainClassUseXML.java
+*/
+
+GenericXmlApplicationContext ctx = 
+				new GenericXmlApplicationContext("classpath:applicationContext.xml");
+
+StudentRegisterService registerService = 
+    ctx.getBean("registerService", StudentRegisterService.class);
+
+StudentModifyService modifyService  = ctx.getBean("modifyService", StudentModifyService.class);
+
+StudentSelectService selectService = ctx.getBean("selectService", StudentSelectService.class);
+
+StudentAllSelectService allSelectService = 
+    ctx.getBean("allSelectService", StudentAllSelectService.class);
+```
+
