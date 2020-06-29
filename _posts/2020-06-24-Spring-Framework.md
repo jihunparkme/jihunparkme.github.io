@@ -175,7 +175,7 @@ public class ElectronicRadioToy {
 
 - 한 객체를 다른 객체가 생성될 때 주입
 
-**Java VS Spring**
+**Java VS Spring (생성자에서 주입)**
 
 - Java
 
@@ -183,19 +183,73 @@ public class ElectronicRadioToy {
 /*
 ems.member.assembler.StudentAssembler.java
 */
-public StudentAssembler() {
-    studentDao = new StudentDao();
-    registerService = new StudentRegisterService(studentDao);
-    // registerService, modifyService 는 studentDao 객체의 의존(의존 주입)
-	modifyService = new StudentModifyService(studentDao);
-	deleteService = new StudentDeleteService(studentDao);
-	selectService = new StudentSelectService(studentDao);
-	allSelectService = new StudentAllSelectService(studentDao);
+public class StudentAssembler {
+
+	//..
+	
+	public StudentAssembler() {
+		studentDao = new StudentDao();
+        // registerService, modifyService 는 studentDao 객체의 의존(의존 주입)
+		registerService = new StudentRegisterService(studentDao);
+		modifyService = new StudentModifyService(studentDao);
+		deleteService = new StudentDeleteService(studentDao);
+		selectService = new StudentSelectService(studentDao);
+		allSelectService = new StudentAllSelectService(studentDao);
+	}
+
+	public StudentDao getStudentDao() {
+		return studentDao;
+	}
+
+	public void setStudentDao(StudentDao studentDao) {
+		this.studentDao = studentDao;
+	}
+
+	public StudentRegisterService getRegisterService() {
+		return registerService;
+	}
+
+	public void setRegisterService(StudentRegisterService registerService) {
+		this.registerService = registerService;
+	}
+
+	public StudentModifyService getModifyService() {
+		return modifyService;
+	}
+
+	public void setModifyService(StudentModifyService modifyService) {
+		this.modifyService = modifyService;
+	}
+
+	public StudentDeleteService getDeleteService() {
+		return deleteService;
+	}
+
+	public void setDeleteService(StudentDeleteService deleteService) {
+		this.deleteService = deleteService;
+	}
+
+	public StudentSelectService getSelectService() {
+		return selectService;
+	}
+
+	public void setSelectService(StudentSelectService selectService) {
+		this.selectService = selectService;
+	}
+
+	public StudentAllSelectService getAllSelectService() {
+		return allSelectService;
+	}
+
+	public void setAllSelectService(StudentAllSelectService allSelectService) {
+		this.allSelectService = allSelectService;
+	}
 }
 
 /*
 ems.member.main.MainClass.java
 */
+
 StudentAssembler assembler = new StudentAssembler();
 
 StudentRegisterService registerService = assembler.getRegisterService();
@@ -269,3 +323,4 @@ StudentAllSelectService allSelectService =
     ctx.getBean("allSelectService", StudentAllSelectService.class);
 ```
 
+## 다양한 의존 객체 주입
