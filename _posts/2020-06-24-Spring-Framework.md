@@ -18,7 +18,7 @@ featured-img: spring
 * [의존객체](#의존객체)
   * [DI(Dependency injection)](#DI(Dependency injection))
   * [다양한 의존 객체 주입](#다양한 의존 객체 주입)
-  * [스프링 설정 파일 분리](#스프링 설정 파일 분리)
+  * [스프링 설정 파일 분리](#스프링-설정-파일-분리)
 
 
 
@@ -456,7 +456,7 @@ StudentAllSelectService allSelectService =
    </property>
    ```
 
-## 스프링 설정 파일 분리
+## 스프링-설정-파일-분리
 
 기능이 추가되면서 xml 파일이 길어지는 것을 방지하기 위해 기능별로 xml 파일을 분리
 
