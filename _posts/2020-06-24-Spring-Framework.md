@@ -446,5 +446,321 @@ StudentAllSelectService allSelectService =
    </property>
    ```
 
-   
+## 스프링 설정 파일 분리
+
+기능이 추가되면서 xml 파일이 길어지는 것을 방지하기 위해 기능별로 xml 파일을 분리
+
+1.여러 xml 파일을 배열 형태로 불러서 사용
+
+- applicationContext.xml (Original)
+
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  
+  <beans xmlns="http://www.springframework.org/schema/beans"
+  	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+   		http://www.springframework.org/schema/beans/spring-beans.xsd">
+  
+  	<bean id="studentDao" class="ems.member.dao.StudentDao" ></bean>
+  	
+  	
+  	<bean id="registerService" class="ems.member.service.StudentRegisterService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  	<bean id="modifyService" class="ems.member.service.StudentModifyService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  	<bean id="deleteService" class="ems.member.service.StudentDeleteService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  	<bean id="selectService" class="ems.member.service.StudentSelectService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  	<bean id="allSelectService" class="ems.member.service.StudentAllSelectService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  	<bean id="dataBaseConnectionInfoDev" class="ems.member.DataBaseConnectionInfo">
+  		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" />
+  		<property name="userId" value="scott" />
+  		<property name="userPw" value="tiger" />
+  	</bean>
+  	
+  	<bean id="dataBaseConnectionInfoReal" class="ems.member.DataBaseConnectionInfo">
+  		<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.0.1:1521:xe" />
+  		<property name="userId" value="masterid" />
+  		<property name="userPw" value="masterpw" />
+  	</bean>
+  	
+  	<bean id="informationService" class="ems.member.service.EMSInformationService">
+  		<property name="info">
+  			<value>Education Management System program was developed in 2015.</value>
+  		</property>
+  		<property name="copyRight">
+  			<value>COPYRIGHT(C) 2015 EMS CO., LTD. ALL RIGHT RESERVED. CONTACT MASTER FOR MORE INFORMATION.</value>
+  		</property>
+  		<property name="ver">
+  			<value>The version is 1.0</value>
+  		</property>
+  		<property name="sYear">
+  			<value>2015</value>
+  		</property>
+  		<property name="sMonth">
+  			<value>1</value>
+  		</property>
+  		<property name="sDay">
+  			<value>1</value>
+  		</property>
+  		<property name="eYear" value="2015" />
+  		<property name="eMonth" value="2" />
+  		<property name="eDay" value="28" />
+  		<property name="developers">
+  			<list>
+  				<value>Cheney.</value>
+  				<value>Eloy.</value>
+  				<value>Jasper.</value>
+  				<value>Dillon.</value>
+  				<value>Kian.</value>
+  			</list>
+  		</property>
+  		<property name="administrators">
+  			<map>
+  				<entry>
+  					<key>
+  						<value>Cheney</value>
+  					</key>
+  					<value>cheney@springPjt.org</value>
+  				</entry>
+  				<entry>
+  					<key>
+  						<value>Jasper</value>
+  					</key>
+  					<value>jasper@springPjt.org</value>
+  				</entry>
+  			</map>
+  		</property>
+  		<property name="dbInfos">
+  			<map>
+  				<entry>
+  					<key>
+  						<value>dev</value>
+  					</key>
+  					<ref bean="dataBaseConnectionInfoDev"/>
+  				</entry>
+  				<entry>
+  					<key>
+  						<value>real</value>
+  					</key>
+  					<ref bean="dataBaseConnectionInfoReal"/>
+  				</entry>
+  			</map>
+  		</property>
+  	</bean>
+  	
+  </beans>
+  ```
+
+- appService.xml
+
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  
+  <beans xmlns="http://www.springframework.org/schema/beans"
+  	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+   		http://www.springframework.org/schema/beans/spring-beans.xsd">
+  
+  	<bean id="studentDao" class="ems.member.dao.StudentDao" ></bean>
+  	
+  	
+  	<bean id="registerService" class="ems.member.service.StudentRegisterService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  	<bean id="modifyService" class="ems.member.service.StudentModifyService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  	<bean id="deleteService" class="ems.member.service.StudentDeleteService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  	<bean id="selectService" class="ems.member.service.StudentSelectService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  	<bean id="allSelectService" class="ems.member.service.StudentAllSelectService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  </beans>
+  ```
+
+- appDatabase.xml
+
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  
+  <beans xmlns="http://www.springframework.org/schema/beans"
+  	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+   		http://www.springframework.org/schema/beans/spring-beans.xsd">
+  
+  	<bean id="dataBaseConnectionInfoDev" class="ems.member.DataBaseConnectionInfo">
+  		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" />
+  		<property name="userId" value="scott" />
+  		<property name="userPw" value="tiger" />
+  	</bean>
+  	
+  	<bean id="dataBaseConnectionInfoReal" class="ems.member.DataBaseConnectionInfo">
+  		<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.0.1:1521:xe" />
+  		<property name="userId" value="masterid" />
+  		<property name="userPw" value="masterpw" />
+  	</bean>
+  	
+  </beans>
+  ```
+
+- appInfo.xml
+
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  
+  <beans xmlns="http://www.springframework.org/schema/beans"
+  	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+   		http://www.springframework.org/schema/beans/spring-beans.xsd">
+  
+  	<bean id="informationService" class="ems.member.service.EMSInformationService">
+  		<property name="info">
+  			<value>Education Management System program was developed in 2015.</value>
+  		</property>
+  		<property name="copyRight">
+  			<value>COPYRIGHT(C) 2015 EMS CO., LTD. ALL RIGHT RESERVED. CONTACT MASTER FOR MORE INFORMATION.</value>
+  		</property>
+  		<property name="ver">
+  			<value>The version is 1.0</value>
+  		</property>
+  		<property name="sYear">
+  			<value>2015</value>
+  		</property>
+  		<property name="sMonth">
+  			<value>1</value>
+  		</property>
+  		<property name="sDay">
+  			<value>1</value>
+  		</property>
+  		<property name="eYear" value="2015" />
+  		<property name="eMonth" value="2" />
+  		<property name="eDay" value="28" />
+  		<property name="developers">
+  			<list>
+  				<value>Cheney.</value>
+  				<value>Eloy.</value>
+  				<value>Jasper.</value>
+  				<value>Dillon.</value>
+  				<value>Kian.</value>
+  			</list>
+  		</property>
+  		<property name="administrators">
+  			<map>
+  				<entry>
+  					<key>
+  						<value>Cheney</value>
+  					</key>
+  					<value>cheney@springPjt.org</value>
+  				</entry>
+  				<entry>
+  					<key>
+  						<value>Jasper</value>
+  					</key>
+  					<value>jasper@springPjt.org</value>
+  				</entry>
+  			</map>
+  		</property>
+  		<property name="dbInfos">
+  			<map>
+  				<entry>
+  					<key>
+  						<value>dev</value>
+  					</key>
+  					<ref bean="dataBaseConnectionInfoDev"/>
+  				</entry>
+  				<entry>
+  					<key>
+  						<value>real</value>
+  					</key>
+  					<ref bean="dataBaseConnectionInfoReal"/>
+  				</entry>
+  			</map>
+  		</property>
+  	</bean>
+  	
+  </beans>
+  ```
+
+- Main.java
+
+  ```java
+  String[] appCtxs =
+  	{"classpath:appCtx1.xml", "classpath:appCtx2.xml", "classpath:appCtx3.xml"};
+  GenericXmlApplicationContext ctx = new GenericXmlApplicationContext(appCtxs);
+  ```
+
+2.여러 xml 파일을 import 하여 사용
+
+- appCtximport.xml
+
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  
+  <beans xmlns="http://www.springframework.org/schema/beans"
+  	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+   		http://www.springframework.org/schema/beans/spring-beans.xsd">
+  
+  	<import resource="classpath:appDatabase.xml"/>
+  	<import resource="classpath:appInfo.xml"/>
+  
+  	<bean id="studentDao" class="ems.member.dao.StudentDao" ></bean>
+  	
+  	
+  	<bean id="registerService" class="ems.member.service.StudentRegisterService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  	<bean id="modifyService" class="ems.member.service.StudentModifyService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  	<bean id="deleteService" class="ems.member.service.StudentDeleteService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  	<bean id="selectService" class="ems.member.service.StudentSelectService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  	<bean id="allSelectService" class="ems.member.service.StudentAllSelectService">
+  		<constructor-arg ref="studentDao" ></constructor-arg>
+  	</bean>
+  	
+  </beans>
+  ```
+
+- Main.java
+
+  ```java
+  enericXmlApplicationContext ctx =  
+      new GenericXmlApplicationContext("classpath:appCtxImport.xml");
+  ```
+
+**빈(Bean)의 범위**
+
+- 스프링 컨테이너에서 생성된 빈(Bean)객체의 경우 동일한 타입에 대해서는 기본적으 로 한 개만 생성이 되며, getBean() 메소드로 호출될 때 동일한 객체가 반환
 
