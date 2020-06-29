@@ -102,8 +102,12 @@ public class MainClass {
 
 		transportationWalk.move();
 		
+        // 외부 자원은 반환하여 리소스를 남기지 않도록 해준다.
 		ctx.close();
 	}
 }
 ```
 
+# 의존객체
+
+## DI(Dependency injection)
