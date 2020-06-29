@@ -197,55 +197,41 @@ public class StudentAssembler {
 		allSelectService = new StudentAllSelectService(studentDao);
 	}
 
-	public StudentDao getStudentDao() {
-		return studentDao;
-	}
+	// ...
+}
 
-	public void setStudentDao(StudentDao studentDao) {
+// ems.member.service.StudentRegisterService.java
+	private StudentDao studentDao;
+
+	public StudentRegisterService(StudentDao studentDao) {
+		this.studentDao = studentDao;
+	}
+// ems.member.service.StudentModifyService.java
+	private StudentDao studentDao;
+	
+	public StudentModifyService(StudentDao studentDao) {
+		this.studentDao = studentDao;
+	}
+// ems.member.service.StudentDeleteService.java
+	private StudentDao studentDao;
+	
+	public StudentDeleteService(StudentDao studentDao) {
+		this.studentDao = studentDao;
+	}
+// ems.member.service.StudentSelectService.java
+	private StudentDao studentDao;
+	
+	public StudentSelectService(StudentDao studentDao) {
+		this.studentDao = studentDao;
+	}
+// ems.member.service.StudentAllSelectService.java
+	private StudentDao studentDao;
+	
+	public StudentAllSelectService(StudentDao studentDao) {
 		this.studentDao = studentDao;
 	}
 
-	public StudentRegisterService getRegisterService() {
-		return registerService;
-	}
-
-	public void setRegisterService(StudentRegisterService registerService) {
-		this.registerService = registerService;
-	}
-
-	public StudentModifyService getModifyService() {
-		return modifyService;
-	}
-
-	public void setModifyService(StudentModifyService modifyService) {
-		this.modifyService = modifyService;
-	}
-
-	public StudentDeleteService getDeleteService() {
-		return deleteService;
-	}
-
-	public void setDeleteService(StudentDeleteService deleteService) {
-		this.deleteService = deleteService;
-	}
-
-	public StudentSelectService getSelectService() {
-		return selectService;
-	}
-
-	public void setSelectService(StudentSelectService selectService) {
-		this.selectService = selectService;
-	}
-
-	public StudentAllSelectService getAllSelectService() {
-		return allSelectService;
-	}
-
-	public void setAllSelectService(StudentAllSelectService allSelectService) {
-		this.allSelectService = allSelectService;
-	}
-}
-
+    
 /*
 ems.member.main.MainClass.java
 */
@@ -324,3 +310,57 @@ StudentAllSelectService allSelectService =
 ```
 
 ## 다양한 의존 객체 주입
+
+1. 생성자를 이용한 의존 객체 주입 (constructor-arg TAG)
+
+   - JAVA
+
+   ```java
+   public StudentRegisterService(StudentDao studentDao) {
+       this.studentDao = studentDao;
+   }
+   
+   public StudentModifyService(StudentDao studentDao) {
+       this.studentDao = studentDao;
+   }
+   
+   public StudentDeleteService(StudentDao studentDao) {
+       this.studentDao = studentDao;
+   }
+   
+   public StudentSelectService(StudentDao studentDao) {
+       this.studentDao = studentDao;
+   }
+   
+   public StudentAllSelectService(StudentDao studentDao) {
+       this.studentDao = studentDao;
+   }
+   ```
+
+   - Spring
+
+   ```xml
+   <bean id="studentDao" class="ems.member.dao.StudentDao" ></bean>
+   	
+   <bean id="registerService" class="ems.member.service.StudentRegisterService">
+       <constructor-arg ref="studentDao" ></constructor-arg>
+   </bean>
+   
+   <bean id="modifyService" class="ems.member.service.StudentModifyService">
+       <constructor-arg ref="studentDao" ></constructor-arg>
+   </bean>
+   
+   <bean id="deleteService" class="ems.member.service.StudentDeleteService">
+       <constructor-arg ref="studentDao" ></constructor-arg>
+   </bean>
+   
+   <bean id="selectService" class="ems.member.service.StudentSelectService">
+       <constructor-arg ref="studentDao" ></constructor-arg>
+   </bean>
+   
+   <bean id="allSelectService" class="ems.member.service.StudentAllSelectService">
+       <constructor-arg ref="studentDao" ></constructor-arg>
+   </bean>
+   ```
+
+   
