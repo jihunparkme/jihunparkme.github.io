@@ -313,7 +313,7 @@ StudentAllSelectService allSelectService =
 
 1. 생성자를 이용한 의존 객체 주입 (constructor-arg TAG)
 
-   - JAVA
+   - Java
 
    ```java
    public StudentRegisterService(StudentDao studentDao) {
@@ -363,4 +363,88 @@ StudentAllSelectService allSelectService =
    </bean>
    ```
 
+2. setter를 이용한 의존 객체 주입
+
+   - Java 
+
+   ```java
+   public void setJdbcUrl(String jdbcUrl) {
+   	this.jdbcUrl = jdbcUrl;
+   }
+   public void setUserId(String userId) {
+   	this.userId = userId;
+   }
+   public void setUserPw(String userPw) {
+   	this.userPw = userPw;
+   }
    
+   ```
+
+   - Spring
+
+   ```xml
+   <bean id="dataBaseConnectionInfoDev" class="ems.member.DataBaseConnectionInfo">
+   	<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" />
+   	<property name="userId" value="scott" />
+   	<property name="userPw" value="tiger" />
+   </bean>
+   ```
+
+3. List타입 의존 객체 주입
+
+   - Java
+
+   ```java
+   public void setDevelopers(List<String> developers) {
+   	this.developers = developers;
+   }
+   ```
+
+   - Spring
+
+   ```xml
+   <property name="developers">
+       <list>
+           <value>Cheney.</value>
+           <value>Eloy.</value>
+           <value>Jasper.</value>
+           <value>Dillon.</value>
+           <value>Kian.</value>
+       </list>
+   </property>
+   
+   ```
+
+4. Map 타입 객체 주입
+
+   - Java
+
+   ```java
+   public void setAdministrators(Map<String, String> administrators) {
+   	this.administrators = administrators;
+   }
+   ```
+
+   - Spring
+
+   ```xml
+   <property name="administrators">
+       <map>
+           <entry>
+               <key>
+               	<value>Cheney</value>
+               </key>
+               	<value>cheney@springPjt.org</value>
+           </entry>
+           <entry>
+               <key>
+               	<value>Jasper</value>
+               </key>
+               	<value>jasper@springPjt.org</value>
+           </entry>
+       </map>
+   </property>
+   ```
+
+   
+
