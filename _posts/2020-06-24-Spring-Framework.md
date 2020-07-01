@@ -122,7 +122,8 @@ public class MainClass {
 		/* 
 		컨테이너에서 어떠한 객체를 가져올지 ID와 dataType 을 작성
 		*/
-		TransportationWalk transportationWalk = ctx.getBean("tWalk", TransportationWalk.class);
+		TransportationWalk transportationWalk = 
+            ctx.getBean("tWalk", TransportationWalk.class);
 
 		transportationWalk.move();
 		
@@ -963,4 +964,109 @@ StudentAllSelectService allSelectService =
 
 # 설정-및-구현
 
-생명주기(Life-Cycle)
+**생명주기(Life-Cycle)** : 빈 객체의 생명주기는 스프링 컨테이너의 생명주기와 같음
+
+1. GenericXmlApplicationContext를 이용한 스프링 컨테이너 초기화(생성)
+
+   - 스프링 컨테이너와 Bean 객체의 생성 시점은 동일
+     - 빈 객체 생성 및 주입
+
+   ```java
+   GenericXmlApplicationContext ctx = 
+       new GenericXmlApplicationContext("classpath:appCtx.xml");
+   ```
+
+2. getBean()을 이용한 Bean객체 이용
+
+   ```java
+   BookRegisterService bookRegisterService = 
+   				ctx.getBean("bookRegisterService", BookRegisterService.class);
+   
+   BookSearchService bookSearchService = 
+   				ctx.getBean("bookSearchService", BookSearchService.class);
+   
+   MemberRegisterService memberRegisterService = 
+   				ctx.getBean("memberRegisterService", MemberRegisterService.class);
+   
+   MemberSearchService memberSearchService = 
+   				ctx.getBean("memberSearchService", MemberSearchService.class);
+   ```
+
+3. close()를 이용한 스프링 컨테이너 종료
+
+   - 스프링 컨테이너 소멸(안에 있는 Bean 객체들도 자동 소멸)
+
+   ```java
+   ctx.close();
+   ```
+
+**Bean 객체 Interface를 이용한 동작**
+
+- InitializingBean Interface : afterPropertiesSet()
+  - Bean 객체 생성시점에 호출
+- DisposableBean Interface : destroy()
+  - Bean 객체 소멸시점에 호출
+
+- Ex)
+
+  ```java
+  public class BookRegisterService implements InitializingBean, DisposableBean{
+  
+  	@Autowired
+  	private BookDao bookDao;
+  	
+  	public BookRegisterService() { }
+  	
+  	public void register(Book book) {
+  		bookDao.insert(book);
+  	}
+  	
+  	@Override
+  	public void afterPropertiesSet() throws Exception {
+          // bean 객체 생성 시점 동작
+          // (DB connet, 특정 네트워크 자원 사용 등..)
+  		System.out.println("빈(Bean)객체 생성 단계");
+  	}
+  
+  	@Override
+  	public void destroy() throws Exception {
+          // bean 객체 소멸 시점 동작
+  		System.out.println("빈(Bean)객체 소멸 단계");
+  	}
+  }
+  ```
+
+ **init-method, destroy-method 속성을 이용한 동작**
+
+-  init-method, destroy-method Method 설정
+
+  ```xml
+  <bean id="bookRegisterService" class="com.brms.book.service.BookRegisterService" 
+        init-method="initMethod" destroy-method="destroyMethod"/>
+  ```
+
+- 속성 값과 똑같은 method 생성
+
+  ```java
+  public class BookRegisterService {
+  
+  	@Autowired
+  	private BookDao bookDao;
+  	
+  	public BookRegisterService() { }
+  	
+  	public void register(Book book) {
+  		bookDao.insert(book);
+  	}
+  
+  	public void initMethod() {
+  		System.out.println("빈(Bean)객체 생성 단계");
+  	}
+  	
+  	public void destroyMethod() {
+  		System.out.println("빈(Bean)객체 소멸 단계");
+  	}
+  }
+  ```
+
+  
