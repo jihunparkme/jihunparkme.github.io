@@ -2,7 +2,7 @@
 layout: post
 title: PS Study
 summary: Let's improve our PS.
-categories: IT
+categories: Algorithm
 featured-img: PS
 # mathjax: true
 ---

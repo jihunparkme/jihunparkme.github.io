@@ -2,7 +2,7 @@
 layout: post
 title: Spring Framework(Start)
 summary: Let's learn Spring Framework
-categories: IT
+categories: Spring
 featured-img: spring
 # mathjax: true
 ---

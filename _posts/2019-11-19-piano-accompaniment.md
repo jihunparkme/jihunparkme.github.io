@@ -2,7 +2,7 @@
 layout: post
 title: A piano accompaniment
 summary: A piano accompaniment
-categories: Piano
+categories: Music
 featured-img: piano
 # mathjax: true
 ---

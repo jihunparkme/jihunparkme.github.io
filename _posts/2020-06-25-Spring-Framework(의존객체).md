@@ -2,7 +2,7 @@
 layout: post
 title: Spring Framework(의존객체)
 summary: Let's learn Spring Framework
-categories: IT
+categories: Spring
 featured-img: spring
 # mathjax: true
 ---
