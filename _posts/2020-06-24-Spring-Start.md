@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Spring Framework(Start)
+title: Spring Start
 summary: Let's learn Spring Framework
 categories: Spring
 featured-img: spring
