@@ -899,16 +899,24 @@ StudentAllSelectService allSelectService =
   - WordDao라는 class로부터 여러 객체가 만들어 질 경우
 
     ```xml
-    <bean id="wordDao" class="com.word.dao.WordDao" />
+    <bean id="wordDao1" class="com.word.dao.WordDao" />
     <bean id="wordDao2" class="com.word.dao.WordDao" />
     <bean id="wordDao3" class="com.word.dao.WordDao" />
     ```
 
-  - property WordDao DataType의 wordDao를 @Autowired를 이용하여 자동주입 할 경우, Exception 발생
+  - property WordDao DataType의 wordDao를 @Autowired를 이용하여 자동주입 할 경우
 
     ```java
     @Autowired
     private WordDao wordDao;
+    ```
+
+  - 어떤 Bean 객체를 주입해야할지 모르기 때문에 Exception 발생
+
+    ```console
+    No qualifying bean of type [com.word.dao.WordDao] is defined: expected single matching bean but found 3: wordDao1,wordDao2,wordDao3     
+    
+    expected single matching bean but found 3: wordDao1,wordDao2,wordDao3
     ```
 
 - Solution
@@ -916,7 +924,7 @@ StudentAllSelectService allSelectService =
   - qualifier Tag 사용
 
     ```xml
-    <bean id="wordDao" class="com.word.dao.WordDao" >
+    <bean id="wordDao1" class="com.word.dao.WordDao" >
         <qualifier value="usedDao"/>
     </bean>
     <bean id="wordDao2" class="com.word.dao.WordDao" />
