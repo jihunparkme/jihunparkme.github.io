@@ -12,19 +12,19 @@ featured-img: spring
 * [개요 소개](#개요-소개)
   * [스프링 개요](#스프링-개요)
 * [스프링 프레임워크](#스프링-프레임워크)
-  * [개발 환경 구축](#개발-환경-구축)
+  * [개발 환경 구축](#개발-환경-구축) : pom.xml
 * [프로젝트 생성](#프로젝트-생성)
   * [test](#test)
 * [의존객체](#의존객체)
   * [DI(Dependency injection)](#DI(Dependency-injection))
-  * [다양한 의존 객체 주입](#다양한-의존-객체-주입)
-  * [스프링 설정 파일 분리](#스프링-설정-파일-분리)
-  * [의존객체 자동 주입](#의존객체-자동-주입)
-  * [의존객체 선택](#의존객체-선택)
+  * [다양한 의존 객체 주입](#다양한-의존-객체-주입) : constructor-arg(생성자), setter, List Type, Map Type
+  * [스프링 설정 파일 분리](#스프링-설정-파일-분리) : Singleton, Prototype
+  * [의존객체 자동 주입](#의존객체-자동-주입) : @Autowired, @Resource
+  * [의존객체 선택](#의존객체-선택) : qualifier Tag, @Qualifier, @Inject
 * [설정 및 구현](#설정-및-구현)
-  * [생명주기(Life Cycle)](#생명주기(Life-Cycle))
+  * [생명주기(Life Cycle)](#생명주기,-Life-Cycle) : afterPropertiesSet(), destroy(), init-method, destroy-method
 
-</br>
+<br/>
 
 # 개요-소개
 
@@ -44,9 +44,10 @@ featured-img: spring
 - spring-webmvc : 스프링에서 제공하는 컨트롤러(Controller)와 뷰(View)를 이용한 스프링MVC 구현 기능 제공
 
 #### 스프링 컨테이너(IoC)
-- 스프링에서 객체를 생성하고 조립하는 컨테이너(container)로, 
-  컨테이너를 통해 생성된 객체를 빈(Bean)이라고 부름
-  
+- 스프링에서 객체를 생성하고 조립하는 컨테이너(container)로, 컨테이너를 통해 생성된 객체를 빈(Bean)이라고 부름
+
+<br/>
+
 # 스프링-프레임워크
 
 ## 개발-환경-구축
@@ -61,6 +62,8 @@ featured-img: spring
 pom.xml 파일은 메이븐 설정파일로 메이븐은 라이브러리를 연결해주고, 빌드를 위한 플랫폼
 
 pom.xml에 의해서 필요한 라이브러리만 다운로드 해서 사용
+
+<br/>
 
 # 프로젝트-생성
 
@@ -133,7 +136,7 @@ public class MainClass {
 }
 ```
 
-<br>
+<br/>
 
 # 의존객체
 
@@ -962,9 +965,11 @@ StudentAllSelectService allSelectService =
   private WordDao wordDao;
   ```
 
+<br/>
+
 # 설정-및-구현
 
-**생명주기(Life-Cycle)** : 빈 객체의 생명주기는 스프링 컨테이너의 생명주기와 같음
+**생명주기,-Life-Cycle** : 빈 객체의 생명주기는 스프링 컨테이너의 생명주기와 같음
 
 1. GenericXmlApplicationContext를 이용한 스프링 컨테이너 초기화(생성)
 
@@ -1036,7 +1041,7 @@ StudentAllSelectService allSelectService =
   }
   ```
 
- **init-method, destroy-method 속성을 이용한 동작**
+ **속성(init-method, destroy-method)을 이용한 동작**
 
 -  init-method, destroy-method Method 설정
 
