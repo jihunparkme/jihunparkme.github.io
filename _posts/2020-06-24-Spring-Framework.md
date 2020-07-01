@@ -22,7 +22,10 @@ featured-img: spring
   * [의존객체 자동 주입](#의존객체-자동-주입) : @Autowired, @Resource
   * [의존객체 선택](#의존객체-선택) : qualifier Tag, @Qualifier, @Inject
 * [설정 및 구현](#설정-및-구현)
-  * [생명주기(Life Cycle)](#생명주기,-Life-Cycle) : afterPropertiesSet(), destroy(), init-method, destroy-method
+  * [생명주기(Life Cycle)](#생명주기(Life-Cycle)) : afterPropertiesSet(), destroy(), init-method, destroy-method
+  * [@Annotation을 이용한 스프링 설정](#@Annotation을-이용한-스프링-설정)
+
+<br/>
 
 <br/>
 
@@ -48,6 +51,8 @@ featured-img: spring
 
 <br/>
 
+<br/>
+
 # 스프링-프레임워크
 
 ## 개발-환경-구축
@@ -62,6 +67,8 @@ featured-img: spring
 pom.xml 파일은 메이븐 설정파일로 메이븐은 라이브러리를 연결해주고, 빌드를 위한 플랫폼
 
 pom.xml에 의해서 필요한 라이브러리만 다운로드 해서 사용
+
+<br/>
 
 <br/>
 
@@ -135,6 +142,8 @@ public class MainClass {
 	}
 }
 ```
+
+<br/>
 
 <br/>
 
@@ -327,6 +336,8 @@ StudentAllSelectService allSelectService =
     ctx.getBean("allSelectService", StudentAllSelectService.class);
 ```
 
+<br/>
+
 ## 다양한-의존-객체-주입
 
 1. 생성자를 이용한 의존 객체 주입 (constructor-arg TAG)
@@ -463,6 +474,8 @@ StudentAllSelectService allSelectService =
        </map>
    </property>
    ```
+
+<br/>
 
 ## 스프링-설정-파일-분리
 
@@ -798,6 +811,8 @@ StudentAllSelectService allSelectService =
   </bean>
   ```
 
+<br/>
+
 ## 의존객체-자동-주입
 
 - 의존객체 자동 주입 : 
@@ -894,6 +909,8 @@ StudentAllSelectService allSelectService =
     	}
     ```
 
+<br/>
+
 ## 의존객체-선택
 
 다수의 빈(Bean)객체 중 의존 객체의 대상이 되는 객체를 선택하는 방법
@@ -967,9 +984,13 @@ StudentAllSelectService allSelectService =
 
 <br/>
 
+<br/>
+
 # 설정-및-구현
 
-**생명주기,-Life-Cycle** : 빈 객체의 생명주기는 스프링 컨테이너의 생명주기와 같음
+## 생명주기(Life-Cycle)
+
+빈 객체의 생명주기는 스프링 컨테이너의 생명주기와 같음
 
 1. GenericXmlApplicationContext를 이용한 스프링 컨테이너 초기화(생성)
 
@@ -1074,4 +1095,6 @@ StudentAllSelectService allSelectService =
   }
   ```
 
-  
+<br/>
+
+## @Annotation을-이용한-스프링-설정
