@@ -11,7 +11,9 @@ featured-img: spring
 
 * [설정 및 구현](#설정-및-구현)
   * [생명주기(Life Cycle)](#생명주기(Life-Cycle)) : afterPropertiesSet(), destroy(), init-method, destroy-method
-  * [@Annotation을 이용한 스프링 설정](#@Annotation을-이용한-스프링-설정) : @Configuration, @Bean
+  * [@Annotation을 이용한 스프링 설정 (.xml to .java)](#@Annotation을-이용한-스프링-설정-I) : @Configuration, @Bean
+  * [@Annotation을 이용한 스프링 설정 (분리)](#@Annotation을-이용한-스프링-설정-II) : @import
+  * [웹 프로그래밍 설계 모델](#웹-프로그래밍-설계-모델)
 
 <br/>
 
@@ -130,7 +132,7 @@ featured-img: spring
 
 <br/>
 
-## @Annotation을-이용한-스프링-설정
+## @Annotation을-이용한-스프링-설정-I
 
 .xml 파일을 .java 파일로 변경
 
@@ -358,4 +360,183 @@ featured-img: spring
   				new AnnotationConfigApplicationContext(MemberConfig.class);
   ```
 
+<br/>
+
+## @Annotation을-이용한-스프링-설정-II
+
+코드가 길어지면 유지보수에 어려움이 생기므로 파일을 분리해주는 것이 편리
+
+(참고 : Ctrl + Shift + o : 참조되지 않는 패키지 정리)
+
+- 보통 기능별로 분리
+  - Dao (Data Access Object)
+  - Service
+  - DataBase 관련 기능
+  - Utility
+
+- .java 파일 분리
+
+    - MemberDaoConfig.java
+
+      ```java
+      // ...
+      @Configuration
+      public class MemberDaoConfig {
+
+        @Bean
+        public DataBaseConnectionInfo dataBaseConnectionInfoDev() {
+            DataBaseConnectionInfo infoDev = new DataBaseConnectionInfo();
+            infoDev.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:xe");
+            infoDev.setUserId("scott");
+            infoDev.setUserPw("tiger");
+
+            return infoDev;
+        }
+
+        @Bean
+        public DataBaseConnectionInfo dataBaseConnectionInfoReal() {
+            DataBaseConnectionInfo infoReal = new DataBaseConnectionInfo();
+            infoReal.setJdbcUrl("jdbc:oracle:thin:@192.168.0.1:1521:xe");
+            infoReal.setUserId("masterid");
+            infoReal.setUserPw("masterpw");
+
+            return infoReal;
+        }
+}
+      ```
+      
+- MemberServiceConfig.java
+    
+  ```java
+      // ...
+      @Configuration
+      public class MemberServiceConfig {
+    
+    @Bean
+        public StudentDao studentDao() {
+            return new StudentDao();
+        }
+    
+    @Bean
+        public StudentRegisterService registerService() {
+            return new StudentRegisterService(studentDao());
+        }
+    
+    @Bean
+        public StudentModifyService modifyService() {
+            return new StudentModifyService(studentDao());
+        }
+    
+    @Bean
+        public StudentSelectService selectService() {
+            return new StudentSelectService(studentDao());
+        }
+    
+    @Bean
+        public StudentDeleteService deleteService() {
+            return new StudentDeleteService(studentDao());
+        }
+    
+    @Bean
+        public StudentAllSelectService allSelectService() {
+            return new StudentAllSelectService(studentDao());
+        }
+    }
+  ```
+      
+    - MemberUtilConfig.java
+
+      ```java
+  @Configuration
+      public class MemberUtilConfig {
+    
+        // dbInfos 객체에서 필요한 DataBaseConnectionInfo 객체를 @Autowired 로 생성
+    @Autowired
+        DataBaseConnectionInfo dataBaseConnectionInfoDev;
+    
+        @Autowired
+    DataBaseConnectionInfo dataBaseConnectionInfoReal;
+    
+        @Bean
+    public EMSInformationService informationService() {
+            EMSInformationService info = new EMSInformationService();
+            info.setInfo("Education Management System program was developed in 2015.");
+            info.setCopyRight("COPYRIGHT(C) 2015 EMS CO., LTD. ALL RIGHT RESERVED. CONTACT MASTER FOR MORE INFORMATION.");
+            info.setVer("The version is 1.0");
+            info.setsYear(2015);
+            info.setsMonth(1);
+            info.setsDay(1);
+            info.seteYear(2015);
+            info.seteMonth(2);
+            info.seteDay(28);
+    
+            ArrayList<String> developers = new ArrayList<String>();
+        developers.add("Cheney.");
+            developers.add("Eloy.");
+            developers.add("Jasper.");
+            developers.add("Dillon.");
+            developers.add("Kian.");
+            info.setDevelopers(developers);
+    
+            Map<String, String> administrators = new HashMap<String, String>();
+        administrators.put("Cheney", "cheney@springPjt.org");
+            administrators.put("Jasper", "jasper@springPjt.org");
+            info.setAdministrators(administrators);
+    
+            Map<String, DataBaseConnectionInfo> dbInfos = new HashMap<String, DataBaseConnectionInfo>();
+        dbInfos.put("dev", dataBaseConnectionInfoDev);
+            dbInfos.put("real", dataBaseConnectionInfoReal);
+            info.setDbInfos(dbInfos);
+    
+            return info;
+    }
+    }
+      ```
   
+    - Main.java
+    
+  ```java
+      AnnotationConfigApplicationContext ctx = 	         // spring 설정 파일을 나열
+                new AnnotationConfigApplicationContext(MemberServiceConfig.class, 
+                                                             MemberDaoConfig.class,
+                                                             MemberUtilConfig.class);
+      ```
+
+- @import Annotation
+
+  - 하나의 파일에 분리된 설정 파일을 import하는 방법
+
+  - MemberServiceConfig.java 에 다른 설정 파일들을 import
+
+    ```java
+    // ...
+    
+    @Configuration
+    @Import({MemberDaoConfig.class, MemberUtilConfig.class})
+    public class MemberServiceConfig {
+    
+    	@Bean
+    	public StudentDao studentDao() {
+    		return new StudentDao();
+    	}
+    	
+    	@Bean
+    	public StudentRegisterService registerService() {
+    		return new StudentRegisterService(studentDao());
+    	}
+    	
+    	// ...
+    	
+    }
+    ```
+
+  - Main.java
+
+    ```java
+    AnnotationConfigApplicationContext ctx =    // 다른 설정 파일들을 import한 파일만 명시
+    				new AnnotationConfigApplicationContext(MemberServiceConfig.class);
+    ```
+
+<br/>
+
+## 웹-프로그래밍-설계-모델
