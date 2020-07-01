@@ -140,15 +140,15 @@ Web application 진입의 첫 번째 관문
 
      - Spring Container가 생성되면 HandlerMapping, HandlerAdapter, ViewResolver도 Spring Container 안에 자동으로 생성
      - 스프링 설정 파일을 명시하지 않을 경우, 자동으로 appServlet-context.xml 이라는 파일을 설정
-       
+
        - 일반적으로 초기 파라미터로 스프링 설정 파일을 설정
 
-         - ```xml
-           <param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value> 
-           ```
-     
+         ```xml
+         <param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value> 
+         ```
+
   4. appServlet은 루트(/)에 들어온 모든 기능을 처리
-  
+
         - ```xml
           <servlet-name>appServlet</servlet-name> 
           <url-pattern>/</url-pattern> 
