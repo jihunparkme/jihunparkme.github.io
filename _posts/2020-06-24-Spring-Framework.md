@@ -21,8 +21,10 @@ featured-img: spring
   * [스프링 설정 파일 분리](#스프링-설정-파일-분리)
   * [의존객체 자동 주입](#의존객체-자동-주입)
   * [의존객체 선택](#의존객체-선택)
+* [설정 및 구현](#설정-및-구현)
+  * [생명주기(Life Cycle)](#생명주기(Life-Cycle))
 
-
+</br>
 
 # 개요-소개
 
@@ -797,7 +799,7 @@ StudentAllSelectService allSelectService =
 - 의존객체 자동 주입 : 
   - 스프링 설정 파일에서 의존 객체를 주입할 때  또는  태그로 의존 대상 객체를 명시하지 않아도 스프링 컨테이너 가 자동으로 필요한 의존 대상 객체를 찾아서 의존 대상 객체가 필요한 객체에 주입해 주는 기능
   - 구현 방법은 @Autowired와 @Resource 어노테이션을 이용해서 쉽게 구현
-  - 실무에서도 많이 사용
+  - 실무에서도 많이 사용(주로 @Autowired)
 
 - @Autowired
 
@@ -896,7 +898,7 @@ StudentAllSelectService allSelectService =
 
 - Problem
 
-  - WordDao라는 class로부터 여러 객체가 만들어 질 경우
+  - WordDao라는 class로부터 여러 객체가 만들어 질 경우 (.xml)
 
     ```xml
     <bean id="wordDao1" class="com.word.dao.WordDao" />
@@ -904,7 +906,7 @@ StudentAllSelectService allSelectService =
     <bean id="wordDao3" class="com.word.dao.WordDao" />
     ```
 
-  - property WordDao DataType의 wordDao를 @Autowired를 이용하여 자동주입 할 경우
+  - property WordDao DataType의 wordDao를 @Autowired를 이용하여 자동주입 할 경우 (.java)
 
     ```java
     @Autowired
@@ -921,7 +923,7 @@ StudentAllSelectService allSelectService =
 
 - Solution
 
-  - qualifier Tag 사용
+  - qualifier Tag 사용 (.xml)
 
     ```xml
     <bean id="wordDao1" class="com.word.dao.WordDao" >
@@ -931,7 +933,7 @@ StudentAllSelectService allSelectService =
     <bean id="wordDao3" class="com.word.dao.WordDao" />
     ```
 
-  - Qualifier annotation 사용
+  - Qualifier annotation 사용 (.java)
 
     ```java
     @Autowired
@@ -939,5 +941,26 @@ StudentAllSelectService allSelectService =
     private WordDao wordDao;
     ```
 
-    
+**@Inject**
 
+- @Autowired와 거의 비슷하게 @Inject 어노테이션을 이용해서 의존 객체를 자동으로 주입
+
+- @Autowired와 차이점 이라면 @Autowired의 경우 required 속성을 이용해서 의존 대상 객체가 없어도 익셉션을 피할 수 있지만, @Inject의 경우 required 속성을 지원하지 않음
+
+- @Autowired은 qualifier Tag를 사용했지만 @Inject는 Bean객체 ID만 명시
+
+  ```xml
+  <bean id="wordDao1" class="com.word.dao.WordDao" />
+  <bean id="wordDao2" class="com.word.dao.WordDao" />
+  <bean id="wordDao3" class="com.word.dao.WordDao" />
+  ```
+
+  ```java
+  @Inject
+  @Named(value = "wordDao1")
+  private WordDao wordDao;
+  ```
+
+# 설정-및-구현
+
+생명주기(Life-Cycle)
