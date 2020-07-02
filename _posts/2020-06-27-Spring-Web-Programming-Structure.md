@@ -130,7 +130,7 @@ Web application 진입의 첫 번째 관문
        <servlet-name>appServlet</servlet-name> 
        ```
 
-  2. Web 구조에서 사용자로부터 request가 오면 DispatcherServlet을 servlet으로 등록
+  2. 웹어플리케이션에서 사용자로부터 request가 발생하면 가장 먼저 DispatcherServlet을 사용자의 요청을 받음.  따라서 개발자는 DispatcherServlet을 서블릿으로 등록 해주는 과정을 설정
 
      - ```xml
        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -141,13 +141,15 @@ Web application 진입의 첫 번째 관문
      - Spring Container가 생성되면 HandlerMapping, HandlerAdapter, ViewResolver도 Spring Container 안에 자동으로 생성
      - 스프링 설정 파일을 명시하지 않을 경우, 자동으로 appServlet-context.xml 이라는 파일을 설정
 
-       - 일반적으로 초기 파라미터로 스프링 설정 파일을 설정
+       - 일반적으로 초기 파라미터로 스프링 설정 파일을 설정 (servlet-context.xml파일이 스프링 설정의 역할)
 
          ```xml
          <param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value> 
          ```
 
   4. appServlet은 루트(/)에 들어온 모든 기능을 처리
+
+        - 사용자의 모든 요청을 받기 위해서 서블릿 맵핑 경로는 ‘/’로설정
 
         - ```xml
           <servlet-name>appServlet</servlet-name> 
@@ -255,6 +257,8 @@ Controller는 (Server, Dao-DB)와 연결되어있고 (Model, View)를 response
   - InternalResourceViewResolver에서 만들어준 prefix, suffix값이 합쳐져서 
   
   - /WEB-INF/views/success.jsp 라면 JSP 파일을 찾아주게 된다.
+  
+    <img src="..\post_img\success.jpg" alt="img" style="zoom: 80%;" />
 
 <br/>
 
