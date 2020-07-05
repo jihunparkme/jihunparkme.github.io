@@ -258,7 +258,7 @@ Controller는 (Server, Dao-DB)와 연결되어있고 (Model, View)를 response
   
   - /WEB-INF/views/success.jsp 라면 JSP 파일을 찾아주게 된다.
   
-    <img src="..\post_img\success.jpg" alt="img" style="zoom: 80%;" />
+    <img src="..\post_img\success.JPG" alt="img" style="zoom: 80%;" />
 
 <br/>
 
