@@ -10,7 +10,7 @@ featured-img: spring
 # Table of Contents
 
 * [세션, 쿠키](#세션-쿠키)
-* [리다이렉트, 인터셉트]
+* [Redirect, Interceptor](#Redirect,-Interceptor)
 * [Database]
 * [JDBC]
 * [JdbcTemplate]
@@ -193,5 +193,150 @@ public String mallIndex(Mall mall,
 }
 ```
 
+<br/>
 
+## Redirect,-Interceptor
+
+### Redirect
+
+- 컨트롤러에서 뷰를 분기하는 방법
+- 현재 페이지에서 특정 페이지로 전환하는 기능
+- MemberController.java
+  - 세션이 존재하지 않으면 main 으로 redirect
+
+```java
+// 회원 정보 수정 ...
+@RequestMapping(value = "/modifyForm")
+public String modifyForm(Model model, HttpServletRequest request) {
+
+    HttpSession session = request.getSession();
+    Member member = (Member) session.getAttribute("member");
+
+    if(member == null) {
+        return "redirect:/";
+    } else {
+        model.addAttribute("member", service.memberSearch(member));
+    }
+
+    return "/member/modifyForm";
+}
+```
+
+```java
+// 회원 정보 삭제 ...
+@RequestMapping("/removeForm")
+public ModelAndView removeForm(HttpServletRequest request) {
+
+    ModelAndView mav = new ModelAndView();
+
+    HttpSession session =  request.getSession();
+    Member member = (Member) session.getAttribute("member");
+
+    if(member == null) {
+        mav.setViewName("redirect:/");
+    } else {
+        mav.addObject("member", member);
+        mav.setViewName("/member/removeForm");
+    }
+    
+    return mav;
+}
+```
+
+### Interceptor
+
+- 컨트롤러 실행 전/후에 특정 작업을 가능하게 하는 방법
+
+- 리다이렉트를 사용해야 하는 경우가 많은 경우 HandlerInterceptor를 이용
+
+- HandlerInterceptor Interface
+
+  - preHandle() : Controller가 작동하기 전 (가장 많이 사용)
+  - postHandle() : Controller가 작동한 후
+  - afterCompletion()  : Controller와 View가 모두 작업한 후
+
+  <img src="..\post_img\Interceptor.JPG" alt="img" style="zoom: 70%;" />
+
+- src\main\java\com\bs\lec21\member\MemberLoginInterceptor.java
+
+```java
+// ...
+public class MemberLoginInterceptor extends HandlerInterceptorAdapter {
+
+    @Override	// Controller가 작동하기 전
+    public boolean preHandle(HttpServletRequest request,
+                             HttpServletResponse response, 
+                             Object handler) throws Exception {
+
+        HttpSession session = request.getSession(false);
+        
+        // Session이 있을 경우
+        if(session != null) {
+            Object obj = session.getAttribute("member");
+            if(obj != null) 
+                return true;
+        }
+		
+        // Session이 없을 경우 main page로 redirect
+        response.sendRedirect(request.getContextPath() + "/");
+        return false;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request,
+                           HttpServletResponse response, Object handler,
+                           ModelAndView modelAndView) throws Exception {
+
+        super.postHandle(request, response, handler, modelAndView);
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request,
+                                HttpServletResponse response, 
+                                Object handler, Exception ex)
+        throws Exception {
+
+        super.afterCompletion(request, response, handler, ex);
+    }
+}
+```
+
+- src\main\webapp\WEB-INF\spring\appServlet\servlet-context.xml
+
+  - 해당 interceptor가 적용되는 범위 mapping
+
+  - 메소드마다 반복해서 redirect 처리를 해주는 수고를 줄일 수 있음
+
+    ```java
+    <!-- ... -->
+    	<interceptors>
+    		<interceptor>
+    			<mapping path="/member/modifyForm"/>
+    			<mapping path="/member/removeForm"/>
+    			<beans:bean class="com.bs.lec21.member.MemberLoginInterceptor"/>
+    		</interceptor>
+    	</interceptors>
+    ```
+
+  - 멤버 하위에 있는 모든 경로에 대한 interceptor 요청
+
+    - exclude-mapping 에 해당되는 경로는 제외 처리
+
+    ```java
+    <!-- ... -->
+    	<interceptors>
+    		<interceptor>
+    			<mapping path="/member/**"/>
+    			<exclude-mapping path="/member/joinForm"/>
+    			<exclude-mapping path="/member/join"/>
+    			<exclude-mapping path="/member/loginForm"/>
+    			<exclude-mapping path="/member/login"/>
+    			<exclude-mapping path="/member/logout"/>
+    			<exclude-mapping path="/member/modify"/>
+    			<exclude-mapping path="/member/remove"/>
+    		</interceptor>
+    	</interceptors>
+    ```
+
+    
 
