@@ -55,9 +55,8 @@ featured-img: spring
 - pjt/src/main/resources : 자원파일 관리
   - 스프링 설정 파일(XML) 또는 프로퍼티 파일 등이 관리
 
-pom.xml 파일은 메이븐 설정파일로 메이븐은 라이브러리를 연결해주고, 빌드를 위한 플랫폼
-
-pom.xml에 의해서 필요한 라이브러리만 다운로드 해서 사용
+- pom.xml 파일은 메이븐 설정파일로 메이븐은 라이브러리를 연결해주고, 빌드를 위한 플랫폼
+- pom.xml에 의해서 필요한 라이브러리만 다운로드 해서 사용
 
 <br/>
 
@@ -67,9 +66,9 @@ pom.xml에 의해서 필요한 라이브러리만 다운로드 해서 사용
 
 ## test
 
-스프링 방식의 ‘의존’을 이용하기 위해서는 Main에서 TransportationWalk 객체를 직접 생성하지 않고, 스프링 설정 파일(XML)을 이용
+- 스프링 방식의 ‘의존’을 이용하기 위해서는 Main에서 TransportationWalk 객체를 직접 생성하지 않고, 스프링 설정 파일(XML)을 이용
 
-가장 큰 차이점은 Java 파일에서 이용한 new 연산자를 이용하지 않고 스프링 설정파일(XML)을 이용
+- 가장 큰 차이점은 Java 파일에서 이용한 new 연산자를 이용하지 않고 스프링 설정파일(XML)을 이용
 
 1. 스프링 설정 파일(applicationContext.xml)에 Bean tag로 명시된 tag들이
 2. GenericXmlApplicationContext  class에 의해
