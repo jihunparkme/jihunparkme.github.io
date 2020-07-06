@@ -11,8 +11,8 @@ featured-img: spring
 
 * [세션, 쿠키](#세션-쿠키)
 * [Redirect, Interceptor](#Redirect,-Interceptor)
-* [Database]
-* [JDBC]
+* [Database](#DataBase)
+* [JDBC](#JDBC)
 * [JdbcTemplate]
 * [커넥션풀]
 
@@ -338,5 +338,46 @@ public class MemberLoginInterceptor extends HandlerInterceptorAdapter {
     	</interceptors>
     ```
 
-    
+<br/>
 
+## DataBase
+
+### 오라클 설치
+
+1. [다운로드](#https://www.oracle.com/database/technologies/xe-downloads.html)
+
+2. 설치
+
+   - setup.exe 실행
+
+3. 계정 생성
+
+   - 명령프롬프트 접속(cmd)
+
+   - ```cmd
+     # sqlplus 접속
+     C:\> sqlplus
+     
+     # system 계정 로그인
+     C:\> system
+          oracle
+       
+     # 계정 생성, user ID : scott, user PW : tiger
+     SQL>  create user scott identified by tiger;
+     	    	  
+     # 권한(connect, resource 접근 권한 부여)
+     SQL> grant connect, resource to scott;
+     
+     # 계정 삭제
+     SQL> drop user scott cascade;
+     ```
+
+### SQL developer 설치
+
+1. [다운로드](#https://www.oracle.com/tools/downloads/sqldev-v192-downloads.html)
+2. sqldeveloper.exe 실행
+   - 초기 실행 시 JDK 경로 설정
+
+<br/>
+
+## JDBC
