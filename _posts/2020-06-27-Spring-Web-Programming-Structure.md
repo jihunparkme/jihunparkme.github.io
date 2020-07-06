@@ -16,6 +16,7 @@ featured-img: spring
   * [Controller 객체](#Controller-객체)
   * [View 객체](#View-객체)
   * [전체적인 웹 프로그래밍 구조](#전체적인-웹-프로그래밍-구조)
+  * [Final Pjt Structure](#Final-Pjt-Structure)
 
 <br/>
 
@@ -278,3 +279,52 @@ Controller는 (Server, Dao-DB)와 연결되어있고 (Model, View)를 response
 6. Model과 View를 가지고 `ViewResolver`를 통해 적합한 View를 선택
    - prefix + '사용자 요청 값' + suffix.jsp 실행
 7. 적합한 View에 데이터를 씌워서 JSP로 response
+
+<br/>
+
+<br/>
+
+## Final-Pjt-Structure
+
+```cmd
+> src
+	> main
+		> java.com.ho.lec
+			> config
+				# DBConfig.java
+            > member
+            	> controller
+            		# MemberController.java
+            	> dao
+            		# IMemberDao.java
+            		# MemberDao.java
+            	> service
+            		# IMemberService.java
+            		# MemberService.java
+            	# Member.java
+            	# MemberLoginInterceptor.java
+           	# HomeController.java
+        > resources
+        	> META-INF
+        	# log4j.xml
+        > webapp
+        	> resources\css
+        		# normal.css
+        	> WEB-INF
+        		> classes
+        		> spring
+        			> appServlet
+        				# servlet-context.xml
+        			# root-context.xml
+        		> views
+        			> member
+        				# joinForm.jsp
+        				# joinOk.jsp
+        				# loginForm.jsp
+        				# loginOk.jsp
+        				# ...
+        			# index.jsp
+        		# web.xml
+# pom.xml
+```
+
