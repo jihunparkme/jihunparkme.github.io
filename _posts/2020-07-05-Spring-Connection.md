@@ -381,3 +381,104 @@ public class MemberLoginInterceptor extends HandlerInterceptorAdapter {
 <br/>
 
 ## JDBC
+
+- 테이블 생성 및 삭제
+  - CONSTRAINT : unique value
+  - memId_pk PRIMARY KEY : 중복 방지를 위한 기본 키 
+  - DEFAULT 0 : default로 0부터 시작
+  - memPurNum_ck CHECK (memPurcNum < 3) : 세 번 미만으로 구매할 수 있도록 제한
+
+```sql
+CREATE TABLE member (
+    memId VARCHAR2(10) CONSTRAINT memId_pk PRIMARY KEY,
+    memPw VARCHAR2(10),
+    memMail VARCHAR2(15),
+    memPurcNum NUMBER(3) DEFAULT 0 CONSTRAINT memPurNum_ck CHECK (memPurcNum < 3)
+);
+```
+
+- 데이터 삽입
+
+```sql
+INSERT INTO member (memId, memPw, memMail)
+values ('b', 'bb', 'bbb@gmail.com');
+```
+
+- 데이터 조회
+
+```sql
+SELECT * FROM member;
+```
+
+- 회원 삭제
+
+```sql
+DELETE FROM member WHERE memId = 'b';
+```
+
+- 테이블 삭제
+
+```sql
+DROP TABLE member;
+```
+
+### JDBC를 사용한 Oracle 연동
+
+- MemberDao.java
+
+  - `드라이버 로딩` -> `DB 연결` -> `SQL 작성 및 전송` -> `자원 해제`
+  - 드라이버 로딩, DB 연결, 자원 해제의 중복되는 코드를 보완하기 위해 JdbcTemplate 사용
+
+  ```java
+  // ...
+  @Repository
+  public class MemberDao implements IMemberDao {
+  
+  	private String driver = "oracle.jdbc.driver.OracleDriver";
+  	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
+  	private String userid = "scott";
+  	private String userpw = "tiger";
+  	
+  	private Connection conn = null;
+  	private PreparedStatement pstmt = null;
+  	private ResultSet rs = null;
+  	
+  	@Override
+  	public int memberInsert(Member member) {
+  		
+  		int result = 0;
+  		
+  		try {
+  			// 드라이버 로딩
+  			Class.forName(driver);
+  			// Connection 객체
+  			conn = DriverManager.getConnection(url, userid, userpw);	
+  			// SQL 작성
+  			String sql = "INSERT INTO member (memId, memPw, memMail) values (?,?,?)";	
+  			pstmt = conn.prepareStatement(sql);
+  			pstmt.setString(1, member.getMemId());
+  			pstmt.setString(2, member.getMemPw());
+  			pstmt.setString(3, member.getMemMail());
+  			// SQL 전송
+  			result = pstmt.executeUpdate();
+  		} catch (ClassNotFoundException e) {
+  			e.printStackTrace();
+  		} catch (SQLException e) {
+  			e.printStackTrace();
+  		} finally {	 // 자원 해제
+  			try {
+  				if(pstmt != null) pstmt.close();
+  				if(conn != null) conn.close();
+  			} catch (SQLException e) {
+  				e.printStackTrace();
+  			}
+  		}
+  		
+  		return result;
+  	}
+      
+      // ...
+  }
+  ```
+
+  
