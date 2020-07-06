@@ -14,8 +14,8 @@ featured-img: spring
 * [Redirect, Interceptor](#Redirect,-Interceptor)
 * [Database](#DataBase)
 * [JDBC](#JDBC)
-* [JdbcTemplate](#JdbcTemplate)
-* [커넥션풀]
+* [JdbcTemplate](#JdbcTemplate) : Spring DataSource, c3p0 DataSource
+* [Connection pool](#Connection-pool)
 
 <br/>
 
@@ -778,3 +778,108 @@ public class MemberDao implements IMemberDao {
 }
 ```
 
+<br/>
+
+## Connection-pool
+
+ DataBase connection을 미리 만들어 놓는 방법 -> 서버 부하 최소화
+
+1. c3p0 Module의 ComboPooledDataSource 을 사용하는 방법
+
+   - com.mchange.v2.c3p0.ComboPooledDataSource
+   - MemberDao.java
+
+   ```java
+   @Repository
+   public class MemberDao implements IMemberDao {
+       
+   	// ...
+       
+   	private ComboPooledDataSource dataSource;
+   	private JdbcTemplate template;
+   
+       public MemberDao() {
+   		dataSource = new ComboPooledDataSource();
+   		try {	// DataSource와 유사하지만 dataSource 객체 생성 과정에서 예외처리 필요
+   			dataSource.setDriverClass(driver);
+   			dataSource.setJdbcUrl(url);
+   			dataSource.setUser(userid);
+   			dataSource.setPassword(userpw);
+   		} catch (PropertyVetoException e) {
+   			e.printStackTrace();
+   		}
+   		
+   		template = new JdbcTemplate();
+   		template.setDataSource(dataSource);
+   	}
+   ```
+
+2. Spring 설정파일을 이용한 DataSource 설정
+
+   - servlet-context.xml
+     - Spring Container가 만들어질 때 dataSource 객체 생성
+
+   ```xml
+   <!-- ... -->
+   <beans:bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+       <beans:property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+       <beans:property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" />
+       <beans:property name="user" value="scott" />
+       <beans:property name="password" value="tiger" />
+       <beans:property name="maxPoolSize" value="200" />
+       <beans:property name="checkoutTimeout" value="60000" />
+       <beans:property name="maxIdleTime" value="1800" />
+       <beans:property name="idleConnectionTestPeriod" value="600" />
+   </beans:bean>
+   ```
+
+   - MemberDao.java
+
+   ```java
+   // ...
+   
+   @Repository
+   public class MemberDao implements IMemberDao {
+   
+   	private JdbcTemplate template;
+   	
+   	@Autowired
+   	public MemberDao(ComboPooledDataSource dataSource) {
+   		this.template = new JdbcTemplate(dataSource);
+   	}
+       
+       // ...
+   }
+   ```
+
+3. Annotation을 이용하여 Java Config 파일을 이용한 DataSource 설정
+
+   - DBConfig.java
+
+   ```java
+   // ...
+   
+   @Configuration
+   public class DBConfig {
+   
+   	@Bean
+   	public ComboPooledDataSource dataSource() throws PropertyVetoException {
+   		ComboPooledDataSource dataSource = new ComboPooledDataSource();
+   		
+   		dataSource.setDriverClass("oracle.jdbc.driver.OracleDriver");
+   		dataSource.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:xe");
+   		dataSource.setUser("scott");
+   		dataSource.setPassword("tiger");
+   		dataSource.setMaxPoolSize(200);
+   		dataSource.setCheckoutTimeout(60000);
+   		dataSource.setMaxIdleTime(1800);
+   		dataSource.setIdleConnectionTestPeriod(600);
+   		
+   		return dataSource;
+   
+   	}
+   	
+   }
+   ```
+
+   - MemberDao.java 에서의 객체 사용은 Spring 설정파일을 이용한 방법과 동일
