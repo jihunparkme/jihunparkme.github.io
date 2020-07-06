@@ -13,7 +13,7 @@ featured-img: spring
 * [Redirect, Interceptor](#Redirect,-Interceptor)
 * [Database](#DataBase)
 * [JDBC](#JDBC)
-* [JdbcTemplate]
+* [JdbcTemplate](#JdbcTemplate)
 * [커넥션풀]
 
 <br/>
@@ -452,7 +452,7 @@ DROP TABLE member;
   			// 드라이버 로딩
   			Class.forName(driver);
   			// Connection 객체
-  			conn = DriverManager.getConnection(url, userid, userpw);	
+  			conn = DriverManager.getConnection(url, userid, userpw);
   			// SQL 작성
   			String sql = "INSERT INTO member (memId, memPw, memMail) values (?,?,?)";	
   			pstmt = conn.prepareStatement(sql);
@@ -481,4 +481,6 @@ DROP TABLE member;
   }
   ```
 
-  
+<br/>
+
+## JdbcTemplate
