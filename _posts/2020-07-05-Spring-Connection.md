@@ -1,4 +1,5 @@
 ---
+
 layout: post
 title: Spring Connection
 summary: Let's learn Spring Framework
@@ -424,6 +425,20 @@ DROP TABLE member;
 
 ### JDBC를 사용한 Oracle 연동
 
+- 의존 설정
+
+  - pom.xml
+  
+  ```xml
+    <!-- ... -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>12.1.0.2</version>
+        </dependency>
+    <!-- ... ->
+    ```
+  
 - MemberDao.java
 
   - `드라이버 로딩` -> `DB 연결` -> `SQL 작성 및 전송` -> `자원 해제`
@@ -484,3 +499,282 @@ DROP TABLE member;
 <br/>
 
 ## JdbcTemplate
+
+- JDBC의 단점(반복되는 작업)을 보완한 JdbcTemplate	
+
+  - JDBC
+    - `드라이버 로딩` -> `DB 연결` -> `SQL 작성 및 전송` -> `자원 해제`
+  - JdbcTemplate
+    - `JdbcTemplate(드라이버 로딩, DB 연결, 자원 해제)` ->`SQL 작성 및 전송`
+- DataSource 클래스
+  - 데이터베이스 연결과 관련된 정보를 가지고 있는 DataSource는 스프링 또는 c3p0에 제공하는 클래스를 이용할 수 있음
+  - Spring : `org.springframework.jdbc.datasource.DriverManagerDataSource`
+  - c3p0 : `com.mchange.v2.c3p0. DriverManagerDataSource` 
+
+### 의존 설정
+
+- pom.xml
+
+  ```xml
+  <!-- Oracle JDBC repository 추가 -->
+  	<repositories>
+          <repository>
+              <id>oracle</id>
+              <name>ORACLE JDBC Repository</name>
+              <url>http://maven.jahia.org/maven2</url>
+          </repository>
+      </repositories>
+  <!-- ... -->
+      <!-- DB -->
+      <dependency>
+          <groupId>com.oracle</groupId>
+          <artifactId>ojdbc6</artifactId>
+          <version>12.1.0.2</version>
+      </dependency>
+      <dependency>
+          <groupId>com.mchange</groupId>
+          <artifactId>c3p0</artifactId>
+          <version>0.9.5</version>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-jdbc</artifactId>
+          <version>4.1.6.RELEASE</version>
+      </dependency>
+  <!-- ... ->
+  ```
+
+### Spring DataSource
+
+- Spring DataSource 기본 문법
+- MemberDao.java
+
+```java
+@Repository
+public class MemberDao implements IMemberDao {
+
+	private String driver = "oracle.jdbc.driver.OracleDriver";
+	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	private String userid = "scott";
+	private String userpw = "tiger";
+	
+	private DriverManagerDataSource dataSource;
+	private JdbcTemplate template;
+	
+	public MemberDao() {
+		dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName(driver);
+		dataSource.setUrl(url);
+		dataSource.setUsername(userid);
+		dataSource.setPassword(userpw);
+	}
+    // ...
+}
+```
+
+### c3p0 DataSource
+
+- c3p0 DataSource 기본 문법
+- MemberDao.java
+
+```java
+@Repository
+public class MemberDao implements IMemberDao {
+
+	private String driver = "oracle.jdbc.driver.OracleDriver";
+	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	private String userid = "scott";
+	private String userpw = "tiger";
+	
+	private DriverManagerDataSource dataSource;
+	private JdbcTemplate template;
+	
+	public MemberDao() {
+		dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClass(driver);
+		dataSource.setJdbcUrl(url);
+		dataSource.setUser(userid);
+		dataSource.setPassword(userpw);
+	}
+    // ...
+}
+```
+
+### JdbcTemplate 적용(c3p0)
+
+- MemberDao.java
+
+```java
+@Repository
+public class MemberDao implements IMemberDao {
+
+	private String driver = "oracle.jdbc.driver.OracleDriver";
+	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	private String userid = "scott";
+	private String userpw = "tiger";
+	
+	private DriverManagerDataSource dataSource;
+	private JdbcTemplate template;
+	
+    ////////////////////////////////////////////////
+    // 생성자
+	public MemberDao() {
+		dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClass(driver);
+		dataSource.setJdbcUrl(url);
+		dataSource.setUser(userid);
+		dataSource.setPassword(userpw);
+        
+        template = new JdbcTemplate();
+		template.setDataSource(dataSource);
+	}
+   ////////////////////////////////////////////////
+    // memberInsert
+    @Override
+	public int memberInsert(final Member member) {
+		int result = 0;
+		
+		final String sql = "INSERT INTO member (memId, memPw, memMail) values (?,?,?)";
+        
+        /* 
+        1. template.update 첫 번째 방법
+        */
+		result = template.update(sql, member.getMemId(), member.getMemPw(), member.getMemMail());
+        
+        /* 
+        2. template.update 두 번째 방법 : PreparedStatementCreator
+        */
+        result = template.update(new PreparedStatementCreator() {
+			
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, member.getMemId());
+				pstmt.setString(2, member.getMemPw());
+				pstmt.setString(3, member.getMemMail());
+				
+				return pstmt;
+			}
+		});
+        
+        /* 
+        3. template.update 세 번째 방법 : PreparedStatementSetter
+        */
+        result = template.update(sql, new PreparedStatementSetter() {
+			
+			@Override
+			public void setValues(PreparedStatement pstmt) throws SQLException {
+				pstmt.setString(1, member.getMemId());
+				pstmt.setString(2, member.getMemPw());
+				pstmt.setString(3, member.getMemMail());
+				
+			}
+		});
+        
+        //
+        
+		return result;
+	}
+    ////////////////////////////////////////////////
+    // memberSelect
+    @Override
+	public Member memberSelect(final Member member) {
+		List<Member> members = null;
+		
+		final String sql = "SELECT * FROM member WHERE memId = ? AND memPw = ?";
+        
+        /* 
+        1. template.query 첫 번째 방법 : PreparedStatementSetter
+        */
+        members = template.query(sql, new PreparedStatementSetter() {
+
+            @Override
+            public void setValues(PreparedStatement pstmt) throws SQLException {
+                pstmt.setString(1, member.getMemId());
+                pstmt.setString(2, member.getMemPw());
+            }
+        }, new RowMapper<Member>() {
+
+            @Override
+            public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Member mem = new Member();
+                mem.setMemId(rs.getString("memId"));
+                mem.setMemPw(rs.getString("memPw"));
+                mem.setMemMail(rs.getString("memMail"));
+                mem.setMemPurcNum(rs.getInt("memPurcNum"));
+                return mem;
+            }
+        });
+        
+        /* 
+        2. template.query 두 번째 방법 : PreparedStatementCreator
+        */
+        members = template.query(new PreparedStatementCreator() {
+			
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, member.getMemId());
+				pstmt.setString(2, member.getMemPw());
+				return pstmt;
+			}
+		}, new RowMapper<Member>() {
+
+			@Override
+			public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Member mem = new Member();
+				mem.setMemId(rs.getString("memId"));
+				mem.setMemPw(rs.getString("memPw"));
+				mem.setMemMail(rs.getString("memMail"));
+				mem.setMemPurcNum(rs.getInt("memPurcNum"));
+				return mem;
+			}
+		});
+        
+        /* 
+        3. template.query 세 번째 방법 : RowMapper
+        */
+        members = template.query(sql, new RowMapper<Member>() {
+
+			@Override
+			public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Member mem = new Member();
+				mem.setMemId(rs.getString("memId"));
+				mem.setMemPw(rs.getString("memPw"));
+				mem.setMemMail(rs.getString("memMail"));
+				mem.setMemPurcNum(rs.getInt("memPurcNum"));
+				return mem;
+			}
+			
+		}, member.getMemId(), member.getMemPw());
+        
+        /* 
+        4. template.query 네 번째 방법 : Object[]
+        */
+        members = template.query(sql, new Object[]{member.getMemId(), member.getMemPw()}, new RowMapper<Member>() {
+
+			@Override
+			public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Member mem = new Member();
+				mem.setMemId(rs.getString("memId"));
+				mem.setMemPw(rs.getString("memPw"));
+				mem.setMemMail(rs.getString("memMail"));
+				mem.setMemPurcNum(rs.getInt("memPurcNum"));
+				return mem;
+			}
+			
+		});
+        
+        //
+        
+        if(members.isEmpty()) 
+			return null;
+		
+		return members.get(0);
+    
+    // ...
+}
+```
+
