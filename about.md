@@ -12,8 +12,6 @@ permalink: /about/
 
 ## Project
 
----
-
 ### 고신뢰 ICT-제조설비를 위한 빅데이터 기반 자율제어 기술 개발
 
 - 2018.03.01. ~ 2018.12.07.
@@ -146,8 +144,6 @@ permalink: /about/
 <br/>
 
 ## Other Experiences.
-
----
 
 ### 마이셀럽스
 
