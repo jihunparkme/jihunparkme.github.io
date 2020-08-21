@@ -37,7 +37,7 @@ permalink: /about/
 
 - Flume, Sqoop, HDFS, Pig, Hive, R
 
-<br/>
+---
 
 ## 빅데이터 기반 의료 임상 결과 분석
 
@@ -63,7 +63,7 @@ permalink: /about/
 
 > Seung-Yeon Hwang, Ji-Hun Park "Big Data-based Medical Clinical Results Analysis,” IIBC, Vol. 19, No. 1, pp.187-195, Feb. 28, 2019. 
 
-<br/>
+---
 
 ## 빅데이터 기반 환자 간병방법 분석 연구
 
@@ -89,7 +89,7 @@ permalink: /about/
 - JSP, TOMCAT, HDFS, R, R shiny, Tableau
 - KNN(K-Nearest Neighbor) Algorithm
 
-<br/>
+---
 
 ## **IoT** 환경을 위한 빅데이터 기반 센서 데이터 처리 및 분석 연구
 
@@ -114,7 +114,7 @@ permalink: /about/
 
 > D.J. Shin, **J.H. Park**, J.H. Kim, K.J. Kwak, J.M. Park, J.J. Kim "Big Data-based Sensor Data Processing and Analysis for IoT Environment,” IIBC, Vol. 19, No. 1, pp.117-126, Feb. 28, 2019. 
 
-<br/>
+---
 
 ## 미세먼지 감소를 위한 대중교통 만족도 분석
 
