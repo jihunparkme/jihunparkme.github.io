@@ -12,16 +12,18 @@ permalink: /about/
 
 ## Project
 
+---
+
 ### 고신뢰 ICT-제조설비를 위한 빅데이터 기반 자율제어 기술 개발
 
 - 2018.03.01. ~ 2018.12.07.
 - 한국연구재단
 
-##### Description.
+#### Description.
 
 - 고신뢰성을 요구하는 ICT-제조설비들의 운영목표 및 필수 요구사항들을 분석하고, 문제/오류 발생 시에 대응할 수 있는 고신뢰 자율제어 SW의 핵심 기술을 개발
 
-##### What did I do.
+#### What did I do.
 
 - 빅데이터 가공 기술 동향 조사
 - 빅데이터 가공 기술 설계 연구 및 개발 (**HDFS, Pig, Hive** 활용)
@@ -33,20 +35,22 @@ permalink: /about/
   - 데이터 간 유사성을 통해 패턴을 분석하는 **군집화 및 분류 모듈 개발**
   - 시간 흐름에 따라 데이터의 변화를 예측하는 **시계열 분석 모듈 개발**
 
-##### Tech Stack.
+#### Tech Stack.
 
 - Flume, Sqoop, HDFS, Pig, Hive, R
+
+<br/>
 
 ### 빅데이터 기반 의료 임상 결과 분석
 
 - 2018.05.01. ~ 2018.11.23.
 - 한국산업기술대학교(현장맞춤형 이공계 인재양성 지원사업)
 
-##### Description.
+#### Description.
 
 - 임상 결과를 분석하고 신뢰성을 확보하여 임상 시험 기간과 비용 등을 줄이고 임상 시험 설계 최적화를 위한 빅데이터 기반 분석 시스템 개발
 
-##### What did I do.
+#### What did I do.
 
 - 데이터 수집: **Sqoop**을 활용하여 RDBMS에 저장된 데이터 수집
 - 데이터 처리 : **Hive,** **R**을 활용한 임상 결과 **데이터 정제**
@@ -54,23 +58,25 @@ permalink: /about/
 - 데이터 시각화 : **R**을 활용한 시각화
 - 연구 보고서 작성
 
-##### Tech Stack.
+#### Tech Stack.
 
 - Mysql, Sqoop, HDFS, Hive, R
 - Apriori Algorithm
 
 > Seung-Yeon Hwang, Ji-Hun Park "Big Data-based Medical Clinical Results Analysis,” IIBC, Vol. 19, No. 1, pp.187-195, Feb. 28, 2019. 
 
+<br/>
+
 ### 빅데이터 기반 환자 간병방법 분석 연구
 
 - 2018.03.02. ~ 2018.08.31.
 - 한국산업기술대학교(산기대전)
 
-##### Description.
+#### Description.
 
 - 기존 환자 진단 데이터를 분석하여 의학적 지식이 없는 간병인이나 병원에 가기 힘든 환자에게 보다 정확한 간병방법을 제공하기 위한 빅데이터 기반 분석 시스템 개발
 
-##### What did I do.
+#### What did I do.
 
 - 팀장
 - 데이터 수집 : 간병인 온라인 설문조사, 의료 홈페이지, 공공데이터
@@ -80,44 +86,48 @@ permalink: /about/
 - 데이터 시각화 : **R shiny**을 활용한 R 시각화 **웹 페이지 구현**
 - 공공데이터 시각화 및 분석 : **Tableau**를 활용한 **시각화 및 분석**
 
-##### Tech Stack.
+#### Tech Stack.
 
 - JSP, TOMCAT, HDFS, R, R shiny, Tableau
 - KNN(K-Nearest Neighbor) Algorithm
+
+<br/>
 
 ### **IoT** 환경을 위한 빅데이터 기반 센서 데이터 처리 및 분석 연구
 
 - 2018.08.01. ~ 2018.08.31.
 - 한국산업기술대학교
 
-##### Description.
+#### Description.
 
 - IoT 환경에서 자주 사용되는 라즈베리 파이를 이용하여 데이터를 생성하고, 다양한 빅데이터 솔루션을 사용하여 데이터를 수집, 저장, 처리, 분석 및 시각화를 통해 관계를 검증
 - 온도와 습도에 영향을 주는 요인으로 판단되는 기압, 밀도 등 다양한 센서를 활용하여 향후 날씨까지 예측할 수 있는 연구 기대
 
-##### What did I do.
+#### What did I do.
 
 - 이상치 제거 : **R**의 ggplot, panels, boxplot을 활용한 **이상치 제거**
 - 데이터 분석 : **R**을 활용한 **선형회귀분석**(**Linear Regression Analysis**)
 - 데이터 시각화 : **R**을 활용한 시각화
 
-##### Tech Stack.
+#### Tech Stack.
 
 - Raspberry Pi, Python, HDFS, mysql, Sqoop, Hive, R
 - Linear Regression Analysis
 
 > D.J. Shin, **J.H. Park**, J.H. Kim, K.J. Kwak, J.M. Park, J.J. Kim "Big Data-based Sensor Data Processing and Analysis for IoT Environment,” IIBC, Vol. 19, No. 1, pp.117-126, Feb. 28, 2019. 
 
+<br/>
+
 ### 미세먼지 감소를 위한 대중교통 만족도 분석
 
 - 2018.05.21. ~ 2018.06.24.
 - 한국산업기술대학교
 
-##### Description.
+#### Description.
 
 - 대중교통 이용률과 만족도에 영향을 미치는 요소를 분석하여 대중교통 이용률을 증가시키고 미세먼지를 감소시키기 위한 빅데이터 기반 분석 시스템 개발
 
-##### What did I do.
+#### What did I do.
 
 - 팀장
 - 공공데이터 수집
@@ -126,14 +136,18 @@ permalink: /about/
 - 데이터 분석 : **R**을 활용한 **다중선형회귀분석**(**Multiple Linear Regression Analysis**)
 - 데이터 시각화 : **R**을 활용한 시각화
 
-##### Tech Stack.
+#### Tech Stack.
 
 - HDFS, Pig, R
 - Multiple Linear Regression Analysis
 
 <br/>
 
+<br/>
+
 ## Other Experiences.
+
+---
 
 ### 마이셀럽스
 
@@ -141,7 +155,7 @@ permalink: /about/
 - 데이터팀 인턴
   - 데이터 수집 및 전처리
 
-##### What did I do.
+#### What did I do.
 
 - Web Crawling
   - 화장품 정보, 리뷰 수집 및 DB 관리
@@ -162,7 +176,7 @@ permalink: /about/
   - 음성인식 발화 테스트
   - 키토크 보완
 
-##### Tech Stack.
+#### Tech Stack.
 
 - Python
   - Web Crawling
@@ -181,6 +195,10 @@ permalink: /about/
   - Data Management
 - Postman
   - API test
+
+<br/>
+
+<br/>
 
 ## Other Activity.
 
@@ -208,6 +226,8 @@ permalink: /about/
 
 - 빅데이터 시스템 분석 및 설계
 - 한국산업기술대학교
+
+<br/>
 
 <br/>
 
