@@ -492,4 +492,10 @@ Python 의 기본 자료형
 > - [PS 시작하기](https://plzrun.tistory.com/entry/알고리즘-문제풀이PS-시작하기)
 > - [코딩테스트 문제 리스트와 연습 팁](https://www.notion.so/580c3a42f21b49b497b7089f539a9f78)
 
-P
+<br/>
+
+## 기술면접
+
+1. https://github.com/gyoogle/tech-interview-for-developer
+2. https://goodgid.github.io/Prepared-for-Computer-Science/
+3. https://github.com/JaeYeopHan/Interview_Question_for_Beginner
