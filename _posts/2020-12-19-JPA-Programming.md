@@ -2,7 +2,7 @@
 layout: post
 title: JPA Programming
 summary: 자바 ORM 표준 JPA 프로그래밍
-categories: JPA Programming
+categories: JPA
 featured-img: JPA
 # mathjax: true
 ---
@@ -12,8 +12,6 @@ featured-img: JPA
 # 자바 ORM 표준 JPA 프로그래밍
 
 - 김영한 저자
-
-(2020)
 
 [2020/12/18 - [Books\] - [JPA] JPA(Java Persistence API)가 뭐지!?](https://data-make.tistory.com/608)
 
