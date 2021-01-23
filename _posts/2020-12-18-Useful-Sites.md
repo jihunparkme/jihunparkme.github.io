@@ -23,8 +23,6 @@ featured-img: useful
 
 [개발자 전공 지식](https://github.com/gyoogle/tech-interview-for-developer)
 
-
-
 ## Lang.
 
 [점프 투 파이썬](https://wikidocs.net/book/1)
@@ -37,29 +35,51 @@ featured-img: useful
 
 [생활코딩](https://opentutorials.org/course/1)
 
-
-
 ## Web
 
 HTML, CSS.. : [w3schools](https://www.w3schools.com/)
 
 jQuery : [jQuery](https://api.jquery.com/)
 
-**Design**
+### Design
 
 Fonts : [Google Fonts](https://fonts.google.com/?subset=korean&selection.family=Noto+Sans+KR:wght@500&sidebar.open=true)
 
 Color combination : [Adobe Color](https://color.adobe.com/ko/create/color-wheel)
 
-**DataBase**
+### DataBase
 
 MyBatis : [MyBatis](https://blog.mybatis.org/)
 
-**Repository**
+### Repository
 
 MVN : [MVN Repository](https://mvnrepository.com/)
 
+### Bootstrap
 
+[templates1](https://all-free-download.com/free-website-templates/)
+
+[templates2](https://html5up.net/)
+
+[templates3](https://themewagon.com/theme_tag/free/)
+
+[templates4](https://colorlib.com/wp/themes/)
+
+[templates5](https://themeforest.net/)
+
+[templates6](https://templated.co/)
+
+[templates7](https://startbootstrap.com/themes)
+
+[templates8](https://templatemag.com/bootstrap-templates/)
+
+[templates9](https://themehunt.com/)
+
+[templates10](https://bootstrapmade.com/)
+
+[templates11](https://www.bootstrapzero.com/)
+
+[part templates](https://codepen.io/)
 
 ### Spring
 
@@ -67,15 +87,11 @@ MVN : [MVN Repository](https://mvnrepository.com/)
 
 [스프링 게시판 만들기 참고](https://melonpeach.tistory.com/category/%EC%9B%B9%EA%B0%9C%EB%B0%9C/%EC%8A%A4%ED%94%84%EB%A7%81%20%EA%B2%8C%EC%8B%9C%ED%8C%90%20%EB%A7%8C%EB%93%A4%EA%B8%B0?page=1)
 
-
-
 ## BigData
 
 [Kaggle](https://www.kaggle.com/datasets)
 
 [Google Trends](https://trends.google.com/trends/?geo=US)
-
-
 
 ## AI
 
@@ -90,8 +106,6 @@ MVN : [MVN Repository](https://mvnrepository.com/)
 <hr>
 
 
-
-
 # Self-development
 
 ## Book
@@ -100,15 +114,11 @@ MVN : [MVN Repository](https://mvnrepository.com/)
 
 [JPA 프로그래밍 Code](https://github.com/holyeye/jpabook)
 
-
-
 ## Conference
 
 [컨퍼런스 및 해커톤 일정](https://github.com/brave-people/Dev-Event)
 
 [우아한 테크 코스 로드맵](https://github.com/woowacourse/roadmap)
-
-
 
 ## English
 
@@ -118,21 +128,37 @@ MVN : [MVN Repository](https://mvnrepository.com/)
 
 [Text To Speech](https://text-to-speech.imtranslator.net/speech.asp)
 
-
-
 ## Career
 
 [주니어 개발자 취업 정보](https://github.com/jojoldu/junior-recruit-scheduler)
 
 [Backend Developer Roadmap](https://roadmap.sh/backend)
 
+## Online Lectures
 
+[Inflearn](https://www.inflearn.com/)
+
+[Fast campus](https://www.fastcampus.co.kr/)
+
+[Learning Spoons](https://learningspoons.com/)
+
+[Coursera](https://ko.coursera.org/)
+
+[K-MOOC](http://www.kmooc.kr/)
+
+[KOCW](http://www.kocw.net/home/index.do)
+
+[edwith](https://www.edwith.org/)
 
 ## Etc.
 
 [EMOJI](https://www.webfx.com/tools/emoji-cheat-sheet/)
 
 [Icons](https://fontello.com/)
+
+
+
+<hr>
 
 
 
