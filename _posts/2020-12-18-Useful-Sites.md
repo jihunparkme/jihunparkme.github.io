@@ -1,48 +1,27 @@
 ---
-
 layout: post
 title: Useful Sites
 summary: Useful Sites
 categories: Useful
-featured-img: 
+featured-img: useful
 # mathjax: true
 ---
 
 
 
-## Web Reference
+# technology
 
-HTML, CSS.. : [w3schools](https://www.w3schools.com/)
+## CS
 
+[Tech Interview](https://github.com/JaeYeopHan/Interview_Question_for_Beginner)
 
+[Tech Interview](https://gyoogle.dev/blog/)
 
-jQuery : [jQuery](https://api.jquery.com/)
+[Tech Interview](https://goodgid.github.io/Prepared-for-Computer-Science/)
 
-MVN : [MVN Repository](https://mvnrepository.com/)
+[Coding Interview](https://github.com/jwasham/coding-interview-university)
 
-
-
-Fonts : [Google Fonts](https://fonts.google.com/?subset=korean&selection.family=Noto+Sans+KR:wght@500&sidebar.open=true)
-
-Color combination : [Adobe Color](https://color.adobe.com/ko/create/color-wheel)
-
-
-
-MyBatis : [MyBatis](https://blog.mybatis.org/)
-
-
-
-## Spring
-
-[Spring Data JPA - Reference Documentation](https://docs.spring.io/spring-data/jpa/docs/1.8.0.RELEASE/reference/html/#jpa.repositories)
-
-[스프링 게시판 만들기 참고](https://melonpeach.tistory.com/category/%EC%9B%B9%EA%B0%9C%EB%B0%9C/%EC%8A%A4%ED%94%84%EB%A7%81%20%EA%B2%8C%EC%8B%9C%ED%8C%90%20%EB%A7%8C%EB%93%A4%EA%B8%B0?page=1)
-
-#### Book
-
-[JPA 프로그래밍 요약](https://ultrakain.gitbooks.io/jpa/content/)
-
-[JPA 프로그래밍 Code](https://github.com/holyeye/jpabook)
+[개발자 전공 지식](https://github.com/gyoogle/tech-interview-for-developer)
 
 
 
@@ -57,6 +36,36 @@ MyBatis : [MyBatis](https://blog.mybatis.org/)
 [Java documentation](https://docs.oracle.com/javase/8/docs/api/)
 
 [생활코딩](https://opentutorials.org/course/1)
+
+
+
+## Web
+
+HTML, CSS.. : [w3schools](https://www.w3schools.com/)
+
+jQuery : [jQuery](https://api.jquery.com/)
+
+**Design**
+
+Fonts : [Google Fonts](https://fonts.google.com/?subset=korean&selection.family=Noto+Sans+KR:wght@500&sidebar.open=true)
+
+Color combination : [Adobe Color](https://color.adobe.com/ko/create/color-wheel)
+
+**DataBase**
+
+MyBatis : [MyBatis](https://blog.mybatis.org/)
+
+**Repository**
+
+MVN : [MVN Repository](https://mvnrepository.com/)
+
+
+
+### Spring
+
+[Spring Data JPA - Reference Documentation](https://docs.spring.io/spring-data/jpa/docs/1.8.0.RELEASE/reference/html/#jpa.repositories)
+
+[스프링 게시판 만들기 참고](https://melonpeach.tistory.com/category/%EC%9B%B9%EA%B0%9C%EB%B0%9C/%EC%8A%A4%ED%94%84%EB%A7%81%20%EA%B2%8C%EC%8B%9C%ED%8C%90%20%EB%A7%8C%EB%93%A4%EA%B8%B0?page=1)
 
 
 
@@ -78,25 +87,26 @@ MyBatis : [MyBatis](https://blog.mybatis.org/)
 
 
 
+<hr>
+
+
+
+
+# Self-development
+
+## Book
+
+[JPA 프로그래밍 요약](https://ultrakain.gitbooks.io/jpa/content/)
+
+[JPA 프로그래밍 Code](https://github.com/holyeye/jpabook)
+
+
+
 ## Conference
 
 [컨퍼런스 및 해커톤 일정](https://github.com/brave-people/Dev-Event)
 
 [우아한 테크 코스 로드맵](https://github.com/woowacourse/roadmap)
-
-
-
-## CS
-
-[Tech Interview](https://github.com/JaeYeopHan/Interview_Question_for_Beginner)
-
-[Tech Interview](https://gyoogle.dev/blog/)
-
-[Tech Interview](https://goodgid.github.io/Prepared-for-Computer-Science/)
-
-[Coding Interview](https://github.com/jwasham/coding-interview-university)
-
-[개발자 전공 지식](https://github.com/gyoogle/tech-interview-for-developer)
 
 
 
@@ -114,6 +124,8 @@ MyBatis : [MyBatis](https://blog.mybatis.org/)
 
 [주니어 개발자 취업 정보](https://github.com/jojoldu/junior-recruit-scheduler)
 
+[Backend Developer Roadmap](https://roadmap.sh/backend)
+
 
 
 ## Etc.
@@ -122,10 +134,8 @@ MyBatis : [MyBatis](https://blog.mybatis.org/)
 
 [Icons](https://fontello.com/)
 
-[Backend Developer Roadmap](https://roadmap.sh/backend)
 
 
-
-## Other
+# Other
 
 [여신금융협회(카드포인트 통합조회 계좌입금)](https://www.cardpoint.or.kr/)
