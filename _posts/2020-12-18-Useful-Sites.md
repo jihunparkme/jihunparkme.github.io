@@ -13,15 +13,15 @@ featured-img: useful
 
 ## CS
 
-[Tech Interview](https://github.com/JaeYeopHan/Interview_Question_for_Beginner)
+[Tech Interview](https://github.com/JaeYeopHan/Interview_Question_for_Beginner){:target="_blank"}
 
-[Tech Interview](https://gyoogle.dev/blog/)
+[Tech Interview](https://gyoogle.dev/blog/){:target="_blank"}
 
-[Tech Interview](https://goodgid.github.io/Prepared-for-Computer-Science/)
+[Tech Interview](https://goodgid.github.io/Prepared-for-Computer-Science/){:target="_blank"}
 
-[Coding Interview](https://github.com/jwasham/coding-interview-university)
+[Coding Interview](https://github.com/jwasham/coding-interview-university){:target="_blank"}
 
-[개발자 전공 지식](https://github.com/gyoogle/tech-interview-for-developer)
+[개발자 전공 지식](https://github.com/gyoogle/tech-interview-for-developer){:target="_blank"}
 
 ## Lang.
 
