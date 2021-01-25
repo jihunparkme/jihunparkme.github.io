@@ -2,7 +2,7 @@
 layout: post
 title: JPA Programming
 summary: 자바 ORM 표준 JPA 프로그래밍
-categories: (Book)JPA
+categories: (Book)JPA-Programming
 featured-img: JPA
 # mathjax: true
 ---

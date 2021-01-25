@@ -39,9 +39,7 @@ featured-img: CleanCode
 
 [2021/01/22 - [Books\] - [클린 코드: Clean Code] 14. 점진적인 개선](https://data-make.tistory.com/647){:target="_blank"}
 
-
-
-
+<br>
 
 > Reference
 >
