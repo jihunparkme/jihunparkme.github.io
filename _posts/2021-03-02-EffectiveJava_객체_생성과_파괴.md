@@ -7,6 +7,10 @@ featured-img: EFF_JAVA
 # mathjax: true
 ---
 
+# Table of Contents
+- [item 1. 생성자 대신 정적 팩터리 메서드를 고려하라.](#item 1. 생성자 대신 정적 팩터리 메서드를 고려하라.)
+- [item 2. 생성자에 매개변수가 많다면 빌더를 고려하라.](#item 2. 생성자에 매개변수가 많다면 빌더를 고려하라.)
+
 # 2장. 객체 생성과 파괴
 
 <br>
@@ -66,6 +70,179 @@ public static Boolean valueOf(boolean b) {
 
 ## item 2. 생성자에 매개변수가 많다면 빌더를 고려하라.
 
-- 
+- 빌더 패턴 : 점층적 생성자 패턴의 안전성과 자바 빈즈 패턴의 가독성을 겸비한 패턴
+- 클라이언트는 필요한 객체를 직접 만드는 대신, 필수 매개변수만으로 생성자를 호출해 빌더 객체를 얻는다.
+  - 그 후 빌더 객체가 제공하는 일종의 세터 메서드들로 원하는 선택 매개변수들을 설정
+```java
+public class NutritionFacts {
+    private final int servingSize;
+    private final int servings;
+    private final int calories;
+    private final int fat;
+    private final int sodium;
+    private final int carbohydrate;
 
+    public static class Builder {
+        // 필수 매개변수
+        private final int servingSize;
+        private final int servings;
+
+        // 선택 매개변수 - 기본값으로 초기화한다.
+        private int calories      = 0;
+        private int fat           = 0;
+        private int sodium        = 0;
+        private int carbohydrate  = 0;
+
+        public Builder(int servingSize, int servings) {
+            this.servingSize = servingSize;
+            this.servings    = servings;
+        }
+
+        public Builder calories(int val)
+        { calories = val;      return this; }
+        public Builder fat(int val)
+        { fat = val;           return this; }
+        public Builder sodium(int val)
+        { sodium = val;        return this; }
+        public Builder carbohydrate(int val)
+        { carbohydrate = val;  return this; }
+
+        public NutritionFacts build() {
+            return new NutritionFacts(this);
+        }
+    }
+
+    private NutritionFacts(Builder builder) {
+        servingSize  = builder.servingSize;
+        servings     = builder.servings;
+        calories     = builder.calories;
+        fat          = builder.fat;
+        sodium       = builder.sodium;
+        carbohydrate = builder.carbohydrate;
+    }
+
+    public static void main(String[] args) {
+        NutritionFacts cocaCola = new NutritionFacts.Builder(240, 8)
+                .calories(100).sodium(35).carbohydrate(27).build();
+        		// 메서드 호출이 흐르듯 연결되는 플루언트 API or 메서드 연쇄
+    }
+}
+```
+
+- 빌더 패턴은 계층적으로 설계된 클래스와 함께 사용하기 좋다.
+  - 각 계층의 클래스에 관련 빌더를 멤버로 정의
+  - 추상 클래스는 추상 빌더를, 구체 클래스는 구체 빌더를 갖도록 하자.
+- 빌더를 이용하면 가변인수 매개변수를 여러 개 사용할 수 있다.
+
+Pizza
+```java
+public abstract class Pizza {
+    public enum Topping { HAM, MUSHROOM, ONION, PEPPER, SAUSAGE }
+    final Set<Topping> toppings;
+
+    abstract static class Builder<T extends Builder<T>> {
+        EnumSet<Topping> toppings = EnumSet.noneOf(Topping.class);
+        public T addTopping(Topping topping) {
+            toppings.add(Objects.requireNonNull(topping));
+            return self();
+        }
+
+        abstract Pizza build();
+
+        // 하위 클래스는 이 메서드를 재정의(overriding)하여
+        // "this"를 반환하도록 해야 한다.
+        protected abstract T self();
+    }
+    
+    Pizza(Builder<?> builder) {
+        toppings = builder.toppings.clone(); 
+    }
+}
+```
+
+NyPizza
+```java
+public class NyPizza extends Pizza {
+    public enum Size { SMALL, MEDIUM, LARGE }
+    private final Size size;
+
+    public static class Builder extends Pizza.Builder<Builder> {
+        private final Size size;
+
+        public Builder(Size size) {
+            this.size = Objects.requireNonNull(size);
+        }
+		// 상위 클래스의 메서드가 정의한 반환 타입이 아닌, 그 하위 타입을 반환 (공변 반환 타이핑)
+        @Override public NyPizza build() {
+            return new NyPizza(this);
+        }
+
+        @Override protected Builder self() { return this; }
+    }
+
+    private NyPizza(Builder builder) {
+        super(builder);
+        size = builder.size;
+    }
+
+    @Override public String toString() {
+        return toppings + "로 토핑한 뉴욕 피자";
+    }
+}
+```
+
+Calzone
+```java
+public class Calzone extends Pizza {
+    private final boolean sauceInside;
+
+    public static class Builder extends Pizza.Builder<Builder> {
+        private boolean sauceInside = false; // 기본값
+
+        public Builder sauceInside() {
+            sauceInside = true;
+            return this;
+        }
+
+        @Override public Calzone build() {
+            return new Calzone(this);
+        }
+
+        @Override protected Builder self() { return this; }
+    }
+
+    private Calzone(Builder builder) {
+        super(builder);
+        sauceInside = builder.sauceInside;
+    }
+
+    @Override public String toString() {
+        return String.format("%s로 토핑한 칼초네 피자 (소스는 %s에)",
+                toppings, sauceInside ? "안" : "바깥");
+    }
+}
+```
+
+PizzaTest
+```java
+public class PizzaTest {
+    public static void main(String[] args) {
+        NyPizza pizza = new NyPizza.Builder(SMALL)
+                .addTopping(SAUSAGE).addTopping(ONION).build();
+        Calzone calzone = new Calzone.Builder()
+                .addTopping(HAM).sauceInside().build();
+        
+        System.out.println(pizza);
+        System.out.println(calzone);
+    }
+}
+```
+
+- 빌더의 단점으로는,
+  - 빌더 생성 비용이 크지는 않지만 성능에 민감한 상황에서는 문제가 될 수 있음
+  - 점층적 생성자 패턴보다는 코드가 장황해서 매개변수 4개 이상은 되어야 값어치를 함
+
+> 생성자나 정적 팩터리가 처리해야 할 매개변수가 많다면 빌더 패턴을 선택하는 게 더 낫다.
+> 매개변수 중 다수가 필수가 아니거나 같은 타입이면 특히 더 그렇다.
+> 빌더는 점층적 생성자보다 클라이언트 코드를 읽고 쓰기가 훨씬 간결하고, 자바빈즈보다 훨씬 안전하다.
 
