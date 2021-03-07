@@ -261,9 +261,9 @@ public class PizzaTest {
 1. **public static member 가 final 필드인 방식**
    - public이나 protected 생성자가 없으므로 Elvis 클래스가 초기화될 때 만들어진 인스턴스가 전체 시스템에서 하나뿐임이 보장
    - public 필드방식의 큰 장점
-     * 해당 클래스가 싱글턴인 것을 API에 명백히 들어남
-       * public static 필드가 final 이므로 절대 다른 객체를 참조할 수 없음
-     * 간결함
+     - 해당 클래스가 싱글턴인 것을 API에 명백히 들어남
+       - public static 필드가 final 이므로 절대 다른 객체를 참조할 수 없음
+     - 간결함
 ```java
 public class Elvis {
     // member가 public 
