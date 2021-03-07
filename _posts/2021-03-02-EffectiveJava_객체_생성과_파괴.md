@@ -288,6 +288,7 @@ public class Elvis {
      - API를 바꾸지 않고도 싱글턴이 아니게 변경할 수 있음
      - 원한다면 정적 팩터리를 제네릭 싱글턴 팩터리로 만들 수 있음
      - 정적 팩터리의 메서드 참조를 공급자로 사용할 수 있음
+
 ```java
 public class Elvis {
     private static final Elvis INSTANCE = new Elvis();
@@ -335,3 +336,9 @@ public enum Elvis {
     }
 }
 ```
+
+<br>
+
+## item 4. 인스턴스화를 막으려거든 private 생성자를 사용하라.
+
+- 
