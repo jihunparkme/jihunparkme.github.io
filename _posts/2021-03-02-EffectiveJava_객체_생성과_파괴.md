@@ -13,7 +13,7 @@ featured-img: EFF_JAVA
 
 - [item 1. 생성자 대신 정적 팩터리 메서드를 고려하라.](#item-1-생성자-대신-정적-팩터리-메서드를-고려하라)
 - [item 2. 생성자에 매개변수가 많다면 빌더를 고려하라.](#item-2-생성자에-매개변수가-많다면-빌더를-고려하라)
-- [item 3. private 생성자나 열거 타입으로 싱글턴임을 보증하라](#item03-private-생성자나-열거-타입으로-싱글턴임을-보증하라)
+- [item 3. private 생성자나 열거 타입으로 싱글턴임을 보증하라](#item-3-private-생성자나-열거-타입으로-싱글턴임을-보증하라)
 
 # 2장. 객체 생성과 파괴
 
@@ -67,6 +67,7 @@ public static Boolean valueOf(boolean b) {
 - `type` : getType과 newType의 간결한 버전
   - `List<Complaint> litany = Collections.list(legacyLitany);`
 
+🔔
 > 정적 팩터리 메서드와 public 생성자는 각자의 쓰임새가 있으니 상대적인 장단점을 이해하고 사용하는 것이 좋다.
 >
 > 그렇다고 하더라도 정적 팩터리를 사용하는 게 유리한 경우가 더 많으므로 무작정 public 생성자를 제공하던 습관이 있다면 고치자 !!!
@@ -138,7 +139,7 @@ public class NutritionFacts {
   - 추상 클래스는 추상 빌더를, 구체 클래스는 구체 빌더를 갖도록 하자.
 - 빌더를 이용하면 가변인수 매개변수를 여러 개 사용할 수 있다.
 
-Pizza
+📝Pizza
 ```java
 public abstract class Pizza {
     public enum Topping { HAM, MUSHROOM, ONION, PEPPER, SAUSAGE }
@@ -164,7 +165,7 @@ public abstract class Pizza {
 }
 ```
 
-NyPizza
+📝NyPizza
 ```java
 public class NyPizza extends Pizza {
     public enum Size { SMALL, MEDIUM, LARGE }
@@ -195,7 +196,7 @@ public class NyPizza extends Pizza {
 }
 ```
 
-Calzone
+📝Calzone
 ```java
 public class Calzone extends Pizza {
     private final boolean sauceInside;
@@ -227,7 +228,7 @@ public class Calzone extends Pizza {
 }
 ```
 
-PizzaTest
+📝PizzaTest
 ```java
 public class PizzaTest {
     public static void main(String[] args) {
@@ -246,6 +247,7 @@ public class PizzaTest {
   - 빌더 생성 비용이 크지는 않지만 성능에 민감한 상황에서는 문제가 될 수 있음
   - 점층적 생성자 패턴보다는 코드가 장황해서 매개변수 4개 이상은 되어야 값어치를 함
 
+🔔
 > 생성자나 정적 팩터리가 처리해야 할 매개변수가 많다면 빌더 패턴을 선택하는 게 더 낫다.
 > 매개변수 중 다수가 필수가 아니거나 같은 타입이면 특히 더 그렇다.
 > 빌더는 점층적 생성자보다 클라이언트 코드를 읽고 쓰기가 훨씬 간결하고, 자바빈즈보다 훨씬 안전하다.
@@ -254,6 +256,84 @@ public class PizzaTest {
 
 ## item 3. private 생성자나 열거 타입으로 싱글턴임을 보증하라.
 
+- 싱클턴을 만드는 방식은 보통 둘 중 하나
 
+1. **public static member 가 final 필드인 방식**
+   - public이나 protected 생성자가 없으므로 Elvis 클래스가 초기화될 때 만들어진 인스턴스가 전체 시스템에서 하나뿐임이 보장
+   - public 필드방식의 큰 장점
+     * 해당 클래스가 싱글턴인 것을 API에 명백히 들어남
+       * public static 필드가 final 이므로 절대 다른 객체를 참조할 수 없음
+     * 간결함
+```java
+public class Elvis {
+    // member가 public 
+    public static final Elvis INSTANCE = new Elvis();
+
+    private Elvis() { }
+
+    public void leaveTheBuilding() {
+        System.out.println("Whoa baby, I'm outta here!");
+    }
+
+    // 이 메서드는 보통 클래스 바깥(다른 클래스)에 작성해야 한다!
+    public static void main(String[] args) {
+        Elvis elvis = Elvis.INSTANCE;
+        elvis.leaveTheBuilding();
+    }
+}
+```
+
+2. **정적 팩터리 메서드를 public static Member로 제공**
+   - 정적 팩터리 방식의 장점
+     - API를 바꾸지 않고도 싱글턴이 아니게 변경할 수 있음
+     - 원한다면 정적 팩터리를 제네릭 싱글턴 팩터리로 만들 수 있음
+     - 정적 팩터리의 메서드 참조를 공급자로 사용할 수 있음
+```java
+public class Elvis {
+    private static final Elvis INSTANCE = new Elvis();
+    private Elvis() { }
+    public static Elvis getInstance() { return INSTANCE; }
+
+    public void leaveTheBuilding() {
+        System.out.println("Whoa baby, I'm outta here!");
+    }
+
+    // 이 메서드는 보통 클래스 바깥(다른 클래스)에 작성해야 한다!
+    public static void main(String[] args) {
+        Elvis elvis = Elvis.getInstance();
+        elvis.leaveTheBuilding();
+    }
+}
+```
+
+- 위 둘 중 하나의 방식으로 만든 싱글턴 클래스를 직렬화하려면 단순히 Serializable을 구현한다고 선언하는 것 뿐만 아니라 모든 인스턴스 필드를 일시적이라고 선언하고 readResolve 메서드를 제공해야 한다.
+  - 이렇게 하지 않으면 직렬화된 인스턴스를 역직렬화할 때마다 새로운 인스턴스가 만들어 짐..
+```java
+private Object readResolve() {
+    // 진짜 Elvis를 반환하고, 가짜 Elvis는 가비지 컬렉터에..
+    return INSTANCE;
+}
+```
+
+3. 🔍**원소가 하나인 열거 타입을 선언**🔍
+   - public 필드 방식과 비슷하지만, 더 간결하고, 추가 노력 없이 직렬화가 가능.
+   - 아주 복잡한 직렬화 상황이나 리플렉션 공격에서도 제 2의 인스턴스가 생기는 일을 완벽하게 막아줌
+   - <u>*대부분 상황에서 원소가 하나뿐인 열거 타입이 싱글턴을 만드는 가장 좋은 방법*</u>
+   - 단, 만들려는 싱글턴이 Enum 이외의 클래스를 상속해야 한다면 이 방법은 사용할 수 없음.?
+```java
+public enum Elvis {
+    INSTANCE;
+
+    public void leaveTheBuilding() {
+        System.out.println("기다려 자기야, 지금 나갈께!");
+    }
+
+    // 이 메서드는 보통 클래스 바깥(다른 클래스)에 작성해야 한다!
+    public static void main(String[] args) {
+        Elvis elvis = Elvis.INSTANCE;
+        elvis.leaveTheBuilding();
+    }
+}
+```
 
 
