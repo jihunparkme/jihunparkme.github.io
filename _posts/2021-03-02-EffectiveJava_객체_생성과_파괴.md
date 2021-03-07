@@ -264,6 +264,7 @@ public class PizzaTest {
      - 해당 클래스가 싱글턴인 것을 API에 명백히 들어남
        - public static 필드가 final 이므로 절대 다른 객체를 참조할 수 없음
      - 간결함
+
 ```java
 public class Elvis {
     // member가 public 
@@ -321,6 +322,7 @@ private Object readResolve() {
    - 아주 복잡한 직렬화 상황이나 리플렉션 공격에서도 제 2의 인스턴스가 생기는 일을 완벽하게 막아줌
    - <u>*대부분 상황에서 원소가 하나뿐인 열거 타입이 싱글턴을 만드는 가장 좋은 방법*</u>
    - 단, 만들려는 싱글턴이 Enum 이외의 클래스를 상속해야 한다면 이 방법은 사용할 수 없음.?
+
 ```java
 public enum Elvis {
     INSTANCE;
