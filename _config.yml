@@ -1,8 +1,9 @@
 # SITE CONFIGURATION
+og:title: test
 title: Jihun's Blog. with Dev # your site title
 author: GitHub User # You :P
 description: > # Meta description of Homepage
-  With AI
+  The best programmers
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://jihunparkme.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
 
