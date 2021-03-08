@@ -16,6 +16,8 @@ featured-img: EFF_JAVA
 - [item 3. private 생성자나 열거 타입으로 싱글턴임을 보증하라](#item-3-private-생성자나-열거-타입으로-싱글턴임을-보증하라)
 - [item 4. 인스턴스화를 막으려거든 private 생성자를 사용하라.](#item-4-인스턴스화를-막으려거든-private-생성자를-사용하라)
 - [item 5. 자원을 직접 명시하지 말고 의존 객체 주입을 사용하라](item-5-자원을-직접-명시하지-말고-의존-객체-주입을-사용하라)
+- [item 6. 불필요한 객체 생성을 피하라.](item-6-불필요한-객체-생성을-피하라)
+- [item 7. 다 쓴 객체 참조를 해제하라.](item-7-다-쓴-객체-참조를-해제하라)
 
 # 2장. 객체 생성과 파괴
 
@@ -80,6 +82,7 @@ public static Boolean valueOf(boolean b) {
 - 빌더 패턴 : 점층적 생성자 패턴의 안전성과 자바 빈즈 패턴의 가독성을 겸비한 패턴
 - 클라이언트는 필요한 객체를 직접 만드는 대신, 필수 매개변수만으로 생성자를 호출해 빌더 객체를 얻는다.
   - 그 후 빌더 객체가 제공하는 일종의 세터 메서드들로 원하는 선택 매개변수들을 설정
+
 ```java
 public class NutritionFacts {
     private final int servingSize;
@@ -312,6 +315,7 @@ public class Elvis {
 
 - 위 둘 중 하나의 방식으로 만든 싱글턴 클래스를 직렬화하려면 단순히 Serializable을 구현한다고 선언하는 것 뿐만 아니라 모든 인스턴스 필드를 일시적이라고 선언하고 readResolve 메서드를 제공해야 한다.
   - 이렇게 하지 않으면 직렬화된 인스턴스를 역직렬화할 때마다 새로운 인스턴스가 만들어 짐..
+
 ```java
 private Object readResolve() {
     // 진짜 Elvis를 반환하고, 가짜 Elvis는 가비지 컬렉터에..
@@ -363,3 +367,104 @@ public class UtilityClass {
 
 ## item 5. 자원을 직접 명시하지 말고 의존 객체 주입을 사용하라
 
+- 사용하는 자원에 따라 동작이 달라지는 클래스에는 정적 유틸리티 클래스나 싱글턴 방식이 적합하지 않다.
+- 대신 클래스가 `여러 자원 인스턴스를 지원`해야 하며, `클라이언트가 원하는 자원`을 사용해야 한다.
+- 이 패턴은 바로! <u>*인스턴스를 생성할 때 생성자에 필요한 자원을 넘겨주는 방식*</u>
+- Dagger, Guice, Spring 같은 의존 객체 주입 프레임워크를 사용하면 큰 프로젝트에서 코드가 어지러워지는 단점을 개선할 수 있다.
+
+```java
+public class SpellChecker {
+    private final Lexicon dictionary;
+    // 생성자에 필요한 자원을 넘겨준다.
+    public SpellChecker(Lexicon dictionary) {
+        this.dictionary = Object.requireNonNull(dictionary);
+    }
+    
+    public boolean isValid(String word) { ... }
+    public List<String> suggestions(String typo) { ... }
+}
+```
+
+> 클래스가 내부적으로 하나 이상의 자원에 의존하고, 그 자원이 클래스 동작에 영향을 준다면 
+> 싱글턴과 정적 유틸리티 클래스는 사용하지 않는 것이 좋다.
+> 
+> 이 자원들을 클래스가 직접 만들게 해서도 안 된다.
+> 대신 필요한 자원을 (혹은 그 자원을 만들어주는 팩터리를) 생성자에 (혹은 정적 팩터리나 빌더에) 넘겨주자.
+> 의존 객체 주입이라 하는 이 기법은 클래스와의 유연성, 재사용성, 테스트 용이성을 기막히게 개선해준다.
+
+<br>
+
+## item 6. 불필요한 객체 생성을 피하라.
+
+- 생성자 대신 정적 팩터리 메서드를 제공하는 불변 클래스에서는 정적 팩터리 메서드를 사용해 불필요한 객체 생성을 피할 수 있다.
+- Boolean.valueOf(String) 팩터리 메서드를 사용하는 것이 좋다.
+- 생성자는 호출할 때마다 새로운 객체를 만들지만, 팩터리 메서드는 그렇지 않다.
+
+📝값비싼 객체를 재사용해 성능을 개선하자.
+
+```java
+public class RomanNumerals {
+    // 값비싼 객체를 재사용해 성능을 개선
+    private static final Pattern ROMAN = Pattern.compile(
+                                            "^(?=.)M*(C[MD]|D?C{0,3})"
+                                                    + "(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$");
+
+    static boolean isRomanNumeralFast(String s) {
+        return ROMAN.matcher(s).matches();
+    }
+
+    public static void main(String[] args) {
+        int numSets = Integer.parseInt(args[0]);
+        int numReps = Integer.parseInt(args[1]);
+        boolean b = false;
+
+        for (int i = 0; i < numSets; i++) {
+            long start = System.nanoTime();
+            for (int j = 0; j < numReps; j++) {
+                b ^= isRomanNumeral("MCMLXXVI");
+            }
+            long end = System.nanoTime();
+            System.out.println(((end - start) / (1_000. * numReps)) + " μs.");
+        }
+
+        // VM이 최적화하지 못하게 막는 코드
+        if (!b)
+            System.out.println();
+    }
+}
+```
+
+📝박싱된 기본 타입보다는 기본 타입을 사용하고, 의도치 않은 오토박싱이 숨어들지 않도록 주의하자.
+
+```java
+private static long sum() {
+    Long sum = 0L; // Long으로 선언해서 불필요한 인스턴스가 약 2^31개나 만들어진다.
+    for (long i = 0; i <= Integer.MAX_VALUE; i++)
+        sum += i;
+    return sum;
+}
+```
+
+- 아주 무거운 객체가 아닌 다음에야 단순히 객체 생성을 피하고자 우리만의 풀(pool)을 만들지는 말자.
+
+## item 7. 다 쓴 객체 참조를 해제하라.
+
+- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+📝🔔🔍
+
+> Code Reference : [https://github.com/WegraLee/effective-java-3e-source-code/tree/master/src/effectivejava](https://github.com/WegraLee/effective-java-3e-source-code/tree/master/src/effectivejava)
