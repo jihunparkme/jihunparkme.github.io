@@ -34,30 +34,22 @@ permalink: /about/
 - 2018.03.01. ~ 2018.12.07.
 - 주관 : 한국연구재단
 
----
-
 ### 빅데이터 기반 의료 임상 결과 분석
 
 - 2018.05.01. ~ 2018.11.23.
 - 주관 : 한국산업기술대학교*(현장맞춤형 이공계 인재양성 지원사업)*
 > Seung-Yeon Hwang, Ji-Hun Park "Big Data-based Medical Clinical Results Analysis,” IIBC, Vol. 19, No. 1, pp.187-195, Feb. 28, 2019. 
 
----
-
 ### 빅데이터 기반 환자 간병방법 분석 연구
 
 - 2018.03.02. ~ 2018.08.31.
 - 주관 : 한국산업기술대학교*(산기대전)*
-
----
 
 ### **IoT** 환경을 위한 빅데이터 기반 센서 데이터 처리 및 분석 연구
 
 - 2018.08.01. ~ 2018.08.31.
 - 주관 : 한국산업기술대학교
 > D.J. Shin, **J.H. Park**, J.H. Kim, K.J. Kwak, J.M. Park, J.J. Kim "Big Data-based Sensor Data Processing and Analysis for IoT Environment,” IIBC, Vol. 19, No. 1, pp.117-126, Feb. 28, 2019. 
-
----
 
 ### 미세먼지 감소를 위한 대중교통 만족도 분석
 
