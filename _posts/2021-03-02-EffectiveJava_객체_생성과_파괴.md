@@ -467,6 +467,10 @@ private static long sum() {
 
 ## item 8. finalizer와 cleaner 사용을 피하라.
 
+- finalizer는 예측할 수 없고, 상황에 따라 위험할 수 있어 일반적으로 불필요하다.
+- cleaner는 finalizer보다는 덜 위험하지만, 여전히 예측할 수 없고, 느리고, 일반적으로 불필요하다.
+- finalizer와 cleaner로는 제때 수행되어야 하는 작업은 절대 할 수 없다.
+  - finalizer와 cleaner는 즉시 수행된다는 보장이 없다.
 - 
 
 
