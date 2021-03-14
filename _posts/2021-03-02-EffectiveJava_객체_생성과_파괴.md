@@ -471,7 +471,7 @@ private static long sum() {
 - cleaner는 finalizer보다는 덜 위험하지만, 여전히 예측할 수 없고, 느리고, 일반적으로 불필요하다.
 - finalizer와 cleaner로는 제때 수행되어야 하는 작업은 절대 할 수 없다.
   - finalizer와 cleaner는 즉시 수행된다는 보장이 없다.
-- 
+- finalizer와 cleaner는 심각한 성능 문제도 동반한다.
 
 
 
