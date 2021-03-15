@@ -19,6 +19,7 @@ featured-img: EFF_JAVA
 - [item 6. 불필요한 객체 생성을 피하라.](#item-6-불필요한-객체-생성을-피하라)
 - [item 7. 다 쓴 객체 참조를 해제하라.](#item-7-다-쓴-객체-참조를-해제하라)
 - [item 8. finalizer와 cleaner 사용을 피하라.](#item-8-finalizer와-cleaner-사용을-피하라)
+- [item 9. try-finally 보다는 try-with-resources를 사용하라.](#item-9-try-finally-보다는-try-with-resources를-사용하라)
 
 # 2장. 객체 생성과 파괴
 
@@ -472,12 +473,97 @@ private static long sum() {
 - finalizer와 cleaner로는 제때 수행되어야 하는 작업은 절대 할 수 없다.
   - finalizer와 cleaner는 즉시 수행된다는 보장이 없다.
 - finalizer와 cleaner는 심각한 성능 문제도 동반한다.
+- finalizer를 사용한 클래스는 finalizer 공격에 노출되어 심각한 보안 문제를 일으킬 수도 있다.
+- final이 아닌 클래스를 finalizer 공격으로부터 방어하려면 아무 일도 하지 않는 finalize 메서드를 만들고 final로 선언하자!
+- cleaner와 finalizer의 적절한 쓰임새
+  1. 자원의 소유자가 close 메서드를 호출하지 않는 것에 대비한 안전망 역할
+  2. Native peer와 연결된 객체에서 (Native peer는 자바 객체가 아니라 가비지 컬렉터는 그 존재를 알지 못한다)
+     - 단, 자원을 즉시 회수해야 한다면 close 메서드를 사용
 
+📝cleaner를 안전망으로 활용하는 AutoCloseable Class
+- System.exit 을 호출할 때의 cleaner 동작은 구현하기 나름이다 청소가 이뤄질지는 보장하지 않는다.
 
+```java
+import java.lang.ref.Cleaner;
 
+public class Room implements AutoCloseable {
+    private static final Cleaner cleaner = Cleaner.create();
 
+    // 청소가 필요한 자원. 절대 Room을 참조해서는 안 된다!
+    private static class State implements Runnable {
+        int numJunkPiles; // Number of junk piles in this room
 
+        State(int numJunkPiles) {
+            this.numJunkPiles = numJunkPiles;
+        }
 
+        // close 메서드나 cleaner가 호출한다.
+        @Override public void run() {
+            System.out.println("Cleaning room");
+            numJunkPiles = 0;
+        }
+    }
+
+    // 방의 상태. cleanable과 공유한다.
+    private final State state;
+
+    // cleanable 객체. 수거 대상이 되면 방을 청소한다.
+    private final Cleaner.Cleanable cleanable;
+
+    public Room(int numJunkPiles) {
+        state = new State(numJunkPiles);
+        cleanable = cleaner.register(this, state);
+    }
+
+    @Override public void close() {
+        cleanable.clean();
+    }
+}
+```
+
+📝cleaner 안전망을 갖춘 자원을 제대로 활용하는 클라이언트
+
+```java
+public class Adult {
+    public static void main(String[] args) {
+        try (Room myRoom = new Room(7)) {
+            System.out.println("Hello~");
+        }
+    }
+}
+
+// Result
+Hello~
+Cleaning room
+```
+
+📝cleaner 안전망을 갖춘 자원을 제대로 활용하지 못하는 클라이언트
+
+```java
+public class Teenager {
+    public static void main(String[] args) {
+        new Room(99);
+        System.out.println("Peace out");
+        
+        // System.gc()를 추가해보자.
+        // 단, 가비지 컬렉러를 강제로 호출하는 이런 방식에 의존해서는 절대 안 된다!
+	   //  System.gc();
+    }
+}
+
+// Result
+Peace out
+```
+
+🔔
+> cleaner(java8 까지는 finalizer)는 안전망 역할이나 중요하지 않은 네이티브 자원 회수용으로만 사용하자.
+> 물론 이런 경우라도 불확실성과 성능 저하에 주의해야 한다.
+
+<br>
+
+## item 9. try-finally 보다는 try-with-resources를 사용하라.
+
+- 
 
 
 
