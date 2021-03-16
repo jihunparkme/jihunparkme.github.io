@@ -6,7 +6,7 @@ permalink: /about/
 
 # PARK JI HUN
 
-<img src="/assets/img/posts/Zhun.jpg" alt="Zhun" style="zoom: 50%;" />
+<img src="/assets/img/posts/Zhun.jpg" alt="Zhun" style="zoom: 30%;" />
 
 <br/>
 
@@ -129,7 +129,7 @@ permalink: /about/
 
 2020.01.19. ~ 2020.01.31.	파라과이 국외선교
 
-2019.07.31. ~ 2019.08.03.	국내선교
+2019.07.31. ~ 2019.08.03.	국내선교(충남 서산시)
 
 2019.07.07. ~ 2019.07.13.	베트남 국외선교
 
