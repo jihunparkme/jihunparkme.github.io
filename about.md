@@ -6,7 +6,7 @@ permalink: /about/
 
 # PARK JI HUN
 
-<img src="/assets/img/posts/Zhun.jpg" alt="Zhun" style="zoom: 30%;" />
+<img src="/assets/img/posts/Zhun.jpg" alt="Zhun" style="zoom: 45%;" />
 
 <br/>
 
