@@ -16,7 +16,7 @@ permalink: /about/
 
 - 2020.12.07. ~
 
-## Mycelebs 
+## Mycelebs
 
 - 2019.03.29. ~ 2019.06.28.
 - Data Team Intern
@@ -65,7 +65,7 @@ permalink: /about/
 
 ### 핀테크 서비스 개발 실습 초급 과정
 
-- 2020.06.15. ~ 2020.06.19. 
+- 2020.06.15. ~ 2020.06.19.
 - KISA
 
 ### 머신러닝 기반의 빅데이터 분석양성과정
@@ -76,7 +76,7 @@ permalink: /about/
 ### 청년 AI·BigData 아카데미
 
 - 2018.11.09 ~ 2019.01.05
-- POSTECHx 
+- POSTECHx
 
 <br>
 
@@ -113,28 +113,42 @@ permalink: /about/
 
 # certificate
 
-2020.10.06	SQLD(SQL Developer)
+2020.10.06 SQLD(SQL Developer)
 
-2019.04.13.	ADsP(데이터 분석 준전문가)
+2019.04.13. ADsP(데이터 분석 준전문가)
 
-2018.05.28.	정보처리기사
+2018.05.28. 정보처리기사
 
 <br/>
 
 # Volunteer Activity.
 
-2016.02.01. ~ 현재.				미디어 방송 팀
+2016.02.01. ~ 현재. 미디어 방송 팀
 
-2020.07.04. ~ 2020.08.09.	베트남 랜선 선교
+2020.07.04. ~ 2020.08.09. 베트남 랜선 선교
 
-2020.01.19. ~ 2020.01.31.	파라과이 국외선교
+2020.01.19. ~ 2020.01.31. 파라과이 국외선교
 
-2019.07.31. ~ 2019.08.03.	국내선교(충남 서산시)
+2019.07.31. ~ 2019.08.03. 국내선교(충남 서산시)
 
-2019.07.07. ~ 2019.07.13.	베트남 국외선교
+2019.07.07. ~ 2019.07.13. 베트남 국외선교
 
 <br/>
 
 # external Activity.
 
-2018.12.13 ~ 현재.	[Tistory 블로그](https://data-make.tistory.com/)
+2018.12.13 ~ 현재. [Tistory 블로그](https://data-make.tistory.com/)
+
+<br/>
+
+# Book
+
+- 자바 ORM 표준 JPA 프로그래밍 (김영한)
+- Clean Code (Robert C. Martin)
+- 객체지향의 사실과 오해 (조영호)
+- Effective Java 3/E (Joshua Bloch)
+
+# Lecture
+
+- [it 취업을 위한 알고리즘 문제풀이 (with C/C++)](https://www.inflearn.com/course/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/dashboard)
+- [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%9E%85%EB%AC%B8-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8/dashboard)
