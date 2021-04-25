@@ -42,20 +42,10 @@ permalink: /about/
 
 <details>
   <summary><strong>2021</strong></summary>
-  
-<br/>
-Book
-<br/>
 
-- [Clean Code](https://jihunparkme.github.io/CleanCode/)<br/>
-
-- [객체지향의 사실과 오해](<https://jihunparkme.github.io/categories/#(Book)객체지향의-사실과-오해>)<br/>
-
-- [Effective Java 3/E](<https://jihunparkme.github.io/categories/#(Book)Effective-JAVA-3/E>) ~ing<br/>
-
-<br/>
-Lecture
-<br/>
+- [Clean Code](https://jihunparkme.github.io/CleanCode/)
+- [객체지향의 사실과 오해](<https://jihunparkme.github.io/categories/#(Book)객체지향의-사실과-오해>)
+- [Effective Java 3/E](<https://jihunparkme.github.io/categories/#(Book)Effective-JAVA-3/E>) ~ing
 
 - [코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://github.com/jihunparkme/spring_study/tree/master/hello-spring) ~ing<br/>
 
