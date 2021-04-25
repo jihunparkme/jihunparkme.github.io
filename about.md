@@ -17,11 +17,12 @@ permalink: /about/
 ## K&C
 
 - 2020.12.07. ~
+- System Development Team
 
 ## Mycelebs
 
 - 2019.03.29. ~ 2019.06.28.
-- Data Team Intern
+- Data Team (Intern)
 
 <br/>
 
