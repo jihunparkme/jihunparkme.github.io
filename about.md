@@ -4,6 +4,8 @@ title: About
 permalink: /about/
 ---
 
+![header](https://capsule-render.vercel.app/api?type=Waving&color=auto&height=100&section=header)
+
 # PARK JI HUN
 
 <img src="/assets/img/posts/Zhun.jpg" alt="Zhun" style="zoom: 45%;" />
@@ -30,7 +32,7 @@ permalink: /about/
 # Skill.
 
 <details>
-  <summary><strong>skill</strong></summary>
+  <summary><strong>open</strong></summary>
 - Language : Java, JavaScript, HTML5, jQuery, SQL, Python, C++<br/>
 - Back-end : Spring, JPA <br/>
 - Database : MS-SQL, MySQL<br/>
@@ -58,7 +60,7 @@ permalink: /about/
 - 2018.03.02. ~ 2018.08.31.
 - KPU
 
-### **IoT** 환경을 위한 빅데이터 기반 센서 데이터 처리 및 분석 연구
+### IoT 환경을 위한 빅데이터 기반 센서 데이터 처리 및 분석 연구
 
 - 2018.08.01. ~ 2018.08.31.
 - KPU
@@ -156,3 +158,5 @@ permalink: /about/
 2018.12.13 ~ 현재. [Tistory 블로그](https://data-make.tistory.com/)
 
 <br/>
+
+![footer](https://capsule-render.vercel.app/api?type=Waving&color=auto&height=80&section=footer&text=%20&fontSize=20)
