@@ -23,7 +23,11 @@ permalink: /about/
 
 <br/>
 
-# Skill
+# Career Detail.
+
+<br/>
+
+# Skill.
 
 <details>
   <summary><strong>skill</strong></summary>
@@ -34,27 +38,27 @@ permalink: /about/
 
 <br/>
 
-# Self Development
+# Self Development.
 
 <details>
-  <summary><strong>2020</strong></summary>
+  <summary><strong>2021</strong></summary>
 
 Book
 
-- [자바 ORM 표준 JPA 프로그래밍 (김영한)](https://jihunparkme.github.io/JPA-Programming/)
-- [Clean Code (Robert C. Martin)](https://jihunparkme.github.io/CleanCode/)
-- [객체지향의 사실과 오해 (조영호)](<https://jihunparkme.github.io/categories/#(Book)%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%98-%EC%82%AC%EC%8B%A4%EA%B3%BC-%EC%98%A4%ED%95%B4>)
-- [Effective Java 3/E (Joshua Bloch)](<https://jihunparkme.github.io/categories/#(Book)Effective-JAVA-3/E>) ~ing
-
-Lecture
-
-- [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://github.com/jihunparkme/spring_study/tree/master/hello-spring) ~ing
+- [자바 ORM 표준 JPA 프로그래밍 (김영한)](https://jihunparkme.github.io/JPA-Programming/)<br/>
+- [Clean Code (Robert C. Martin)](https://jihunparkme.github.io/CleanCode/)<br/>
+- [객체지향의 사실과 오해 (조영호)](<https://jihunparkme.github.io/categories/#(Book)%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%98-%EC%82%AC%EC%8B%A4%EA%B3%BC-%EC%98%A4%ED%95%B4>)<br/>
+- [Effective Java 3/E (Joshua Bloch)](<https://jihunparkme.github.io/categories/#(Book)Effective-JAVA-3/E>) ~ing<br/>
+  <br/>
+  Lecture
+  <br/>
+- [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://github.com/jihunparkme/spring_study/tree/master/hello-spring) ~ing<br/>
 
 </details>
 
 <br/>
 
-# Project
+# Project.
 
 ### 고신뢰 ICT-제조설비를 위한 빅데이터 기반 자율제어 기술 개발
 
@@ -85,7 +89,7 @@ Lecture
 
 <br/>
 
-# Education
+# Education.
 
 ### SSAFY 4기
 
@@ -140,7 +144,7 @@ Lecture
 
 <br/>
 
-# certificate
+# certificate.
 
 2020.10.06 SQLD(SQL Developer)
 
