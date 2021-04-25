@@ -27,9 +27,9 @@ permalink: /about/
 
 <details>
   <summary><strong>skill</strong></summary>
-- Language : `Java`, `JavaScript`, `HTML5`, `jQuery`, `SQL`, `Python`, `C++`
-- Back-end : `Spring`, `JPA`
-- Database : `MS-SQL`, `MySQL`
+- Language : Java, JavaScript, HTML5, jQuery, SQL, Python, C++<br/>
+- Back-end : Spring, JPA <br/>
+- Database : MS-SQL, MySQL<br/>
 </details>
 
 <br/>
@@ -39,16 +39,16 @@ permalink: /about/
 <details>
   <summary><strong>2020</strong></summary>
 
-<h3>Book<h3>
+Book
 
 - [자바 ORM 표준 JPA 프로그래밍 (김영한)](https://jihunparkme.github.io/JPA-Programming/)
 - [Clean Code (Robert C. Martin)](https://jihunparkme.github.io/CleanCode/)
 - [객체지향의 사실과 오해 (조영호)](<https://jihunparkme.github.io/categories/#(Book)%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%98-%EC%82%AC%EC%8B%A4%EA%B3%BC-%EC%98%A4%ED%95%B4>)
-- [Effective Java 3/E (Joshua Bloch)](<https://jihunparkme.github.io/categories/#(Book)Effective-JAVA-3/E>) > ~ing
+- [Effective Java 3/E (Joshua Bloch)](<https://jihunparkme.github.io/categories/#(Book)Effective-JAVA-3/E>) ~ing
 
-<h3>Lecture<h3>
+Lecture
 
-- [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://github.com/jihunparkme/spring_study/tree/master/hello-spring) > ~ing
+- [스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://github.com/jihunparkme/spring_study/tree/master/hello-spring) ~ing
 
 </details>
 
