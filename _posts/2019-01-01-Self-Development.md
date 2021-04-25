@@ -9,6 +9,8 @@ featured-img: IT
 
 # Self Development.
 
+<hr>
+
 ## 2021
 
 **Book**
