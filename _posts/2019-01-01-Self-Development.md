@@ -3,7 +3,7 @@ layout: post
 title: Self Development.
 summary: Flowers bloom at different times, but one day they bloom.
 categories: Self-Development
-featured-img: EFF_JAVA
+featured-img: IT
 # mathjax: true
 ---
 

@@ -36,6 +36,9 @@ permalink: /about/
 - Database : MS-SQL, MySQL<br/>
 </details>
 
+# Self Development.
+
+[Read](https://jihunparkme.github.io/Self-Development/)
 <br/>
 
 # Project.
