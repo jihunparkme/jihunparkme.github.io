@@ -35,7 +35,7 @@ permalink: /about/
 <details>
   <summary><strong>open</strong></summary>
 - Language : Java, JavaScript, HTML5, jQuery, SQL, Python, C++<br/>
-- Back-end : Spring, JPA <br/>
+- Back-end : Spring, (Spring Data)JPA, Query DSL, <br/>
 - Database : MS-SQL, MySQL<br/>
 </details>
 
