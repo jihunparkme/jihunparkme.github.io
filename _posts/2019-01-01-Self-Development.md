@@ -22,7 +22,8 @@ featured-img: IT
 
 **Lecture**
 
-- [코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://github.com/jihunparkme/spring_study/tree/master/hello-spring) ~ing<br/>
+- [코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술](https://github.com/jihunparkme/Inflearn_Spring1_introduction){:target="\_blank"}
+- [스프링 핵심 원리 - 기본편](https://github.com/jihunparkme/Inflearn_Spring2_Core_Principles){:target="\_blank"}
 
 <br/>
 
