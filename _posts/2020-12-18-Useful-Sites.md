@@ -9,6 +9,18 @@ featured-img: useful
 
 # technology
 
+## Development
+
+[public api](https://github.com/public-apis/public-apis){:target="\_blank"}
+
+[Spring Data JPA - Reference Documentation](https://docs.spring.io/spring-data/jpa/docs/1.8.0.RELEASE/reference/html/#jpa.repositories){:target="\_blank"}
+
+[개발자 컨퍼런스](https://github.com/brave-people/Dev-Event){:target="\_blank"}
+
+[java8-misuses](https://github.com/xpinjection/java8-misuses){:target="\_blank"}
+
+---
+
 ## CS
 
 [Tech Interview](https://github.com/JaeYeopHan/Interview_Question_for_Beginner){:target="\_blank"}
@@ -42,8 +54,6 @@ featured-img: useful
 HTML, CSS.. : [w3schools](https://www.w3schools.com/){:target="\_blank"}
 
 jQuery : [jQuery](https://api.jquery.com/){:target="\_blank"}
-
-API : [api](https://github.com/public-apis/public-apis)
 
 ### Design
 
@@ -86,8 +96,6 @@ MVN : [MVN Repository](https://mvnrepository.com/){:target="\_blank"}
 [part templates](https://codepen.io/){:target="\_blank"}
 
 ### Spring
-
-[Spring Data JPA - Reference Documentation](https://docs.spring.io/spring-data/jpa/docs/1.8.0.RELEASE/reference/html/#jpa.repositories){:target="\_blank"}
 
 [스프링 게시판 만들기 참고](https://melonpeach.tistory.com/category/%EC%9B%B9%EA%B0%9C%EB%B0%9C/%EC%8A%A4%ED%94%84%EB%A7%81%20%EA%B2%8C%EC%8B%9C%ED%8C%90%20%EB%A7%8C%EB%93%A4%EA%B8%B0?page=1){:target="\_blank"}
 
