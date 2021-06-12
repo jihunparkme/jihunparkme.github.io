@@ -18,7 +18,7 @@ featured-img: IT
 - [자바 ORM 표준 JPA 프로그래밍](https://data-make.tistory.com/649){:target="\_blank"}
 - [Clean Code](https://jihunparkme.github.io/CleanCode/){:target="\_blank"}
 - [객체지향의 사실과 오해](<https://jihunparkme.github.io/categories/#(Book)객체지향의-사실과-오해>){:target="\_blank"}
-- [Effective Java 3/E](<https://jihunparkme.github.io/categories/#(Book)Effective-JAVA-3/E>){:target="\_blank"} ~ing
+- [Effective Java 3/E](<https://jihunparkme.github.io/categories/#(Book)Effective-JAVA-3/E>){:target="\_blank"} ~ing📖
 
 **Lecture**
 
