@@ -13,7 +13,19 @@ featured-img: spring_core
 
 스프링 핵심 원리 - 기본편 강의 노트
 
-**Spring**
+# A table of contents
+
+- [Spring](#Spring)
+- [좋은 객체지향의 5가지 원칙 (SOLID)](#좋은-객체지향의-5가지-원칙-(SOLID))
+- [스프링과 객체지향](#스프링과-객체지향)
+- [IoC, DI, Container](#IoC,-DI,-Container)
+- [도메인 설계](#도메인-설계)
+- [싱글톤 컨테이너](#싱글톤-컨테이너)
+- [Component Scan](#Component-Scan)
+- [의존관계 자동 주입](#의존관계-자동-주입)
+- [빈 생성주기 콜백](#빈-생성주기-콜백)
+
+## Spring
 
 [Spring Documentaion](https://spring.io/projects)
 
@@ -28,7 +40,9 @@ featured-img: spring_core
   - 스프링 배치
   - 스프링 클라우드
 
+
 ---
+
 
 ## 좋은 객체지향의 5가지 원칙 (SOLID)
 
