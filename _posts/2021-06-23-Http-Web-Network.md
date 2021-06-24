@@ -366,6 +366,42 @@ IP는 변하기 쉽고 외우기 어렵기 때문에 DNS가 필요
 - POST, PUT, PATCH -> Message Body를 통해 데이터 전송
 - Content-Type : application/json
 
+## HTTP API 설계 예시
+
+**POST 기반 등록**
+
+서버가 관리하는 리소스 디렉토리 (Collection)
+
+- 회원 목록 /members -> `GET`
+- 회원 등록 /members -> `POST`
+- 회원 조회 /members/{id} -> `GET`
+- 회원 수정 /members/{id} -> `PATCH`, `PUT`, `POST`
+- 회원 삭제 /members/{id} -> `DELETE`
+
+**PUT 기반 등록**
+
+클라이언트가 관리하는 리소스 저장소 (Store)
+
+- 파일 목록 /files -> `GET`
+- 파일 조회 /files/{filename} -> `GET`
+- 파일 등록 /files/{filename} -> `PUT`
+- 파일 삭제 /files/{filename} -> `DELETE`
+- 파일 대량 등록 /files -> `POST`
+
+**HTML FORM 사용**
+
+HTML FORM은 GET, POST만 지원하므로 Control URI 사용
+
+- 회원 목록 /members -> `GET`
+- 회원 등록 폼 /members/new -> `GET`
+- 회원 등록 /members/new -> `POST`
+- 회원 조회 /members/{id} -> `GET`
+- 회원 수정 폼 /members/{id}/edit -> `GET`
+- 회원 수정 /members/{id}/edit -> `POST`
+- 회원 삭제 /members/{id}/delete -> `POST`
+
+[REST Resource Naming Guide](https://restfulapi.net/resource-naming/)
+
 ---
 
 # HTTP 상태코드
