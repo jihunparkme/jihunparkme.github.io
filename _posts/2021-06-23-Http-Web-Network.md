@@ -47,6 +47,12 @@ HTTP Web Network 강의 노트
 - HTTP API 설계 예시
 
 6. [HTTP 상태코드](#HTTP-상태코드)
+
+- 2xx (성공)
+- 3xx (리다이렉션)
+- 4xx (클라이언트 오류)
+- 5xx (서버 오류)
+
 7. [HTTP 해더 (일반 헤더)](<#HTTP-해더-(일반-헤더)>)
 8. [HTTP 해더 (캐시와 조건부 요청)](<#HTTP-해더-(캐시와-조건부-요청)>)
 
@@ -402,9 +408,16 @@ HTML FORM은 GET, POST만 지원하므로 Control URI 사용
 
 [REST Resource Naming Guide](https://restfulapi.net/resource-naming/)
 
+- 컬렉션과 문서로 최대한 해결하고 그 후에 컨트롤 URI 사용
+
 ---
 
 # HTTP 상태코드
+
+- 2xx (Successful): 요청 정상 처리
+- 3xx (Redirection): 요청을 완료를 위해 추가 행동 필요
+- 4xx (Client Error): 클라이언트 오류
+- 5xx (Server Error): 서버 오류
 
 ---
 
