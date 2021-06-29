@@ -191,10 +191,18 @@ HTML FORM은 GET, POST만 지원하므로 Control URI 사용
 
 # HTTP 상태코드
 
-- 2xx (Successful): 요청 정상 처리
-- 3xx (Redirection): 요청을 완료를 위해 추가 행동 필요
-- 4xx (Client Error): 클라이언트 오류
-- 5xx (Server Error): 서버 오류
+`2xx` (Successful): 요청 정상 처리
+
+- 200 OK
+- 201 Created (POST)
+- 202 Accepted (batch)
+- 204 No Content
+
+`3xx` (Redirection): 요청을 완료를 위해 추가 행동 필요
+
+`4xx` (Client Error): 클라이언트 오류
+
+`5xx` (Server Error): 서버 오류
 
 ---
 
