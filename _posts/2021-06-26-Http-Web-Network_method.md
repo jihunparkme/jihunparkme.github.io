@@ -200,6 +200,25 @@ HTML FORM은 GET, POST만 지원하므로 Control URI 사용
 
 `3xx` (Redirection): 요청을 완료를 위해 추가 행동 필요
 
+**Redirect**
+
+- 웹 브라우저는 3xx 응답의 결과에 Location 헤더가 있으면, Location 위치로 자동 이동 (301, 308)
+- 영구 리다이렉션 : 특정 리소스의 URI가 영구적으로 이동
+- 일시 리다이렉션 : 일시적인 변경
+- 특수 리다이렉션 : 결과 대신 캐시 사용
+
+**Code**
+
+- 300 Multiple Choices
+- 301 Moved Permanently
+  - 리다이렌트 시 <u>Get</u>으로 변하고 본문 손실
+- 302 Found
+- 303 See Other
+- 304 Not Modified
+- 307 Temporary Redirect
+- 308 Permanent Redirect
+  - 리다이렌트 시 <u>POST</u>, 본문 유지
+
 `4xx` (Client Error): 클라이언트 오류
 
 `5xx` (Server Error): 서버 오류
