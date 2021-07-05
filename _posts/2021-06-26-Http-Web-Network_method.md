@@ -202,20 +202,25 @@ HTML FORM은 GET, POST만 지원하므로 Control URI 사용
 
 **Redirect**
 
-- 웹 브라우저는 3xx 응답의 결과에 Location 헤더가 있으면, Location 위치로 자동 이동 (301, 308)
-- 영구 리다이렉션 : 특정 리소스의 URI가 영구적으로 이동
-- 일시 리다이렉션 : 일시적인 변경
+- 웹 브라우저는 3xx 응답의 결과에 Location 헤더가 있으면, Location 위치로 자동 이동
+- 영구 리다이렉션 : 특정 리소스의 URI가 영구적으로 이동 (301, 308)
+- 일시 리다이렉션 : 일시적인 변경 (302, 303, 307)
+  - PRG(Post/Redirect/Get)에 사용 / 새로고침 중복 주문 방지
 - 특수 리다이렉션 : 결과 대신 캐시 사용
 
 **Code**
 
-- 300 Multiple Choices
+- 300 Multiple Choices (X)
 - 301 Moved Permanently
-  - 리다이렌트 시 <u>Get</u>으로 변하고 본문 손실
+  - 리다이렉트 시 <u>Get</u>으로 변하고, 본문 손실
 - 302 Found
+  - 리다이렉트 시 <u>GET</u>으로 변하고, 본문 제거
 - 303 See Other
+  - 리다이렉트 시 <u>GET</u>으로 변경
 - 304 Not Modified
+  - 클라이언트에게 리소스가 수정되지 않았음을 알려줌 (캐시 재사용)
 - 307 Temporary Redirect
+  - 리다이렉트 시 메서드와 본문 유지
 - 308 Permanent Redirect
   - 리다이렌트 시 <u>POST</u>, 본문 유지
 
