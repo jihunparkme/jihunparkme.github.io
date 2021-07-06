@@ -35,9 +35,6 @@ HTTP Web Network 강의 노트
 - 4xx (클라이언트 오류)
 - 5xx (서버 오류)
 
-7. [HTTP 해더 (일반 헤더)](<#HTTP-해더-(일반-헤더)>)
-8. [HTTP 해더 (캐시와 조건부 요청)](<#HTTP-해더-(캐시와-조건부-요청)>)
-
 ---
 
 # HTTP 메서드
@@ -191,14 +188,16 @@ HTML FORM은 GET, POST만 지원하므로 Control URI 사용
 
 # HTTP 상태코드
 
-`2xx` (Successful): 요청 정상 처리
+## `2xx` (Successful): 요청 정상 처리
+
+**Code**
 
 - 200 OK
 - 201 Created (POST)
 - 202 Accepted (batch)
 - 204 No Content
 
-`3xx` (Redirection): 요청을 완료를 위해 추가 행동 필요
+## `3xx` (Redirection): 요청을 완료를 위해 추가 행동 필요
 
 **Redirect**
 
@@ -224,16 +223,30 @@ HTML FORM은 GET, POST만 지원하므로 Control URI 사용
 - 308 Permanent Redirect
   - 리다이렌트 시 <u>POST</u>, 본문 유지
 
-`4xx` (Client Error): 클라이언트 오류
+## `4xx` (Client Error)
 
-`5xx` (Server Error): 서버 오류
+- 오류의 원인은 클라이언트
 
----
+**Code**
 
-# HTTP 해더 (일반 헤더)
+- 400 Bad Request
+  - 클라이언트가 잘못된 요청을 해서 서버가 요청을 처리할 수 없음
+- 401 Unauthorized
+  - 클라이언트가 해당 리소스에 대한 인증이 필요
+  - 인증(Authentication): 로그인
+  - 인가(Authorization): 권한
+- 403 Forbidden
+  - 서버가 요청을 이해했지만 승인을 거부 (접근 권한 제한)
+- 404 Not Found
+  - 요청 리소스를 찾을 수 없음
 
----
+## `5xx` (Server Error)
 
-# HTTP 해더 (캐시와 조건부 요청)
+- 서버 문제로 오류 발생
 
----
+**Code**
+
+- 500 Internal Server Error
+  - 서버 내부 문제로 오류 발생 (애매하면 500)
+- 503 Service Unavailable
+  - 서비스 이용 불가
