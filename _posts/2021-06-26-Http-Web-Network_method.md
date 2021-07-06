@@ -9,26 +9,26 @@ featured-img: http
 
 # HTTP Web Network
 
-영한님의 [모든 개발자를 위한 HTTP 웹 기본 지식](#https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC#) 강의
+영한님의 [모든 개발자를 위한 HTTP 웹 기본 지식](https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC#) 강의
 HTTP Web Network 강의 노트
 
 - HTTP Method
 
 # Table Of Contents
 
-4. [HTTP 메서드](#HTTP-메서드)
+1. [HTTP 메서드](#HTTP-메서드)
 
 - HTTP API
 - GET, POST
 - PUT, PATCH, DELETE
 - HTTP 메서드 속성
 
-5. [HTTP 메서드 활용](#HTTP-메서드-활용)
+2. [HTTP 메서드 활용](#HTTP-메서드-활용)
 
 - 클라이언트에서 서버로 데이터 전송
 - HTTP API 설계 예시
 
-6. [HTTP 상태코드](#HTTP-상태코드)
+3. [HTTP 상태코드](#HTTP-상태코드)
 
 - 2xx (성공)
 - 3xx (리다이렉션)
