@@ -16,8 +16,15 @@ HTTP Web Network 강의 노트
 
 # Table Of Contents
 
-1. [HTTP 해더 (일반 헤더)](<#HTTP-해더-(일반-헤더)>)
-2. [HTTP 해더 (캐시와 조건부 요청)](<#HTTP-해더-(캐시와-조건부-요청)>)
+- [HTTP 해더 (일반 헤더)](<#HTTP-해더-(일반-헤더)>)
+  - 표현
+  - 콘텐츠 협상
+  - 전송 방식
+  - 일반 정보
+  - 특별한 정보
+  - 인증
+  - 쿠키
+- [HTTP 해더 (캐시와 조건부 요청)](<#HTTP-해더-(캐시와-조건부-요청)>)
 
 ---
 
@@ -45,6 +52,25 @@ Content-Length: 3423
   - HTTP 전송에 필요한 모든 부가정보
     - ex) Mesasage body 내용/크기, 압축, 인증, 서버 정보 등..
   - [표준 헤더](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields)
+
+## 표현
+
+- **표현**은 요청이나 응답에서 전달할 실제 데이터
+- **표현 헤더**는 **표현 데이터**를 해석할 수 있는 정보 제공
+- 표현 헤더
+  - `Content-Type` : 표현 데이터의 형식
+    - text/html; charset=utf-8
+    - application/json
+    - image/png
+  - `Content-Encoding` : 표현 데이터의 압축 방식
+    - gzip
+    - deflate
+    - identity
+  - `Content-Language` : 표현 데이터의 자연 언어
+    - ko
+    - en
+    - en-US
+  - `Content-Length` : 표현 데이터의 길이(Byte)
 
 ---
 
