@@ -85,6 +85,17 @@ Client가 선호하는 표현 요청 (요청시에만 사용)
 - Accept-Language : Client가 선호하는 자연 언어
   - `Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7`
 
+## 전송 방식
+
+- 단순 전송
+  - `Content-Length: 3423`
+- 압축 전송
+  - `Content-Encoding: gzip`
+- 분할 전송
+  - `Transfer-Encoding: chunked`
+- 범위 전송
+  - `Content-Range: bytes 1001-2000 / 2000 `
+
 ---
 
 # HTTP 해더 (캐시와 조건부 요청)
