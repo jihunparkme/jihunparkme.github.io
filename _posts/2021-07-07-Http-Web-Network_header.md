@@ -18,7 +18,7 @@ HTTP Web Network 강의 노트
 
 - [HTTP 해더 (일반 헤더)](<#HTTP-해더-(일반-헤더)>)
   - 표현
-  - 콘텐츠 협상
+  - 콘텐츠 협상 (Content negotiation)
   - 전송 방식
   - 일반 정보
   - 특별한 정보
@@ -71,6 +71,19 @@ Content-Length: 3423
     - en
     - en-US
   - `Content-Length` : 표현 데이터의 길이(Byte)
+
+## Content negotiation
+
+Client가 선호하는 표현 요청 (요청시에만 사용)
+
+[rfc7231 Accept](https://datatracker.ietf.org/doc/html/rfc7231#section-5.3.2)
+
+- Accept : Client가 선호하는 미디어 타입 전달
+  - `Accept: text/*, text/plain, text/plain;format=flowed, */*`
+- Accept-Charset : Client가 선호하는 문자 인코딩
+- Accept-Encoding : Client가 선호하는 압축 인코딩
+- Accept-Language : Client가 선호하는 자연 언어
+  - `Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7`
 
 ---
 
