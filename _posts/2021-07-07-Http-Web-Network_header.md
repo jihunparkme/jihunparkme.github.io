@@ -87,16 +87,45 @@ Client가 선호하는 표현 요청 (요청시에만 사용)
 
 ## 전송 방식
 
-- 단순 전송
-  - `Content-Length: 3423`
-- 압축 전송
-  - `Content-Encoding: gzip`
-- 분할 전송
-  - `Transfer-Encoding: chunked`
-- 범위 전송
-  - `Content-Range: bytes 1001-2000 / 2000 `
+**단순 전송**
 
----
+- `Content-Length: 3423`
+
+**압축 전송**
+
+- `Content-Encoding: gzip`
+
+**분할 전송**
+
+- `Transfer-Encoding: chunked`
+
+**범위 전송**
+
+- `Content-Range: bytes 1001-2000 / 2000`
+
+## 일반 정보
+
+`Form`
+
+- User agent email 정보 (요청)
+
+`Referer`
+
+- 이전 웹 페이지 주소 (요청)
+
+`User-Agent`
+
+- User-Agent Application 정보 (요청)
+- Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36
+
+`Server`
+
+- 요청을 처리하는 ORIGIN 서버의 소프트웨어 정보 (응답)
+- Apache/2.2.22
+
+`Date`
+
+- 메시지가 발생한 날짜와 시간 (응답)
 
 # HTTP 해더 (캐시와 조건부 요청)
 
