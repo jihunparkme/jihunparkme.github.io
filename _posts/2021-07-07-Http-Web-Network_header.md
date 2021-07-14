@@ -141,6 +141,16 @@ Client가 선호하는 표현 요청 (요청시에만 사용)
 - 3xx 응답의 결과에 Location 헤더가 있으면, Location 위치로 자동 이동
 - 201 (Created), 3xx (Redirection)
 
+## 인증
+
+`Authorization`
+
+- 클라이언트 인증 정보를 서버에 전달
+
+`WWW-Authenticate`
+
+- 리소스 접근시 필요한 인증 방법 정의
+
 # HTTP 해더 (캐시와 조건부 요청)
 
 ---
