@@ -146,10 +146,23 @@ Client가 선호하는 표현 요청 (요청시에만 사용)
 `Authorization`
 
 - 클라이언트 인증 정보를 서버에 전달
+- Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
 
 `WWW-Authenticate`
 
 - 리소스 접근시 필요한 인증 방법 정의
+
+## 쿠키
+
+`Set-Cookie`
+
+- 서버에서 클라이언트로 쿠키 전달(응답)
+
+`Cookie`
+
+- 클라이언트가 서버에서 받은 쿠키를 저장하고, HTTP 요청시 서버로 전달
+
+---
 
 # HTTP 해더 (캐시와 조건부 요청)
 
