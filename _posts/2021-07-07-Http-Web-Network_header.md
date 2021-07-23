@@ -250,3 +250,14 @@ Client가 선호하는 표현 요청 (요청시에만 사용)
 - `max-age` : 캐시 유효 시간 (초)
 - `no-cache` : 데이터는 캐시해도 되지만, 항상 원서버에 검증 후 사용
 - `no-store` : 데이터에 민감한 정보가 있으므로 저장 X
+
+## 프록시 서버
+
+- 해외 원서버에 있는 데이터를 브라우저에서(private cache)빠르게 이용하기 위해 중간(프록시 캐시 서버, public cache)에서 공용으로 사용하는 캐시 서버
+
+캐시 지시어(directives)
+
+- `Cache-Control: public`
+  - 응답이 public 캐시에 저장 가능
+- `Cache-Control: private`
+  - 응답이 해당 사용자만을 위한 것, private 캐시에 저장(기본값)
