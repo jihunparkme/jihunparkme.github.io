@@ -248,8 +248,9 @@ Client가 선호하는 표현 요청 (요청시에만 사용)
 `Cache-Control` : 캐시 제어
 
 - `max-age` : 캐시 유효 시간 (초)
-- `no-cache` : 데이터는 캐시해도 되지만, 항상 원서버에 검증 후 사용
+- `no-cache` : (이터는 캐시해도 되지만), 프록시 캐시가 아닌 항상 원서버에 변경사항 검증 후 사용
 - `no-store` : 데이터에 민감한 정보가 있으므로 저장 X
+- `must-revalidate` : 캐시 만료 후 최초 조회 시 원 서버에 검증
 
 ## 프록시 서버
 
@@ -261,3 +262,9 @@ Client가 선호하는 표현 요청 (요청시에만 사용)
   - 응답이 public 캐시에 저장 가능
 - `Cache-Control: private`
   - 응답이 해당 사용자만을 위한 것, private 캐시에 저장(기본값)
+
+## 캐시 무효화
+
+`Cache-Control`: no-cache, no-store, must-revalidate
+
+`Pragma`: no-cache # HTTP 1.0 하위 호환
