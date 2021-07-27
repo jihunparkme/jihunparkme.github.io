@@ -268,3 +268,9 @@ Client가 선호하는 표현 요청 (요청시에만 사용)
 `Cache-Control`: no-cache, no-store, must-revalidate
 
 `Pragma`: no-cache # HTTP 1.0 하위 호환
+
+> Reference
+>
+> [HTTP 스펙 : RFC 7230~7235](https://datatracker.ietf.org/doc/html/rfc7230)
+>
+> HTTP 완벽가이드 도서
