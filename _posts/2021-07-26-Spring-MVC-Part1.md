@@ -6,5 +6,3 @@ categories: (Inflearn)Spring-MVC
 featured-img: spring_mvc
 # mathjax: true
 ---
-
-
