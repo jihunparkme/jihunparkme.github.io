@@ -47,3 +47,17 @@ featured-img: spring_mvc
   - 효율적인 리소스 관리 (필요에 따라 서버 증설)
 
 # Servlet
+
+**Servlet**
+
+- urlPatterns의 URL이 호출되면 서블릿 코드 실행
+- HttpServletRequest 로 HTTP 요청 정보를 편리하게 사용
+- HttpServletResponse 로 HTTP 응답 정보를 편리하게 제공
+
+**Servlet Container**
+
+- Servlet 을 지원하는 WAS
+- Servlet 객체를 생성/초기화/호출/종료하는 생명주기 관리
+- Servlet 객체는 싱글톤으로 관리
+- JSP 도 Servlet 으로 변환 되어 사용
+- 동시 요청을 위한 **멀티 쓰레드 처리** 지원
