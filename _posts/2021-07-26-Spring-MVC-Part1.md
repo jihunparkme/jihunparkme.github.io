@@ -61,3 +61,5 @@ featured-img: spring_mvc
 - Servlet 객체는 싱글톤으로 관리
 - JSP 도 Servlet 으로 변환 되어 사용
 - 동시 요청을 위한 **멀티 쓰레드 처리** 지원
+
+# Servlet
