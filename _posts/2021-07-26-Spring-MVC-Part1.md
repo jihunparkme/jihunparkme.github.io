@@ -15,6 +15,8 @@ featured-img: spring_mvc
 
 - Web Application
   - Web Server / Web Application Server
+  - Servlet
+  - Multi Thread
 - Servlet
 - Servlet, JSP, MVC pattern
 - MVC 프레임워크 만들기
@@ -46,7 +48,7 @@ featured-img: spring_mvc
   - WAS 에서는 Application Logic 동적 처리
   - 효율적인 리소스 관리 (필요에 따라 서버 증설)
 
-# Servlet
+## Servlet
 
 **Servlet**
 
@@ -62,4 +64,20 @@ featured-img: spring_mvc
 - JSP 도 Servlet 으로 변환 되어 사용
 - 동시 요청을 위한 **멀티 쓰레드 처리** 지원
 
-# Servlet
+## Multi Thread
+
+**Thread**
+
+- Application 코드를 하나하나 순차적으로 실행하는 것
+
+**Thread pool**
+
+- 필요한 Thread 를 Thread Pool 에 보관하고 관리
+- Thread Pool 에 생성 가능한 Thread 의 최대치를 관리
+  - Tomcat default : 최대 200개
+- WAS 주요 튜닝 포인트는 `Max Thread`
+  - 너무 낮을 경우 : 동시 요청이 많으면, 서버 리소스는 여유롭지만, 클리이언트는 응답 지연
+  - 너무 높을 경우 : 동시 요청이 많으면, CPU, 메모리 리소스 임계점 초과로 서버 다운
+  - 장애 발생 시 : 클라우드일 경우 서버를 늘린 후 튜닝, 아니면 그냥 빡튜닝..
+  - 개발자가 Multi Thread 관련 코드를 신경쓰지 않아도 됨 (Multi Thread 에 대한 부분은 WAS가 처리)
+- 성능 테스트 Tool : <i>nGrinder</i>, Apache ab, JMeter
