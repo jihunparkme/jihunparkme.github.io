@@ -79,5 +79,6 @@ featured-img: spring_mvc
   - 너무 낮을 경우 : 동시 요청이 많으면, 서버 리소스는 여유롭지만, 클리이언트는 응답 지연
   - 너무 높을 경우 : 동시 요청이 많으면, CPU, 메모리 리소스 임계점 초과로 서버 다운
   - 장애 발생 시 : 클라우드일 경우 서버를 늘린 후 튜닝, 아니면 그냥 빡튜닝..
-  - 개발자가 Multi Thread 관련 코드를 신경쓰지 않아도 됨 (Multi Thread 에 대한 부분은 WAS가 처리)
+- 개발자가 Multi Thread 관련 코드를 신경쓰지 않아도 됨 (Multi Thread 에 대한 부분은 WAS가 처리)
+  - 단, Max Thread 튜닝이 중요
 - 성능 테스트 Tool : <i>nGrinder</i>, Apache ab, JMeter
