@@ -82,3 +82,35 @@ featured-img: spring_mvc
 - 개발자가 Multi Thread 관련 코드를 신경쓰지 않아도 됨 (Multi Thread 에 대한 부분은 WAS가 처리)
   - 단, Max Thread 튜닝이 중요
 - 성능 테스트 Tool : <i>nGrinder</i>, Apache ab, JMeter
+
+## HTML, API, SSR, CSR
+
+### HTMl
+
+**Static Resources**
+
+- HTML, CSS, JS, image, vedio ..
+- Web Browser ➜ Web Server ➜ Static Resources
+
+**HTML 페이지**
+
+- 동적 HTML 파일을 생성해서 전달
+- JSP, Thymeleaf ..
+- Web Browser ➜ WAS (HTML) ➜ DB
+
+**HTML API**
+
+- 데이터(주로 JSON) 전달
+- Web Browser ➜ WAS (DATA) ➜ DB
+- Web/App Client, Server to Server
+
+### SSR
+
+- Server Side Rendering
+- 서버에서 최종 HTML을 생성해서 클라이언트에 전달 (주로 **정적** 화면)
+- JSP, Thymeleaf ..
+
+### CSR
+
+- HTML 결과를 Javascript를 사용해 웹 브라우저에서 **동적**으로 생성해서 적용 (Google Map, Gmail ..)
+- React, Vue.js
