@@ -17,6 +17,7 @@ featured-img: spring_mvc
   - Web Server / Web Application Server
   - Servlet
   - Multi Thread
+  - HTML, API, SSR, CSR
 - Servlet
 - Servlet, JSP, MVC pattern
 - MVC 프레임워크 만들기
