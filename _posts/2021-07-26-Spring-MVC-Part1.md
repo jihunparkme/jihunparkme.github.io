@@ -198,12 +198,13 @@ private void printEtc(HttpServletRequest request) {
 
 ## HTTP Request Data
 
-- Client to Server (Http Request Data)
-  - Get (URL Query Parameter)
-    - ex) 검색, 필터, 페이징
-  - Post (HTML Form)
-    - content-type: application/x-www-form-urlencoded
-    - Query Parameter in Message Body
-    - ex) 회원가입, 상품주문
-  - HTTP Message Body
-    - ex) HTTP API
+**Client to Server (Http Request Data)**
+
+- Get (URL Query Parameter)
+  - ex) 검색, 필터, 페이징
+- Post (HTML Form)
+  - content-type: application/x-www-form-urlencoded
+  - Query Parameter in Message Body
+  - ex) 회원가입, 상품주문
+- HTTP Message Body
+  - ex) HTTP API
