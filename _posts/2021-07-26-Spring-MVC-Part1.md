@@ -115,3 +115,83 @@ featured-img: spring_mvc
 
 - HTML 결과를 Javascript를 사용해 웹 브라우저에서 **동적**으로 생성해서 적용 (Google Map, Gmail ..)
 - React, Vue.js
+
+# Servlet
+
+## Project
+
+**IntelliJ**
+
+- JSP 사용을 위해 War Packaging 사용
+- Java 직접 실행 설정
+  - Preferences Build ➜ Execution ➜ Deployment Build Tools Gradle
+- Lombok 적용
+  - Preferences ➜ plugin ➜ lombok
+  - Preferences ➜ Annotation Processors ➜ Enable annotation processing check
+
+**HTTP 요청 메시지 로그 확인**
+
+- application.properties
+  - logging.level.org.apache.coyote.http11=debug
+
+## HttpServletRequest
+
+- HTTP Start Line 조회
+
+```java
+private void printStartLine(HttpServletRequest request) {
+
+    System.out.println("request.getMethod() = " + request.getMethod()); //GET
+    System.out.println("request.getProtocal() = " + request.getProtocol()); // HTTP/1.1
+    System.out.println("request.getScheme() = " + request.getScheme()); //http
+    System.out.println("request.getRequestURL() = " + request.getRequestURL()); // http://localhost:8080/request-header
+    System.out.println("request.getRequestURI() = " + request.getRequestURI()); // request-header
+    System.out.println("request.getQueryString() = " + request.getQueryString());  // username=park
+    System.out.println("request.isSecure() = " + request.isSecure()); //https 사용 유무
+}
+```
+
+- HTTP Header 편의 조회
+
+```java
+private void printHeaderUtils(HttpServletRequest request) {
+
+    System.out.println("[Host]");
+    System.out.println("request.getServerName() = " + request.getServerName()); //Host 헤더
+    System.out.println("request.getServerPort() = " + request.getServerPort()); //Host 헤더
+
+    System.out.println("[Accept-Language]");
+    request.getLocales().asIterator()
+            .forEachRemaining(locale -> System.out.println("locale = " + locale));
+    System.out.println("request.getLocale() = " + request.getLocale());
+
+    System.out.println("[cookie]");
+    if (request.getCookies() != null) {
+        for (Cookie cookie : request.getCookies()) {
+            System.out.println(cookie.getName() + ": " + cookie.getValue());
+        }
+    }
+
+    System.out.println("[Content]");
+    System.out.println("request.getContentType() = " + request.getContentType()); //Get Method 일 경우 null
+    System.out.println("request.getContentLength() = " + request.getContentLength());
+    System.out.println("request.getCharacterEncoding() = " + request.getCharacterEncoding());
+}
+```
+
+- HTTP 기타 정보
+
+```java
+private void printEtc(HttpServletRequest request) {
+
+    System.out.println("[Remote 정보]");
+    System.out.println("request.getRemoteHost() = " + request.getRemoteHost());
+    System.out.println("request.getRemoteAddr() = " + request.getRemoteAddr());
+    System.out.println("request.getRemotePort() = " + request.getRemotePort());
+
+    System.out.println("[Local 정보]");
+    System.out.println("request.getLocalName() = " + request.getLocalName());
+    System.out.println("request.getLocalAddr() = " + request.getLocalAddr());
+    System.out.println("request.getLocalPort() = " + request.getLocalPort());
+}
+```
