@@ -200,11 +200,17 @@ private void printEtc(HttpServletRequest request) {
 
 **Client to Server (Http Request Data)**
 
-- Get (URL Query Parameter)
-  - ex) 검색, 필터, 페이징
-- Post (HTML Form)
-  - content-type: application/x-www-form-urlencoded
-  - Query Parameter in Message Body
-  - ex) 회원가입, 상품주문
-- HTTP Message Body
-  - ex) HTTP API
+`Get` (URL Query Parameter)
+
+- ex) 검색, 필터, 페이징
+- request.getParameter("name");
+
+`Post` (HTML Form)
+
+- content-type: application/x-www-form-urlencoded
+- Query Parameter in Message Body
+- ex) 회원가입, 상품주문
+
+`HTTP Message Body`
+
+- ex) HTTP API
