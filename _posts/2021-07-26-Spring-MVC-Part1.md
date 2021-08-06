@@ -202,13 +202,23 @@ private void printEtc(HttpServletRequest request) {
 
 `Get` (URL Query Parameter)
 
-- ex) 검색, 필터, 페이징
+- HTTP Message Body 를 사용하지 않으므로 Content-type 이 없음
+
 - request.getParameter("name");
+
+- ex) 검색, 필터, 페이징
 
 `Post` (HTML Form)
 
-- content-type: application/x-www-form-urlencoded
-- Query Parameter in Message Body
+- Content-type: application/x-www-form-urlencoded
+
+  - Query Parameter in Message Body
+  - HTTP Message Body 에 데이터를 포함해서 전달하므로 Content-type 에 포함된 데이터 형식을 지정
+
+- request.getParameter("name");
+
+  - URL Query Parameter 형식과 동일
+
 - ex) 회원가입, 상품주문
 
 `HTTP Message Body`
