@@ -223,4 +223,6 @@ private void printEtc(HttpServletRequest request) {
 
 `HTTP Message Body`
 
+- 데이터 형식은 주로 JSON
+
 - ex) HTTP API
