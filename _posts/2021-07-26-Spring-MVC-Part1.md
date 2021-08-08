@@ -116,6 +116,8 @@ featured-img: spring_mvc
 - HTML 결과를 Javascript를 사용해 웹 브라우저에서 **동적**으로 생성해서 적용 (Google Map, Gmail ..)
 - React, Vue.js
 
+---
+
 # Servlet
 
 ## Project
@@ -200,7 +202,7 @@ private void printEtc(HttpServletRequest request) {
 
 **Client to Server (Http Request Data)**
 
-`Get` (URL Query Parameter)
+### `Get` (URL Query Parameter)
 
 - HTTP Message Body 를 사용하지 않으므로 Content-type 이 없음
 
@@ -208,7 +210,7 @@ private void printEtc(HttpServletRequest request) {
 
 - ex) 검색, 필터, 페이징
 
-`Post` (HTML Form)
+### `Post` (HTML Form)
 
 - Content-type: application/x-www-form-urlencoded
 
@@ -221,7 +223,7 @@ private void printEtc(HttpServletRequest request) {
 
 - ex) 회원가입, 상품주문
 
-`HTTP Message Body`
+### `HTTP Message Body`
 
 - 데이터 형식은 주로 JSON
 
@@ -281,3 +283,30 @@ response.setHeader("my-header","hello");
 PrintWriter writer = response.getWriter();
 writer.println("ok");
 ```
+
+## HTTP Response Data
+
+**Server to Client**
+
+### `단순 텍스트`
+
+```java
+response.getWriter().println("ok");
+```
+
+### `HTML`
+
+```java
+//Content-Type: text/html;charset=utf-8
+response.setContentType("text/html");
+response.setCharacterEncoding("utf-8");
+
+PrintWriter writer = response.getWriter();
+writer.println("<html>");
+writer.println("<body>");
+writer.println(" <div>HTML Test</div>");
+writer.println("</body>");
+writer.println("</html>");
+```
+
+### `HTML API (MessageBody JSON)`
