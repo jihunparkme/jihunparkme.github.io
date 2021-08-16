@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Spring MVC Part 1. Servlet
-summary: (Servlet) 스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술
+summary: 스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술
 categories: (Inflearn)Spring-MVC
 featured-img: spring_mvc
 # mathjax: true
@@ -27,6 +27,10 @@ featured-img: spring_mvc
   - 개요
   - 적용
   - 한계
+- MVC 프레임워크 만들기
+- 스프링 MVC (구조 이해)
+- 스프링 MVC (기본 기능)
+- 스프링 MVC (웹 페이지 만들기)
 
 # Web Application
 
@@ -335,3 +339,7 @@ writer.println("</html>");
       response.getWriter().write(result);
   }
 ```
+
+## MVC 프레임워크 만들기
+
+- 목차
