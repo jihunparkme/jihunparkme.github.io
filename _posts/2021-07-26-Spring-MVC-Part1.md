@@ -24,6 +24,9 @@ featured-img: spring_mvc
   - HttpServletResponse
   - Http Response Data
 - Servlet, JSP, MVC pattern
+  - 개요
+  - 적용
+  - 한계
 - MVC 프레임워크 만들기
 - 스프링 MVC (구조 이해)
 - 스프링 MVC (기본 기능)
@@ -338,3 +341,5 @@ writer.println("</html>");
 ```
 
 ## MVC 프레임워크 만들기
+
+- 목차
