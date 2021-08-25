@@ -74,3 +74,31 @@ featured-img: spring_mvc
 - 디스패처 서블릿이 조회한 SimpleControllerHandlerAdapter 를 실행하면서 핸들러 정보도 함께 넘겨준다.
 
 - SimpleControllerHandlerAdapter 는 핸들러인 Controller 를 내부에서 실행하고, 그 결과를 반환
+
+## ViewResolver
+
+**ViewResolver 호출 과정**
+
+(1) 핸들러 어댑터 호출
+
+- 핸들러 어댑터를 통해 논리 뷰 이름을 획득
+
+(2) ViewResolver 호출
+
+- 논리 뷰 이름으로 viewResolver를 순서대로 호출
+
+  - BeanNameViewResolver : 빈 이름으로 뷰를 찾아서 반환
+  - InternalResourceViewResolver : JSP를 처리할 수 있는 뷰를 반환
+
+- 논리 뷰 이름의 스프링 빈으로 등록된 뷰가 없다면 InternalResourceViewResolver 가 호출
+
+(3)InternalResourceViewResolver
+
+- InternalResourceView 를 반환
+
+(4) 뷰 - InternalResourceView
+
+- InternalResourceView 는 JSP처럼 포워드 forward() 를 호출해서 처리할 수 있는 경우에 사용
+
+(5) view.render()
+view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해서 JSP를 실행
