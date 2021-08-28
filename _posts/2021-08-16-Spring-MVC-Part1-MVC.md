@@ -103,4 +103,4 @@ featured-img: spring_mvc
 (5) view.render()
 view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해서 JSP를 실행
 
-# Spring MVC 기본 기능
+
