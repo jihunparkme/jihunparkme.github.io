@@ -103,4 +103,9 @@ featured-img: spring_mvc
 (5) view.render()
 view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해서 JSP를 실행
 
+# Spring MVC 기본 기능
 
+**프로젝트**
+
+- Jar 사용 시 항상 내장 서버(tomcat..)를 사용 (내장 서버 최적화)
+- War 사용 시 주로 외부 서버에 배포하는 목적으로 사용
