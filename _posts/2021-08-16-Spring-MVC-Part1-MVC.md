@@ -118,16 +118,55 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 
   - SLF4J interface 의 구현체인 Logback
 
+- 로그 레벨 설정
+
+  - application.properties 에서 log level 설정 가능
+
+    - TRACE > DEBUG > INFO > WARN > ERROR
+
+    - 보통 개발 서버는 debug, 운영 서버는 info level
+
+    ```properties
+    # 전체 로그 레벨 설정 (default info)
+    logging.level.root=info
+
+    # 특정 패키지와 그 하위 로그 레벨 셀정
+    logging.level.hello.springmvc=trace
+    ```
+
 - 로그 선언
 
-  ```java
-  private Logger log = LoggerFactory.getLogger(getClass());
-  // OR
-  private static final Logger log = LoggerFactory.getLogger(Xxx.class)
-  ```
+  - Lombok 사용 시
+
+    ```java
+    @Slf4j
+    ```
+
+  - java 코드로 선언 시
+
+    ```java
+    // OR
+    private final Logger log = LoggerFactory.getLogger(getClass());
+    // OR
+    private static final Logger log = LoggerFactory.getLogger(Xxx.class)
+    ```
 
 - 로그 호출
 
   ```java
-  log.info("hello")
+  // 2021-08-31 22:11:10.267  INFO 6688 --- [nio-8080-exec-6] hello.springmvc.basic.LogTestController  :  info log = Spring
+  // 시간 / 로그 / 프로세스 ID / Thread Name / Class Name // Message
+  log.trace(" trace log = {}", name);
+  log.debug(" debug log = {}", name);
+  log.info("   info log = {}", name);
+  log.warn("   warn log = {}", name);
+  log.error(" error log = {}", name);
   ```
+
+> [SLF4J](http://www.slf4j.org)
+>
+> [Logback](http://logback.qos.ch)
+>
+> [스프링 부트가 제공하는 로그 기능](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-bootfeatures.html#boot-features-logging)
+
+## 요청 매핑
