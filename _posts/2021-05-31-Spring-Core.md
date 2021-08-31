@@ -16,7 +16,7 @@ featured-img: spring_core
 # A table of contents
 
 - [Spring](#Spring)
-- [좋은 객체지향의 5가지 원칙 (SOLID)](#좋은-객체지향의-5가지-원칙-(SOLID))
+- [좋은 객체지향의 5가지 원칙 (SOLID)](<#좋은-객체지향의-5가지-원칙-(SOLID)>)
 - [스프링과 객체지향](#스프링과-객체지향)
 - [IoC, DI, Container](#IoC,-DI,-Container)
 - [도메인 설계](#도메인-설계)
@@ -40,9 +40,7 @@ featured-img: spring_core
   - 스프링 배치
   - 스프링 클라우드
 
-
 ---
-
 
 ## 좋은 객체지향의 5가지 원칙 (SOLID)
 
@@ -326,6 +324,22 @@ public class AllBeanTest {
 ---
 
 **IntelliJ**
+
+- Dependencies: Spring Web, Thymeleaf, Lombok, Spring Boot DevTools
+
+- IntelliJ Gradle 대신에 자바 직접 실행
+
+  - Preferences -> Build, Execution, Deployment -> Build Tools ->Gradle
+
+    - Build and run using: Gradle -> IntelliJ IDEA
+
+    - Run tests using: Gradle -> IntelliJ IDEA
+
+- Lombok 적용
+
+  - Preferences -> plugin -> lombok
+
+  - Preferences -> Annotation Processors -> Enable annotation processing
 
 > Generate : Alt + Insert
 >
