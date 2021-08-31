@@ -108,4 +108,26 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 **프로젝트**
 
 - Jar 사용 시 항상 내장 서버(tomcat..)를 사용 (내장 서버 최적화)
+
 - War 사용 시 주로 외부 서버에 배포하는 목적으로 사용
+
+## Logging
+
+- SpringBoot 가 기본으로 제공하는 Logback
+  을 대부분 사용
+
+  - SLF4J interface 의 구현체인 Logback
+
+- 로그 선언
+
+  ```java
+  private Logger log = LoggerFactory.getLogger(getClass());
+  // OR
+  private static final Logger log = LoggerFactory.getLogger(Xxx.class)
+  ```
+
+- 로그 호출
+
+  ```java
+  log.info("hello")
+  ```
