@@ -127,7 +127,7 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
     - 보통 개발 서버는 debug, 운영 서버는 info level
 
     ```properties
-    # 전체 로그 레벨 설정 (default info)
+    # 전체 로그 레벨 설정 (default: info)
     logging.level.root=info
 
     # 특정 패키지와 그 하위 로그 레벨 셀정
@@ -145,7 +145,6 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
   - java 코드로 선언 시
 
     ```java
-    // OR
     private final Logger log = LoggerFactory.getLogger(getClass());
     // OR
     private static final Logger log = LoggerFactory.getLogger(Xxx.class)
