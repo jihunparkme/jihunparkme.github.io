@@ -169,3 +169,95 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 > [스프링 부트가 제공하는 로그 기능](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-bootfeatures.html#boot-features-logging)
 
 ## 요청 매핑
+
+- Controller Annotation
+
+  - @Controller : 반환 값이 String 이면 뷰 이름으로 인식(뷰를 찾고 랜더링)
+
+  - @RestController : 반환 값으로 뷰를 찾는 것이 아니라, HTTP 메시지 바디에 바로 입력
+
+- 축약 Annotation
+
+  ```java
+    /**
+     * @GetMapping
+     * @PostMapping
+     * @PutMapping
+     * @DeleteMapping
+     * @PatchMapping
+     */
+    @GetMapping(value = "/mapping-get-v2")
+    public String mappingGetV2() {
+        log.info("mapping-get-v2");
+        return "ok";
+    }
+  ```
+
+- @PathVariable : 최근 HTTP API는 리소스 경로에 식별자를 넣는 스타일을 선호
+
+  ```java
+  @GetMapping("/mapping/users/{userId}/orders/{orderId}")
+  public String mappingPath(@PathVariable String userId, @PathVariable Long orderId) {
+
+    log.info("mappingPath userId={}, orderId={}", userId, orderId);
+    return "ok";
+  }
+  ```
+
+- 특정 파라미터/헤더로 추가 매핑
+
+  - 파라미터의 경우 params, 헤더의 경우 headers
+  - params = {"mode=debug","data=good"}
+
+  ```java
+  /**
+     * headers="mode",
+     * headers="!mode"
+     * headers="mode=debug"
+     * headers="mode!=debug" (! = )
+     */
+    @GetMapping(value = "/mapping-header", headers = "mode=debug")
+    public String mappingHeader() {
+        log.info("mappingHeader");
+        return "ok";
+    }
+  ```
+
+- Content-Type 헤더 기반 추가 매핑 Media Type
+
+  - Server 입장에서 특정 Media Type만 받을 수 있다고 요청 헤더의 Content-Type으로 전달
+
+  ```java
+    /**
+     * Content-Type 헤더 기반 추가 매핑 Media Type
+     * consumes="application/json"
+     * consumes="!application/json"
+     * consumes="application/*"
+     * consumes="*\/*"
+     * MediaType.APPLICATION_JSON_VALUE
+     */
+    @PostMapping(value = "/mapping-consume", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String mappingConsumes() {
+        log.info("mappingConsumes");
+        return "ok";
+    }
+  ```
+
+- Accept 헤더 기반 Media Type
+
+  - Client 입장에서 특정 Media Type만 받을 수 있다고 요청 헤더의 Accept로 전달
+
+  ```java
+    /**
+     * Accept 헤더 기반 Media Type
+     * produces = "text/html"
+     * produces = "!text/html"
+     * produces = "text/*"
+     * produces = "*\/*"
+     */
+    @PostMapping(value = "/mapping-produce", produces = MediaType.TEXT_HTML_VALUE)
+    public String mappingProduces() {
+        log.info("mappingProduces");
+        return "ok";
+    }
+  ```
