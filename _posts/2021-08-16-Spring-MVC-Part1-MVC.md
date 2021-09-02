@@ -180,11 +180,11 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 
   ```java
     /**
-     * @GetMapping
-     * @PostMapping
-     * @PutMapping
-     * @DeleteMapping
-     * @PatchMapping
+     * 회원 목록 조회: GET /users
+     * 회원 등록:      POST /users
+     * 회원 조회:      GET /users/{userId}
+     * 회원 수정:      PATCH /users/{userId}
+     * 회원 삭제:      DELETE /users/{userId}
      */
     @GetMapping(value = "/mapping-get-v2")
     public String mappingGetV2() {
