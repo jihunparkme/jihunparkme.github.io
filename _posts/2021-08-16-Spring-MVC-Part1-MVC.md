@@ -261,3 +261,37 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
         return "ok";
     }
   ```
+
+## HTTP Request
+
+- HttpServletRequest request
+
+- HttpServletResponse response
+
+- HttpMethod httpMethod
+
+  - HTTP 메서드를 조회 (org.springframework.http.HttpMethod)
+
+- Locale locale
+
+  - Locale 정보를 조회
+
+- @RequestHeader MultiValueMap<String, String> headerMap
+
+  - 모든 HTTP 헤더를 MultiValueMap 형식으로 조회
+
+- @RequestHeader("host") String host
+
+  - 특정 HTTP 헤더를 조회
+
+  - 속성 (required, defaultValue)
+
+- @CookieValue(value = "myCookie", required = false) String cookie
+
+  - 특정 쿠키를 조회
+
+  - 속성 (required, defaultValue)
+
+> [Spring Method Arguments](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-arguments)
+>
+> [Spring Return Values](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-return-types)
