@@ -295,3 +295,24 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 > [Spring Method Arguments](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-arguments)
 >
 > [Spring Return Values](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-return-types)
+
+## Http Request Data
+
+**클라이언트에서 서버로 데이터를 전달하는 방법**
+
+- **GET** - Query Parameter
+
+  - /url?username=hello&age=20
+  - URL Query Parameter에 데이터를 포함해서 전달
+    - ex) 검색, 필터, 페이징 등
+
+- **POST** - HTML Form
+
+  - content-type: application/x-www-form-urlencoded
+  - Message Body에 Query Parameter 형식으로 전달 (username=hello&age=20)
+    - ex) 회원 가입, 상품 주문, HTML Form
+
+- **HTTP message body**에 데이터를 직접 담아서 요청
+
+  - HTTP API에서 주로 사용, JSON, XML, TEXT
+  - POST, PUT, PATCH
