@@ -357,3 +357,43 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 - 요청 파라미터의 이름으로 바인딩 객체의 프로퍼티를 찾고, 해당 프로퍼티의 setter를 호출해서 파라미터의 값을 입력(바인딩)
 
   - ex) 파라미터 이름이 username 이면 setUsername() 메서드를 찾아 호출하면서 값을 입력
+
+## HTTP message body
+
+- HTTP Message Body Data 를 InputStream 을 사용해서 직접 읽을 수도 있지만, Spring MVC는 HttpEntity 지원
+
+  ```java
+   /**
+     * HttpEntity: HTTP header, body 정보를 편라하게 조회 및 응답
+     * - HttpMessageConverter 사용 -> StringHttpMessageConverter 적용
+     */
+    @PostMapping("/request-body-string-v3")
+    public HttpEntity<String> requestBodyStringV3(HttpEntity<String> httpEntity) {
+
+        String messageBody = httpEntity.getBody();
+        log.info("messageBody={}", messageBody);
+        return new HttpEntity<>("ok");
+    }
+  ```
+
+- HttpEntity를 상속받은 RequestEntity, ResponseEntity
+
+  - RequestEntity : HttpMethod, url 정보 등 추가 정보 제공
+  - ResponseEntity : HTTP 상태 코드 설정 가능
+    ```java
+    return new ResponseEntity<String>("Hello World", responseHeaders, HttpStatus.CREATED)
+    ```
+
+- @RequestBody 사용
+
+  - header 가 필요하다면 @RequestHeader
+
+  ```java
+  @ResponseBody
+  @PostMapping("/request-body-string-v4")
+  public String requestBodyStringV4(@RequestBody String messageBody) {
+
+      log.info("messageBody={}", messageBody);
+      return "ok";
+  }
+  ```
