@@ -316,3 +316,28 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 
   - HTTP API에서 주로 사용, JSON, XML, TEXT
   - POST, PUT, PATCH
+
+## @RequestParam
+
+```java
+@RequestParam(value="name" required = false, defaultValue = "-1") String name
+```
+
+- 파라미터 이름으로 바인딩
+  - request.getParameter("name") 와 동일한 효과
+- 생략
+  - HTTP 파라미터 이름이 변수 이름과 같으면 value name 생략 가능
+  - String, int 등 단순 타입이면 @RequestParam 생략 가능
+- required
+  - 파라미터 필수 여부 (default = true )
+- defaultValue
+  - 기본 값 적용 (빈 문자도 기본 값으로 처리)
+- requestParamMap
+  - 모든 요청 파라미터 받기
+  - @RequestParam Map<String, Object> paramMap
+    - paramMap.get("username")
+  - 파라미터 값이 여러개라면 MultiValueMap 사용
+
+**@ResponseBody**
+
+- String return 시 View 조회를 무시하고, HTTP message body에 직접 해당 내용 입력
