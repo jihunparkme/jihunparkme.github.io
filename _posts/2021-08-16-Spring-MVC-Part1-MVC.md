@@ -438,3 +438,35 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
   - contenttype: application/json
 - @ResponseBody 응답 : 객체 -> HttpMessageConverter(JSON) -> JSON 응답
   - Accept: application/json
+
+## HTTP Response
+
+Spring Response Data 생성 방법
+
+- 정적 리소스
+
+  - HTML, css, js 제공
+  - 기본 경로 : `src/main/resources/static`
+    - Path : `src/main/resources/static/basic/hello-form.html`
+    - URI : `http://localhost:8080/basic/hello-form.html`
+
+- View Template 사용
+
+  - 동적인 HTML 제공
+  - 기본 경로 : `src/main/resources/templates`
+
+    - Path : `src/main/resources/templates/response/hello.html`
+
+    ```java
+    @RequestMapping("/response-view")
+    public String responseView(Model model) {
+        model.addAttribute("data", "hello!!");
+
+        return "response/hello";
+    }
+    ```
+
+- HTTP Message 사용
+  - HTTP API - HTTP Message Body에 데이터를 담아 제공
+
+> [Templating Properties](https://docs.spring.io/spring-boot/docs/2.4.3/reference/html/appendix-application-properties.html#common-application-properties-templating)
