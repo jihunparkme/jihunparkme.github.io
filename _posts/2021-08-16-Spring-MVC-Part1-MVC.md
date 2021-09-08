@@ -14,7 +14,18 @@ featured-img: spring_mvc
 # Table Of Contents
 
 - 스프링 MVC (구조 이해)
+
 - 스프링 MVC (기본 기능)
+
+  - Logging
+  - Request Mapping
+  - Http Request
+  - Http Request Parameter
+  - Http Request Message
+  - Http Response
+  - Http Message Converter
+  - Request Mapping Handler Adapter
+
 - 스프링 MVC (웹 페이지 만들기)
 
 # Spring MVC Framework
@@ -319,6 +330,8 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 
 ## @RequestParam
 
+- Get, Post 방식의 Query Parameter binding
+
 ```java
 @RequestParam(value="name" required = false, defaultValue = "-1") String name
 ```
@@ -360,15 +373,17 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 
 ## HTTP message body
 
+### TEXT
+
 - HTTP Message Body Data 를 InputStream 을 사용해서 직접 읽을 수도 있지만, Spring MVC는 HttpEntity 지원
 
   ```java
    /**
-     * HttpEntity: HTTP header, body 정보를 편라하게 조회 및 응답
+     * HttpEntity: HTTP header, body 정보를 편리하게 조회 및 응답
      * - HttpMessageConverter 사용 -> StringHttpMessageConverter 적용
      */
-    @PostMapping("/request-body-string-v3")
-    public HttpEntity<String> requestBodyStringV3(HttpEntity<String> httpEntity) {
+    @PostMapping("/request-body-string")
+    public HttpEntity<String> requestBodyString(HttpEntity<String> httpEntity) {
 
         String messageBody = httpEntity.getBody();
         log.info("messageBody={}", messageBody);
@@ -390,10 +405,36 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 
   ```java
   @ResponseBody
-  @PostMapping("/request-body-string-v4")
-  public String requestBodyStringV4(@RequestBody String messageBody) {
+  @PostMapping("/request-body-string")
+  public String requestBodyString(@RequestBody String messageBody) {
 
       log.info("messageBody={}", messageBody);
       return "ok";
   }
   ```
+
+### JSON
+
+**@ResponseBody**
+
+- 생략 불가능(생략 시 @ModelAttribute 적용)
+- HttpMessageConverter 사용 -> MappingJackson2HttpMessageConverter
+
+  - content-type: application/json
+
+- 응답의 경우에도 @ResponseBody 를 사용하면 해당 객체를 HTTP 메시지 바디에 직접 넣어줄 수 있음
+
+  ```java
+  @ResponseBody
+  @PostMapping("/request-body-json")
+  public String requestBodyJson(@RequestBody HelloData data) {
+
+      log.info("username={}, age={}", data.getUsername(), data.getAge());
+      return "ok";
+  }
+  ```
+
+- @RequestBody 요청 : JSON 요청 -> HttpMessageConverter(JSON) -> 객체
+  - contenttype: application/json
+- @ResponseBody 응답 : 객체 -> HttpMessageConverter(JSON) -> JSON 응답
+  - Accept: application/json
