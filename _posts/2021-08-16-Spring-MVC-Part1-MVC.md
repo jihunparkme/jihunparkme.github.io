@@ -116,7 +116,7 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 
 # Spring MVC 기본 기능
 
-**프로젝트**
+**프로젝트 설정**
 
 - Jar 사용 시 항상 내장 서버(tomcat..)를 사용 (내장 서버 최적화)
 
@@ -273,7 +273,7 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
     }
   ```
 
-## HTTP Request
+# HTTP Request
 
 - HttpServletRequest request
 
@@ -415,7 +415,7 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 
 ### JSON
 
-**@ResponseBody**
+**@RequestBody**
 
 - 생략 불가능(생략 시 @ModelAttribute 적용)
 - HttpMessageConverter 사용 -> MappingJackson2HttpMessageConverter
@@ -425,6 +425,7 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 - 응답의 경우에도 @ResponseBody 를 사용하면 해당 객체를 HTTP 메시지 바디에 직접 넣어줄 수 있음
 
   ```java
+  @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   @PostMapping("/request-body-json")
   public String requestBodyJson(@RequestBody HelloData data) {
@@ -439,7 +440,7 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
 - @ResponseBody 응답 : 객체 -> HttpMessageConverter(JSON) -> JSON 응답
   - Accept: application/json
 
-## HTTP Response
+# HTTP Response
 
 Spring Response Data 생성 방법
 
@@ -470,3 +471,62 @@ Spring Response Data 생성 방법
   - HTTP API - HTTP Message Body에 데이터를 담아 제공
 
 > [Templating Properties](https://docs.spring.io/spring-boot/docs/2.4.3/reference/html/appendix-application-properties.html#common-application-properties-templating)
+
+## HTTP message body
+
+### TEXT
+
+- ResponseBody
+
+  ```java
+  @ResponseBody
+  @GetMapping("/response-body-string")
+  public String responseBody() {
+      return "ok";
+  }
+  ```
+
+- ResponseEntity
+
+  - 응답코드를 동적으로 변경 시 사용
+
+  ```java
+  @GetMapping("/response-body-string")
+  public ResponseEntity<String> responseBody() {
+      return new ResponseEntity<>("ok", HttpStatus.OK);
+  }
+  ```
+
+### JSON
+
+- ResponseBody
+
+  ```java
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  @GetMapping("/response-body-json")
+  public HelloData responseBodyJson() {
+
+      HelloData helloData = new HelloData();
+      helloData.setUsername("userA");
+      helloData.setAge(20);
+
+      return helloData;
+  }
+  ```
+
+- ResponseEntity
+
+  - 응답코드를 동적으로 변경 시 사용
+
+  ```java
+  @GetMapping("/response-body-json")
+  public ResponseEntity<HelloData> responseBodyJson() {
+
+      HelloData helloData = new HelloData();
+      helloData.setUsername("userA");
+      helloData.setAge(20);
+
+      return new ResponseEntity<>(helloData, HttpStatus.OK);
+  }
+  ```
