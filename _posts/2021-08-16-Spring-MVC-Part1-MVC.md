@@ -531,4 +531,3 @@ Spring Response Data 생성 방법
   }
   ```
 
-## commit
