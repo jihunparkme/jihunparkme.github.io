@@ -531,3 +531,31 @@ Spring Response Data 생성 방법
   }
   ```
 
+## HTTP Message Converter
+
+HTTP Message Converter 적용 시기
+
+- HTTP 요청: @RequestBody, HttpEntity(RequestEntity)
+- HTTP 응답: @ResponseBody, HttpEntity(ResponseEntity)
+
+**Spring Boot Base Message Converter**
+
+- 0\_ ByteArrayHttpMessageConverter
+
+  - byte[] 데이터를 처리
+  - 클래스 타입: byte[] , content-type: _\*_/_\*_
+  - 요청 ex) @RequestBody byte[] data
+  - 응답 ex) @ResponseBody return byte[] 쓰기 content-type application/octet-stream
+
+- 1\_ StringHttpMessageConverter
+
+  - String 문자로 데이터를 처리한다.
+  - 클래스 타입: String , content-type: _\*_/_\*_
+  - 요청 ex) @RequestBody String data
+  - 응답 ex) @ResponseBody return "ok" 쓰기 content-type text/plain
+
+- 2\_ MappingJackson2HttpMessageConverter ...
+  - application/json
+  - 클래스 타입: 객체 또는 HashMap, content-type: application/json 관련
+  - 요청 ex) @RequestBody HelloData data
+  - 응답 ex) @ResponseBody return helloData 쓰기 content-type application/json 관련
