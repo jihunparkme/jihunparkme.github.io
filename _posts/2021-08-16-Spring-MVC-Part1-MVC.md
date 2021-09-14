@@ -564,16 +564,18 @@ HTTP Message Converter 적용 시기
 
 - HTTP Message Converter 는 RequestMappingHandlerAdapter -> ArgumentResolver, Handler -> ReturnValueHandler 에서 사용되어 필요한 객체를 생성
 
-- 파라미터를 유연하게 처리하는 ArgumentResolver의 동작
+**ArgumentResolver**
+
+- 파라미터를 유연하게 처리
 
   - 애노테이션 기반 컨트롤러를 처리하는 HandlerMethodArgumentResolver 는 supportsParameter() 를 호출해서 해당 파라미터를 지원하는지 체크
   - 지원하면 resolveArgument() 를 호출해서 핸들러가 필요로 하는 다양한 값(객체)을 생성
-  - 이렇게 생성된 객체가 컨트롤러 호출 시 넘어가는 동작
+  - 이렇게 생성된 객체가 핸들러(컨트롤러) 호출 시 넘어 감
 
   > [Method Arguments (파라미터 목록)](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-arguments)
 
-- ReturnValueHandler
+**ReturnValueHandler**
 
-  - HandlerMethodReturnValueHandler 는 ArgumentResolver 와 비슷한 방식으로 응답값을 변환 및 처리
+- HandlerMethodReturnValueHandler 는 ArgumentResolver 와 비슷한 방식으로 응답값을 변환 및 처리
 
   > [Return Values (응답 값 목록)](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-return-types)
