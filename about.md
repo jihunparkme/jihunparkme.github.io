@@ -18,6 +18,9 @@ permalink: /about/
 
 - 2020.12.07. ~
 - System Development Team
+  <!-- - Web Back-End - Spring, Java - JPA, queryDSL, MyBatis, MS-SQL Server - JSP, JSTL, JQuery, myBatis, HTML5, JavaScript
+  -- NLP - Python (Komoran, Stanford, Mecab) - MongoDB - OpenNMT - Ubuntu, Docker, HAProxy
+  -->
 
 ## Mycelebs
 
