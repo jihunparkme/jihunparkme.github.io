@@ -579,5 +579,3 @@ HTTP Message Converter 적용 시기
 - HandlerMethodReturnValueHandler 는 ArgumentResolver 와 비슷한 방식으로 응답값을 변환 및 처리
 
   > [Return Values (응답 값 목록)](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-return-types)
-
-## 웹 페이지 만들기
