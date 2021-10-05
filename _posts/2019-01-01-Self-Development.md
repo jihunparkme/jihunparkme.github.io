@@ -34,7 +34,7 @@ featured-img: IT
 
 - [스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-1) (15.22 h)
 
-  - 2021.08 ~ 2021.09
+  - 2021.08 ~ 2021.10
 
 <br/>
 
