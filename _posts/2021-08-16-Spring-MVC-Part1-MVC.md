@@ -579,3 +579,10 @@ HTTP Message Converter 적용 시기
 - HandlerMethodReturnValueHandler 는 ArgumentResolver 와 비슷한 방식으로 응답값을 변환 및 처리
 
   > [Return Values (응답 값 목록)](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-return-types)
+
+## PRG (Post/Redirect/Get)
+
+- 등록을 완료하고 웹 브라우저를 새로고침 시 중복 등록되는 오류 해결
+  1. 상품 등록 폼 이동
+  2. 상품 저장 및 삼품 상세 페이지로 redirect
+  3. 상품 상세페이지 이동
