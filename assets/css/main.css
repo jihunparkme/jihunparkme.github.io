@@ -1005,6 +1005,18 @@ article.post-content .task-list-item input {
   border-left: 2px solid #e0d9e7;
  
   display: none;
+  @media (min-width: 15em){
+    width: 60px;
+    display: block;
+  }
+  @media (min-width: 25em){
+    width: 60px;
+    display: block;
+  }
+  @media (min-width: 35em){
+    width: 60px;
+    display: block;
+  }
   @media (min-width: 45em){
     width: 60px;
     display: block;
@@ -1023,6 +1035,10 @@ article.post-content .task-list-item input {
   }
   @media (min-width: 85em){
     width: 300px;
+    display: block;
+  }
+  @media (min-width: 95em){
+    width: 360px;
     display: block;
   }
   @media (min-width: 95em){
