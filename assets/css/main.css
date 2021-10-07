@@ -1004,7 +1004,11 @@ article.post-content .task-list-item input {
   font-size: 0.7rem;
   border-left: 2px solid #e0d9e7;
  
-  display: block;
+  display: none;
+  @media (max-width: 1170px){
+    width: 240px;
+    display: block;
+  }
   /*@media (min-width: 75em){
     width: 240px;
     display: block;
