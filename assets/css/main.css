@@ -1004,8 +1004,11 @@ article.post-content .task-list-item input {
   font-size: 0.7rem;
   border-left: 2px solid #e0d9e7;
  
- width: 240px;
- display: block;
+  display: none;
+  @media (min-width: 50em){
+    width: 240px;
+    display: block;
+  }
  
   a.toc-active {
     font-weight: bold; 
