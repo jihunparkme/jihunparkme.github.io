@@ -165,7 +165,7 @@ layout: compress
 
       var currentA = tocNodes.filter(function(tocNode) {
         return tocNode.innerHTML == current.innerHTML;
-      })
+      });
       
       currentA = currentA[0];
       if (currentA) {
@@ -187,6 +187,5 @@ layout: compress
       if (before) 
           before.classList.remove("toc-active");
     }
-
   }, false);
 </script>
