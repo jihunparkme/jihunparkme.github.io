@@ -85,6 +85,15 @@ article.post-content a:hover {
   outline-width: 0;
 }
 
+article.post-content.toc a {
+    color: #505050; !important
+    text-decoration: none; !important
+}
+
+article.post-content.toc a:hover {
+    color: #9075aa; !important
+}
+
 article.post-content strong {
   font-weight: inherit;
   font-weight: bolder;
@@ -1026,15 +1035,6 @@ article.post-content .task-list-item input {
   a:visited { color:black; }
   a:hover { color:#000080; }
   a:active { color:black; }*/
-}
-
-article.post-content.toc a {
-    color: $default; !important
-    text-decoration: none; !important
-}
-
-article.post-content.toc a:hover {
-    color:$theme-color; !important
 }
 
 @media (min-width: 75em){
