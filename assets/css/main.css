@@ -85,13 +85,13 @@ article.post-content a:hover {
   outline-width: 0;
 }
 
-article.post-content.toc a {
-    color: #505050; !important
-    text-decoration: none; !important
+article.post-content .toc a {
+    color: #505050;
+    text-decoration: none;
 }
 
-article.post-content.toc a:hover {
-    color: #9075aa; !important
+article.post-content .toc a:hover {
+    color: #9075aa;
 }
 
 article.post-content strong {
