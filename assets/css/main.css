@@ -1007,35 +1007,36 @@ article.post-content .task-list-item input {
   display: none;
 
   a.toc-active {
-    font-weight: bold; 
-    transition: all 0.125s ease-in 0s; 
-    font-size: 0.75rem;
-    color: #9075aa;
+    font-weight: bold; !important
+    transition: all 0.125s ease-in 0s; !important
+    font-size: 0.75rem; !important
+    color: #9075aa; !important
   }
 
   ul {
-    list-style-type: none;
-    margin-bottom: 0.1rem;
-    padding-left: 0rem;
+    list-style-type: none; !important
+    margin-bottom: 0.1rem; !important
+    padding-left: 0rem; !important
     li {
-      padding-left: .5rem;
+      padding-left: .5rem; !important
     }
   }
 
   a {
-      color: $default;
-      text-decoration: none;
+      color: $default; !important
+      text-decoration: none; !important
   }
 
-  a:link { color:black; }
+  a:hover {
+     color:$theme-color; !important
+  }
+  
+  /*a:link { color:black; }
   a:visited { color:black; }
   a:hover { color:#000080; }
-  a:active { color:black; }
+  a:active { color:black; }*/
 }
-.toc a {
-    color: #505050;
-    text-decoration: none;
-}
+
 @media (min-width: 75em){
 	.toc {
 		width: 240px;
