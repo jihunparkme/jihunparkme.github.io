@@ -1009,6 +1009,15 @@ article.post-content .task-list-item input {
   	width: 240px;
   	display: block;
   } 
+  @media only screen and (min-width: 75em)
+  	width: 240px;
+  	display: block;
+  }
+  @media screen and (min-width: 1170px) {
+  	width: 240px;
+  	display: block;
+  } 
+
   a.toc-active {
     font-weight: bold; 
     transition: all 0.125s ease-in 0s; 
