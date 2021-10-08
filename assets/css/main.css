@@ -88,6 +88,7 @@ article.post-content a:hover {
 article.post-content .toc a {
     color: #505050;
     text-decoration: none;
+    border-bottom: none;
 }
 
 article.post-content .toc a:hover {
@@ -97,7 +98,7 @@ article.post-content .toc a:hover {
 article.post-content .toc a.toc-active {
     font-weight: bold;
     transition: all 0.125s ease-in 0s; 
-	font-size: 0.75rem;
+	font-size: 1rem;
 	color: #9075aa;
 }
 
@@ -108,7 +109,7 @@ article.post-content .toc ul {
 }
 
 article.post-content .toc ul li {
-    padding-left: .5rem;
+    padding-left: .9rem;
 }
 
 article.post-content strong {
@@ -1027,7 +1028,7 @@ article.post-content .task-list-item input {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   margin-right: 0px;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   border-left: 2px solid #e0d9e7;
  
   display: none;
