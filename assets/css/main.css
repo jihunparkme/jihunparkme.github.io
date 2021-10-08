@@ -97,18 +97,19 @@ article.post-content .toc a:hover {
 article.post-content .toc a.toc-active {
     font-weight: bold;
     transition: all 0.125s ease-in 0s; 
-    font-size: 0.75rem;
-    color: #9075aa;
-  }
+	font-size: 0.75rem;
+	color: #9075aa;
+}
 
- article.post-content .toc ul {
+article.post-content .toc ul {
     list-style-type: none;
     margin-bottom: 0.1rem;
     padding-left: 0rem;
-    li {
-      padding-left: .5rem;
-    }
-  }
+}
+
+article.post-content .toc ul li {
+    padding-left: .5rem;
+}
 
 article.post-content strong {
   font-weight: inherit;
