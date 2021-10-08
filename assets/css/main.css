@@ -1005,6 +1005,10 @@ article.post-content .task-list-item input {
   border-left: 2px solid #e0d9e7;
  
   display: none;
+  @media only screen and (min-width: 48em)
+	width: 240px;
+  	display: block;
+  }
   @media (min-width: 5em){
     width: 240px;
     display: block;
