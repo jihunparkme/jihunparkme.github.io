@@ -1040,7 +1040,7 @@ article.post-content .task-list-item input {
 }
 @media (min-width: 85em){
 	.toc {
-		width: 3000px;
+		width: 300px;
 		display: block;
 	}
 }
