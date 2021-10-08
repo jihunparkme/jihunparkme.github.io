@@ -1029,12 +1029,12 @@ article.post-content .task-list-item input {
 }
 
 article.post-content.toc a {
-    color: $default;
-    text-decoration: none;
+    color: $default; !important
+    text-decoration: none; !important
 }
 
 article.post-content.toc a:hover {
-    color:$theme-color;
+    color:$theme-color; !important
 }
 
 @media (min-width: 75em){
