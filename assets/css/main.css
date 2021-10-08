@@ -1005,18 +1005,6 @@ article.post-content .task-list-item input {
   border-left: 2px solid #e0d9e7;
  
   display: none;
-  @media screen and (min-width: 769px) {
-  	width: 240px;
-  	display: block;
-  } 
-  @media only screen and (min-width: 75em)
-  	width: 240px;
-  	display: block;
-  }
-  @media screen and (min-width: 1170px) {
-  	width: 240px;
-  	display: block;
-  } 
 
   a.toc-active {
     font-weight: bold; 
@@ -1042,4 +1030,23 @@ article.post-content .task-list-item input {
   a:hover {
      color:$theme-color;
   }
+}
+
+@media (min-width: 75em){
+	.toc {
+		width: 240px;
+		display: block;
+	}
+}
+@media (min-width: 85em){
+	.toc {
+		width: 3000px;
+		display: block;
+	}
+}
+@media (min-width: 95em){
+	.toc {
+		width: 360px;
+		display: block;
+	}
 }
