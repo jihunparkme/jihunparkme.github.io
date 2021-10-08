@@ -94,6 +94,22 @@ article.post-content .toc a:hover {
     color: #9075aa;
 }
 
+article.post-content .toc a.toc-active {
+    font-weight: bold;
+    transition: all 0.125s ease-in 0s; 
+    font-size: 0.75rem;
+    color: #9075aa;
+  }
+
+ article.post-content .toc ul {
+    list-style-type: none;
+    margin-bottom: 0.1rem;
+    padding-left: 0rem;
+    li {
+      padding-left: .5rem;
+    }
+  }
+
 article.post-content strong {
   font-weight: inherit;
   font-weight: bolder;
@@ -1014,22 +1030,6 @@ article.post-content .task-list-item input {
   border-left: 2px solid #e0d9e7;
  
   display: none;
-
-  a.toc-active {
-    font-weight: bold;
-    transition: all 0.125s ease-in 0s; 
-    font-size: 0.75rem;
-    color: #9075aa;
-  }
-
-  ul {
-    list-style-type: none;
-    margin-bottom: 0.1rem;
-    padding-left: 0rem;
-    li {
-      padding-left: .5rem;
-    }
-  }
   
   /*a:link { color:black; }
   a:visited { color:black; }
