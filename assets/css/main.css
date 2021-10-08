@@ -1026,10 +1026,11 @@ article.post-content .task-list-item input {
       color: $default;
       text-decoration: none;
   }
- 
-  a:hover {
-     color:$theme-color;
-  }
+
+  a:link { color:black; }
+  a:visited { color:black; }
+  a:hover { color:#000080; }
+  a:active { color:black; }
 }
 
 @media (min-width: 75em){
