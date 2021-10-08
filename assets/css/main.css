@@ -1005,64 +1005,10 @@ article.post-content .task-list-item input {
   border-left: 2px solid #e0d9e7;
  
   display: none;
-  @media only screen and (min-width: 48em)
-	width: 240px;
+  @media screen and (min-width: 769px) {
+  	width: 240px;
   	display: block;
-  }
-  @media (min-width: 5em){
-    width: 240px;
-    display: block;
-  }
-  @media (min-width: 15em){
-    width: 240px;
-    display: block;
-  }
-  @media (min-width: 25em){
-    width: 240px;
-    display: block;
-  }
-  @media (min-width: 35em){
-    width: 240px;
-    display: block;
-  }
-  @media (min-width: 45em){
-    width: 240px;
-    display: block;
-  }
-  @media (min-width: 55em){
-    width: 240px;
-    display: block;
-  }
-  @media (min-width: 65em){
-    width: 240px;
-    display: block;
-  }
-  @media (min-width: 75em){
-    width: 240px;
-    display: block;
-  }
-  @media (min-width: 85em){
-    width: 300px;
-    display: block;
-  }
-  @media (min-width: 95em){
-    width: 360px;
-    display: block;
-  }
-  @media (min-width: 105em){
-    width: 360px;
-    display: block;
-  }
-  @media (min-width: 115em){
-    width: 360px;
-    display: block;
-  }
-  @media (min-width: 125em){
-    width: 360px;
-    display: block;
-  }
-
- 
+  } 
   a.toc-active {
     font-weight: bold; 
     transition: all 0.125s ease-in 0s; 
