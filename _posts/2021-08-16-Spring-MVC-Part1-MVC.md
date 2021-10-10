@@ -436,8 +436,10 @@ view.render() 가 호출되고 InternalResourceView 는 forward() 를 사용해�
   ```
 
 - @RequestBody 요청 : JSON 요청 -> HttpMessageConverter(JSON) -> 객체
+  
   - contenttype: application/json
 - @ResponseBody 응답 : 객체 -> HttpMessageConverter(JSON) -> JSON 응답
+  
   - Accept: application/json
 
 # HTTP Response
@@ -468,6 +470,7 @@ Spring Response Data 생성 방법
     ```
 
 - HTTP Message 사용
+  
   - HTTP API - HTTP Message Body에 데이터를 담아 제공
 
 > [Templating Properties](https://docs.spring.io/spring-boot/docs/2.4.3/reference/html/appendix-application-properties.html#common-application-properties-templating)
