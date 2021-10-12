@@ -143,3 +143,31 @@ featured-img: spring_mvc_2
     <li><span th:inline="none">[(...)] = </span>[(${data})]</li>
   </ul>
   ```
+
+## SpringEL 표현식
+
+**Object**
+
+- `${user.username}` = userA
+- `${user['username']}` = userA
+- `${user.getUsername()}` = userA
+
+**List**
+
+- `${users[0].username}` = userA
+- `${users[0]['username']}` = userA
+- `${users[0].getUsername()}` = userA
+
+**Map**
+
+- `${userMap['userA'].username}` = userA
+- `${userMap['userA']['username']}` = userA
+- `${userMap['userA'].getUsername()}` = userA
+
+**지역변수**
+
+```html
+<div th:with="first=${users[0]}">
+  <p>first member name : <span th:text="${first.username}"></span></p>
+</div>
+```
