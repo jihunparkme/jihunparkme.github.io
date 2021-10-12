@@ -187,3 +187,24 @@ featured-img: spring_mvc_2
 - HTTP 요청 파라미터 접근: `${param.paramData}`
 - HTTP 세션 접근: `${session.sessionData}`
 - 스프링 빈 접근: `${@helloBean.hello('Spring!')}`
+
+## 유틸리티 객체와 날짜
+
+- #message : 메시지, 국제화 처리
+- #uris : URI 이스케이프 지원
+- #dates : java.util.Date 서식 지원
+- #calendars : java.util.Calendar 서식 지원
+- #temporals : 자바8 날짜 서식 지원
+- #numbers : 숫자 서식 지원
+- #strings : 문자 관련 편의 기능
+- #objects : 객체 관련 기능 제공
+- #bools : boolean 관련 기능 제공
+- #arrays : 배열 관련 기능 제공
+- #lists , #sets , #maps : 컬렉션 관련 기능 제공
+- #ids : 아이디 처리 관련 기능 제공, 뒤에서 설명
+
+**Reference**
+
+> [타임리프 유틸리티 객체](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#expression-utilityobjects)
+>
+> [유틸리티 객체 예시](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#appendix-b-expressionutility-objects)
