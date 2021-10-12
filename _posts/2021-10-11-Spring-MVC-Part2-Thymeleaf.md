@@ -171,3 +171,19 @@ featured-img: spring_mvc_2
   <p>first member name : <span th:text="${first.username}"></span></p>
 </div>
 ```
+
+## 기본 객체
+
+**Thymeleaf 기본 객체**
+
+- `${#request}`
+- `${#response}`
+- `${#session}`
+- `${#servletContext}`
+- `${#locale}`
+
+**편의 객체**
+
+- HTTP 요청 파라미터 접근: `${param.paramData}`
+- HTTP 세션 접근: `${session.sessionData}`
+- 스프링 빈 접근: `${@helloBean.hello('Spring!')}`
