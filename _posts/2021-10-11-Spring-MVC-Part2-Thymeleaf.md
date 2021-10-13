@@ -208,3 +208,29 @@ featured-img: spring_mvc_2
 > [타임리프 유틸리티 객체](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#expression-utilityobjects)
 >
 > [유틸리티 객체 예시](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#appendix-b-expressionutility-objects)
+
+## URL 링크
+
+- 단순 URL
+
+  - /hello
+  - `<a th:href="@{/hello}"></a>`
+
+- query parameter
+
+  - /hello?param1=data1&param2=data2
+  - `<a th:href="@{/hello(param1=${param1}, param2=${param2})}"></a>`
+
+- path variable
+
+  - /hello/data1/data2
+  - `<a th:href="@{/hello/{param1}/{param2}(param1=${param1}, param2=${param2})}"></a>`
+
+- query parameter + path variable
+
+  - /hello/data1?param2=data2
+  - `<a th:href="@{/hello/{param1}(param1=${param1}, param2=${param2})}"></a>`
+
+**Reference**
+
+> <https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#link-urls>
