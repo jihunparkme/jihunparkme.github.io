@@ -9,7 +9,7 @@
       <nav class="header__links">
         <div class="container header__links-wrapper">
           {% for item in site.navigation %}
-            {% if item.name != 'about' %}
+            {% if item.name != 'About' %}
               <a class="header__link" href="{{ item.link | relative_url }}" itemprop="url">
                 <span itemprop="name">{{ item.name }}</span>
               </a>
