@@ -214,22 +214,32 @@ featured-img: spring_mvc_2
 - 단순 URL
 
   - /hello
-  - `<a th:href="@{/hello}"></a>`
+    ```html
+    <a th:href="@{/hello}"></a>
+    ```
 
 - query parameter
 
   - /hello?param1=data1&param2=data2
-  - `<a th:href="@{/hello(param1=${param1}, param2=${param2})}"></a>`
+    ```html
+    <a th:href="@{/hello(param1=${param1}, param2=${param2})}"></a>
+    ```
 
 - path variable
 
   - /hello/data1/data2
-  - `<a th:href="@{/hello/{param1}/{param2}(param1=${param1}, param2=${param2})}"></a>`
+    ```html
+    <a
+      th:href="@{/hello/{param1}/{param2}(param1=${param1}, param2=${param2})}"
+    ></a>
+    ```
 
 - query parameter + path variable
 
   - /hello/data1?param2=data2
-  - `<a th:href="@{/hello/{param1}(param1=${param1}, param2=${param2})}"></a>`
+    ```html
+    <a th:href="@{/hello/{param1}(param1=${param1}, param2=${param2})}"></a>
+    ```
 
 **Reference**
 
@@ -237,9 +247,52 @@ featured-img: spring_mvc_2
 
 ## 리터럴
 
-- 문자: 'hello'
-  - 문자 리터럴은 항상 작은따옴표로 감싸야 함
-  - `<span th:text="'hello'">`
+- 문자: 'hello' (문자 리터럴은 항상 작은따옴표로 감싸야 함)
+  ```html
+  <span th:text="'hello'"></span>
+  ```
 - 숫자: 10
 - 불린: true , false
 - null: null
+
+## 연산
+
+- 산술 연산
+
+  ```html
+  10 + 2 = <span th:text="10 + 2"></span>
+  ```
+
+- 비교 연산
+
+  ```html
+  <!-- 
+    > (gt)
+    < (lt)
+    >= (ge)
+    <= (le)
+    ! (not)
+    == (eq)
+    != (neq, ne)`
+  -->
+  1 >= 10 = <span th:text="1 >= 10"></span>
+  ```
+
+- 조건식
+
+  ```html
+  (10 % 2 == 0) ? = <span th:text="(10 % 2 == 0)?'짝수':'홀수'"></span>
+  ```
+
+- Elvis 연산자
+
+  ```html
+  <!-- 데이터가 없을 경우 설정 문자열 출력 -->
+  ${data} = <span th:text="${data}?: '데이터가 없습니다.'"></span>
+  ```
+
+- No-Operation
+  ```html
+  <!-- 데이터가 없을 경우 tag 데이터 그대로 출력 (Thymeleaf 가 실행되지 않는 것 처럼 동작) -->
+  ${data} = <span th:text="${data}?: _">데이터가 없습니다.</span>
+  ```
