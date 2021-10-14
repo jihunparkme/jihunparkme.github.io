@@ -234,3 +234,12 @@ featured-img: spring_mvc_2
 **Reference**
 
 > <https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#link-urls>
+
+## 리터럴
+
+- 문자: 'hello'
+  - 문자 리터럴은 항상 작은따옴표로 감싸야 함
+  - `<span th:text="'hello'">`
+- 숫자: 10
+- 불린: true , false
+- null: null
