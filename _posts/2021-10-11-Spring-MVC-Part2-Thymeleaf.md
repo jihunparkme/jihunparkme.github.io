@@ -296,3 +296,20 @@ featured-img: spring_mvc_2
   <!-- 데이터가 없을 경우 tag 데이터 그대로 출력 (Thymeleaf 가 실행되지 않는 것 처럼 동작) -->
   ${data} = <span th:text="${data}?: _">데이터가 없습니다.</span>
   ```
+
+## 속성 값 설정
+
+- 속성 설정
+  ```html
+  <input type="text" name="mock" th:name="userA" />
+  ```
+- 속성 추가
+  ```html
+  <input type="text" class="text" th:classappend="large" /><br />
+  ```
+- checked 처리
+  ```html
+  <input type="checkbox" name="active" th:checked="true" /><br />
+  <input type="checkbox" name="active" th:checked="false" /><br />
+  <input type="checkbox" name="active" th:checked="${isChecked}" /><br />
+  ```
