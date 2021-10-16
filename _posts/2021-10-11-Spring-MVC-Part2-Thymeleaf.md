@@ -357,3 +357,35 @@ featured-img: spring_mvc_2
     <span th:case="*">기타</span>
   </td>
   ```
+
+## 주석
+
+- 표준 HTML 주석
+
+  - 타임리프가 렌더링하지 않고 유지
+
+  ```html
+  <!-- <span th:text="${data}"></span> -->
+  ```
+
+- 타임리프 파서 주석
+
+  - 렌더링에서 주석 부분을 제거 (타임리프 주석)
+
+  ```html
+  <!--/* [[${data}]] */-->
+
+  <!--/*-->
+  <span th:text="${data}">html data</span>
+  <!--*/-->
+  ```
+
+- 타임리프 프로토타입 주석
+
+  - 타임리프 렌더링을 거쳐야만 이 부분이 정상 렌더링 (HTML 에서만 주석 처리)
+
+  ```html
+  <!--/*/
+  <span th:text="${data}">html data</span>
+  /*/-->
+  ```
