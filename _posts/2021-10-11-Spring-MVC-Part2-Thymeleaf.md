@@ -389,3 +389,17 @@ featured-img: spring_mvc_2
   <span th:text="${data}">html data</span>
   /*/-->
   ```
+
+## 블록
+
+- th:each 로 해결이 어려울 때 사용
+
+```html
+<th:block th:each="user : ${users}">
+  <div>
+    name: <span th:text="${user.username}"></span> age:
+    <span th:text="${user.age}"></span>
+  </div>
+  <div>요약 <span th:text="${user.username} + ' / ' + ${user.age}"></span></div>
+</th:block>
+```
