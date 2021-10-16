@@ -338,3 +338,22 @@ featured-img: spring_mvc_2
   - even , odd : 홀/짝수 여부
   - first , last :처음/마지막 여부
   - current : 현재 객체
+
+## 조건부 평가
+
+- if, unless
+
+  ```html
+  <span th:text="'어른'" th:if="${user.age gt 20}"></span>
+  <span th:text="'어른'" th:unless="${user.age le 20}"></span>
+  ```
+
+- switch
+
+  ```html
+  <td th:switch="${user.age}">
+    <span th:case="10">10살</span>
+    <span th:case="20">20살</span>
+    <span th:case="*">기타</span>
+  </td>
+  ```
