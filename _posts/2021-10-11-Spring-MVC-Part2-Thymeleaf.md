@@ -313,3 +313,28 @@ featured-img: spring_mvc_2
   <input type="checkbox" name="active" th:checked="false" /><br />
   <input type="checkbox" name="active" th:checked="${isChecked}" /><br />
   ```
+
+## 반복
+
+- 반복
+
+  ```html
+  <tr th:each="user : ${users}">
+    <td th:text="${user.username}">username</td>
+    <td th:text="${user.age}">0</td>
+  </tr>
+  ```
+
+- 상태 유지
+
+  ```html
+  <!-- 생략 시 userStat 로 사용 -->
+  <tr th:each="user, state : ${users}"></tr>
+  ```
+
+  - index : 0부터 시작
+  - count : 1부터 시작
+  - size : 전체 사이즈
+  - even , odd : 홀/짝수 여부
+  - first , last :처음/마지막 여부
+  - current : 현재 객체
