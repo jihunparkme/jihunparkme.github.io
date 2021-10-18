@@ -403,3 +403,40 @@ featured-img: spring_mvc_2
   <div>요약 <span th:text="${user.username} + ' / ' + ${user.age}"></span></div>
 </th:block>
 ```
+
+## JavaScript Inline
+
+- javascript inline
+
+  ```html
+  <script th:inline="javascript">
+    var username = [[${user.username}]];
+    var age = [[${user.age}]];
+    //자바스크립트 내추럴 템플릿
+    var username2 = /*[[${user.username}]]*/ "test username";
+    //객체
+    var user = [[${user}]];
+  </script>
+
+  <!--
+      var username = "userA";
+      var age = 10;
+      var username2 = "userA";
+      var user = {"username":"userA","age":10};
+  -->
+  ```
+
+- each
+
+  ```html
+  <script th:inline="javascript">
+    [# th:each="user, stat : ${users}"]
+    var user[[${stat.count}]] = [[${user}]];
+    [/]
+  </script>
+  <!--
+    var user1 = {"username":"userA","age":10};
+    var user2 = {"username":"userB","age":20};
+    var user3 = {"username":"userC","age":30};
+  -->
+  ```
