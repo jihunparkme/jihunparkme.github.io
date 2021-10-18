@@ -440,3 +440,47 @@ featured-img: spring_mvc_2
     var user3 = {"username":"userC","age":30};
   -->
   ```
+
+## 템플릿 조각
+
+- `/resources/templates/template/fragment/footer.html`
+
+  ```html
+  <!DOCTYPE html>
+  <html xmlns:th="http://www.thymeleaf.org">
+    <body>
+      <footer th:fragment="copy">푸터 자리 입니다.</footer>
+
+      <footer th:fragment="copyParam (param1, param2)">
+        <p>파라미터 자리 입니다.</p>
+        <p th:text="${param1}"></p>
+        <p th:text="${param2}"></p>
+      </footer>
+    </body>
+  </html>
+  ```
+
+- `/resources/templates/template/fragment/fragmentMain.html`
+
+  ```html
+  <!DOCTYPE html>
+  <html xmlns:th="http://www.thymeleaf.org">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Title</title>
+    </head>
+    <body>
+      <h1>부분 포함</h1>
+      <h2>부분 포함 insert (div tag 안에 삽입)</h2>
+      <div th:insert="~{template/fragment/footer :: copy}"></div>
+
+      <h2>부분 포함 replace (div tag 대체)</h2>
+      <div th:replace="~{template/fragment/footer :: copy}"></div>
+
+      <h1>파라미터 사용</h1>
+      <div
+        th:replace="~{template/fragment/footer :: copyParam ('데이터1', '데이터2')}"
+      ></div>
+    </body>
+  </html>
+  ```
