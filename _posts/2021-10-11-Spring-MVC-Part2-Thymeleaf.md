@@ -484,3 +484,57 @@ featured-img: spring_mvc_2
     </body>
   </html>
   ```
+
+## 템플릿 레이아웃
+
+**동적인 레이아웃**
+
+- `/resources/templates/template/layout/base.html`
+
+  - 레이아웃이라는 큰 틀
+
+  ```html
+  <html xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="common_header(title,links)">
+      <title th:replace="${title}">레이아웃 타이틀</title>
+
+      <!-- 공통 -->
+      <link
+        rel="stylesheet"
+        type="text/css"
+        media="all"
+        th:href="@{/css/awesomeapp.css}"
+      />
+      <link rel="shortcut icon" th:href="@{/images/favicon.ico}" />
+      <script
+        type="text/javascript"
+        th:src="@{/sh/scripts/codebase.js}"
+      ></script>
+
+      <!-- 추가 -->
+      <th:block th:replace="${links}" />
+    </head>
+  </html>
+  ```
+
+- `/resources/templates/template/layout/layoutMain.html`
+
+  - 틀 안에 필요한 코드 조각들을 전달
+  - ::title 은 현재 페이지의 title tag 들을 전달
+  - ::link 은 현재 페이지의 link tag 들을 전달
+
+  ```html
+  <!DOCTYPE html>
+  <html xmlns:th="http://www.thymeleaf.org">
+    <head
+      th:replace="template/layout/base :: common_header(~{::title},~{::link})"
+    >
+      <title>메인 타이틀</title>
+      <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+      <link rel="stylesheet" th:href="@{/themes/smoothness/jquery-ui.css}" />
+    </head>
+    <body>
+      메인 컨텐츠
+    </body>
+  </html>
+  ```
