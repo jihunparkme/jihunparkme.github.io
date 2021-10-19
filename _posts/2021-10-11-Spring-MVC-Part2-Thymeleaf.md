@@ -538,3 +538,50 @@ featured-img: spring_mvc_2
     </body>
   </html>
   ```
+
+**메인 레이아웃**
+
+- `/resources/templates/template/layoutExtend/layoutFile.html`
+
+  - 기본 레이아웃(header, footer) 틀은 유지하고 title, content 만 변경
+
+  ```html
+  <!DOCTYPE html>
+  <html
+    th:fragment="layout (title, content)"
+    xmlns:th="http://www.thymeleaf.org"
+  >
+    <head>
+      <title th:replace="${title}">레이아웃 타이틀</title>
+    </head>
+    <body>
+      <h1>레이아웃 H1</h1>
+      <div th:replace="${content}">
+        <p>레이아웃 컨텐츠</p>
+      </div>
+      <footer>레이아웃 푸터</footer>
+    </body>
+  </html>
+  ```
+
+- `/resources/templates/template/layoutExtend/layoutExtendMain.html `
+
+  - 기본 레이아웃 틀로 교체하는데 하는데 title, content 는 전달
+
+  ```html
+  <!DOCTYPE html>
+  <html
+    th:replace="~{template/layoutExtend/layoutFile :: layout(~{::title}, ~{::section})}"
+    xmlns:th="http://www.thymeleaf.org"
+  >
+    <head>
+      <title>메인 페이지 타이틀</title>
+    </head>
+    <body>
+      <section>
+        <p>메인 페이지 컨텐츠</p>
+        <div>메인 페이지 포함 내용</div>
+      </section>
+    </body>
+  </html>
+  ```
