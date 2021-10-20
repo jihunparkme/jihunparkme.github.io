@@ -585,3 +585,33 @@ featured-img: spring_mvc_2
     </body>
   </html>
   ```
+
+## 입력 폼 처리
+
+```html
+<form action="item.html" th:action th:object="${item}" method="post">
+  <div>
+    <label for="itemName">상품명</label>
+    <input
+      type="text"
+      id="itemName"
+      th:field="*{itemName}"
+      class="formcontrol"
+      placeholder="이름을 입력하세요"
+    />
+  </div>
+</form>
+```
+
+- `th:object` : 커맨드 객체를 지정
+- `\*{...}` : 선택 변수 식 (th:object 에서 선택한 객체에 접근)
+- `th:field` : HTML 태그의 id , name , value 속성을 자동으로 생성
+- 렌더링 전/후
+
+  ```html
+  <input type="text" th:field="*{itemName}" />
+  ```
+
+  ```html
+  <input type="text" id="itemName" name="itemName" th:value="*{itemName}" />
+  ```
