@@ -615,3 +615,19 @@ featured-img: spring_mvc_2
   ```html
   <input type="text" id="itemName" name="itemName" th:value="*{itemName}" />
   ```
+
+## 체크 박스
+
+### 단일
+
+```html
+<div class="form-check">
+  <input type="checkbox" id="open" name="open" class="form-check-input" />
+  <input type="hidden" name="_open" value="on" />
+  <label for="open" class="form-check-label">판매 오픈</label>
+</div>
+```
+
+- 체크 박스를 체크할 경우 on 을 전달하지만, 체크하지 않을 경우 값 자체를 전달하지 않음. (open=on & \_open=on)
+  - 이 경우 hidden type 의 \_name input 태그를 사용하게 되면, false 로 값을 전달 (\_open=on)
+- Spring 은 on을 true type 으로 변환
