@@ -620,7 +620,7 @@ featured-img: spring_mvc_2
 
 ### 단일
 
-**등록**
+**Register**
 
 ```html
 <div>
@@ -656,3 +656,87 @@ featured-img: spring_mvc_2
   </div>
 </div>
 ```
+
+### 멀티
+
+(참고) @ModelAttribute 를 사용하면 해당 Controller 호출 시 regions() 에서 반환한 값이 자동으로 Model에 항상 담기게 됨
+
+```java
+@ModelAttribute("regions")
+public Map<String, String> regions() {
+    Map<String, String> regions = new LinkedHashMap<>();
+    regions.put("SEOUL", "서울");
+    regions.put("BUSAN", "부산");
+    regions.put("JEJU", "제주");
+    return regions;
+}
+```
+
+**Register**
+
+```html
+<div th:each="region : ${regions}" class="form-check form-check-inline">
+  <input
+    type="checkbox"
+    th:field="*{regions}"
+    th:value="${region.key}"
+    class="form-check-input"
+  />
+  <label
+    th:for="${#ids.prev('regions')}"
+    th:text="${region.value}"
+    class="form-check-label"
+    >서울</label
+  >
+</div>
+```
+
+- 타임리프는 each로 체크박스 생성 시 동적으로 id에 순번을 매겨준다. `#ids`는 동적으로 생성된 id를 인식
+
+- result
+
+  ```html
+  <input
+    type="checkbox"
+    value="SEOUL"
+    class="form-check-input"
+    id="regions1"
+    name="regions"
+  />
+  <input
+    type="checkbox"
+    value="BUSAN"
+    class="form-check-input"
+    id="regions2"
+    name="regions"
+  />
+  <input
+    type="checkbox"
+    value="JEJU"
+    class="form-check-input"
+    id="regions3"
+    name="regions"
+  />
+  ```
+
+**View**
+
+```html
+<div th:each="region : ${regions}" class="form-check form-check-inline">
+  <input
+    type="checkbox"
+    th:field="${item.regions}"
+    th:value="${region.key}"
+    class="form-check-input"
+    disabled
+  />
+  <label
+    th:for="${#ids.prev('regions')}"
+    th:text="${region.value}"
+    class="form-check-label"
+    >서울</label
+  >
+</div>
+```
+
+- 타임리프는 `th:field`에 지정한 값과 `th:value`의 값을 비교해서 체크를 자동으로 처리
