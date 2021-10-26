@@ -740,3 +740,42 @@ public Map<String, String> regions() {
 ```
 
 - 타임리프는 `th:field`에 지정한 값과 `th:value`의 값을 비교해서 체크를 자동으로 처리
+
+## 라디오 버튼
+
+```java
+public enum ItemType {
+
+    BOOK("도서"), FOOD("식품"), ETC("기타"); // NAME(description)
+
+    private final String description;
+
+    ItemType(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+}
+```
+
+```html
+<div th:each="type : ${itemTypes}" class="form-check form-check-inline">
+  <input
+    type="radio"
+    th:field="*{itemType}"
+    th:value="${type.name()}"
+    class="form-check-input"
+  />
+  <label
+    th:for="${#ids.prev('itemType')}"
+    th:text="${type.description}"
+    class="form-check-label"
+  >
+    BOOK
+  </label>
+</div>
+```
+
+- 라디오 버튼은 항상 하나의 값이 선택되어야 하므로 히든 버튼을 따로 생성하지 않음.
