@@ -779,3 +779,20 @@ public enum ItemType {
 ```
 
 - 라디오 버튼은 항상 하나의 값이 선택되어야 하므로 히든 버튼을 따로 생성하지 않음.
+
+## 셀렉트 박스
+
+**Register**
+
+```html
+<select th:field="*{deliveryCode}" class="form-select">
+  <option value="">==배송 방식 선택==</option>
+  <option
+    th:each="deliveryCode : ${deliveryCodes}"
+    th:value="${deliveryCode.code}"
+    th:text="${deliveryCode.displayName}"
+  >
+    FAST
+  </option>
+</select>
+```
