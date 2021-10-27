@@ -586,6 +586,8 @@ featured-img: spring_mvc_2
   </html>
   ```
 
+# Form
+
 ## 입력 폼 처리
 
 ```html
