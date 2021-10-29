@@ -95,3 +95,18 @@ featured-img: spring_mvc_2
       assertThat(ms.getMessage("hello", null, Locale.ENGLISH)).isEqualTo("hello"); // _en 메시지 파일 선
   }
   ```
+
+## Web Application Message
+
+- 타임리프의 메시지 표현식 `#{...}` 를 사용하면 스프링 메시지를 편리하게 조회 가능
+
+  - messages.properties
+    ```properties
+    label.item=상품
+    hello.name=안녕 {0}
+    ```
+  - Thymeleaf
+    ```html
+    <div th:text="#{label.item}"></h2>
+    <p th:text="#{hello.name(${item.itemName})}"></p>
+    ```
