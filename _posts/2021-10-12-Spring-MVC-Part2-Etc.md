@@ -98,6 +98,8 @@ featured-img: spring_mvc_2
 
 ## Web Application Message
 
+**메시지 적용**
+
 - 타임리프의 메시지 표현식 `#{...}` 를 사용하면 스프링 메시지를 편리하게 조회 가능
 
   - messages.properties
@@ -110,3 +112,15 @@ featured-img: spring_mvc_2
     <div th:text="#{label.item}"></h2>
     <p th:text="#{hello.name(${item.itemName})}"></p>
     ```
+
+**국제화 적용**
+
+- 웹 브라우저의 언어 설정 값이 변하면 요청시 Accept-Language 의 값이 변경되고, 이 정보를 Spring은 Locale로 인식해 자동으로 국제화 처리를 해준다.
+
+- `LocaleResolver`
+
+  - Spring은 Locale 선택 방식을 변경할 수 있도록 LocaleResolver 인터페이스를 제공
+
+  - Spring Boot는 언어 선택 시 기본적으로 Accept-Language 헤더값을 활용하는 AcceptHeaderLocaleResolver를 사용
+
+  - Locale 선택 방식을 변경하려면 LocaleResolver 의 구현체를 변경해서 쿠키나 세션 기반의 Locale 선택 기능 사용
