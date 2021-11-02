@@ -158,6 +158,14 @@ featured-img: spring_mvc_2
 - `${userMap['userA']['username']}` = userA
 - `${userMap['userA'].getUsername()}` = userA
 
+**Safe Navigation Operator**
+
+```html
+<div th:if="${errors?.containsKey('globalError')}"></div>
+```
+
+- errors`?.` 은 errors 가 null 일때 NullPointerException 대신, null 을 반환하는 문법 [참고](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#expressions-operator-safe-navigation)
+
 **지역변수**
 
 ```html
