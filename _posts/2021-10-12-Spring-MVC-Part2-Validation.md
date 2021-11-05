@@ -20,6 +20,10 @@ featured-img: spring_mvc_2
 
 - BindingResult bindingResult 은 @ModelAttribute 객체 다음에 와야 함
 
+- BindingResult 가 있으면 @ModelAttribute 에 데이터 바인딩 시 오류가 발생해도 컨트롤러가 호출
+
+- Model에 자동으로 포함
+
 **필드 오류 처리**
 
 ```java
