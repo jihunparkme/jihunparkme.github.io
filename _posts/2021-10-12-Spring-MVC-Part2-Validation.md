@@ -63,6 +63,3 @@ bindingResult.addError(new ObjectError("item", "가격 * 수량의 합은 10,000
 ```
 
 > [Validation and Error Messages](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html#validation-and-error-messages)
-
-
-commit
