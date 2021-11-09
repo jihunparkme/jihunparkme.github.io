@@ -24,11 +24,25 @@ featured-img: spring_mvc_2
 
 - Model에 자동으로 포함
 
+## FieldError
+
 **필드 오류 처리**
 
+- 오류 발생시 사용자 입력 값을 저장하는 기능을 제공 (rejectedValue)
+
 ```java
-bindingResult.addError(new FieldError("item", "itemName", "상품 이름은 필수입니다."));
+bindingResult.addError(new FieldError(
+  "item", // objectName (오류가 발생한 객체 이름)
+  "itemName", // field (오류 필드)
+  item.getItemName(), //rejectedValue (사용자가 입력한 값)
+  false, // bindingFailure(바인딩 실패 여부)
+  null, // codes (메시지 코드)
+  null, // arguments (메시지에서 사용하는 인자)
+  "상품 이름은 필수입니다." // defaultMessage
+  ));
 ```
+
+- `th:field`는 평소에는 모델 객체의 값을 사용하지만, 오류가 발생하면 FieldError 에서 보관한 값을 사용해서 값을 출력
 
 ```html
 <input
@@ -43,10 +57,17 @@ bindingResult.addError(new FieldError("item", "itemName", "상품 이름은 필�
 <div class="field-error" th:errors="*{itemName}">상품명 오류</div>
 ```
 
+## ObjectError
+
 **글로벌 오류 처리**
 
 ```java
-bindingResult.addError(new ObjectError("item", "가격 * 수량의 합은 10,000원 이상이어야 합니다. 현재 값 = " + resultPrice));
+bindingResult.addError(new ObjectError(
+  "item", // objectName
+  null, // codes
+  null, // arguments
+  "가격 * 수량의 합은 10,000원 이상이어야 합니다. 현재 값 = " + resultPrice // defaultMessage
+  ));
 ```
 
 ```html
