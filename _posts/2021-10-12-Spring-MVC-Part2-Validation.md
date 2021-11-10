@@ -24,6 +24,24 @@ featured-img: spring_mvc_2
 
 - Model에 자동으로 포함
 
+## Setting
+
+**application.properties**
+
+```properties
+spring.messages.basename=messages,errors
+```
+
+**errors.properties**
+
+```properties
+required.item.itemName=상품 이름은 필수입니다.
+range.item.price=가격은 {0} ~ {1} 까지 허용합니다.
+max.item.quantity=수량은 최대 {0} 까지 허용합니다.
+totalPriceMin=가격 * 수량의 합은 {0}원 이상이어야 합니다. 현재 값 = {1}
+required.default = 기본 오류 메시지
+```
+
 ## FieldError
 
 **필드 오류 처리**
@@ -33,12 +51,12 @@ featured-img: spring_mvc_2
 ```java
 bindingResult.addError(new FieldError(
   "item", // objectName (오류가 발생한 객체 이름)
-  "itemName", // field (오류 필드)
-  item.getItemName(), //rejectedValue (사용자가 입력한 값)
+  "price", // field (오류 필드)
+  item.getPrice(), //rejectedValue (사용자가 입력한 값)
   false, // bindingFailure(바인딩 실패 여부)
-  null, // codes (메시지 코드)
-  null, // arguments (메시지에서 사용하는 인자)
-  "상품 이름은 필수입니다." // defaultMessage
+  new String[]{"range.item.price", "required.default"}, // codes (메시지 코드)
+  new Object[]{1000, 1000000}, // arguments (메시지에서 사용하는 인자)
+  "상품 가격 오류" // defaultMessage
   ));
 ```
 
@@ -47,14 +65,13 @@ bindingResult.addError(new FieldError(
 ```html
 <input
   type="text"
-  id="itemName"
-  th:field="*{itemName}"
+  id="price"
+  th:field="*{price}"
   th:errorclass="field-error"
   class="form-control"
-  placeholder="이름을
-입력하세요"
+  placeholder="가격을 입력하세요"
 />
-<div class="field-error" th:errors="*{itemName}">상품명 오류</div>
+<div class="field-error" th:errors="*{price}">가격 오류</div>
 ```
 
 ## ObjectError
