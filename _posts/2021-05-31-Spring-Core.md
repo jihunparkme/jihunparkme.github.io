@@ -351,6 +351,8 @@ public class AllBeanTest {
 >
 > RecentFile : Ctrl + E
 >
+> Parameter 확인 : Ctrl + P
+>
 > (;)포함 엔터 : Ctrl + Shift + Enter
 >
 > 이전 File : Ctrl + Alt + <- or ->
