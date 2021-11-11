@@ -102,3 +102,39 @@ bindingResult.reject(
 ```
 
 > [Validation and Error Messages](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html#validation-and-error-messages)
+
+## DefaultMessageCodesResolver 기본 메시지 생성 규칙
+
+- MessageCodesResolver는 검증 오류 코드로 메시지 코드들을 생성
+
+- MessageCodesResolver는 인터페이스, DefaultMessageCodesResolver는 기본 구현체
+
+- rejectValue() , reject()는 내부에서 MessageCodesResolver를 사용
+
+**필드 오류 (FieldError)**
+
+`error code` : typeMismatch
+
+`object name` : user
+
+`field` : age
+
+`field type` : int
+
+1. typeMismatch.user.age
+
+2. typeMismatch.age
+
+3. typeMismatch.int
+
+4. typeMismatch
+
+**객체 오류 (ObjectError)**
+
+`error code` : required
+
+`object name` : item
+
+1. required.item
+
+2. required
