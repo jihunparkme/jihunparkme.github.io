@@ -40,10 +40,13 @@ required.item.itemName=상품 이름은 필수입니다.
 range.item.price=가격은 {0} ~ {1} 까지 허용합니다.
 max.item.quantity=수량은 최대 {0} 까지 허용합니다.
 totalPriceMin=가격 * 수량의 합은 {0}원 이상이어야 합니다. 현재 값 = {1}
-required.default = 기본 오류 메시지
+required.default=기본 오류 메시지
+
+required=필수 값 입니다.
 ```
 
 - errorCode.ObjectName.fieldName
+  - 위 Message가 없을 경우 errorCode에 해당하는 Message를 사용
 
 ## FieldError
 
@@ -91,8 +94,7 @@ bindingResult.reject(
   <p
     class="field-error"
     th:each="err : ${#fields.globalErrors()}"
-    th:text="$
-{err}"
+    th:text="${err}"
   >
     전체 오류 메시지
   </p>
