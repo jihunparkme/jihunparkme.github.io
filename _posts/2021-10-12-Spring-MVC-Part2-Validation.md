@@ -138,4 +138,3 @@ bindingResult.reject(
 1. required.item
 
 2. required
-   d
