@@ -150,3 +150,5 @@ bindingResult.reject(
 3. new FieldError() 를 생성하면서 메시지 코드들을 보관
 
 4. th:erros 에서 메시지 코드들로 메시지를 순서대로 메시지에서 찾고 출력
+
+test
