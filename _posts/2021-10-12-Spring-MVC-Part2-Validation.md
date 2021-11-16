@@ -138,4 +138,15 @@ bindingResult.reject(
 1. required.item
 
 2. required
-   cc
+
+## 오류 코드 관리 전략
+
+- 중요하지 않은 메시지는 범용성 있는 requried 같은 간단한 메시지로 끝내고, 정말 중요한 메시지는 꼭 필요할 때 구체적으로 적어서 사용하는 방식이 효과적
+
+1. rejectValue() 호출
+
+2. MessageCodesResolver 를 사용해서 검증 오류 코드로 메시지 코드들을 생성
+
+3. new FieldError() 를 생성하면서 메시지 코드들을 보관
+
+4. th:erros 에서 메시지 코드들로 메시지를 순서대로 메시지에서 찾고 출력
