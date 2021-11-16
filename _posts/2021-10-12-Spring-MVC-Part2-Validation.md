@@ -151,4 +151,18 @@ bindingResult.reject(
 
 4. th:erros 에서 메시지 코드들로 메시지를 순서대로 메시지에서 찾고 출력
 
-test
+## Spring 자체 검증 오류 메시지 처리
+
+- 주로 타입 정보가 맞지 않을 경우 Spring 직접 검증
+
+- Spring은 타입 오류가 발생하면 typeMismatch 오류 코드를 사용
+
+  - typeMismatch.item.price
+  - typeMismatch.price
+  - typeMismatch.java.lang.Integer
+  - typeMismatch
+
+```properties
+typeMismatch.java.lang.Integer=숫자를 입력해주세요.
+typeMismatch=타입 오류입니다.
+```
