@@ -11,6 +11,8 @@ featured-img: spring_mvc_2
 
 영한님의 [스프링 MVC 2편 - 백엔드 웹 개발 활용 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-mvc-2/) 강의 노트
 
+[Project](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2)
+
 # Spring Verification
 
 - 서버단에서 입력 데이터 검증
@@ -165,4 +167,77 @@ bindingResult.reject(
 ```properties
 typeMismatch.java.lang.Integer=숫자를 입력해주세요.
 typeMismatch=타입 오류입니다.
+```
+
+## Validator 분리
+
+- Validator 분리를 위한 ItemValidator class
+
+```java
+@Component
+public class ItemValidator implements Validator {
+
+    /**
+     * 해당 검증기를 지원하는 여부 확인
+     * item ==clazz
+     * item == subItem
+     *
+     * @param clazz
+     */
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return Item.class.isAssignableFrom(clazz);
+
+    }
+
+    /**
+     * 검증 대상 객체과 BindingResult
+     *
+     * @param target
+     * @param errors
+     */
+    @Override
+    public void validate(Object target, Errors errors) {
+
+        Item item = (Item) target;
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "itemName", "required");
+
+        if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
+            errors.rejectValue("price", "range", new Object[]{1000, 1000000}, null);
+        }
+
+        if (item.getQuantity() == null || item.getQuantity() > 10000) {
+            errors.rejectValue("quantity", "max", new Object[]{9999}, null);
+        }
+
+        //특정 필드 예외가 아닌 전체 예외
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int resultPrice = item.getPrice() * item.getQuantity();
+            if (resultPrice < 10000) {
+                errors.reject("totalPriceMin", new Object[]{10000,
+                        resultPrice}, null);
+            }
+        }
+    }
+}
+
+```
+
+- Controller에서 WebDataBinder를 통해 ItemValidator 호출
+
+```java
+// WebDataBinder에 검증기 추가 시 해당 컨트롤러에서는 검증기 자동 적용
+@InitBinder
+public void init(WebDataBinder dataBinder) {
+    dataBinder.addValidators(itemValidator);
+}
+```
+
+- @Validated 는 검증기를 실행하라는 애노테이션
+  - WebDataBinder 에 등록한 검증기를 찾아서 실행
+  - bindingResult 에 검증 결과가 담기게 됨
+
+```java
+ @PostMapping("/add")
+public String addItem(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 ```
