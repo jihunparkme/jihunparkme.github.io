@@ -11,6 +11,8 @@ featured-img: spring_mvc_2
 
 영한님의 [스프링 MVC 2편 - 백엔드 웹 개발 활용 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-mvc-2/) 강의 노트
 
+[Project](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2)
+
 # Reference
 
 > [공식 사이트](https://www.thymeleaf.org/)
@@ -63,7 +65,13 @@ featured-img: spring_mvc_2
 
 - 속성 변경
   ```html
-  <input type="text" id="price" name="price" value="10000" th:value="${item.price}"/>
+  <input
+    type="text"
+    id="price"
+    name="price"
+    value="10000"
+    th:value="${item.price}"
+  />
   ```
 
 ## 기본 표현식
@@ -231,9 +239,11 @@ featured-img: spring_mvc_2
 
   - /hello/data1/data2
     ```html
-    <a th:href="@{/hello/{param1}/{param2}(param1=${param1}, param2=${param2})}"></a>
+    <a
+      th:href="@{/hello/{param1}/{param2}(param1=${param1}, param2=${param2})}"
+    ></a>
     ```
-  
+
 - query parameter + path variable
 
   - /hello/data1?param2=data2
@@ -397,8 +407,8 @@ featured-img: spring_mvc_2
 ```html
 <th:block th:each="user : ${users}">
   <div>
-    name: <span th:text="${user.username}"></span> 
-    age: <span th:text="${user.age}"></span>
+    name: <span th:text="${user.username}"></span> age:
+    <span th:text="${user.age}"></span>
   </div>
   <div>요약 <span th:text="${user.username} + ' / ' + ${user.age}"></span></div>
 </th:block>
@@ -478,7 +488,9 @@ featured-img: spring_mvc_2
       <div th:replace="~{template/fragment/footer :: copy}"></div>
 
       <h1>파라미터 사용</h1>
-      <div th:replace="~{template/fragment/footer :: copyParam ('데이터1', '데이터2')}"></div>
+      <div
+        th:replace="~{template/fragment/footer :: copyParam ('데이터1', '데이터2')}"
+      ></div>
     </body>
   </html>
   ```
@@ -497,16 +509,24 @@ featured-img: spring_mvc_2
       <title th:replace="${title}">레이아웃 타이틀</title>
 
       <!-- 공통 -->
-      <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/awesomeapp.css}" />
+      <link
+        rel="stylesheet"
+        type="text/css"
+        media="all"
+        th:href="@{/css/awesomeapp.css}"
+      />
       <link rel="shortcut icon" th:href="@{/images/favicon.ico}" />
-      <script type="text/javascript" th:src="@{/sh/scripts/codebase.js}"></script>
-  
+      <script
+        type="text/javascript"
+        th:src="@{/sh/scripts/codebase.js}"
+      ></script>
+
       <!-- 추가 -->
       <th:block th:replace="${links}" />
     </head>
   </html>
   ```
-  
+
 - `/resources/templates/template/layout/layoutMain.html`
 
   - 틀 안에 필요한 코드 조각들을 전달
@@ -516,7 +536,9 @@ featured-img: spring_mvc_2
   ```html
   <!DOCTYPE html>
   <html xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="template/layout/base :: common_header(~{::title},~{::link})">
+    <head
+      th:replace="template/layout/base :: common_header(~{::title},~{::link})"
+    >
       <title>메인 타이틀</title>
       <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
       <link rel="stylesheet" th:href="@{/themes/smoothness/jquery-ui.css}" />
@@ -535,7 +557,10 @@ featured-img: spring_mvc_2
 
   ```html
   <!DOCTYPE html>
-  <html th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org" >
+  <html
+    th:fragment="layout (title, content)"
+    xmlns:th="http://www.thymeleaf.org"
+  >
     <head>
       <title th:replace="${title}">레이아웃 타이틀</title>
     </head>
@@ -548,15 +573,17 @@ featured-img: spring_mvc_2
     </body>
   </html>
   ```
-  
+
 - `/resources/templates/template/layoutExtend/layoutExtendMain.html `
 
   - 기본 레이아웃 틀로 교체하는데 하는데 title, content 는 전달
 
   ```html
   <!DOCTYPE html>
-  <html th:replace="~{template/layoutExtend/layoutFile :: layout(~{::title}, ~{::section})}" 
-        xmlns:th="http://www.thymeleaf.org" >
+  <html
+    th:replace="~{template/layoutExtend/layoutFile :: layout(~{::title}, ~{::section})}"
+    xmlns:th="http://www.thymeleaf.org"
+  >
     <head>
       <title>메인 페이지 타이틀</title>
     </head>
@@ -577,7 +604,13 @@ featured-img: spring_mvc_2
 <form action="item.html" th:action th:object="${item}" method="post">
   <div>
     <label for="itemName">상품명</label>
-    <input type="text" id="itemName" th:field="*{itemName}" class="formcontrol" placeholder="이름을 입력하세요" />
+    <input
+      type="text"
+      id="itemName"
+      th:field="*{itemName}"
+      class="formcontrol"
+      placeholder="이름을 입력하세요"
+    />
   </div>
 </form>
 ```
@@ -604,7 +637,12 @@ featured-img: spring_mvc_2
 ```html
 <div>
   <div class="form-check">
-    <input type="checkbox" id="open" th:field="*{open}" class="form-checkinput" />
+    <input
+      type="checkbox"
+      id="open"
+      th:field="*{open}"
+      class="form-checkinput"
+    />
     <label for="open" class="form-check-label">판매 오픈</label>
   </div>
 </div>
@@ -619,7 +657,13 @@ featured-img: spring_mvc_2
 ```html
 <div>
   <div class="form-check">
-    <input type="checkbox" id="open" th:field="${item.open}" class="form-check-input" disabled/>
+    <input
+      type="checkbox"
+      id="open"
+      th:field="${item.open}"
+      class="form-check-input"
+      disabled
+    />
     <label for="open" class="form-check-label">판매 오픈</label>
   </div>
 </div>
@@ -644,8 +688,18 @@ public Map<String, String> regions() {
 
 ```html
 <div th:each="region : ${regions}" class="form-check form-check-inline">
-  <input type="checkbox" th:field="*{regions}" th:value="${region.key}" class="form-check-input" />
-  <label th:for="${#ids.prev('regions')}" th:text="${region.value}" class="form-check-label" >서울</label>
+  <input
+    type="checkbox"
+    th:field="*{regions}"
+    th:value="${region.key}"
+    class="form-check-input"
+  />
+  <label
+    th:for="${#ids.prev('regions')}"
+    th:text="${region.value}"
+    class="form-check-label"
+    >서울</label
+  >
 </div>
 ```
 
@@ -654,17 +708,46 @@ public Map<String, String> regions() {
 - result
 
   ```html
-  <input type="checkbox" value="SEOUL" class="form-check-input" id="regions1" name="regions" />
-  <input type="checkbox" value="BUSAN" class="form-check-input" id="regions2" name="regions"/>
-  <input type="checkbox" value="JEJU" class="form-check-input" id="regions3" name="regions"/>
+  <input
+    type="checkbox"
+    value="SEOUL"
+    class="form-check-input"
+    id="regions1"
+    name="regions"
+  />
+  <input
+    type="checkbox"
+    value="BUSAN"
+    class="form-check-input"
+    id="regions2"
+    name="regions"
+  />
+  <input
+    type="checkbox"
+    value="JEJU"
+    class="form-check-input"
+    id="regions3"
+    name="regions"
+  />
   ```
 
 **View**
 
 ```html
 <div th:each="region : ${regions}" class="form-check form-check-inline">
-  <input type="checkbox" th:field="${item.regions}" th:value="${region.key}" class="form-check-input" disabled />
-  <label th:for="${#ids.prev('regions')}" th:text="${region.value}" class="form-check-label" >서울</label>
+  <input
+    type="checkbox"
+    th:field="${item.regions}"
+    th:value="${region.key}"
+    class="form-check-input"
+    disabled
+  />
+  <label
+    th:for="${#ids.prev('regions')}"
+    th:text="${region.value}"
+    class="form-check-label"
+    >서울</label
+  >
 </div>
 ```
 
@@ -691,8 +774,17 @@ public enum ItemType {
 
 ```html
 <div th:each="type : ${itemTypes}" class="form-check form-check-inline">
-  <input type="radio" th:field="*{itemType}" th:value="${type.name()}" class="form-check-input" />
-  <label th:for="${#ids.prev('itemType')}" th:text="${type.description}" class="form-check-label" >
+  <input
+    type="radio"
+    th:field="*{itemType}"
+    th:value="${type.name()}"
+    class="form-check-input"
+  />
+  <label
+    th:for="${#ids.prev('itemType')}"
+    th:text="${type.description}"
+    class="form-check-label"
+  >
     BOOK
   </label>
 </div>
@@ -707,7 +799,11 @@ public enum ItemType {
 ```html
 <select th:field="*{deliveryCode}" class="form-select">
   <option value="">==배송 방식 선택==</option>
-  <option th:each="deliveryCode : ${deliveryCodes}" th:value="${deliveryCode.code}" th:text="${deliveryCode.displayName}" >
+  <option
+    th:each="deliveryCode : ${deliveryCodes}"
+    th:value="${deliveryCode.code}"
+    th:text="${deliveryCode.displayName}"
+  >
     FAST
   </option>
 </select>
