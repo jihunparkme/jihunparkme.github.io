@@ -11,6 +11,8 @@ featured-img: spring_mvc_2
 
 영한님의 [스프링 MVC 2편 - 백엔드 웹 개발 활용 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-mvc-2/) 강의 노트
 
+[Project](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2)
+
 # Table Of Contents
 
 - 메시지, 국제화
