@@ -248,10 +248,58 @@ public String addItem(@Validated @ModelAttribute Item item, BindingResult bindin
 
 - 특정한 구현체가 아니라 Bean Validation 2.0(JSR-380)이라는 기술 표준 (검증 애노테이션과 여러 인터페이스의 모음)
 
-- 일반적으로 사용하는 구현체는 하이버네이트 Validator
+- 일반적으로 사용하는 구현체는 HIBERNATE Validator
 
 **Reference**
 
 > [HIBERNATE](http://hibernate.org/validator/)
 >
 > [HIBERNATE Validator](https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/)
+>
+> [HIBERNATE Validator Annotations](https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/#validator-defineconstraints-spec)
+
+## Start
+
+**Dependence**
+
+```gradle
+implementation 'org.springframework.boot:spring-boot-starter-validation'
+```
+
+**Item.java**
+
+```java
+import lombok.Data;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+@Data
+public class Item {
+
+    private Long id;
+
+    @NotBlank //빈값+공백 검증
+    private String itemName;
+
+    @NotNull
+    @Range(min = 1000, max = 1000000)
+    private Integer price;
+
+    @NotNull
+    @Max(9999)
+    private Integer quantity;
+
+    public Item() {
+    }
+
+    public Item(String itemName, Integer price, Integer quantity) {
+        this.itemName = itemName;
+        this.price = price;
+        this.quantity = quantity;
+    }
+}
+
+```
