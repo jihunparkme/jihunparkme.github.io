@@ -302,7 +302,3 @@ featured-img: refactoring
 - 클래스 인라인하기
 - 함수 선언 바꾸기
 - 죽은 코드 제거하기
-
-# Reference
-
-[참고](https://github.com/yujeongJeon/yujeongJeon.github.io)
