@@ -266,6 +266,12 @@ public String addItem(@Validated @ModelAttribute Item item, BindingResult bindin
 implementation 'org.springframework.boot:spring-boot-starter-validation'
 ```
 
+- 자동으로 Bean Validator를 인지하고 스프링에 통합
+- Spring Boot는 자동으로 LocalValidatorFactoryBean 을 글로벌 Validator로 등록
+  - LocalValidatorFactoryBean 은 Annotation 기반 검증
+- @Valid, @Validated 만 적용하여 검증 사용 가능
+- 검증 오류 발생 시 FieldError, ObjectError 를 생성해서 BindingResult 에 담아 준다.
+
 **Item.java**
 
 ```java
@@ -303,3 +309,24 @@ public class Item {
 }
 
 ```
+
+- 기존에 등록한 ItemValidator 제거
+
+```java
+@PostMapping("/add")
+public String addItem(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    // ..
+}
+```
+
+### 검증 순서
+
+1/.@ModelAttribute 각각의 필드에 타입 변환 시도
+
+- 성공하면 다음으로
+- 실패하면 typeMismatch 로 FieldError 추가
+
+2/.Validator 적용
+
+- 바인딩에 성공한 필드만 Bean Validation 적용
+- BeanValidator는 바인딩에 실패한 필드는 BeanValidation을 적용하지 않음
