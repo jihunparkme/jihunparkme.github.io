@@ -74,7 +74,3 @@ featured-img: refactoring
 [리팩터링 워크북](http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9788991268159)
 
 [패턴을 활용한 리팩터링](http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9788991268920)
-
-## Reference
-
-[참고](https://github.com/yujeongJeon/yujeongJeon.github.io)
