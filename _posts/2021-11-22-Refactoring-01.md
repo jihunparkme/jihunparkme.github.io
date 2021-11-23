@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Refactoring Chapter 1,2
+title: Refactoring Chapter 1-2
 summary: Chapter 1. 리펙터링: 첫 번째 예시 / Chapter 2. 리펙터링 원칙
 categories: (Book)Refactoring
 featured-img: refactoring
