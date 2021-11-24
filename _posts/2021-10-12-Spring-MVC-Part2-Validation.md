@@ -319,7 +319,7 @@ public String addItem(@Validated @ModelAttribute Item item, BindingResult bindin
 }
 ```
 
-### 검증 순서
+**검증 순서**
 
 1/.@ModelAttribute 각각의 필드에 타입 변환 시도
 
@@ -361,3 +361,16 @@ Max={0}, 최대 {1}
 2. 애노테이션의 message 속성 사용 @NotBlank(message = "공백! {0}")
 
 3. 라이브러리가 제공하는 기본 값 사용 공백일 수 없습니다
+
+## 오브젝트 오류
+
+- `@ScriptAssert()` 사용은 제약이 많으므로 추천하지 않음.
+
+```java
+if (item.getPrice() != null && item.getQuantity() != null) {
+    int resultPrice = item.getPrice() * item.getQuantity();
+    if (resultPrice < 10000) {
+        bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
+    }
+}
+```
