@@ -258,7 +258,7 @@ public String addItem(@Validated @ModelAttribute Item item, BindingResult bindin
 >
 > [HIBERNATE Validator Annotations](https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/#validator-defineconstraints-spec)
 
-## Start
+## Apply Spring
 
 **Dependence**
 
@@ -330,3 +330,34 @@ public String addItem(@Validated @ModelAttribute Item item, BindingResult bindin
 
 - 바인딩에 성공한 필드만 Bean Validation 적용
 - BeanValidator는 바인딩에 실패한 필드는 BeanValidation을 적용하지 않음
+
+## 에러 코드
+
+**@NotBlank**
+
+- NotBlank.item.itemName
+- NotBlank.itemName
+- NotBlank.java.lang.String
+- NotBlank
+
+**@Range**
+
+- Range.item.price
+- Range.price
+- Range.java.lang.Integer
+- Range
+
+```properties
+NotBlank.item.itemName=상품 이름을 입력해주세요.
+NotBlank={0} 공백X
+Range={0}, {2} ~ {1} 허용
+Max={0}, 최대 {1}
+```
+
+**BeanValidation 메시지 찾는 순서**
+
+1. 생성된 메시지 코드 순서대로 messageSource 에서 메시지 찾기
+
+2. 애노테이션의 message 속성 사용 @NotBlank(message = "공백! {0}")
+
+3. 라이브러리가 제공하는 기본 값 사용 공백일 수 없습니다
