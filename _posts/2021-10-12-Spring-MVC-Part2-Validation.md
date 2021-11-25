@@ -374,3 +374,71 @@ if (item.getPrice() != null && item.getQuantity() != null) {
     }
 }
 ```
+
+## form(add/edit) Validation 분리
+
+### groups
+
+- groups 기능은 실제 잘 사용되지는 않음
+- 실무에서는 주로 등록용 폼 객체와 수정용 폼 객체를 분리해서 사용
+
+**SaveCheck.java**
+
+```java
+public interface SaveCheck {
+}
+```
+
+**UpdateCheck**
+
+```java
+public interface UpdateCheck {
+}
+```
+
+**item.java**
+
+```java
+@Data
+public class Item {
+
+    @NotNull(groups = UpdateCheck.class)
+    private Long id;
+
+    @NotBlank(message = "{0} 공백은 입력할 수 없습니다.", groups = {SaveCheck.class, UpdateCheck.class}) //빈값+공백 검증
+    private String itemName;
+
+    @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+    @Range(min = 1000, max = 1000000, groups = {SaveCheck.class, UpdateCheck.class})
+    private Integer price;
+
+    @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+    @Max(value = 9999, groups = SaveCheck.class)
+    private Integer quantity;
+
+    public Item() {
+    }
+
+    public Item(String itemName, Integer price, Integer quantity) {
+        this.itemName = itemName;
+        this.price = price;
+        this.quantity = quantity;
+    }
+}
+```
+
+**Controller.java**
+
+- @Validated 에 validation interface 명시
+
+```java
+@PostMapping("/add")
+public String addItem2(@Validated(SaveCheck.class) @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+  //...
+}
+
+@PostMapping("/{itemId}/edit")
+public String edit2(@PathVariable Long itemId, @Validated(UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult) {
+  //...
+}
+```
