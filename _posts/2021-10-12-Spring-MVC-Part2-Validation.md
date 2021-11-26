@@ -375,7 +375,12 @@ if (item.getPrice() != null && item.getQuantity() != null) {
 }
 ```
 
-## form(add/edit) Validation 분리
+## Form(add/edit) Validation 분리
+
+### Form 전송 객체 분리
+
+- 수정의 경우 등록과 수정은 완전히 다른 데이터가 넘어온다.
+- 따라서 Save/Update 별도의 객체로 데이터를 전달받는 것이 좋다.
 
 ### groups
 
