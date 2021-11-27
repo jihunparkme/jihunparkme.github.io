@@ -377,11 +377,6 @@ if (item.getPrice() != null && item.getQuantity() != null) {
 
 ## Form(add/edit) Validation 분리
 
-### Form 전송 객체 분리
-
-- 수정의 경우 등록과 수정은 완전히 다른 데이터가 넘어온다.
-- 따라서 Save/Update 별도의 객체로 데이터를 전달받는 것이 좋다.
-
 ### groups
 
 - groups 기능은 실제 잘 사용되지는 않음
@@ -447,3 +442,75 @@ public String edit2(@PathVariable Long itemId, @Validated(UpdateCheck.class) @Mo
   //...
 }
 ```
+
+## 실무 사용 방법
+
+### Form 전송 객체 분리
+
+- 수정의 경우 등록과 수정은 완전히 다른 데이터가 넘어온다.
+- 따라서 Save/Update 별도의 객체로 데이터를 전달받는 것이 좋다.
+
+**item.java**
+
+```java
+@Data
+public class Item {
+    private Long id;
+    private String itemName;
+    private Integer price;
+    private Integer quantity;
+}
+```
+
+**itemSaveForm.java**
+
+```java
+@Data
+public class ItemSaveForm {
+
+    @NotBlank(message = "{0} 공백은 입력할 수 없습니다.")
+    private String itemName;
+
+    @NotNull
+    @Range(min = 1000, max = 1000000)
+    private Integer price;
+
+    @NotNull
+    @Max(value = 9999)
+    private Integer quantity;
+}
+```
+
+**itemUpdateForm.java**
+
+```java
+@Data
+public class ItemUpdateForm {
+
+    @NotNull
+    private Long id;
+
+    @NotBlank(message = "{0} 공백은 입력할 수 없습니다.")
+    private String itemName;
+
+    @NotNull
+    @Range(min = 1000, max = 1000000)
+    private Integer price;
+
+    //수정에서 수량은 자유로 변경 가능
+    private Integer quantity;
+}
+```
+
+- Form 객체를 Item 으로 변환
+
+```java
+Item item = new Item();
+item.setItemName(form.getItemName());
+item.setPrice(form.getPrice());
+item.setQuantity(form.getQuantity());
+
+Item savedItem = itemRepository.save(item);
+```
+
+[Validation Annotation Docs](https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/#validator-defineconstraints-spec)
