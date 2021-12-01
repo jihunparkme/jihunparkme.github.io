@@ -514,3 +514,50 @@ Item savedItem = itemRepository.save(item);
 ```
 
 [Validation Annotation Docs](https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/#validator-defineconstraints-spec)
+
+### HTTP Message Converter
+
+- `@Valid`, `@Validated` 는 HttpMessageConverter(@RequestBody)에도 적용 가능
+
+> `@ModelAttribute` 는 HTTP 요청 파라미터(URL 쿼리 스트링, POST Form)를 다룰 때 사용
+>
+> `@RequestBody` 는 HTTP Body의 데이터를 객체로 변환할 때 사용 (주로 API JSON 요청)
+
+```java
+@Slf4j
+@RestController
+@RequestMapping("/validation/api/items")
+public class ValidationItemApiController {
+
+    @PostMapping("/add")
+    public Object addItem(@RequestBody @Validated ItemSaveForm form, BindingResult bindingResult) {
+
+        log.info("API 컨트롤러 호출");
+
+        if (bindingResult.hasErrors()) {
+            log.info("검증 오류 발생 errors={}", bindingResult);
+            return bindingResult.getAllErrors();
+        }
+
+        log.info("성공 로직 실행");
+        return form;
+    }
+}
+```
+
+**API 응답 결과**
+
+1.성공 요청: 성공
+
+2.실패 요청: JSON을 객체로 생성하는 것 자체가 실패
+
+3.검증 오류 요청: JSON을 객체로 생성하는 것은 성공, 검증에서 실패
+
+- 필요한 데이터만 뽑아 별도 API 스펙을 정의하고 객체를 만들어서 반환
+
+**@ModelAttribute vs @RequestBody**
+
+- `@ModelAttribute` 는 필드 단위로 정교하게 바인딩이 적용
+  - 특정 필드가 바인딩 되지 않아도 나머지 필드는 정상 바인딩되고, Validator를 사용한 검증도 적용 가능
+- `@RequestBody` 는 HttpMessageConverter 단계에서 JSON 데이터를 객체로 변경
+  - 객체로 변경하지 못하면 이후 단계 자체가 진행되지 않고 예외 발생. 컨트롤러도 호출되지 않고, Validator도 적용 불가능
