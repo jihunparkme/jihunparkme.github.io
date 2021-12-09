@@ -194,6 +194,25 @@ public String logout(HttpServletRequest request) {
 }
 ```
 
+## 세션 타임아웃
+
+- 세션의 타임아웃 시간은 해당 세션과 관련된 JSESSIONID 를 전달하는 HTTP 요청이 있으면 현재 시간을 기준으로 다시 초기화
+
+- 세션에는 최소한의 데이터만 보관하는 것이 중요
+  - 메모리 사용량이 급격하게 늘어나 장애 발생 가능성
+
+**글로벌 설정**
+
+```properties
+server.servlet.session.timeout=1800 # default
+```
+
+**특정 세션 단위 설정**
+
+```java
+session.setMaxInactiveInterval(1800); //1
+```
+
 ## 세션 정보
 
 ```java
