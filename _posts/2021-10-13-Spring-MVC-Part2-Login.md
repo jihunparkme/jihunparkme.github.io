@@ -94,3 +94,44 @@ private void expireCookie(HttpServletResponse response, String cookieName) {
 2. 해당 사용자의 `세션 ID 생성`(UUID) 및 `세션 저장소`에 보관
 3. 서버는 클라이언트에게 `세션 ID`를 `쿠키`에 담아 전달
 4. 클라이언트는 쿠키 저장소에 세션 ID 를 보관하여 서버와 연결
+
+## HttpSession
+
+**세션 생성**
+
+Session 정보는 서버 메모리에 저장
+
+- request.getSession(true) : default
+  - 세션이 있으면 기존 세션을 반환
+  - 세션이 없으면 새로운 세션을 생성해서 반환
+- request.getSession(false)
+  - 세션이 있으면 기존 세션을 반환
+  - 세션이 없으면 새로운 세션을 생성하지 않고, null 반환
+
+```java
+/* 로그인 */
+HttpSession session = request.getSession();
+session.setAttribute(SessioinConst.LOGIN_MEMBER, loginMember);
+```
+
+**세션 조회**
+
+```java
+/* Home */
+HttpSession session = request.getSession(false);
+if (session == null){
+    return "home";
+}
+
+Member loginMember = (Member) session.getAttribute(SessioinConst.LOGIN_MEMBER);
+```
+
+**세션 제거**
+
+```java
+/* 로그아웃 */
+HttpSession session = request.getSession(false);
+if (session != null){
+    session.invalidate();
+}
+```
