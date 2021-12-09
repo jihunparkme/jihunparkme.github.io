@@ -372,3 +372,7 @@ public class AllBeanTest {
 > 코드 정렬 : Ctrl + Alt + L
 >
 > inline variable : Ctrl + Alt + N
+>
+> 상수로 변수 빼내기 : Ctrl + Alt + C
+>
+> Go to Test : Ctrl + Shift + T
