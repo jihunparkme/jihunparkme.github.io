@@ -97,6 +97,12 @@ private void expireCookie(HttpServletResponse response, String cookieName) {
 
 ## HttpSession
 
+- URL에 jsessionid 를 포함하지 않고 쿠키를 통해서만 세션을 유지할 경우 추가
+
+```properties
+server.servlet.session.tracking-modes=cookie
+```
+
 **세션 생성**
 
 Session 정보는 서버 메모리에 저장
@@ -105,19 +111,45 @@ Session 정보는 서버 메모리에 저장
   - 세션이 있으면 기존 세션을 반환
   - 세션이 없으면 새로운 세션을 생성해서 반환
 - request.getSession(false)
+
   - 세션이 있으면 기존 세션을 반환
   - 세션이 없으면 새로운 세션을 생성하지 않고, null 반환
 
+<i>로그인</i>
+
 ```java
-/* 로그인 */
 HttpSession session = request.getSession();
 session.setAttribute(SessioinConst.LOGIN_MEMBER, loginMember);
 ```
 
+```java
+@PostMapping("/login")
+public String login(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
+
+    if (bindingResult.hasErrors()) {
+        return "login/loginForm";
+    }
+
+    Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
+    log.info("login? {}", loginMember);
+
+    if (loginMember == null) {
+        bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+        return "login/loginForm";
+    }
+
+    HttpSession session = request.getSession();
+    session.setAttribute(SessioinConst.LOGIN_MEMBER, loginMember);
+
+    return "redirect:/";
+}
+```
+
 **세션 조회**
 
+<i>Home</i>
+
 ```java
-/* Home */
 HttpSession session = request.getSession(false);
 if (session == null){
     return "home";
@@ -126,12 +158,40 @@ if (session == null){
 Member loginMember = (Member) session.getAttribute(SessioinConst.LOGIN_MEMBER);
 ```
 
-**세션 제거**
+- 스프링은 세션을 더 편리하게 사용할 수 있도록 `@SessionAttribute` 지원
 
 ```java
-/* 로그아웃 */
+@GetMapping("/")
+public String homeLogin(
+        @SessionAttribute(name = SessioinConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
+
+    if (loginMember == null) {
+        return "home";
+    }
+
+    model.addAttribute("member", loginMember);
+    return "loginHome";
+}
+```
+
+**세션 제거**
+
+<i>로그아웃</i>
+
+```java
 HttpSession session = request.getSession(false);
 if (session != null){
     session.invalidate();
+}
+```
+
+```java
+@PostMapping("/logout")
+public String logout(HttpServletRequest request) {
+    HttpSession session = request.getSession(false);
+    if (session != null){
+        session.invalidate();
+    }
+    return "redirect:/";
 }
 ```
