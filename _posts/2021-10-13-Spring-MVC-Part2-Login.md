@@ -13,12 +13,12 @@ featured-img: spring_mvc_2
 
 # Cookie
 
-## 상태 유지
+**상태 유지**
 
 - HTTP 응답에 쿠키를 담아서 브라우저에 전달
 - 이후 브라우저는 해당 쿠키를 지속해서 전송
 
-**쿠키 생성**
+## 쿠키 생성
 
 - 세션 쿠키: 만료 날짜를 생략하면 브라우저 종료시 까지만 유지
 - 영속 쿠키: 만료 날짜를 입력하면 해당 날짜까지 유지
@@ -28,7 +28,7 @@ Cookie idCookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
 response.addCookie(idCookie); // HttpServletResponse
 ```
 
-**쿠키 조회**
+## 쿠키 조회
 
 ```java
 @GetMapping("/")
@@ -49,7 +49,7 @@ public String homeLogin(@CookieValue(name = "memberId", required = false) Long m
 }
 ```
 
-**쿠키 제거**
+## 쿠키 제거
 
 ```java
 @PostMapping("/logout")
@@ -95,15 +95,13 @@ private void expireCookie(HttpServletResponse response, String cookieName) {
 3. 서버는 클라이언트에게 `세션 ID`를 `쿠키`에 담아 전달
 4. 클라이언트는 쿠키 저장소에 세션 ID 를 보관하여 서버와 연결
 
-## HttpSession
-
-- URL에 jsessionid 를 포함하지 않고 쿠키를 통해서만 세션을 유지할 경우 추가
+**URL에 jsessionid 를 포함하지 않고 쿠키를 통해서만 세션을 유지할 경우 추가**
 
 ```properties
 server.servlet.session.tracking-modes=cookie
 ```
 
-**세션 생성**
+## 세션 생성
 
 Session 정보는 서버 메모리에 저장
 
@@ -145,7 +143,7 @@ public String login(@Valid @ModelAttribute LoginForm form, BindingResult binding
 }
 ```
 
-**세션 조회**
+## 세션 조회
 
 <i>Home</i>
 
@@ -174,7 +172,7 @@ public String homeLogin(
 }
 ```
 
-**세션 제거**
+## 세션 제거
 
 <i>로그아웃</i>
 
@@ -194,4 +192,20 @@ public String logout(HttpServletRequest request) {
     }
     return "redirect:/";
 }
+```
+
+## 세션 정보
+
+```java
+HttpSession session = request.getSession(false);
+
+session.getAttributeNames().asIterator()
+        .forEachRemaining(name -> log.info("session name={}, value={}",
+                name, session.getAttribute(name)));
+
+log.info("sessionId={}", session.getId()); //session ID (JSESSIONID)
+log.info("maxInactiveInterval={}", session.getMaxInactiveInterval()); //세션 유효 시간 (초)
+log.info("creationTime={}", new Date(session.getCreationTime())); //세션 생성 일시 (Long)
+log.info("lastAccessedTime={}", new Date(session.getLastAccessedTime())); //세션과 연결된 사용자가 최근에 서버에 접근한 시간 (Long)
+log.info("isNew={}", session.isNew()); //새로 생성된 세션인지 확인
 ```
