@@ -228,3 +228,35 @@ log.info("creationTime={}", new Date(session.getCreationTime())); //세션 생�
 log.info("lastAccessedTime={}", new Date(session.getLastAccessedTime())); //세션과 연결된 사용자가 최근에 서버에 접근한 시간 (Long)
 log.info("isNew={}", session.isNew()); //새로 생성된 세션인지 확인
 ```
+
+# 필터, 인터셉터
+
+- 웹과 관련된 공통 관심사는 `서블릿 필터` 또는 `스프링 인터셉터`를 사용
+  - `HttpServletRequest` 제공
+
+## 서블릿 필터
+
+- 필터는 서블릿이 지원하는 수문장.
+
+**필터 흐름**
+
+`HTTP 요청 -> WAS -> 필터 -> (디스패처)서블릿 -> 컨트롤러`
+
+- 필터는 체인으로 구성되어 여러 필터로 구성 가능
+
+**필터 인터페이스**
+
+```java
+public interface Filter {
+    public default void init(FilterConfig filterConfig) throws ServletException {}
+
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException;
+
+    public default void destroy() {}
+}
+```
+
+- 필터 인터페이스를 구현/등록하면 서블릿 컨테이너가 필터를 싱글톤 객체로 생성하고, 관리
+- `init()` : 필터 초기화 메서드 -> 서블릿 컨테이너가 생성될 때 호출
+- `doFilter()` : 고객의 요청이 올 때 마다 호출 (필터의 로직 구현)
+- `destroy()` : 필터 종료 메서드 -> 서블릿 컨테이너가 종료될 때 호출
