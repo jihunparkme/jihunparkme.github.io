@@ -337,4 +337,4 @@ public class WebConfig {
 
 **참고**
 
-- HTTP 요청 시 같은 요청의 로그에 같은 식별자를 자동으로 남기려면 [Spring logback mdc](https://oddblogger.com/spring-boot-mdc-logging) 참고
+- HTTP 요청 로그에 각 요청자별 식별자를 자동으로 남기려면 [Spring logback mdc](https://oddblogger.com/spring-boot-mdc-logging) 참고
