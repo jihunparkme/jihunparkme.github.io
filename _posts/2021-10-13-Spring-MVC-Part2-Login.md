@@ -318,3 +318,13 @@ public interface HandlerInterceptor {
 - `afterCompletion()` :
   - HTTP 요청 종료 후 (View rendering 후)
   - 예외 여부에 관계없이 호출 (예외 발생 시 예외 정보를 파라미터로 전달받음)
+
+### 요청 로그
+
+**로그 인터셉터**
+
+[Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/0f084567b8105b4d7b88562a7020e25902e0b8f2)
+
+**참고**
+
+[PathPattern Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/util/pattern/PathPattern.html)
