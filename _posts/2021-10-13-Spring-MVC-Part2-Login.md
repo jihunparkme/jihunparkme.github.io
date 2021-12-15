@@ -240,7 +240,7 @@ log.info("isNew={}", session.isNew()); //새로 생성된 세션인지 확인
 
 **필터 흐름**
 
-`HTTP 요청 -> WAS -> 필터 -> (디스패처)서블릿 -> 컨트롤러`
+`HTTP 요청 -> WAS -> 필터 -> (dispatcher)서블릿 -> 컨트롤러`
 
 - 필터는 체인으로 구성되어 여러 필터로 구성 가능
 
@@ -248,6 +248,7 @@ log.info("isNew={}", session.isNew()); //새로 생성된 세션인지 확인
 
 ```java
 public interface Filter {
+
     public default void init(FilterConfig filterConfig) throws ServletException {}
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException;
@@ -265,78 +266,55 @@ public interface Filter {
 
 **로그 필터**
 
-```java
-/**
- * 필터 사용을 위해 필터 인터페이스 구현
- */
-@Slf4j
-public class LogFilter implements Filter {
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("log filter init");
-    }
-
-    /**
-     * HTTP 요청이 오면 호출
-     * - 고객의 요청 응답 정보를 한 번에 확인 가능
-     * - 시간 정보를 추가해서 요청 시간 확인 및 성능 최적화 가능
-     */
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        log.info("log filter doFilter");
-
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String requestURI = httpRequest.getRequestURI(); //요청 URI 정보
-
-        String uuid = UUID.randomUUID().toString(); //요청 구분을 위한 uuid
-
-        try {
-            log.info("REQUEST [{}][{}]", uuid, requestURI);
-            //다음 필터가 있으면 필터 호출, 필터가 없으면 서블릿 호출
-            chain.doFilter(request, response);
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            log.info("RESPONSE [{}][{}]", uuid, requestURI);
-        }
-    }
-
-    @Override
-    public void destroy() {
-        log.info("log filter destroy");
-    }
-}
-
-```
-
-**필터 설정**
-
-```java
-@Configuration
-public class WebConfig {
-
-    /**
-     * 필터 등록
-     * Spring Boot 는 WAS 를 들고 띄우기 때문에, WAS 를 띄울 때 필터를 같이 넣어 준다.
-     * @return
-     */
-    @Bean
-    public FilterRegistrationBean logFilter() {
-
-        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new LogFilter()); //등록할 필터 설정
-        filterRegistrationBean.setOrder(1); //필터 체인에서의 필터 순서
-        filterRegistrationBean.addUrlPatterns("/*"); //필터를 적용할 URL Pattern 설정
-
-        return filterRegistrationBean;
-    }
-}
-
-```
+[Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/3669eca5b08d2349869098a619e18d979912ebdf)
 
 **참고**
 
 - HTTP 요청 로그에 각 요청자별 식별자를 자동으로 남기려면 [Spring logback mdc](https://oddblogger.com/spring-boot-mdc-logging) 참고
 
 - [spring logback mdc test](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/58fe53325290f3f5709c9fa86bf315bc7341a5b2)
+
+### 인증 체크
+
+[Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/79aabbb4e99124ded45cc7495ecc3730422e46b4)
+
+## 스프링 인터셉터
+
+- 서블릿과 동일하게 웹 관련 공통 관심사항을 해결하는 기술
+
+- Spring MVC 구조에 특화된 필터 기능을 제공
+
+  - 특별히 필터를 사용해야 하는 것이 아니라면 인터셉터 사용 권장
+
+- 필터와 적용 순서와 범위, 사용법이 다름
+
+**인터셉터 흐름**
+
+`HTTP 요청 -> WAS -> 필터 -> 서블릿 -> 스프링 인터셉터 -> 컨트롤러`
+
+- Dispatcher Servlet과 Controller 사이에서 호출
+
+**인터셉터 인터페이스**
+
+```java
+public interface HandlerInterceptor {
+
+    default boolean preHandle(HttpServletRequest request,  HttpServletResponse response, Object handler) throws Exception {}
+
+    default void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception {}
+
+    default void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {}
+}
+```
+
+- `preHandle()` :
+
+  - Controller 호출 전 (Handler Adapter 호출 전)
+  - return true 시 다음으로 진행, false 시 끝
+
+- `postHandle()` :
+  - Controller 호출 후 (Handler Adapter 호출 후)
+  - Controller에서 예외 발생 시 호출되지 않음.
+- `afterCompletion()` :
+  - HTTP 요청 종료 후 (View rendering 후)
+  - 예외 여부에 관계없이 호출 (예외 발생 시 예외 정보를 파라미터로 전달받음)
