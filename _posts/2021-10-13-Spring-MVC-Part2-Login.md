@@ -328,3 +328,9 @@ public interface HandlerInterceptor {
 **참고**
 
 [PathPattern Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/util/pattern/PathPattern.html)
+
+### 인증 체크
+
+[Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/7fc7ecec6ae9167352f2d14894216037d96c8c7e)
+
+- 서블릿 필터에 비해 스프링 인터셉터가 더욱 사용법이 편리
