@@ -334,3 +334,72 @@ public interface HandlerInterceptor {
 [Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/7fc7ecec6ae9167352f2d14894216037d96c8c7e)
 
 - 서블릿 필터에 비해 스프링 인터셉터가 더욱 사용법이 편리
+
+## ArgumentResolver 활용
+
+- Controller Method 인자로 임의의 값을 전달하는 방법 제공
+
+**Login annotation**
+
+```java
+@GetMapping("/")
+public String homeLogin(@Login Member loginMember, Model model) {}
+```
+
+```java
+@Target(ElementType.PARAMETER) //PARAMETER에만 사용
+@Retention(RetentionPolicy.RUNTIME) //리플렉션 활용을 위해 런타임까지 애노테이션 정보가 남도록 설정
+public @interface Login {}
+```
+
+- @Target : annotation 대상 지정
+- @Retention : 어느 시점까지 어노테이션의 메모리를 가져갈 지 설정
+
+**HandlerMethodArgumentResolver 구현**
+
+```java
+@Slf4j
+public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
+    @Override
+    public boolean supportsParameter(MethodParameter parameter) {
+
+        boolean hasLoginAnnotation = parameter.hasParameterAnnotation(Login.class);
+        boolean hasMemberType = Member.class.isAssignableFrom(parameter.getParameterType());
+
+        return hasLoginAnnotation && hasMemberType;
+    }
+
+    @Override
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+
+        HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return null;
+        }
+
+        return session.getAttribute(SessionConst.LOGIN_MEMBER);
+    }
+}
+
+```
+
+- supportsParameter() : annotation(@Login) 과 class type(Member) 확인 후 해당 ArgumentResolver 사용
+  - 결과가 true 일 경우 resolveArgument() 실행
+- resolveArgument() : Controller 호출 직전에 호출되어 필요한 파라미터 정보 생성
+  - ArgumentResolver 실행 시 어떤 값을 넣어 줄지 설정
+
+**ArgumentResolver 설정**
+
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+  //...
+
+  @Override
+  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+      resolvers.add(new LoginMemberArgumentResolver());
+  }
+}
+```
