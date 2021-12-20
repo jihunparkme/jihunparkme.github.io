@@ -232,7 +232,7 @@ log.info("isNew={}", session.isNew()); //새로 생성된 세션인지 확인
 # 필터, 인터셉터
 
 - 웹과 관련된 공통 관심사는 `서블릿 필터` 또는 `스프링 인터셉터`를 사용
-  - `HttpServletRequest` 제공
+  - `HttpServletRequest` 제공 (HTTP header, URL 정보 등..)
 
 ## 서블릿 필터
 
