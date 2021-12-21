@@ -1,4 +1,3 @@
-﻿```
 ---
 layout: post
 title: 기본 & 캡슐화 Refactoring
@@ -7,7 +6,6 @@ categories: (Book)Refactoring
 featured-img: refactoring
 # mathjax: true
 ---
-```
 
 # Refactoring
 
