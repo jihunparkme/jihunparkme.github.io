@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Refactoring Chapter 3
-summary: Chapter 3.코드에서 나는 악취
+title: 코드에서 나는 악취
+summary: Refactoring  Chapter 3.코드에서 나는 악취
 categories: (Book)Refactoring
 featured-img: refactoring
 # mathjax: true

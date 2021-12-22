@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Refactoring Chapter 1
-summary: Chapter 1.리펙터링 첫 번째 예시
+title: 리펙터링 첫 번째 예시
+summary: Refactoring Chapter 1.리펙터링 첫 번째 예시
 categories: (Book)Refactoring
 featured-img: refactoring
 # mathjax: true

@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Refactoring Chapter 2
-summary: Chapter 2. 리펙터링 원칙
+title: 리펙터링 원칙
+summary: Refactoring Chapter 2. 리펙터링 원칙
 categories: (Book)Refactoring
 featured-img: refactoring
 # mathjax: true
