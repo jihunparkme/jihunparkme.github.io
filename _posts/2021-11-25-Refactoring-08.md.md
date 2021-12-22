@@ -1,7 +1,7 @@
-﻿---
+---
 layout: post
-title: 기능 이동 Refactoring
-summary: Chapter 8. 기능 이동
+title: 기능 이동 & 데이터 조직화 & 조건부 로직 간소화 Refactoring
+summary: Chapter 8. 기능 이동, 9. 데이터 조직화, 10. 조건부 로직 간소화
 categories: (Book)Refactoring
 featured-img: refactoring
 # mathjax: true
@@ -66,9 +66,83 @@ class AccountType {
 7. 테스트
 8. 소스 함수 인라인 고민
 
+## 필드 옮기기
+
+`프로그램의 진짜 힘은 데이터 구조에서 나온다.`
+
+`데이터 구조가 적절하지 않음을 깨달았다면 바로 수정하자.`
+
+`한 클래스를 변경하려고 할 때, 다른 클래스의 필드까지 변경해야만 한다면 필드의 위치가 잘못되었다는 신호다.`
+
+**개요**
+
+Before
+
+```javascript
+class Customer {
+    constructor(name, discountRate) {
+        this._name = name;
+        this._discountRate = discountRate; //이동할 필드
+        this._contract = new CustomerContract(dateToday());
+    }
+    get discountRate() { return this._discountRate; } // 1. 캡슐화
+    becomePreferred() { this._discountRate += 0.03; ... }
+    applyDiscount(amount) { return amount.subtract(amount.multiply(this._discountRate)); }
+}
+
+class CustomerContract {
+    constructor(startDate) {
+        this._startDate = startDate;
+    }
+}
+```
+
+After
+
+```javascript
+class Customer {
+  constructor(name, discountRate) {
+    this._name = name;
+    this._contract = new CustomerContract(dateToday());
+    this._setDiscountRate(discountRate);
+  }
+  get discountRate() { return this._contract.discountRate; } //5. 소스 클래스에서 타깃 클래스 참조
+  _setDiscountRate(aNumber) { this._contract.discountRate = aNumber; }
+  becomePreferred() { this._setDiscountRate(this.discountRate + 0.03); ... }
+  applyDiscount(amount) { return amount.subtract(amount.multiply(this.discountRate)); }
+}
+
+class CustomerContract {
+    // 3. 타깃 클래스 필드와 Getter/Setter
+    constructor(startDate, discountRate) {
+        this._startDate = startDate;
+        this._discountRate = discountRate;
+    }
+    get discountRate() { return this._discountRate; }
+    set discountRate(arg) { this._discountRate = arg; }
+}
+```
+
+**절차**
+
+1. 필드가 캡슐화되어 있지 않다면 캡슐화하자.
+   - 캡슐화를 하면 필드 옮기기 리팩터링이 수월해진다.
+2. 테스트
+3. 타깃 클래스에 필드와 Getter/Setter 생성
+4. 정적 검사 수행
+5. 소스 클래스에서 타깃 클래스를 참조할 수 있는지 확인
+6. 접근자들이 타깃 클래스를 사용하도록 수정
+7. 테스트
+8. 소스 클래스 제거
+9. 테스트
+
+
+
+
+
 ## 79R
 
-명칭
+## 문장을 함수로 옮기기
 
 **개요**
 
@@ -165,26 +239,3 @@ After
 ```
 
 **절차**
-
-
-
-명칭
-
-**개요**
-
-Before
-
-```javascript
-
-```
-
-After
-
-```javascript
-
-```
-
-**절차**
-
-
-
