@@ -143,7 +143,7 @@ class CustomerContract {
 
 `만일 피호출 함수에서 동작을 여러 변형들로 나눠야 한다면 반대 리팩터링을 적용하자. `
 
-반대 리팩터링 : 문장을 호출한 곳으로 옮기기
+- 반대 리팩터링 : 문장을 호출한 곳으로 옮기기
 
 **개요**
 
@@ -184,27 +184,45 @@ function photoData(aPhoto) {
 5. 원래 함수를 새로운 함수 안으로 인라인 후 원래 함수 제거
 6. 새로운 함수 이름 수정
 
-## 85R
+## 문장을 호출한 곳으로 옮기기
 
-명칭
+`여러 곳에서 사용하던 기능이 일부 호출자에게 다르게 동작하도록 바뀌어야 할 경우 적용`
+
+- 반대 리팩터링 : 문장을 함수로 옮기기
 
 **개요**
 
 Before
 
 ```javascript
+emitPhotoData(outStream, person.photo);
 
+function emitPhotoData(outStream, photo) {
+    outStream.write(`<p>제목: ${photo.title}</p>\n`);
+    outStream.write(`<p>위치: ${photo.location}</p>\n`);
+}
 ```
 
 After
 
 ```javascript
+emitPhotoData(outStream, person.photo);
+outStream.write(`<p>위치: ${person.photo.location}</p>`);
 
+function emitPhotoData(outStream, photo) {
+    outStream.write(`<p>제목: ${photo.title}</p>`);
+}
 ```
 
-**절차**
+**절차** (각 단계별 테스트)
 
+1. 호출자가 적을 경우 달라지는 로직(들)을 피호출 함수에서 잘라내어 호출자(들)로 복사
+2. 호출자가 많거나 복잡한 상황에서는, 이동하지 않을 코드를 함수로 추출한 후 임시 이름으로 적용
+3. 호출자 코드에 있던 원래 함수 인라인
+4. 원래 함수 삭제
+5. 추출된 함수의 이름 수정
 
+## 89L
 
 명칭
 
