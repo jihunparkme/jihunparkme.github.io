@@ -136,31 +136,54 @@ class CustomerContract {
 8. 소스 클래스 제거
 9. 테스트
 
-
-
-
-
-## 79R
-
 ## 문장을 함수로 옮기기
+
+`특정 함수 앞, 뒤에 똑같은 코드가 추가로 실행되면 반복되는 부분을 피호출 함수로 합치자.`
+
+`만일 피호출 함수에서 동작을 여러 변형들로 나눠야 한다면 반대 리팩터링을 적용하자. `
+
+반대 리팩터링 : 문장을 호출한 곳으로 옮기기
 
 **개요**
 
 Before
 
 ```javascript
+result.push(`<p>제목: ${person.photo.title}</p>`);
+result.concat(photoData(person.photo));
 
+function photoData(aPhoto) {
+    return [
+        `<p>위치: ${aPhoto.location}</p>`,
+        `<p>날짜: ${aPhoto.date.toDateString()}</p>`,
+    ];
+}
 ```
 
 After
 
 ```javascript
+result.concat(photoData(person.photo));
 
+function photoData(aPhoto) {
+    return [
+        `<p>제목: ${aPhoto.title}</p>`,
+        `<p>위치: ${aPhoto.location}</p>`,
+        `<p>날짜: ${aPhoto.date.toDateString()}</p>`,
+    ];
+}
 ```
 
 **절차**
 
+1. 반복 코드를 함수 호출 부분 근처로 옮기기(문장 슬라이드하기)
+2. 타깃 함수 호출 코드가 한 곳뿐이라면, 단순히 해당 코드를 잘라내어 피호출 함수로 복사 및 테스트
+3. 호출자가 둘 이상이라면 호출자 중 하나를 택하여 `반복 코드와 호출문을 함께 함수 추출하기` 진행
+4. 다른 호출자가 (3)에서 추출한 함수를 사용하도록 수정 및 테스트
+5. 원래 함수를 새로운 함수 안으로 인라인 후 원래 함수 제거
+6. 새로운 함수 이름 수정
 
+## 85R
 
 명칭
 
