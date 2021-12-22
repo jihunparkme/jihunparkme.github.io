@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 기본적인 리펙터링 Refactoring
+title: 기본적인 Refactoring
 summary: Chapter 6.기본적인 리펙터링
 categories: (Book)Refactoring
 featured-img: refactoring
