@@ -1,10 +1,11 @@
 ---
 layout: post
-title: 기능 이동 & 데이터 조직화 & 조건부 로직 간소화 Refactoring
-summary: Chapter 8. 기능 이동, 9. 데이터 조직화, 10. 조건부 로직 간소화
+title: 기능 이동 Refactoring
+summary: Chapter 8. 기능 이동
 categories: (Book)Refactoring
 featured-img: refactoring
 # mathjax: true
+
 ---
 
 # Refactoring
