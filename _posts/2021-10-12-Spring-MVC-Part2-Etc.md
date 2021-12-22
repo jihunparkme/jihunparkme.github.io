@@ -126,3 +126,49 @@ featured-img: spring_mvc_2
   - Spring Boot는 언어 선택 시 기본적으로 Accept-Language 헤더값을 활용하는 AcceptHeaderLocaleResolver를 사용
 
   - Locale 선택 방식을 변경하려면 LocaleResolver 의 구현체를 변경해서 쿠키나 세션 기반의 Locale 선택 기능 사용
+
+# 예외 처리와 오류 페이지
+
+## 서블릿 예외 처리
+
+순수 서블릿 컨테이너의 예외 처리
+
+**서블릿의 예외 처리 지원**
+
+### Exception
+
+- WAS는 서버 내부에서 처리할 수 없는 오류가 발생한 것으로 인지하고 HTTP Status Code 500 error return
+
+- 예외 전달
+
+  - 컨트롤러에서 예외가 발생하면 WAS 까지 전파 및 `500 Error` 적용
+
+  - `컨트롤러 -> 스프링 인터셉터 -> 서블릿 -> 필터 -> WAS`
+
+  ```java
+  @GetMapping("/error-ex")
+  public void errorEx() {
+      throw new RuntimeException("예외 발생!");
+  }
+  ```
+
+### response.sendError()
+
+- HttpServletResponse 가 제공
+
+  - response.sendError(HTTP 상태 코드, 오류 메시지)
+
+- WAS(Servlet container) 에게 오류 발생 전달
+
+- sendError 흐름
+
+  - 컨트롤러에서 sendError 호출 시 WAS 에서 sendError 호출 기록 확인
+    - Servlet Container 는 Client 에게 응답 전 response 에 sendError() 호출 확인 및 설정 `오류 페이지`에 맞는 페이지 출력
+  - `컨트롤러 -> 스프링 인터셉터 -> 서블릿 -> 필터 -> WAS`
+
+  ```java
+  @GetMapping("/error-404")
+  public void error404(HttpServletResponse response) throws IOException {
+      response.sendError(404, "404 오류!");
+  }
+  ```
