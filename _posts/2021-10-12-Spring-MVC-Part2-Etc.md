@@ -172,3 +172,45 @@ featured-img: spring_mvc_2
       response.sendError(404, "404 오류!");
   }
   ```
+
+## 서블릿 오류 페이지
+
+**서블릿 오류 페이지 등록**
+
+```java
+@Component
+public class WebServerCustomizer implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
+
+    @Override
+    public void customize(ConfigurableWebServerFactory factory) {
+
+        ErrorPage errorPage404 = new ErrorPage(HttpStatus.NOT_FOUND, "/error-page/404"); //response.sendError(404)
+        ErrorPage errorPage500 = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error-page/500"); //response.sendError(500)
+
+        ErrorPage errorPageEx = new ErrorPage(RuntimeException.class, "/error-page/500"); // RuntimeException 또는 그 자식 타입의 예외
+
+        factory.addErrorPages(errorPage404, errorPage500, errorPageEx);
+    }
+}
+```
+
+**오류 처리 컨트롤러**
+
+```java
+@Slf4j
+@Controller
+public class ErrorPageController {
+
+    @RequestMapping("/error-page/404")
+    public String errorPage404(HttpServletRequest request, HttpServletResponse response) {
+        log.info("errorPage 404");
+        return "error-page/404";
+    }
+
+    @RequestMapping("/error-page/500")
+    public String errorPage500(HttpServletRequest request, HttpServletResponse response) {
+        log.info("errorPage 500");
+        return "error-page/500";
+    }
+}
+```
