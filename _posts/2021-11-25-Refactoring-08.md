@@ -295,7 +295,121 @@ let charge;
 2. 코드 조각을 원래 위치에서 잘라내어 목표 위치에 붙여 넣자
 3. 테스트
 
-## 93L
+## 반복문 쪼개기
+
+`하나의 반복문이 두 가지 일을 수행한다면, 각각의 반복문으로 분리하여 수정할 동작 하나만 이해하도록 해보자.`
+
+`최적화는 리팩터링을 마친 이후에 수행하자`
+
+**개요**
+
+Before
+
+```javascript
+let averageAge = 0;
+let totalSalary = 0;
+for (const p of people) {
+  averageAge += p.age;
+  totalSalary += p.salary;
+}
+averageAge = averageAge / people.length;
+```
+
+After
+
+```javascript
+let totalSalary = 0;
+for (const p of people) {
+  totalSalary += p.salary;
+}
+
+let averageAge = 0;
+for (const p of people) {
+  averageAge += p.age;
+}
+averageAge = averageAge / people.length;
+```
+
+**절차**
+
+1. 반복문을 복제해 두 개로 만들기
+2. 반복문이 중복되서 생기는 사이드 이펙트를 파악해 제거
+3. 테스트
+4. 각 반복문을 함수로 추출할지 고민해보기
+
+**Example**
+
+- 함수 추출과 반복문 파이프라인으로 바꾸기를 적용하면 더 좋겠다.
+
+```javascript
+function totalSalary() {
+  return people.reduce((total, p) => total + p.salary, 0);
+}
+
+function youngestAge() {
+  return Math.min(...people.map((p) => p.age));
+}
+
+function example() {
+  return `최연소: ${youngestAge()}, 총 급여: ${totalSalary()}`;
+}
+```
+
+## 95L
+
+명칭
+
+**개요**
+
+Before
+
+```javascript
+
+```
+
+After
+
+```javascript
+
+```
+
+**절차**
+
+명칭
+
+**개요**
+
+Before
+
+```javascript
+
+```
+
+After
+
+```javascript
+
+```
+
+**절차**
+
+명칭
+
+**개요**
+
+Before
+
+```javascript
+
+```
+
+After
+
+```javascript
+
+```
+
+**절차**
 
 명칭
 
