@@ -5,7 +5,14 @@ layout: compress
 <html lang="{{ page.lang | default: site.lang | default: "en-US" }}">
 
 {% include head.html %}
-
+<head>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/hybrid.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+  <script>
+      hljs.initHighlightingOnLoad();
+      hljs.configure({ ignoreUnescapedHTML: true })
+  </script>
+</head>
 <body class="site">
 
 {% if site.google_tag_manager %}
