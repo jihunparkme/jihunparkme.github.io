@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Spring MVC Part 2. Validation
-summary: (MVC) 스프링 MVC 2편 - 백엔드 웹 개발 활용 기술
+title: Validation
+summary: Spring MVC Part 2. 백엔드 웹 개발 활용 기술
 categories: (Inflearn)Spring-MVC-2
 featured-img: spring_mvc_2
 # mathjax: true

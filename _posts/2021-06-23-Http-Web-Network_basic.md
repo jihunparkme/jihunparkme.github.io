@@ -1,7 +1,7 @@
 ---
 layout: post
-title: HTTP Web Network. Basic
-summary: (Basic) 모든 개발자를 위한 HTTP 웹 기본 지식
+title: Basic
+summary: 모든 개발자를 위한 HTTP 웹 기본 지식
 categories: (Inflearn)HTTP-Web-Network
 featured-img: http
 # mathjax: true
