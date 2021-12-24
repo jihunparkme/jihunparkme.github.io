@@ -253,27 +253,49 @@ let appliesToMass = states.includes('MA');
 1. 인라인 코드를 함수 호출로 대체
 2. 테스트
 
-## 90L
+## 문장 슬라이드하기
 
-명칭
+`하나의 데이터 구조를 이용하는 문장들은 모여 있어야 좋다.`
+
+`변수를 처음 사용할 때 선언하는 스타일을 선호`
+
+`슬라이드할 코드 조각과 건너뛸 코드 중 어느 한쪽이 다른 쪽에서 참조하는 데이터를 수정한다면 슬라이드는 불가하다.`
+
+- 상태 갱신에 신경써야 할 부분이 많으므로 상태 갱신 코드를 최대한 제거하자.
 
 **개요**
 
 Before
 
 ```javascript
-
+const pricingPlan = retrievePricingPlan();
+const order = retrieveOrder();
+let charge;
+const chargePerUnit = pricingPlan.unit; //이동할 조각 코드
 ```
 
 After
 
 ```javascript
-
+const pricingPlan = retrievePricingPlan();
+const chargePerUnit = pricingPlan.unit;
+const order = retrieveOrder();
+let charge;
 ```
 
 **절차**
 
+1. 코드 조각을 이동할 목표 위치 찾기
+   - 조각을 모으고 나면 동작이 달라지는 코드가 있는지 살피자.
+   - 아래와 같은 간섭이 있다면 이 리팩터링을 포기하자..
+     - 코드 조각에서 참조하는 요소를 선언하는 문장 앞으로 이동 불가
+     - 코드 조각을 참조하는 요소 뒤로 이동 불가
+     - 코드 조각에서 참조하는 요소를 수정하는 문장을 건너뛰어 이동 불가
+     - 코드 조각이 수정하는 요소를 참조하는 요소를 건너뛰어 이동 불가
+2. 코드 조각을 원래 위치에서 잘라내어 목표 위치에 붙여 넣자
+3. 테스트
 
+## 93L
 
 명칭
 
