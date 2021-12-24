@@ -5,7 +5,6 @@ summary: Chapter 8. 기능 이동
 categories: (Book)Refactoring
 featured-img: refactoring
 # mathjax: true
-
 ---
 
 # Refactoring
@@ -222,27 +221,39 @@ function emitPhotoData(outStream, photo) {
 4. 원래 함수 삭제
 5. 추출된 함수의 이름 수정
 
-## 89L
+## 인라인 코드를 함수 호출로 바뀌기
 
-명칭
+`함수의 이름이 코드의 목적을 말해주므로 코드 이해가 쉬워진다.`
+
+`함수는 중복을 없애는 데도 효과적`
+
+`함수 이름이 말이 되지 않는다면 함수 이름이 적절하지 않거나, 그 함수 목적이 인라인 코드의 목적과 다르기 때문일 것이다.`
+
+`인라인 코드를 대체할 함수를 새로 만들어야 한다면 함수 추출하기를 적용하자.`
 
 **개요**
 
 Before
 
 ```javascript
-
+let appliesToMass = false;
+for (const s of states) {
+  if (s === 'MA') { appliesToMass = true; }
+}
 ```
 
 After
 
 ```javascript
-
+let appliesToMass = states.includes('MA');
 ```
 
 **절차**
 
+1. 인라인 코드를 함수 호출로 대체
+2. 테스트
 
+## 90L
 
 명칭
 
