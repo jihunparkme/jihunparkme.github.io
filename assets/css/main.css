@@ -836,7 +836,7 @@ article.post-content pre>code {
   background: transparent;
   border: 0;
 }
-/*
+
 article.post-content .highlight {
   margin-bottom: 16px;
 }
@@ -855,7 +855,7 @@ article.post-content pre {
   background-color: #f6f8fa;
   border-radius: 3px;
 }
-*/
+
 article.post-content pre code {
   display: inline;
   max-width: auto;
