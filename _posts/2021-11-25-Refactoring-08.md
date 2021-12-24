@@ -238,7 +238,7 @@ Before
 ```javascript
 let appliesToMass = false;
 for (const s of states) {
-  if (s === 'MA') { appliesToMass = true; }
+    if (s === 'MA') { appliesToMass = true; }
 }
 ```
 
@@ -309,8 +309,8 @@ Before
 let averageAge = 0;
 let totalSalary = 0;
 for (const p of people) {
-  averageAge += p.age;
-  totalSalary += p.salary;
+    averageAge += p.age;
+    totalSalary += p.salary;
 }
 averageAge = averageAge / people.length;
 ```
@@ -320,12 +320,12 @@ After
 ```javascript
 let totalSalary = 0;
 for (const p of people) {
-  totalSalary += p.salary;
+    totalSalary += p.salary;
 }
 
 let averageAge = 0;
 for (const p of people) {
-  averageAge += p.age;
+    averageAge += p.age;
 }
 averageAge = averageAge / people.length;
 ```
@@ -343,37 +343,72 @@ averageAge = averageAge / people.length;
 
 ```javascript
 function totalSalary() {
-  return people.reduce((total, p) => total + p.salary, 0);
+    return people.reduce((total, p) => total + p.salary, 0);
 }
 
 function youngestAge() {
-  return Math.min(...people.map((p) => p.age));
+    return Math.min(...people.map((p) => p.age));
 }
 
 function example() {
-  return `최연소: ${youngestAge()}, 총 급여: ${totalSalary()}`;
+    return `최연소: ${youngestAge()}, 총 급여: ${totalSalary()}`;
 }
 ```
 
-## 95L
+## 반복문을 파이프라인으로 바꾸기
 
-명칭
+`객체가 파이프라인을 따라 흐르며 어떻게 처리되는지를 읽을 수 있다.`
+
+- `filter`는 함수를 사용해 입력 컬렉션을 필터링해 부분집합을 만들고, `map`은 또 다른 함수를 사용해 입력 컬렉션의 각 원소를 변환한다.
 
 **개요**
 
 Before
 
 ```javascript
+function acquireData(input) {
+    const lines = input.split('\n');
+    let firstLine = true; 
+    const result = [];
+    for (const line of lines) {
+        if (firstLine) { //.1
+            firstLine = false;
+            continue;
+        }
+        if (line.trim() === '') { //.2
+            continue;
+        }
+        const record = line.split(','); //.3
+        if (record[1].trim() === 'India') { //.4
+            result.push({ city: record[0].trim(), phone: record[2].trim() }); //.5
+        }
+    }
 
+    return result;
+}
 ```
 
 After
 
 ```javascript
-
+function acquireData(input) {
+    const lines = input.split('\n');
+    return lines
+        .slice(1) //.1
+        .filter((line) => line.trim !== '') //.2
+        .map((line) => line.split(',')) //.3
+        .filter((fields) => fields[1].trim() === 'India') //.4
+        .map((fields) => ({ city: fields[0].trim(), phone: fields[2].trim() })); //.5
+}
 ```
 
 **절차**
+
+1. 반복문에서 사용하는 컬렉션을 가리키는 변수 만들기
+2. 반복문의 첫 줄부터 각 단위 행위를 적절한 컬렉션 파이프라인 연산으로 대체하기
+3. 반복문 지우기
+
+## 98R
 
 명칭
 
