@@ -141,7 +141,7 @@ featured-img: spring_mvc_2
 
 - 예외 전달
 
-  - 컨트롤러에서 예외가 발생하면 WAS 까지 전파 및 `500 Error` 적용
+  - 컨트롤러에서 예외가 발생하면 `WAS 까지 전파` 및 `500 Error` 적용
 
   - `컨트롤러 -> 스프링 인터셉터 -> 서블릿 -> 필터 -> WAS`
 
@@ -162,7 +162,7 @@ featured-img: spring_mvc_2
 
 - sendError 흐름
 
-  - 컨트롤러에서 sendError 호출 시 WAS 에서 sendError 호출 기록 확인
+  - 컨트롤러에서 sendError 호출 시 `WAS 에서 sendError 호출 기록 확인`
     - Servlet Container 는 Client 에게 응답 전 response 에 sendError() 호출 확인 및 설정 `오류 페이지`에 맞는 페이지 출력
   - `컨트롤러 -> 스프링 인터셉터 -> 서블릿 -> 필터 -> WAS`
 
@@ -174,6 +174,13 @@ featured-img: spring_mvc_2
   ```
 
 ## 서블릿 오류 페이지
+
+- 서블릿은 Exception 발생 후 서블릿 밖으로 전달되거나 response.sendError() 호출 시 설정된 오류 페이지를 찾음
+
+- 오류 페이지 요청 흐름
+  - `컨트롤러(예외 발생) -> 스프링 인터셉터 -> 서블릿 -> 필터 -> WAS`
+  - `WAS(/error-page/500) 요청 -> 필터 -> 서블릿 -> 스프링 인터셉터 -> 컨트롤러(/error-page/500) -> View`
+    - WAS 는 오류 페이지 요청 시 오류 정보를 request attribute 에 추가해서 전달
 
 **서블릿 오류 페이지 등록**
 
@@ -211,6 +218,36 @@ public class ErrorPageController {
     public String errorPage500(HttpServletRequest request, HttpServletResponse response) {
         log.info("errorPage 500");
         return "error-page/500";
+    }
+}
+```
+
+**오류 정보 추가**
+
+```java
+@Slf4j
+@Controller
+public class ErrorPageController {
+
+    //RequestDispatcher 상수로 정의
+    public static final String ERROR_EXCEPTION = "javax.servlet.error.exception";
+    public static final String ERROR_EXCEPTION_TYPE = "javax.servlet.error.exception_type";
+    public static final String ERROR_MESSAGE = "javax.servlet.error.message";
+    public static final String ERROR_REQUEST_URI = "javax.servlet.error.request_uri";
+    public static final String ERROR_SERVLET_NAME = "javax.servlet.error.servlet_name";
+    public static final String ERROR_STATUS_CODE = "javax.servlet.error.status_code";
+
+   // ...
+
+    private void printErrorInfo(HttpServletRequest request) {
+
+        log.info("ERROR_EXCEPTION: ex=", request.getAttribute(ERROR_EXCEPTION));
+        log.info("ERROR_EXCEPTION_TYPE: {}", request.getAttribute(ERROR_EXCEPTION_TYPE));
+        log.info("ERROR_MESSAGE: {}", request.getAttribute(ERROR_MESSAGE)); // ex의 경우 NestedServletException 스프링이 한번 감싸서 반환
+        log.info("ERROR_REQUEST_URI: {}", request.getAttribute(ERROR_REQUEST_URI));
+        log.info("ERROR_SERVLET_NAME: {}", request.getAttribute(ERROR_SERVLET_NAME));
+        log.info("ERROR_STATUS_CODE: {}", request.getAttribute(ERROR_STATUS_CODE));
+        log.info("dispatchType={}", request.getDispatcherType());
     }
 }
 ```
