@@ -294,6 +294,8 @@ public interface Filter {
 
 - Dispatcher Servlet과 Controller 사이에서 호출
 
+<center><img src="https://raw.githubusercontent.com/jihunparkme/blog/main/img/interceptor.jpg" width="100%"></center>
+
 **인터셉터 인터페이스**
 
 ```java
