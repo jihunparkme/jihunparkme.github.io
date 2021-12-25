@@ -376,3 +376,5 @@ public class AllBeanTest {
 > 상수로 변수 빼내기 : Ctrl + Alt + C
 >
 > Go to Test : Ctrl + Shift + T
+>
+> Column Selection Mode:
