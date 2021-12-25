@@ -355,6 +355,8 @@ public class AllBeanTest {
 >
 > (;)포함 엔터 : Ctrl + Shift + Enter
 >
+> Move code : Ctrl + Shift + up/down
+>
 > 이전 File : Ctrl + Alt + <- or ->
 >
 > Extract Mathod : Ctrl + Alt + M
