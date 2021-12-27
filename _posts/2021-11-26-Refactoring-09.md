@@ -106,9 +106,9 @@ class Organization {
 **Example**
 
 ```javascript
-class Organization { // 2.
+class Organization { // 2. 캡슐화
     constructor(data) {
-        this._title = data.title; // 3.
+        this._title = data.title; // 3. 필드명 변경 후 메서드 수정
         this._country = data._country;
     }
     get title() { return this._title; } // 3.
@@ -117,7 +117,7 @@ class Organization { // 2.
     set country(aCountryCode) { this._country = aCountryCode; }
 }
 
-const organization = new Organization({ // 6.
+const organization = new Organization({ // 6. 접근자 이름 변경
     title: '애크미 구스베리',
     country: 'GB',
 });
@@ -165,17 +165,123 @@ set discountedTotal(aNumber) { this._discount = aNumber; }
 ```javascript
 class ProductionPlan {
     constructor(production) {
-        this._initialProduction = production; // 1.
+        this._initialProduction = production; // 1. 변수 쪼개기
         this._productionAccumulator = 0; // 1.
         this._adjustments = [];
     }
-    get production() { return this._initialProduction + this._productionAccumulator; } // 2.
+    get production() { return this._initialProduction + this._productionAccumulator; } // 2. 변수 값 계산
     get calculatedProductionAccumulator() { return this._adjustments.reduce((sum, a) => sum + a.amount, 0); }
     applyAdjustment(anAdjustment) { this._adjustments.push(anAdjustment); }
 }
 ```
 
-## 106R
+## 참조를 값으로 바꾸기
+
+`참조로 다루는 경우는 내부 객체를 그대로 둔 채 객체의 속성만 갱신`
+
+`값으로 다루는 경우 새로운 속성을 담은 객체로 기존 내부 객체를 대체`
+
+`값 객체는 불변이기 때문에 자유롭게 활용하기 좋고, 분산 시스템과 동시성 시스템에서 유용하다.`
+
+- 단, 객체를 공유하고자 한다면 공유 객체를 참조로 다뤄야 한다.
+
+- 반대 리팩터링 : 값을 참조로 바꾸기
+
+**개요**
+
+Before
+
+```javascript
+class Product {
+    applyDiscount(arg) {
+        this._price.amount -= arg;
+    }
+}
+```
+
+After
+
+```javascript
+class Product {
+    applyDiscount(arg) {
+        this._price = new Money(this._price.amount - arg, this._price.currency);
+    }
+}
+```
+
+**절차**
+
+1. 후보 클래스가 불변인지 확인하기 (`불변으로 만들기`)
+2. 필드들의 `세터 제거`하기
+3. 값 객체의 필드들을 사용하는 `동치성 비교 메서드 만들기`
+   - JAVA 에서는 Object.equals(), Object.hashCode() method override.
+
+**Example**
+
+```javascript
+/** Person ********************************************/
+class Person {
+    constructor() { 
+        this._telephoneNumber = new TelephoneNumber();
+    }
+    get officeAreaCode() { return this._telephoneNumber.areaCode; }
+    set officeAreaCode(arg) { this._telephoneNumber = new TelephoneNumber(arg, this.officeNumber); } // 1.
+    get officeNumber() { return this._telephoneNumber.number; }
+    set officeNumber(arg) {  this._telephoneNumber = new TelephoneNumber(this.officeNumber, arg);} // 1.
+}
+/** TelephoneNumber ********************************************/
+class TelephoneNumber {
+    constructor(areaCode, number) { // 1. 불변으로 만들기
+        this._areaCode = areaCode;
+        this._number = number;
+    }
+    equals(other) { // 3. 동치성 비교
+        if (!(other instanceof TelephoneNumber)) { return false; }
+        return this.areaCode === other.areaCode && this.number === other.number;
+    }
+    get areaCode() { return this.areaCode; }
+    get number() { return this.number; }
+    // 2. 필드 세터 제거
+}
+```
+
+## 108R
+
+명칭
+
+**개요**
+
+Before
+
+```javascript
+
+```
+
+After
+
+```javascript
+
+```
+
+**절차**
+
+명칭
+
+**개요**
+
+Before
+
+```javascript
+
+```
+
+After
+
+```javascript
+
+```
+
+**절차**
 
 명칭
 
