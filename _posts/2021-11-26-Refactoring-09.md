@@ -245,25 +245,34 @@ class TelephoneNumber {
 }
 ```
 
-## 108R
+## 값을 참조로 바꾸기
 
-명칭
+`같은 데이터를 물리적으로 복제해 사용할 때 데이터를 갱신해야 한다면 값을 참조로 바꾸자.`
+
+- 반대 리팩터링 : 참조를 값으로 바꾸기
 
 **개요**
 
 Before
 
 ```javascript
-
+let customer = new customer(customerData);
 ```
 
 After
 
 ```javascript
-
+let customer = customerRepository.get(customer.id);
 ```
 
 **절차**
+
+1. 같은 부류에 속하는 객체들을 보관할 `저장소(객체) 만들기`
+2. 생성자에서 특정 객체를 정확히 찾아낼 방법이 있는지 확인하기
+3. 호스트 객체의 생성자들을 수정하여 필요한 객체를 이 저장소에서 찾도록 하기
+4. 테스트
+
+## 110R
 
 명칭
 
