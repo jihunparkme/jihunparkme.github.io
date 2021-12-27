@@ -224,30 +224,29 @@ public class ErrorPageController {
 
 **오류 정보 추가**
 
-```java
-@Slf4j
-@Controller
-public class ErrorPageController {
+- [Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/97855ce96a102b8462dad02d1ae03a267df63787)
 
-    //RequestDispatcher 상수로 정의
-    public static final String ERROR_EXCEPTION = "javax.servlet.error.exception";
-    public static final String ERROR_EXCEPTION_TYPE = "javax.servlet.error.exception_type";
-    public static final String ERROR_MESSAGE = "javax.servlet.error.message";
-    public static final String ERROR_REQUEST_URI = "javax.servlet.error.request_uri";
-    public static final String ERROR_SERVLET_NAME = "javax.servlet.error.servlet_name";
-    public static final String ERROR_STATUS_CODE = "javax.servlet.error.status_code";
+## DispatcherType
 
-   // ...
+- 오류 발생 시 오류페이지 출력을 위해 WAS 내부에서 필터, 서블릿, 인터셉터 등 모두 다시 한 번 호출이 발생
 
-    private void printErrorInfo(HttpServletRequest request) {
+- 클라이언트로 부터 발생한 정상 요청(REQUEST)인지, 오류 페이지를 출력하기 위한 내부 요청(ERROR)인지 구분을 위해 서블릿은 `DispatcherType` 정보 제공
 
-        log.info("ERROR_EXCEPTION: ex=", request.getAttribute(ERROR_EXCEPTION));
-        log.info("ERROR_EXCEPTION_TYPE: {}", request.getAttribute(ERROR_EXCEPTION_TYPE));
-        log.info("ERROR_MESSAGE: {}", request.getAttribute(ERROR_MESSAGE)); // ex의 경우 NestedServletException 스프링이 한번 감싸서 반환
-        log.info("ERROR_REQUEST_URI: {}", request.getAttribute(ERROR_REQUEST_URI));
-        log.info("ERROR_SERVLET_NAME: {}", request.getAttribute(ERROR_SERVLET_NAME));
-        log.info("ERROR_STATUS_CODE: {}", request.getAttribute(ERROR_STATUS_CODE));
-        log.info("dispatchType={}", request.getDispatcherType());
-    }
-}
-```
+- DispatcherType
+  - `REQUEST` : 클라이언트 요청
+  - `ERROR` : 오류 요청
+  - `FORWARD` : 다른 서블릿이나 JSP를 호출할 경우
+    <i>RequestDispatcher.forward(request, response);</i>
+  - `INCLUDE` : 다른 서블릿이나 JSP의 결과를 포함할 경우
+    <i>RequestDispatcher.include(request, response);</i>
+  - `ASYNC` : 서블릿 비동기 호출
+
+### 필터
+
+- <i>filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.ERROR);</i> 설정으로 DispatcherType 설정
+
+  - default : DispatcherType.REQUEST
+
+- [Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/b8723959bbd7be824db14985c834e642fa018fba)
+
+### 인터셉터
