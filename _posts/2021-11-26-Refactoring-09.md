@@ -272,58 +272,38 @@ let customer = customerRepository.get(customer.id);
 3. 호스트 객체의 생성자들을 수정하여 필요한 객체를 이 저장소에서 찾도록 하기
 4. 테스트
 
-## 110R
+## 매직 리터럴 바꾸기
 
-명칭
+`매직 리터럴 : 소스 코드의 여러 곳에 등장하는 일반적인 리터럴 값`
 
-**개요**
+`숫자 대신 상수를 사용하여 코드 자체가 뜻을 분명하게 드러내도록 해보자.`
 
-Before
-
-```javascript
-
-```
-
-After
-
-```javascript
-
-```
-
-**절차**
-
-명칭
+- 상수가 특별한 비교 로직에 주로 쓰인다면 함수 호출로 바꾸는 쪽을 선호.
+  - aValue === "M" 대신 isMali(aValue)
+- 상수를 과용하지는 말자.
+  - const ONE = 1
 
 **개요**
 
 Before
 
 ```javascript
-
+function potentialEnergy(mass, height) {
+    return mass * 9.81 * height;
+}
 ```
 
 After
 
 ```javascript
-
+const STANDARD_GRAVITY = 9.81;
+function potentialEnergy(mass, height) {
+    return mass * STANDARD_GRAVITY * height;
+}
 ```
 
 **절차**
 
-명칭
-
-**개요**
-
-Before
-
-```javascript
-
-```
-
-After
-
-```javascript
-
-```
-
-**절차**
+1. 상수를 선언하고 매직 리터럴 대입
+2. 해당 리터럴이 사용되는 곳 찾기
+3. 리터럴을 상수로 대체한 후 테스트
