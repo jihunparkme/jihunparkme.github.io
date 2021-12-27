@@ -69,25 +69,61 @@ function distanceTravelled(scenario, time) {
 }
 ```
 
-## 102L
+## 필드 이름 바꾸기
 
-명칭
+`데이터 구조는 프로그램을 이해하는 데 큰 역할을 한다.`
+
+`데이터는 무슨 일이 벌어지는지 이해하는 열쇠다.`
 
 **개요**
 
 Before
 
 ```javascript
-
+class Organization {
+  get name() {}
+}
 ```
 
 After
 
 ```javascript
-
+class Organization {
+  get title() {}
+}
 ```
 
 **절차**
+
+1. 레코드의 유효 범위가 제한적이라면 필드에 접근하는 모든 코드를 수정 후 테스트
+   - 유효 범위가 제한적인 레코드는 절차 끝
+2. 레코드가 캡슐화되지 않았다면 `레코드 캡슐화`
+3. 캡슐화된 객체 안의 private `필드명 변경 후` 그에 맞게 `내부 메서드 수정`
+4. 테스트
+5. 생성자의 매개변수 중 필드와 이름이 겹치는 게 있다면 `함수 선언 바꾸기`로 변경
+6. 접근자 이름 변경
+
+**Example**
+
+```javascript
+class Organization { // 2.
+    constructor(data) {
+        this._title = data.title; // 3.
+        this._country = data._country;
+    }
+    get title() { return this._title; } // 3.
+    set title(aString) { this._title = aString; } // 3.
+    get country() { return this._country; }
+    set country(aCountryCode) { this._country = aCountryCode; }
+}
+
+const organization = new Organization({ // 6.
+    title: '애크미 구스베리',
+    country: 'GB',
+});
+```
+
+## 104L
 
 명칭
 
