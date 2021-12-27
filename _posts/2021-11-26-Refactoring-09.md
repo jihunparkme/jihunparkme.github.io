@@ -123,25 +123,59 @@ const organization = new Organization({ // 6.
 });
 ```
 
-## 104L
+## 파생 변수를 질의 함수로 바꾸기
 
-명칭
+`가변 데이터의 유효 범위를 가능한 좁혀야 한다.`
+
+`값을 쉽게 계산해낼 수 있는 변수들을 모두 제거하자.`
+
+- 새로운 데이터 구조를 생성하는 변형 연산은 예외다.
 
 **개요**
 
 Before
 
 ```javascript
-
+get discountedTotal() { return this._discountedTotal; }
+set discountedTotal(aNumber) {
+    const old = this._discount;
+    this._discount = aNumber;
+    this._discountTotal += old - aNumber;
+}
 ```
 
 After
 
 ```javascript
-
+get discountedTotal() { return this._baseTotal - this._discount; }
+set discountedTotal(aNumber) { this._discount = aNumber; }
 ```
 
 **절차**
+
+1. 변수 값이 갱신되는 지점 찾기
+   - 필요 시 `변수 쪼개기`로 각 갱신 지점에서 변수 분리하기
+2. 해당 변수의 값을 계산해주는 `함수 만들기`
+3. 함수의 계산 결과가 변수의 값과 같은지 테스트
+4. 변수를 읽는 코드를 모두 함수 호출로 수정 후 테스트
+5. 변수를 선언하고 갱신하는 코드에 `죽은 코드 제거하기` 적용
+
+**Example**
+
+```javascript
+class ProductionPlan {
+    constructor(production) {
+        this._initialProduction = production; // 1.
+        this._productionAccumulator = 0; // 1.
+        this._adjustments = [];
+    }
+    get production() { return this._initialProduction + this._productionAccumulator; } // 2.
+    get calculatedProductionAccumulator() { return this._adjustments.reduce((sum, a) => sum + a.amount, 0); }
+    applyAdjustment(anAdjustment) { this._adjustments.push(anAdjustment); }
+}
+```
+
+## 106R
 
 명칭
 
