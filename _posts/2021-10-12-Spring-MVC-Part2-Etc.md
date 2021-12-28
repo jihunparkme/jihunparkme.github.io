@@ -226,7 +226,7 @@ public class ErrorPageController {
 
 - [Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/97855ce96a102b8462dad02d1ae03a267df63787)
 
-## DispatcherType
+### DispatcherType
 
 - 오류 발생 시 오류페이지 출력을 위해 WAS 내부에서 필터, 서블릿, 인터셉터 등 모두 다시 한 번 호출이 발생
 
@@ -241,7 +241,7 @@ public class ErrorPageController {
     <i>RequestDispatcher.include(request, response);</i>
   - `ASYNC` : 서블릿 비동기 호출
 
-### 필터
+#### 필터
 
 - <i>filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.ERROR);</i> DispatcherType 설정으로 중복 호출 제거
 
@@ -249,7 +249,7 @@ public class ErrorPageController {
 
 - [Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/b8723959bbd7be824db14985c834e642fa018fba)
 
-### 인터셉터
+#### 인터셉터
 
 - <i>excludePathPatterns</i> 경로 설정으로 중복 호출 제거
 
@@ -298,3 +298,39 @@ public class ErrorPageController {
 3\. 적용 대상이 없을 때 뷰 이름( error )
 
 - resources/templates/error.html
+
+### BasicErrorController
+
+**BasicErrorController 는 기본 정보를 model에 담아 View 에 제공**
+
+```console
+timestamp: Fri Feb 05 00:00:00 KST 2021
+path: `/hello` (Client 요청 경로 )
+status: 400
+message: Validation failed for object='data'. Error count: 1
+error: Bad Request
+exception: org.springframework.validation.BindException
+errors: Errors(BindingResult)
+trace: 예외 trace
+```
+
+- message, exception, errors, trace 정보는 보안상 default 로 포함이 되어있지 않다
+- 오류 정보 포함을 위해 properties 설정 필요
+
+```properties
+server.error.include-exception=true
+server.error.include-message=always
+server.error.include-stacktrace=always
+server.error.include-binding-errors=always
+```
+
+- never : 사용하지 않음
+- always : 항상 사용
+- on_param : 파라미터가 있을 때 사용
+  - ?message=&errors=&trace=
+
+`단, 실무에서 오류는 서버에 로그를 남겨서 확인하자!`
+
+**기능 확장 시**
+
+- 에러 공통 처리 Controller 기능을 변경하고 싶을 경우 ErrorController 인터페이스를 상속 받아서 구현하거나, BasicErrorController 상속 받아서 기능을 추가
