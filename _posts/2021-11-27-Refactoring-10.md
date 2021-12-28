@@ -26,9 +26,9 @@ Before
 
 ```javascript
 if (!aDate.isBefore(plan.summerStart) && !aDate.isAfter(plan.summerEnd)) {
-  charge = quantity * plan.summerRate;
+    charge = quantity * plan.summerRate;
 } else {
-  charge = quantity * plan.regularRate + plan.regularServiceCharge;
+    charge = quantity * plan.regularRate + plan.regularServiceCharge;
 }
 ```
 
@@ -36,21 +36,21 @@ After
 
 ```javascript
 if (summer()) {
-  charge = summerCharge();
+    charge = summerCharge();
 } else {
-  charge = regularCharge();
+    charge = regularCharge();
 }
 
 function summer() {
-  return !aDate.isBefore(plan.summerStart) && !aDate.isAfter(plan.summerEnd);
+    return !aDate.isBefore(plan.summerStart) && !aDate.isAfter(plan.summerEnd);
 }
 
 function summerCharge() {
-  return quantity * plan.summerRate;
+    return quantity * plan.summerRate;
 }
 
 function regularCharge() {
-  return quantity * plan.regularRate + plan.regularServiceCharge;
+    return quantity * plan.regularRate + plan.regularServiceCharge;
 }
 ```
 
@@ -65,25 +65,47 @@ function regularCharge() {
 charge = summer() ? summerCharge() : regularCharge();
 ```
 
-## 113R
+## 조건식 통합하기
 
-명칭
+`비교하는 조건은 다르지만 결과 로직이 같다면 하나로 통합하자.`
+
+- 여러 조각의 조건들을 통합하면 더 명확해진다.
+- '무엇'이 아닌 '왜'를 말해주는 함수 추출하기로 이어질 수 있다.
+
+`함수 추출하기를 적절히 활용하여 전체를 더 이해하기 쉽게 만들어보자.`
 
 **개요**
 
 Before
 
 ```javascript
-
+if (anEmployee.seniority < 2) return 0;
+if (anEmployee.monthDisabled > 12) return 0;
+if (anEmployee.isPartTime) return 0;
 ```
 
 After
 
 ```javascript
+if (isNotEligibleForDisability()) return 0;
 
+function isNotEligibleForDisability() {
+    return ((anEmployee.seniority < 2)
+            || (anEmployee.monthDisabled < 12)
+            || (anEmployee.isPartTime));
+}
 ```
 
 **절차**
+
+1. 해당 조건식에 사이드 이펙트가 없는지 확인
+   - 사이드 이펙트가 있을 경우 `질의 함수와 변경 함수 분리하기` 선 적용
+2. 조건문 두 개를 선택하여 논리 연산자로 결합
+3. 테스트
+4. 조건이 하나만 남을 때까지 2~3 반복
+5. 하나로 합쳐진 조건식을 `함수로 추출`할지 고려
+
+## 115R
 
 명칭
 
