@@ -266,3 +266,35 @@ public class ErrorPageController {
 - WAS 에서 오류 페이지 확인
 
 3\. WAS(/error-page/500, dispatchType=ERROR) -> ~~필터(x)~~ -> 서블릿 -> ~~인터셉터(x)~~ -> 컨트롤러(/error-page/500) -> View
+
+## 스프링 부트 오류 페이지
+
+개발자는 오류 페이지 화면만 BasicErrorController 가 제공하는 룰과 우선순위에 따라서 등록하면 끝!
+
+**Spring Boot 제공 오류 페이지**
+
+- ErrorPage 자동 등록
+
+  - /error 경로를 기본 오류 페이지를 설정
+  - ErrorMvcAutoConfiguration 클래스가 오류 페이지 자동 등록 역할
+
+- BasicErrorController 스프링 컨트롤러를 자동 등록
+
+  - ErrorPage 에서 등록한 /error 를 매핑해서 처리하는 컨트롤러
+
+**BasicErrorController 의 View 선택 순서**
+
+1\. 뷰 템플릿
+
+- resources/templates/error/500.html
+- resources/templates/error/5xx.html
+
+2\. 정적 리소스( static , public )
+
+- resources/static/error/400.html
+- resources/static/error/404.html
+- resources/static/error/4xx.html
+
+3\. 적용 대상이 없을 때 뷰 이름( error )
+
+- resources/templates/error.html
