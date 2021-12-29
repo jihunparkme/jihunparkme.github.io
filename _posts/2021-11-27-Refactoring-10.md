@@ -152,25 +152,109 @@ function getPayAmount() {
 3. 필요에 따라 1.~2. 반복
 4. 보호 구문들의 조건식 통합하기
 
-## 118L
+## 조건부 로직을 다형성으로 바꾸기
 
-명칭
+`복잡한 조건부 로직은 클래스와 다형성을 이용하여 더 확실하게 분리하자.`
 
 **개요**
 
 Before
 
 ```javascript
+function plumages(birds) {
+    return new Map(birds.map((b) => [b.name, plumage(b)]));
+}
 
+function speeds(birds) {
+    return new Map(birds.map((b) => [b.name, airSpeedVelocity(b)]));
+}
+
+function plumage(bird) {
+    switch (bird.type) {
+        case '유럽 제비':
+            return '보통이다';
+        case '아프리카 제비':
+            return bird.numberOfCoconuts > 2 ? '지쳤다' : '보통이다';
+        case '노르웨이 파랑 앵무':
+            return bird.voltage > 100 ? '그을렸다' : '예쁘다';
+        default:
+            return '알 수 없다';
+    }
+}
+
+function airSpeedVelocity(bird) {
+    switch (bird.type) {
+        //...
+    }
+}
 ```
 
 After
 
 ```javascript
+function plumages(birds) {
+    return new Map(birds
+                   .map((b) => createBird(b))
+                   .map((bird) => [bird.name, plumage(bird)]),
+    );
+}
 
+function speeds(birds) {
+    return new Map(birds
+                   .map((b) => createBird(b))
+                   .map((bird) => [bird.name, bird.airSpeedVelocity]),
+    );
+}
+
+function createBird(bird) {
+    switch (bird.type) {
+        case '유럽 제비':
+            return new EuropeanSwallow(bird);
+        case '아프리카 제비':
+            return new AfricanSwallow(bird);
+        case '노르웨이 파랑 앵무':
+            return new NorwegianBlueParrot(bird);
+        default:
+            return new Bird(bird);
+    }
+}
+
+class Bird {
+  constructor(birdObject) {
+    Object.assign(this, birdObject);
+  }
+  get plumage() { return '알 수 없다'; }
+  get airSpeedVelocity() { return null; }
+}
+
+class EuropeanSwallow extends Bird {
+    get plumage() { return '보통이다'; }
+    get airSpeedVelocity() { return 35; }
+}
+
+class AfricanSwallow extends Bird {
+    get plumage() { return this.numberOfCoconuts > 2 ? '지쳤다' : '보통이다'; }
+    get airSpeedVelocity() { return 40 - 2 * bird.numberOfCoconuts; }
+}
+
+class NorwegianBlueParrot extends Bird {
+    get plumage() { return this.voltage > 100 ? '그을렸다' : '예쁘다'; }
+    get airSpeedVelocity() { return bird.isNailed ? 0 : 10 + bird.voltage / 10; }
+}
 ```
 
 **절차**
+
+1. 다형적 동작을 표현하는 `클래스 만들기`
+   - 적합한 인스턴스를 알아서 만들어 반환하는 `Factory 함수`도 만들기
+2. 호출 코드에서 Factory 함수를 사용하도록 수정
+3. 조건부 로직 함수를 슈퍼클래스로 옮기기
+4. 서브 클래스 중 하나를 선택하여, 슈퍼클래스의 조건부 로직 메서드를 오버라이드하기
+   - 해당 서브클래스에 해당하는 조건절을 메서드로 복사
+5. 같은 방식으로 각 조건절을 해당 서브클래스에서 메서드로 구현하기
+6. 슈퍼클래스 메서드에는 깁노 동작 부분만 남기기
+
+## 129L
 
 명칭
 
