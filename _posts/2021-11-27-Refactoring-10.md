@@ -105,25 +105,54 @@ function isNotEligibleForDisability() {
 4. 조건이 하나만 남을 때까지 2~3 반복
 5. 하나로 합쳐진 조건식을 `함수로 추출`할지 고려
 
-## 115R
+## 중첩 조건문을 보호 구문으로 바꾸기
 
-명칭
+`의도를 부각하는 것이 핵심이다.`
+
+`두 경로 중 한 쪽만 정상이라면 비정상 조건을 if 에서 검사한 뒤, 조건이 참(비정상)이면 함수에서 빠져나오게 하자.`
 
 **개요**
 
 Before
 
 ```javascript
-
+function getPayAmount() {
+    let result;
+    if (isDead)
+        result = deadAmount();
+    else {
+        if (isSeparated)
+            result = separateAmount();
+		else {
+            if (isRetired)
+                result = retiredAmount();
+            else
+                result = normalPayAmount();
+        }
+    }
+    return result;
+}
 ```
 
 After
 
 ```javascript
-
+function getPayAmount() {
+    if (isDead) return deadAmount();
+    if (isSeparated) return separateAmount();
+    if (isRetired) return retiredAmount();
+    return normalPayAmount();
+}
 ```
 
 **절차**
+
+1. 교체해야 할 조건 중 가장 바깥 것을 선택하여 보호 구문으로 바꾸기
+2. 테스트
+3. 필요에 따라 1.~2. 반복
+4. 보호 구문들의 조건식 통합하기
+
+## 118L
 
 명칭
 
