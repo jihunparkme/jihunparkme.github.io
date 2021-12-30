@@ -334,3 +334,72 @@ server.error.include-binding-errors=always
 **기능 확장 시**
 
 - 에러 공통 처리 Controller 기능을 변경하고 싶을 경우 ErrorController 인터페이스를 상속 받아서 구현하거나, BasicErrorController 상속 받아서 기능을 추가
+
+# API 예외 처리
+
+- `produces = MediaType.APPLICATION_JSON_VALUE` 설정
+  - Client 가 요청하는 HTTP Header Accept 값이 application/json 일 때 해당 메서드가 호출
+
+1\. 예외 발생
+
+```java
+@Slf4j
+@RestController
+public class ApiExceptionController {
+
+    @GetMapping("/api/members/{id}")
+    public MemberDto getMember(@PathVariable("id") String id) {
+
+        if (id.equals("ex")) {
+            throw new RuntimeException("잘못된 사용자");
+        }
+
+        return new MemberDto(id, "hello " + id);
+    }
+}
+```
+
+2\. 예외에 따른 오류 URL 처리
+
+```java
+@Component
+public class WebServerCustomizer implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
+
+    @Override
+    public void customize(ConfigurableWebServerFactory factory) {
+
+        ErrorPage errorPage404 = new ErrorPage(HttpStatus.NOT_FOUND, "/error-page/404"); //response.sendError(404)
+        ErrorPage errorPage500 = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error-page/500"); //response.sendError(500)
+
+        ErrorPage errorPageEx = new ErrorPage(RuntimeException.class, "/error-page/500"); // RuntimeException 또는 그 자식 타입의 예외
+
+        factory.addErrorPages(errorPage404, errorPage500, errorPageEx);
+    }
+}
+```
+
+3\. 오류 URL 선택
+
+```java
+@RequestMapping(value = "/error-page/500", produces = MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<Map<String, Object>> errorPage500Api(
+        HttpServletRequest request, HttpServletResponse response) {
+
+    log.info("API errorPage 500");
+
+    Map<String, Object> result = new HashMap<>();
+    Exception ex = (Exception) request.getAttribute(ERROR_EXCEPTION);
+    result.put("status", request.getAttribute(ERROR_STATUS_CODE));
+    result.put("message", ex.getMessage());
+
+    Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+
+    return new ResponseEntity(result, HttpStatus.valueOf(statusCode));
+}
+
+@RequestMapping("/error-page/500")
+public String errorPage500(HttpServletRequest request, HttpServletResponse response) {
+    log.info("errorPage 500");
+    return "error-page/500";
+}
+```
