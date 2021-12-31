@@ -254,25 +254,95 @@ class NorwegianBlueParrot extends Bird {
 5. 같은 방식으로 각 조건절을 해당 서브클래스에서 메서드로 구현하기
 6. 슈퍼클래스 메서드에는 깁노 동작 부분만 남기기
 
-## 129L
+## 특이 케이스 추가하기
 
-명칭
+`특정 값에 대해 똑같이 반응하는 코드가 여러 곳에 있다면 그 반응들을 한데로 모으자.`
+
+`특이 케이스 패턴 : 특수한 경우의 공통 동작을 요소 하나에 모아서 사용하는 패턴`
+
+- 특이 케이스를 확인하는 코드 대부분을 단순 함수 호출로 수정 가능
 
 **개요**
 
 Before
 
 ```javascript
-
+if (aCustomer === '미확인 고객') customerName = '거주자';
 ```
 
 After
 
 ```javascript
-
+class UnknownCustomer { // 자바의 경우 서브 클래스로 사용
+    get name() { return '거주자'; }
+}
 ```
 
 **절차**
+
+1. 슈퍼 클래스에 특이 케이스인지를 검사하는 속성 추가 (false 반환)
+
+   ```javascript
+   class Customer {
+       get isUnknown() { return false; }
+   }
+   ```
+
+2. 특이 케이스 전용 서브 클래스 만들기
+
+   - 특이 케이스인지 검사하는 속성만 포함 (true 반환)
+
+   ```javascript
+   class UnknownCustomer {
+       get isUnknown() { return true; }
+   }
+   ```
+
+3. 클라이언트에서 특이 케이스인지 검사하는 코드를 함수로 추출
+
+   - 값을 직접 비교하는 코드를 추출한 함수로 수정
+
+   ```javascript
+   function isUnknown(arg) {
+       if (!(arg instanceof Customer || arg === '미확인 고객')) {
+           throw new Error(`잘못된 값과 비교: <${arg}>`);
+       }
+       return arg === '미확인 고객';
+   }
+   ```
+
+4. 코드에 새로운 특이 케이스 대상 추가
+
+   - 함수의 반환 값으로 받거나 변환 함수 적용
+
+   ```javascript
+   class Site {
+       get customer() { 
+           return (this._customer === '미확인 고객')? new UnknownCustomer() : this._customer;
+       }
+   }
+   ```
+
+5. 특이 케이스를 검사하는 함수 본문을 특이 케이스 객체 속성을 사용하도록 수정
+
+   ```javascript
+   function isUnknown(arg) {
+       if (!(arg instanceof Customer || arg instanceof UnknownCustomer)) {
+           throw new Error(`잘못된 값과 비교: <${arg}>`);
+       }
+       return arg.isUnknown;
+   }
+   ```
+
+6. 테스트
+
+7. 여러 함수를 클래스 묶기나 변환함수로 묶기 적용
+
+   - 특이 케이스를 처리하는 공통 동작을 새로운 요소로 옮기기
+
+8. 특이 케이스 검사 함수를 이용하는 곳이 남아 있다면 검사 함수 인라인
+
+## 137L
 
 명칭
 
