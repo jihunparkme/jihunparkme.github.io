@@ -403,3 +403,19 @@ public String errorPage500(HttpServletRequest request, HttpServletResponse respo
     return "error-page/500";
 }
 ```
+
+## Spring Boot 기본 오류 처리
+
+- Spring Boot 는 기본 설정으로 오류 발생 시 `/error` 를 요류 페이지로 요청
+  - BasicErrorController 는 properties 의 `server.error.path` 를 기본 경로로 받음
+
+**BasicErrorController.java**
+
+```java
+@RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
+public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse
+response) {}
+
+@RequestMapping
+public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {}
+```
