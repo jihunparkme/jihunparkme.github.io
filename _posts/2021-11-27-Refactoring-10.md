@@ -280,25 +280,39 @@ class UnknownCustomer { // 자바의 경우 서브 클래스로 사용
 
 **절차**
 
-1. 슈퍼 클래스에 특이 케이스인지를 검사하는 속성 추가 (false 반환)
+1. 슈퍼 클래스에 `특이 케이스인지를 검사`하는 속성 추가 (false 반환)
 
    ```javascript
    class Customer {
        get isUnknown() { return false; }
+       // 향후 추가
+       get name {}
+       get billingPlan() {}
+       set billingPlan(arg) {}
+       get paymentHistory() {}
    }
    ```
 
-2. 특이 케이스 전용 서브 클래스 만들기
+2. `특이 케이스 전용 서브 클래스` 만들기
 
    - 특이 케이스인지 검사하는 속성만 포함 (true 반환)
 
    ```javascript
    class UnknownCustomer {
        get isUnknown() { return true; }
+       // 향후 특이 케이스 기본값 추가
+       get name() { return '거주자'; }
+       get paymentHistory() { return new NullPaymentHistory(); }
+   }
+   
+   // ..
+   
+   class NullPaymentHistory {
+     get weeksDelinquentInLastYEar() { return 0; }
    }
    ```
 
-3. 클라이언트에서 특이 케이스인지 검사하는 코드를 함수로 추출
+3. 클라이언트에서 특이 케이스인지 검사하는 코드를 `함수로 추출`
 
    - 값을 직접 비교하는 코드를 추출한 함수로 수정
 
@@ -311,7 +325,7 @@ class UnknownCustomer { // 자바의 경우 서브 클래스로 사용
    }
    ```
 
-4. 코드에 새로운 특이 케이스 대상 추가
+4. 코드에 새로운 특이 케이스 `대상 추가`
 
    - 함수의 반환 값으로 받거나 변환 함수 적용
 
@@ -323,7 +337,7 @@ class UnknownCustomer { // 자바의 경우 서브 클래스로 사용
    }
    ```
 
-5. 특이 케이스를 검사하는 함수 본문을 특이 케이스 객체 속성을 사용하도록 수정
+5. 특이 케이스를 검사하는 함수 본문을 특이 케이스 `객체 속성을 사용`하도록 수정
 
    ```javascript
    function isUnknown(arg) {
@@ -336,11 +350,11 @@ class UnknownCustomer { // 자바의 경우 서브 클래스로 사용
 
 6. 테스트
 
-7. 여러 함수를 클래스 묶기나 변환함수로 묶기 적용
+7. 여러 함수를 `클래스 묶기`나 `변환함수로 묶기` 적용
 
    - 특이 케이스를 처리하는 공통 동작을 새로운 요소로 옮기기
 
-8. 특이 케이스 검사 함수를 이용하는 곳이 남아 있다면 검사 함수 인라인
+8. 특이 케이스 검사 함수를 이용하는 곳이 남아 있다면 `검사 함수 인라인`
 
 ## 137L
 
