@@ -308,18 +308,26 @@ public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {}
 
 ## ExceptionResolver
 
+`컨트롤러에서 예외가 발생해도 ExceptionResolver 에서 예외를 처리`
+
 - 예외 상태 코드 변환
-  - 예외를 `response.sendError(xxx)` 호출로 변경 후 상태 코드에 따른 오류를 서블릿이 처리하도록 위임
-  - 이후 WAS는 서블릿 오류 페이지를 찾아서 내부 호출
-  - ex. 실제 서버에서는 500 에러가 발생하였지만 Client 에게는 400 코드 전달
+
+  - 예외를 `response.sendError(xxx)` 호출로 변경 후 상태 코드에 따른 오류를 서블릿이 처리하도록 위임 (이후 WAS는 서블릿 오류 페이지를 찾아서 내부 호출)
+  - ex) 실제 서버에서는 500 에러가 발생하였지만 Client 에게는 4xx 코드 전달
   - ExceptionResolver 로 예외를 해결해도 postHandle() 은 호출되지 않음
+
 - 뷰 템플릿 처리
+
   - `ModelAndView` 를 채워서 예외에 따른 새로운 오류 화면을 뷰 렌더링하여 Client 에게 제공
+  - return new ModelAndView("error/400");
+
 - API 응답 처리
   - HTTP Response Body 에 직접 데이터를 넣어서 전달
-  - `response.getWriter().println("hello");`
+  - `response.getWriter().write(result);`
 
 <center><img src="https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/master/assets/img/posts/ExceptionResolver.jpg"></center>
+
+### HandlerExceptionResolver 기본
 
 **HandlerExceptionResolver Interface 구현**
 
@@ -363,3 +371,7 @@ public class WebConfig implements WebMvcConfigurer {
     }
 }
 ```
+
+### HandlerExceptionResolver 기본
+
+[Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/034fb3bcfa609fc0e4d0b7b155a03b2a090963b7)
