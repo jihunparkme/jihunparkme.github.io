@@ -419,3 +419,61 @@ response) {}
 @RequestMapping
 public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {}
 ```
+
+## ExceptionResolver
+
+- 예외 상태 코드 변환
+  - 예외를 `response.sendError(xxx)` 호출로 변경 후 상태 코드에 따른 오류를 서블릿이 처리하도록 위임
+  - 이후 WAS는 서블릿 오류 페이지를 찾아서 내부 호출
+  - ex. 실제 서버에서는 500 에러가 발생하였지만 Client 에게는 400 코드 전달
+  - ExceptionResolver 로 예외를 해결해도 postHandle() 은 호출되지 않음
+- 뷰 템플릿 처리
+  - `ModelAndView` 를 채워서 예외에 따른 새로운 오류 화면을 뷰 렌더링하여 Client 에게 제공
+- API 응답 처리
+  - HTTP Response Body 에 직접 데이터를 넣어서 전달
+  - `response.getWriter().println("hello");`
+
+<center><img src="https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/master/assets/img/posts/ExceptionResolver.jpg"></center>
+
+**HandlerExceptionResolver Interface 구현**
+
+```java
+@Slf4j
+public class MyHandlerExceptionResolver implements HandlerExceptionResolver {
+
+    @Override
+    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+
+        try {
+            if (ex instanceof IllegalArgumentException) {
+                log.info("IllegalArgumentException resolver to 400");
+                //예외를 HTTP 상태 코드 400으로 전달
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
+                 //1. 빈 ModelAndView 반환 시 뷰 렌더링을 하지 않고 정상 흐름으로 서블릿 반환
+                 //2. ModelAndView 에 View, Model 정보를 지정하여 반환하면 뷰 렌더링
+                 return new ModelAndView();
+            }
+        } catch (IOException e) {
+            log.error("resolver ex", e);
+        }
+
+        //3. null 반환 시
+        //다음 ExceptionResolver 찾아서 실행
+        //처리 가능한 ExceptionResolver 가 없을 경우 기존 발생한 예외를 서블릿 밖으로 전달
+        return null;
+    }
+}
+```
+
+**ExceptionResolver 등록**
+
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+        resolvers.add(new MyHandlerExceptionResolver());
+    }
+}
+```
