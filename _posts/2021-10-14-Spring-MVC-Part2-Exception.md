@@ -372,6 +372,46 @@ public class WebConfig implements WebMvcConfigurer {
 }
 ```
 
-### HandlerExceptionResolver 기본
+### HandlerExceptionResolver 활용
 
 [Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/034fb3bcfa609fc0e4d0b7b155a03b2a090963b7)
+
+## Spring ExceptionResolver
+
+**Spring Boot 기본적으로 제공하는 ExceptionResolver**
+
+- `HandlerExceptionResolverComposite` 에 아래 순서로 등록
+
+1\. `ExceptionHandlerExceptionResolver`
+
+2\. `ResponseStatusExceptionResolver`
+
+3\. `DefaultHandlerExceptionResolver`
+
+### ExceptionHandlerExceptionResolver
+
+### ResponseStatusExceptionResolver
+
+- 예외에 따라 HTTP 상태 코드 지정 역할
+- 메시지 기능 제공
+- response.sendError() 를 호출했기 때문에 WAS에서 다시 오류 페이지(/error)를 내부 요청
+- @ResponseStatus
+
+  ```java
+  @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "잘못된 요청 오류")
+  public class BadRequestException extends RuntimeException {
+  }
+  ```
+
+- ResponseStatusException
+
+  - 개발자가 직접 변경할 수 없는 예외에 적용
+
+  ```java
+  @GetMapping("/api/response-status-ex2")
+  public String responseStatusEx2() {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "error.bad", new IllegalArgumentException());
+  }
+  ```
+
+### DefaultHandlerExceptionResolver
