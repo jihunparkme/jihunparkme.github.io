@@ -356,7 +356,36 @@ class UnknownCustomer { // 자바의 경우 서브 클래스로 사용
 
 8. 특이 케이스 검사 함수를 이용하는 곳이 남아 있다면 `검사 함수 인라인`
 
-## 137L
+## 어서션 추가하기
+
+`assertion 은 프로그램이 어떤 상태임을 가정하고 실행되는지 다른 개발자에게 알려주는 훌륭한 소통 도구다.`
+
+**개요**
+
+Before
+
+```javascript
+if (this.discountRate) {
+    base = base - this.discountRate * base;
+}
+```
+
+After
+
+```javascript
+assert(this.discountRate >= 0);
+
+if (this.discountRate) {
+    base = base - this.discountRate * base;
+}
+```
+
+**절차**
+
+1. 참이라고 가정하는 조건이 보이면 그 조건을 명시하는 어서션 추가하기
+   - 반드시 참이어야 하는 것 혹은 프로그래머가 일으킬만한 오류에만 어서션을 사용하자.
+
+## 138R
 
 명칭
 
