@@ -385,40 +385,39 @@ if (this.discountRate) {
 1. 참이라고 가정하는 조건이 보이면 그 조건을 명시하는 어서션 추가하기
    - 반드시 참이어야 하는 것 혹은 프로그래머가 일으킬만한 오류에만 어서션을 사용하자.
 
-## 138R
+## 제어 플래그를 탈출문으로 바꾸기
 
-명칭
-
-**개요**
-
-Before
-
-```javascript
-
-```
-
-After
-
-```javascript
-
-```
-
-**절차**
-
-명칭
+`제어 플래그 : 코드의 동작을 변경하는 데 사용되는 변수`
 
 **개요**
 
 Before
 
 ```javascript
-
+for (const p of people) {
+    if (!found) {
+        if (p === '조커') {
+            sendAlert();
+            found = true;
+        }
+    }
+}
 ```
 
 After
 
 ```javascript
-
+for (const p of people) {
+    if (p === '조커') {
+        sendAlert();
+        break;
+    }
+}
 ```
 
 **절차**
+
+1. 제어 플래그를 사용하는 코드를 `함수로 추출`할지 고려하기
+2. 제어 플래그를 갱신하는 코드 각각을 `적절한 제어문`으로 바꾸기 (매번 테스트)
+   - 제어문으로 주로 return, break, continue 사용
+3. 제어 플래그 제거하기
