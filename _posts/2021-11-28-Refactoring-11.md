@@ -65,25 +65,78 @@ sendBill();
 
 참고 : 중복 코드가 많이 보인다면 변경 함수에서 질의 함수를 사용하도록 수정해보자.
 
-## 143R
+## 함수 매개변수화하기
 
-명칭
+`두 함수의 로직이 유사하고 리터럴 값만 다르다면, 다른 값만 매개변수로 받아 처리하는 함수 하나로 합치자.`
 
 **개요**
 
 Before
 
 ```javascript
-
+function tenPercentRaise(aPerson) {
+    aPerson.salary = aPerson.salary.multiply(1.1);
+}
+function fivePercentRaise(aPerson) {
+    aPerson.salary = aPerson.salary.multiply(1.05);
+}
 ```
 
 After
 
 ```javascript
-
+function tenPercentRaise(aPerson, factor) {
+    aPerson.salary = aPerson.salary.multiply(1 + factor);
+}
 ```
 
 **절차**
+
+1. 비슷한 함수 중 하나 선택
+2. `함수 선언 바꾸기`로 리터럴들을 매개변수로 추가
+3. 이 함수를 호출하는 곳 모두에 `적절한 리터럴` 값 추가
+4. 테스트
+5. 함수 본문에서 매개변수로 받은 값을 사용하도록 수정
+6. 기존 코드를 매개변수화된 함수를 호출하도록 수정
+
+**Example**
+
+```javascript
+/**
+ * Before
+ */
+function baseCharge(usage) {
+    if (usage < 0) return usd(0);
+    const amount = bottomBand(usage) * 0.03 + middleBand(usage) * 0.05 + topBand(usage) * 0.07;
+    return usd(amount);
+}
+function bottomBand(usage) {
+    return Math.min(usage, 100);
+}
+function middleBand(usage) { //.1
+    return usage > 100 ? Math.min(usage, 200) - 100 : 0; //.5
+}
+function topBand(usage) {
+    return usage > 200 ? usage - 200 : 0;
+}
+
+/**
+ * After
+ */
+function withinBand(usage, bottom, top) { //.2
+    return usage > bottom ? Math.min(usage, top) - bottom : 0; //.5
+}
+function baseCharge(usage) {
+    if (usage < 0) return usd(0);
+    const amount =
+          withinBand(usage, 0, 100) * 0.03 + //.6
+          withinBand(usage, 100, 200) * 0.05 + //.3
+          withinBand(usage, 200, Infinity) * 0.07; //.6
+    return usd(amount);
+}
+```
+
+## 145R
 
 명칭
 
