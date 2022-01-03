@@ -415,3 +415,17 @@ public class WebConfig implements WebMvcConfigurer {
   ```
 
 ### DefaultHandlerExceptionResolver
+
+- 스프링 내부에서 발생하는 스프링 예외를 해결
+- `TypeMismatchException` 으로 발생하는 500 오류를 `DefaultHandlerExceptionResolver` 가 400 오류로 변경
+
+**DefaultHandlerExceptionResolver.java**
+
+```java
+protected ModelAndView handleTypeMismatch(TypeMismatchException ex,
+    HttpServletRequest request, HttpServletResponse response, @Nullable Object handler) throws IOException {
+
+  response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+  return new ModelAndView();
+}
+```
