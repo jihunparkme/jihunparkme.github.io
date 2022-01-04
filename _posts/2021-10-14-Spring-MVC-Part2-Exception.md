@@ -153,7 +153,7 @@ public class ErrorPageController {
 
 3\. WAS(/error-page/500, dispatchType=ERROR) -> ~~필터(x)~~ -> 서블릿 -> ~~인터셉터(x)~~ -> 컨트롤러(/error-page/500) -> View
 
-## 스프링 부트 오류 페이지
+## 🌞스프링 부트 오류 페이지
 
 개발자는 오류 페이지 화면만 BasicErrorController 가 제공하는 룰과 우선순위에 따라서 등록하면 끝!
 
@@ -388,7 +388,34 @@ public class WebConfig implements WebMvcConfigurer {
 
 3\. `DefaultHandlerExceptionResolver`
 
-### ExceptionHandlerExceptionResolver
+### 🌞ExceptionHandlerExceptionResolver
+
+`@ExceptionHandler`
+
+- API 예외 처리 문제 해결을 위한 핸들러
+
+  - 같은 예외라도 컨트롤러에 따라 각기 다른 예외 응답을 제공하는 세밀한 제어
+  - ModelAndView 가 아닌 Json 형태로 바로 반환
+
+- ex) 현재 Controller 에서 IllegalArgumentException 발생 시 호출
+
+  1\. Controller 에서 Exception 발생
+
+  2\. `DispatcherServlet` 을 거쳐 `ExceptionResolver` 에게 등록된 예외 처리 조회
+
+  3\. 가장 먼저 `ExceptionHandlerExceptionResolver` 실행
+
+  - Controller 에 `@ExceptionHandler` 가 있는지 확인 후 호출
+  - Servlet Container 까지 내려가지 않고 정상 흐름으로 반환
+
+  ```java
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ErrorResult illegalExHandle(IllegalArgumentException e) {
+      log.error("[exceptionHandle] ex", e);
+      return new ErrorResult("BAD", e.getMessage());
+  }
+  ```
 
 ### ResponseStatusExceptionResolver
 
