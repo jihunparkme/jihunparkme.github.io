@@ -249,25 +249,65 @@ if (!isWithinRange) {
 }
 ```
 
-## 151R
+## 매개변수를 질의 함수로 바꾸기
 
-명칭
+`매개변수에서 얻을 수 있는 값을 별도 매개변수로 전달하는 것은 의미가 없다.`
+
+- 함수에 원치 않는 의존성이 생길 경우는 제외.
+
+`대상 함수는 참조 투명(함수에 똑같은 값을 건네 호출하면 항상 똑같이 동작)해야 한다.`
+
+- 반대 리팩터링 : 질의 함수를 매개변수로 바꾸기
 
 **개요**
 
 Before
 
 ```javascript
+availableVacation(anEmployee, anEmployee.grade);
 
+function availableVacation(anEmployee, grade) {
+    // ...
+}
 ```
 
 After
 
 ```javascript
+availableVacation(anEmployee);
 
+function availableVacation(anEmployee) {
+    const grade = anEmployee.grade;
+    // ...
+}
 ```
 
 **절차**
+
+1. 필요 시 대상 매개변수의 값을 계산하는 코드를 별도 함수로 추출
+2. 함수 본문에서 대상 매개변수를 참조하는 코드를 질의 함수 호출로 수정
+3. 함수 선언 바꾸기로 대상 매개변수 없애기
+
+**Example**
+
+```javascript
+class Order {
+    get finalPrice() {
+        const basePrice = this.quantity * this.itemPrice;
+        return this.discountedPrice(basePrice); 
+    }
+    get discountLevel() { return this.quantity > 100 ? 2 : 1; } // 임시 변수를 질의 함수로 바꾸기
+
+    discountedPrice(basePrice) {
+        switch (this.discountLevel) { // 매개변수 참조 코드를 함수 호출로 바꾸기
+            case 1: return basePrice * 0.95;
+            case 2: return basePrice * 0.9;
+        }
+    }
+}
+```
+
+## 153R
 
 명칭
 
