@@ -186,25 +186,70 @@ function rushDeliveryDate(anOrder) {return deliveryDate(anOrder, true);}
 function regularDeliveryDate(anOrder) {return deliveryDate(anOrder, false);}
 ```
 
-## 148R
+## 객체 통째로 넘기기
 
-명칭
+`레코드를 통째로 넘기면 변화에 대응하기 쉽다.`
 
 **개요**
 
 Before
 
 ```javascript
+class HeatingPlan {
+    withinRange(bottom, top) {
+        return (bottom >= this._temperatureRange.low && top >= this._temperatureRange.high);
+    }
+}
 
+const low = aRoom.daysTempRange.low;
+const high = aRoom.daysTempRange.high;
+if (!aPlan.withinRange(low, high)) { alerts.push('방 온도가 지정 범위를 벗어났습니다.'); }
 ```
 
 After
 
 ```javascript
+class HeatingPlan {
+    withinRange(aNumberRange) {
+        return (aNumberRange.low >= this._temperatureRange.low && aNumberRange.high >= this._temperatureRange.high);
+    }
+}
 
+if (!aPlan.withinRange(aRoom.daysTempRange)) { alerts.push('방 온도가 지정 범위를 벗어났습니다.'); }
 ```
 
 **절차**
+
+1. 매개변수들을 원하는 형태로 받는 빈 함수 만들기
+2. 새 함수의 본문은 원래 함수를 호출하고, 새 매개변수와 원래 함수의 매개변수를 매핑
+3. 정적 검사 수행
+4. 새 함수를 호출하도록 수정
+5. 원래 함수를 인라인
+6. 새 함수의 이름을 적절히 수정하고 모든 호출자에 반영
+
+**참고.** 추출과 인라인 리팩터링을 이용한 방법
+
+```javascript
+class HeatingPlan {
+    xxNEWwithinRange(tempRange) { // 함수 추출하기
+        const low = tempRange.low; // 입력 매개변수 추출하기
+        const high = tempRange.high;
+        const isWithinRange = this.withinRange(low, high);
+        return isWithinRange;
+    }
+    withinRange(bottom, top) {
+        return (bottom >= this._temperatureRange.low && top >= this._temperatureRange.high);
+    }
+}
+
+const tempRange = aRoom.daysTempRange;
+const isWithinRange = aPlan.xxNEWwithinRange(tempRange);
+if (!isWithinRange) {
+    alerts.push('방 온도가 지정 범위를 벗어났습니다.');
+}
+```
+
+## 151R
 
 명칭
 
