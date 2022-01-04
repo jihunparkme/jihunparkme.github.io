@@ -136,25 +136,57 @@ function baseCharge(usage) {
 }
 ```
 
-## 145R
+## 플래그 인수 제거하기
 
-명칭
+`플래그 인수를 사용하면 어떻게 호출해야 하는지 이해하기가 어려워 진다.`
+
+- 플래그 인수 : 실행할 로직을 선택하기 위해 전달하는 인수
+
+`플래그 인수 대신 특정한 기능 하나만 수행하는 명시적인 함수를 제공하자.`
 
 **개요**
 
 Before
 
 ```javascript
+function setDimension(name, value) {
+    if (name === 'height') {
+        this._height = value;
+        return;
+    }
+    if (name === 'width') {
+        this._width = value;
+        return;
+    }
+}
 
+setDimension("height", 130)
+setDimension("width", 50)
 ```
 
 After
 
 ```javascript
+function setHeight(value) { this._height = value; }
+function setWidth(value) { this._width = value; }
 
+setHeight(130)
+setWidth(50)
 ```
 
 **절차**
+
+1. 플래그 인수에 대응하는 명시적 함수 생성
+2. 기존 코드를 명시적 함수를 호출하도록 수정
+
+**참고.** 매개변수를 까다로운 방식으로 사용한다면 래핑 함수를 생각해보자.
+
+```javascript
+function rushDeliveryDate(anOrder) {return deliveryDate(anOrder, true);}
+function regularDeliveryDate(anOrder) {return deliveryDate(anOrder, false);}
+```
+
+## 148R
 
 명칭
 
