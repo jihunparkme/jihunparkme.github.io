@@ -361,25 +361,49 @@ else if (thePlan.targetTemperature(thermostat.selectedTemperature) < thermostat.
 else setOff();
 ```
 
-## 156L
+## 세터 제거하기
 
-명칭
+세터 제거하기 리팩터링은 아래 두 경우에 주로 필요하다.
+
+`사람들이 무조건 접근자 메서드를 통해서만 필드를 다루려고 할 때`
+
+`Client 에서 생성 스크립트를 사용해 객체를 생성할 때`
 
 **개요**
 
 Before
 
 ```javascript
-
+class Person {
+    get name() { return this._name; }
+    set name(arg) { this._name = arg; }
+    get id() { return this._id; }
+    set id(arg) { this._id = arg; }
+}
 ```
 
 After
 
 ```javascript
-
+class Person {
+    constructor(id) {
+        this._id = id;
+    }
+    get name() { return this._name; }
+    set name(arg) { this._name = arg; }
+    get id() { return this._id; }
+}
 ```
 
 **절차**
+
+1. 설정해야 할 값을 생성자에 추가 (`함수 선언 바꾸기`)
+2. 생성자 밖에서 세터를 호출하는 곳을 찾아서 제거
+   - 대신 새로운 생성자를 사용하도록 수정 (이 방법으로도 세터 호출을 대체할 수 없다면 이 리팩터링 취소)
+3. 세터 메서드를 인라인으로 (가능하면 해당 필드를 불변으로 만들자)
+4. 테스트
+
+## 157R
 
 명칭
 
