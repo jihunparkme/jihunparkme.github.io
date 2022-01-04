@@ -278,7 +278,7 @@ public interface Filter {
 
 [Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/79aabbb4e99124ded45cc7495ecc3730422e46b4)
 
-## 스프링 인터셉터
+## 🌞 스프링 인터셉터
 
 - 서블릿과 동일하게 웹 관련 공통 관심사항을 해결하는 기술
 
