@@ -307,25 +307,61 @@ class Order {
 }
 ```
 
-## 153R
+## 질의 함수를 매개변수로 바꾸기
 
-명칭
+`전역 변수를 참조하거나, 제거하길 원하는 원소를 참조한다면 매개변수로 바꾸자.`
+
+`단점이라면 호출자가 함수의 매개변수를 바꾸면 어떤 값을 제공할지 알아내야 한다.`
+
+- 반대 리팩터링 : 매개변수를 질의 함수로 바꾸기
 
 **개요**
 
 Before
 
 ```javascript
+targetTemperature(aPlan);
 
+function targetTemperature(aPlan) {
+    currentTemperature = thermostat.currentTemperature;
+    // ...
 ```
 
 After
 
 ```javascript
+targetTemperature(aPlan, thermostat.currentTemperature);
 
+function targetTemperature(aPlan, currentTemperature) {
+	// ...
 ```
 
 **절차**
+
+1. `변수 추출하기`로 질의 코드가 매개변수를 사용할 수 있도록 준비
+2. 함수 본문 중 해당 질의를 호출하지 않는 코드들을 별도 `메서드로 추출`
+3. 새로 만든 `변수를 인라인`하여 제거 
+   - 호출 코드만 남겨진다.
+4. 원래 함수도 인라인
+5. 새 함수의 이름을 원래 함수 이름으로 수정
+
+**Example**
+
+```javascript
+class HeatingPlan {
+    get targetTemperature(selectedTemperature) { // 매개변수로 사용, 함수 추출하기
+        if (selectedTemperature > this._max) return this._max;
+        else if (selectedTemperature < this._min) return this._min;
+        else return selectedTemperature;
+    }
+}
+
+if (thePlan.targetTemperature(thermostat.selectedTemperature) > thermostat.currentTemperature) setToHeat();
+else if (thePlan.targetTemperature(thermostat.selectedTemperature) < thermostat.currentTemperature) setToCool();
+else setOff();
+```
+
+## 156L
 
 명칭
 
