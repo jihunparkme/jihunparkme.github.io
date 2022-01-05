@@ -390,32 +390,91 @@ public class WebConfig implements WebMvcConfigurer {
 
 ### 🌞ExceptionHandlerExceptionResolver
 
-`@ExceptionHandler`
-
 - API 예외 처리 문제 해결을 위한 핸들러
 
-  - 같은 예외라도 컨트롤러에 따라 각기 다른 예외 응답을 제공하는 세밀한 제어
+  - 같은 예외라도 컨트롤러마다 따라 각기 다른 예외 응답을 처리하는 세밀한 제어
   - ModelAndView 가 아닌 Json 형태로 바로 반환
 
-- ex) 현재 Controller 에서 IllegalArgumentException 발생 시 호출
+- `@ExceptionHandler`
+
+  - @ExceptionHandler 애노테이션에 해당 컨트롤러에서 처리하고 싶은 예외를 지정
+  - 해당 컨트롤러에서 특정 예외가 발생하면 이 메서드가 호출
+    - 지정한 예외 또는 그 예외의 자식 클래스를 모두 처리
+
+- 동작 흐름
 
   1\. Controller 에서 Exception 발생
 
-  2\. `DispatcherServlet` 을 거쳐 `ExceptionResolver` 에게 등록된 예외 처리 조회
+  2\. `DispatcherServlet` 을 거쳐 `ExceptionResolver`가 동작하고 등록된 예외 처리 조회
 
   3\. 가장 먼저 `ExceptionHandlerExceptionResolver` 실행
 
-  - Controller 에 `@ExceptionHandler` 가 있는지 확인 후 호출
+  - 해당 Controller 에 발생한 예외를 처리할 수 있는 `@ExceptionHandler` 가 있는지 확인 후 호출
   - Servlet Container 까지 내려가지 않고 정상 흐름으로 반환
 
-  ```java
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  @ExceptionHandler(IllegalArgumentException.class)
-  public ErrorResult illegalExHandle(IllegalArgumentException e) {
-      log.error("[exceptionHandle] ex", e);
-      return new ErrorResult("BAD", e.getMessage());
-  }
-  ```
+```java
+/**
+ * 에외 처리용 클래스를 만들어서 사용하는 경우
+ * 현재 Controller 에서 IllegalArgumentException 발생 시 호출
+ */
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+@ExceptionHandler(IllegalArgumentException.class)
+public ErrorResult illegalExHandle(IllegalArgumentException e) {
+    log.error("[exceptionHandle] ex", e);
+    return new ErrorResult("BAD", e.getMessage());
+}
+
+/**
+ * ResponseEntity 를 사용하는 경우
+ * 현재 Controller 에서 UserException 발생 시 호출
+ * (@ExceptionHandler 에 예외를 지정하지 않으면 해당 메서드 파라미터 예외를 사용한)
+ */
+@ExceptionHandler
+public ResponseEntity<ErrorResult> userExHandle(UserException e) {
+    log.error("[exceptionHandle] ex", e);
+    ErrorResult errorResult = new ErrorResult("USER-EX", e.getMessage());
+    return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
+}
+
+/**
+ * 위에서 처리하지 못한 예외를 처리
+ */
+@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+@ExceptionHandler
+public ErrorResult exHandle(Exception e) {
+    log.error("[exceptionHandle] ex", e);
+    return new ErrorResult("EX", "내부 오류");
+}
+
+/**
+ * 다양한 예외 처리 (부모 예외를 파라미터로 사용)
+ */
+@ExceptionHandler({AException.class, BException.class})
+public String ex(Exception e) {
+    log.info("exception e", e);
+}
+```
+
+```java
+@Data
+@AllArgsConstructor
+public class ErrorResult {
+  private String code;
+  private String message;
+}
+```
+
+```java
+public class UserException extends RuntimeException {
+  //...
+}
+```
+
+[Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/910b09204e9c0f93e60fbbc86167ebbb67bc9e17)
+
+**@ExceptionHandler's Method Arguments And Return Values**
+
+<https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-exceptionhandler-args>
 
 ### ResponseStatusExceptionResolver
 
