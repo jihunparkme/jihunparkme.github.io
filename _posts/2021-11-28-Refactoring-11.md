@@ -435,25 +435,53 @@ loadEngineer = createEngineer(document.loadEngineer);
 3. 매 수정마다 테스트
 4. 생성자의 가시 범위가 최소가 되도록 제한
 
-## 159L
+## 함수를 명령으로 바꾸기
 
-명칭
+`평범한 함수 메커니즘보다 훨씬 유연하게 함수를 제어하고 표현`
+
+`명령 객체 or 명령 : 함수를 캡슐화한 객체(메서드 하나로 구성)`
+
+`명령을 사용하면 서브함수들을 테스트와 디버깅에 활용할 수 있음`
+
+- 반대 리팩터링 : 명령을 함수로 바꾸기
 
 **개요**
 
 Before
 
 ```javascript
-
+function score(candidate, medicalExam, scoringGuide) {
+    let result = 0;
+    let healthLevel = 0;
+    // ...
+}
 ```
 
 After
 
 ```javascript
-
+class Scorer {
+    constructor(candidate, medicalExam, scoringGuide) { //.3
+        this._candidate = candidate;
+        this._medicalExam = medicalExam;
+        this._scoringGuide = scoringGuide;
+    }
+    execute() {
+        this._result = 0; // 모든 지역변수를 필드로 바꾸기
+        this._healthLevel = 0;
+        // ...
+    }
+}
 ```
 
 **절차**
+
+1. 대상 함수를 옮길 빈 클래스 만들기
+   - 클래스 이름은 함수 이름을 기초
+2. 생성한 클래스로 함수 옮기기
+3. 함수의 인수들은 명령 필드로 만들어 생성자를 통해 설정할지 고민해보기
+
+## 163L
 
 명칭
 
