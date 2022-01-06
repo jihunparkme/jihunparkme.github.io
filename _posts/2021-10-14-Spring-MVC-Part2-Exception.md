@@ -476,6 +476,41 @@ public class UserException extends RuntimeException {
 
 <https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-exceptionhandler-args>
 
+#### 🌞@ControllerAdvice
+
+- 여러 컨트롤러에서 발생하는 오류를 모아서 처리
+- 대상으로 지정한 컨트롤러에 `@ExceptionHandler`, `@InitBinder` 기능 부여
+
+  - 대상을 지정하지 않으면 모든 컨트롤러에 적용
+
+    ```java
+    @Slf4j
+    @RestControllerAdvice
+    public class ExControllerAdvice {
+    // ..
+    }
+    ```
+
+  - 특정 컨트롤러에만 지정
+
+    - 보통 패키지명 정도는 지정
+
+    ```java
+    // Target all Controllers "annotated" with @RestController
+    @ControllerAdvice(annotations = RestController.class)
+    public class ExampleAdvice1 {}
+
+    // Target all Controllers within "specific packages"
+    @ControllerAdvice("org.example.controllers")
+    public class ExampleAdvice2 {}
+
+    // Target all Controllers assignable to "specific classes"
+    @ControllerAdvice(assignableTypes = {ControllerInterface.class, AbstractController.class})
+    public class ExampleAdvice3 {}
+    ```
+
+[Reference](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-controller-advice)
+
 ### ResponseStatusExceptionResolver
 
 - 예외에 따라 HTTP 상태 코드 지정 역할
