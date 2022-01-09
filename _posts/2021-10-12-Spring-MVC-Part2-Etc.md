@@ -124,3 +124,61 @@ featured-img: spring_mvc_2
   - Spring Boot는 언어 선택 시 기본적으로 Accept-Language 헤더값을 활용하는 AcceptHeaderLocaleResolver를 사용
 
   - Locale 선택 방식을 변경하려면 LocaleResolver 의 구현체를 변경해서 쿠키나 세션 기반의 Locale 선택 기능 사용
+
+# 스프링 타입 컨버터
+
+## 소개
+
+**스프링 타입 변환 적용 예**
+
+- HTTP Query String 으로 전달되는 데이터는 모두 String Type 이지만, 스프링은 타입을 변환해 제공
+
+  - `@RequestParam`
+
+    ```java
+    @GetMapping("/hello")
+    public String hello(@RequestParam Integer data) {}
+    ```
+
+  - `@ModelAttribute`
+
+    ```java
+    @GetMapping("/hello")
+    public String hello(@ModelAttribute UserData data) {}
+
+    class UserData {
+        Integer data;
+    }
+    ```
+
+  - `@PathVariable`
+
+    ```java
+    @GetMapping("/users/{userId}")
+    public String hello(@PathVariable("data") Integer data) {}
+    ```
+
+- YML 정보 읽기
+
+  - `@value`
+
+    ```java
+    @Value("${api.key}")
+    private String key;
+    ```
+
+- XML 스프링 빈 정보 변환
+
+- View Rendering
+
+**컨버터 인터페이스**
+
+- 스프링은 확장 가능한 컨버터 인터페이스를 제공
+
+```java
+package org.springframework.core.convert.converter;
+
+public interface Converter<S, T> {
+    T convert(S source);
+}
+```
