@@ -235,3 +235,56 @@ public class StringToIpPortConverter implements Converter<String, IpPort> {
     }
 }
 ```
+
+## ConversionService
+
+**ConversionService.interface**
+
+- Converting 가능 여부와 기능 제공
+
+```java
+package org.springframework.core.convert;
+
+import org.springframework.lang.Nullable;
+
+public interface ConversionService {
+
+	boolean canConvert(@Nullable Class<?> sourceType, Class<?> targetType);
+
+  boolean canConvert(@Nullable TypeDescriptor sourceType, TypeDescriptor targetType);
+
+	@Nullable
+	<T> T convert(@Nullable Object source, Class<T> targetType);
+
+	@Nullable
+	Object convert(@Nullable Object source, @Nullable TypeDescriptor sourceType, TypeDescriptor targetType);
+
+}
+```
+
+**ConversionServiceTest.java**
+
+- 실제 사용 시에는 Converter 등록과 사용을 분리
+- DefaultConversionService 는 사용 초점의 ConversionService 와 등록 초점의 ConverterRegistry 로 분리되어 구현 (ISP-Interface Segregation Principal 적용)
+
+```java
+@Test
+void conversionService() {
+    // DefaultConversionService 를 통해 Converter "등록"
+    DefaultConversionService conversionService = new DefaultConversionService();
+    conversionService.addConverter(new StringToIntegerConverter());
+    conversionService.addConverter(new IntegerToStringConverter());
+    conversionService.addConverter(new StringToIpPortConverter());
+    conversionService.addConverter(new IpPortToStringConverter());
+
+    //convert(데이터, 반환 타입) 으로 "사용"
+    assertThat(conversionService.convert("10", Integer.class)).isEqualTo(10);
+    assertThat(conversionService.convert(10, String.class)).isEqualTo("10");
+
+    IpPort ipPort = conversionService.convert("127.0.0.1:8080", IpPort.class);
+    assertThat(ipPort).isEqualTo(new IpPort("127.0.0.1", 8080));
+
+    String ipPortString = conversionService.convert(new IpPort("127.0.0.1", 8080), String.class);
+    assertThat(ipPortString).isEqualTo("127.0.0.1:8080");
+}
+```
