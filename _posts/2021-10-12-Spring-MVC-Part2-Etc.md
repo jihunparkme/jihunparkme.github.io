@@ -288,3 +288,30 @@ void conversionService() {
     assertThat(ipPortString).isEqualTo("127.0.0.1:8080");
 }
 ```
+
+## 🌞Spring 에 Converter 적용
+
+- 스프링은 내부에서 ConversionService 를 제공
+
+**WebConfig.java**
+
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new StringToIpPortConverter());
+        registry.addConverter(new IpPortToStringConverter());
+    }
+}
+```
+
+**Controller**
+
+```java
+@GetMapping("/ip-port")
+public String ipPort(@RequestParam IpPort ipPort) {
+    return "ok";
+}
+```
