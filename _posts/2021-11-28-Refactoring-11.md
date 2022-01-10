@@ -439,6 +439,8 @@ loadEngineer = createEngineer(document.loadEngineer);
 
 `평범한 함수 메커니즘보다 훨씬 유연하게 함수를 제어하고 표현`
 
+- 큰 메서드를 여러 작은 메서드로 쪼개고 필드를 이용해 메서드들끼리 정보를 공유
+
 `명령 객체 or 명령 : 함수를 캡슐화한 객체(메서드 하나로 구성)`
 
 `명령을 사용하면 서브함수들을 테스트와 디버깅에 활용할 수 있음`
@@ -481,25 +483,52 @@ class Scorer {
 2. 생성한 클래스로 함수 옮기기
 3. 함수의 인수들은 명령 필드로 만들어 생성자를 통해 설정할지 고민해보기
 
-## 163L
+## 명령을 함수로 바꾸기
 
-명칭
+`로직이 크게 복잡하지 않다면 명령 객체의 단점이 커지니 평범한 함수로 바꾸자.`
+
+- 반대 리팩터링 : 함수를 명령으로 바꾸기
 
 **개요**
 
 Before
 
 ```javascript
+class ChargeCalculator { //.7
+    constructor(customer, usage, provider) {
+        this._customer = customer;
+        this._usage = usage;
+        this._provider = provider;
+    }
+    get baseCharge() { return this._customer.baseRate * this._usage; }
+    get charge() { return this.baseCharge * this._provider.connectionCharge;}
+}
 
+monthCharge = new ChargeCalculator(customer, usage, provider).charge;
 ```
 
 After
 
 ```javascript
+function charge(customer, usage, provider) { //.1, 3, 4
+    const baseCharge = customer.baseRate * usage; //.2
+    return baseCharge * provider.connectionCharge; //.5
+}
 
+monthCharge = charge(customer, usage, provider);
 ```
 
 **절차**
+
+1. 명령 생성, 명령의 실행 메서드 호출 코드를 함께 함수로 추출
+2. 명령의 실행 메서드가 호출하는 보조 메서드들을 인라인
+3. `함수 선언 바꾸기`를 적용하여 생성자의 매개변수를 명령의 실행 메서드로 옮기기
+4. 명령의 실행 메서드에서 참조하는 필드를 매개변수로 수정하기
+5. 생성자 호출과 명령의 실행 메서드 호출을 대체 함수 안으로 인라인
+6. 테스트
+7. `죽은 코드 제거하기`로 명령 클래스 없애기
+
+## 165R
 
 명칭
 
