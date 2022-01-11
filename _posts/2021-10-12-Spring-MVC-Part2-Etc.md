@@ -251,7 +251,7 @@ public interface ConversionService {
 
 	boolean canConvert(@Nullable Class<?> sourceType, Class<?> targetType);
 
-  boolean canConvert(@Nullable TypeDescriptor sourceType, TypeDescriptor targetType);
+    boolean canConvert(@Nullable TypeDescriptor sourceType, TypeDescriptor targetType);
 
 	@Nullable
 	<T> T convert(@Nullable Object source, Class<T> targetType);
@@ -318,7 +318,7 @@ public String ipPort(@RequestParam IpPort ipPort) {
 
 ## 뷰 템플릿에 컨버터 적용
 
-Thymeleaf 는 렌더링 시에 컨버터를 적용
+`Thymeleaf 는 렌더링 시에 컨버터를 적용`
 
 **View**
 
@@ -374,4 +374,69 @@ public String converterEdit(@ModelAttribute Form form, Model model) {
   th:value <input type="text" th:value="*{ipPort}" /><br />
   <input type="submit" />
 </form>
+```
+
+## Formatter
+
+`객체를 특정한 포멧에 맞추어 문자로 출력하거나, 그 반대의 역할을 하는 것에 특화된 기능`
+
+[Spring Field Formatting](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#format)
+
+- Converter 는 범용(객체->객체)에 사용
+- Formatter 는 문자(객체->문자, 문자->객체, 현지화)에 특화
+
+**Formatter Interface**
+
+```java
+public interface Printer<T> { // 객체 -> 문자
+  String print(T object, Locale locale);
+}
+
+public interface Parser<T> { // 문자 -> 객체
+  T parse(String text, Locale locale) throws ParseException;
+}
+
+public interface Formatter<T> extends Printer<T>, Parser<T> {}
+```
+
+- MyNumberFormatter.java
+
+```java
+@Slf4j
+public class MyNumberFormatter implements Formatter<Number> {
+
+    @Override
+    public Number parse(String text, Locale locale) throws ParseException {
+        log.info("text={}, locale={}", text, locale);
+        NumberFormat format = NumberFormat.getInstance(locale);
+        return format.parse(text);
+    }
+
+    @Override
+    public String print(Number object, Locale locale) {
+        log.info("object={}, locale={}", object, locale);
+        return NumberFormat.getInstance(locale).format(object);
+    }
+}
+```
+
+- MyNumberFormatterTest.java
+
+```java
+class MyNumberFormatterTest {
+
+    MyNumberFormatter formatter = new MyNumberFormatter();
+
+    @Test
+    void parse() throws ParseException {
+        Number result = formatter.parse("1,000", Locale.KOREA);
+        assertThat(result).isEqualTo(1000L);
+    }
+
+    @Test
+    void print() {
+        String result = formatter.print(1000, Locale.KOREA);
+        assertThat(result).isEqualTo("1,000");
+    }
+}
 ```
