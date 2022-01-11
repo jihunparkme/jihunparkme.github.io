@@ -315,3 +315,63 @@ public String ipPort(@RequestParam IpPort ipPort) {
     return "ok";
 }
 ```
+
+## 뷰 템플릿에 컨버터 적용
+
+Thymeleaf 는 렌더링 시에 컨버터를 적용
+
+**View**
+
+- ConverterController.java
+
+```java
+@GetMapping("/converter-view")
+public String converterView(Model model) {
+    model.addAttribute("number", 10000);
+    model.addAttribute("ipPort", new IpPort("127.0.0.1", 8080));
+    return "converter-view";
+}
+```
+
+- converter-view.html
+  - 변수 표현식 : ${...}
+  - 컨버전 서비스 적용 : ${{...}}
+
+```html
+<li>${ipPort}: <span th:text="${ipPort}"></span></li>
+<li>${{ipPort}}: <span th:text="${{ipPort}}"></span></li>
+```
+
+**Form**
+
+- ConverterController.java
+  - @ModelAttribute 내부에서 ConversionService 동작
+
+```java
+@GetMapping("/converter/edit")
+public String converterForm(Model model) {
+    IpPort ipPort = new IpPort("127.0.0.1", 8080);
+    Form form = new Form(ipPort);
+    model.addAttribute("form", form);
+    return "converter-form";
+}
+
+@PostMapping("/converter/edit")
+public String converterEdit(@ModelAttribute Form form, Model model) {
+    IpPort ipPort = form.getIpPort();
+    model.addAttribute("ipPort", ipPort);
+    return "converter-view";
+}
+```
+
+- converter-view.html
+  - th:field 는 Converter 까지 자동 적용
+  - th:value 는 보여주는 용도
+
+```html
+<form th:object="${form}" th:method="post">
+  th:field <input type="text" th:field="*{ipPort}" /><br />
+  th:value <input type="text" th:value="*{ipPort}" /><br />
+  <input type="submit" />
+</form>
+```
