@@ -439,11 +439,11 @@ loadEngineer = createEngineer(document.loadEngineer);
 
 `평범한 함수 메커니즘보다 훨씬 유연하게 함수를 제어하고 표현`
 
-- 큰 메서드를 여러 작은 메서드로 쪼개고 필드를 이용해 메서드들끼리 정보를 공유
-
 `명령 객체 or 명령 : 함수를 캡슐화한 객체(메서드 하나로 구성)`
 
 `명령을 사용하면 서브함수들을 테스트와 디버깅에 활용할 수 있음`
+
+`명령은 가급적 명령보다 더 간단한 방식의 기능을 얻을 수 없는 경우 선택하자.`
 
 - 반대 리팩터링 : 명령을 함수로 바꾸기
 
@@ -487,6 +487,8 @@ class Scorer {
 
 `로직이 크게 복잡하지 않다면 명령 객체의 단점이 커지니 평범한 함수로 바꾸자.`
 
+- 큰 메서드를 여러 작은 메서드로 쪼개고 필드를 이용해 메서드들끼리 정보를 공유하는 정도가 아니라면..
+
 - 반대 리팩터링 : 함수를 명령으로 바꾸기
 
 **개요**
@@ -528,7 +530,53 @@ monthCharge = charge(customer, usage, provider);
 6. 테스트
 7. `죽은 코드 제거하기`로 명령 클래스 없애기
 
-## 165R
+## 수정된 값 반환하기
+
+`데이터가 수정된다면 그 사실을 명확히 알려주자.`
+
+`어느 함수가 무슨 일을 하는지 쉽게 알 수 있게 해주는 것이 중요하다.`
+
+**개요**
+
+Before
+
+```javascript
+let totalAscent = 0;
+calculateAscent();
+
+function calculateAscent() {
+    for (let i = 1; i < points.length; i++) {
+        const verticalChange = points[i].elevation - points[i - 1].elevation;
+
+        totalAscent += verticalChange > 0 ? verticalChange : 0;
+    }
+}
+```
+
+After
+
+```javascript
+const totalAscent = calculateAscent(); //.1, 3
+
+function calculateAscent() { //.4
+    let result = 0; //.2
+    for (let i = 1; i < points.length; i++) {
+        const verticalChange = points[i].elevation - points[i - 1].elevation;
+
+        result += verticalChange > 0 ? verticalChange : 0;
+    }
+    return result; //.1
+}
+```
+
+**절차 (매 단계 테스트)**
+
+1. 호출자는 함수가 반환하는 수정된 값을 자신의 변수에 저장하기
+2. 피호출 함수 안에 반환할 값을 가리키는 새로운 변수 선언하기
+3. 계산이 선언과 동시에 이루어지도록 통합하기 (+변수를 불변으로 만들기)
+4. 피호출 함수의 변수 이름을 새 역할에 어울리도록 수정하기
+
+## 167R
 
 명칭
 
@@ -546,7 +594,7 @@ After
 
 ```
 
-**절차**
+**절차 (매 단계 테스트)**
 
 명칭
 
@@ -564,22 +612,4 @@ After
 
 ```
 
-**절차**
-
-명칭
-
-**개요**
-
-Before
-
-```javascript
-
-```
-
-After
-
-```javascript
-
-```
-
-**절차**
+**절차 (매 단계 테스트)**
