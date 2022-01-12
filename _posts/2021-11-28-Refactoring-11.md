@@ -646,22 +646,54 @@ try { // 1. 예외 핸들러 작성하기
 }
 ```
 
-## 170R
+## 예외를 사전확인으로 바꾸기
 
-명칭
+`예외는 '뜻밖의 오류'라는 말 그대로 예외적인 동작에만 사용하자.`
+
+`함수 수행 시 문제가 될 수 있는 조건을 함수 호출 전에 검사하자.`
+
+`예외를 던지는 대신 호출하는 곳에서 조건을 검사하도록 해보자.`
 
 **개요**
 
 Before
 
-```javascript
+```java
+private Deque<Resource> avaliable;
+private List<Resource> allocated;
 
+public ResourcePool get() {
+    Resource result;
+    try {
+        result = avaliable.pop()
+        allocated.add(result);
+    } catch (NoSuchElementException e) {
+        result = Resource.create();
+        allocated.add(result)
+    }
+    return result;
+}
 ```
 
 After
 
-```javascript
+```java
+private Deque<Resource> available;
+private List<Resource> allocated;
 
+public ResourcePool get() {
+	// 조건 검사 코드 (try, catch 문을 조건절로 이동)
+    Resource result = available.isEmpty() ? Resource.create() : available.pop()
+	allocated.add(result);
+    return result;
+}
 ```
 
 **절차 (매 단계 테스트)**
+
+1. 예외 유발 상황을 검사할 수 있는 조건문 추가
+   - catch 블록의 코드를 조건문의 조건절 중 하나로 옮기기
+   - 남은 try 블록의 코드를 다른 조건절로 옮기기
+2. catch 블록에 어서션을 추가하고 테스트
+3. try 문과 catch 블록 제거
+4. 테스트
