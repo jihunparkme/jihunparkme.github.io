@@ -576,25 +576,77 @@ function calculateAscent() { //.4
 3. 계산이 선언과 동시에 이루어지도록 통합하기 (+변수를 불변으로 만들기)
 4. 피호출 함수의 변수 이름을 새 역할에 어울리도록 수정하기
 
-## 167R
+## 오류 코드를 예외로 바꾸기
 
-명칭
+`예외는 프로그래밍 언어에서 제공하는 독립적인 오류 처리 메커니즘이다.`
+
+`예외를 사용하면 오류 코드를 일일이 검사하거나 오류를 식별해 콜스택 위로 던지는 일을 신경쓰지 않아도 된다.`
+
+`예외는 정확히 예상 밖의 동작일 때만 쓰자.`
 
 **개요**
 
 Before
 
 ```javascript
-
+if (data) 
+    return new ShippingRules(data);
+else
+    return -23;
 ```
 
 After
 
 ```javascript
-
+if (data)
+    return new ShippingRules(data);
+else
+    throw new OrderProcessingError(-23);
 ```
 
 **절차 (매 단계 테스트)**
+
+1. 콜스택 상위에 해당 예외를 처리할 예외 핸들러 작성하기
+2. 해당 오류 코드를 대체할 예외와 그 밖의 예외를 구분할 식별 방법 찾기
+   - 예외를 클래스 기반으로 처리할 수 있다면 서브클래스 만들기
+3. 정적 검사 수행하기
+4. catch절을 수정하여 직접 처리할 수 있는 예외는 적절히 대처하고, 그렇지 않은 예외는 다시 던지기
+5. 오류 코드를 반환하는 곳 모두에서 예외를 던지도록 수정하기
+6. 오류 코드를 콜스택 위로 전달하는 코드 모두 제거하기
+
+**Example**
+
+```javascript
+class OrderProcessingError extends Error { // 2. 예외를 클래스 기반으로 처리
+    constructor(errorCode) {
+        super(`주문 처리 오류 ${errorCode}`);
+        this.code = errorCode;
+    }
+    get name() { return 'OrderProcessingError'; }
+}
+
+function localShippingRules(country) {
+    const data = countryData.shippingRules[country];
+    if (data) return new ShippingRules(data);
+	else throw new OrderProcessingError(-23); // 5. 오류 코드 대신 예외 클래스 사용
+}
+
+function calculateShippingCosts(anOrder) {
+    const shippingRules = localShippingRules(anOrder.country);
+	// ...
+}
+
+try { // 1. 예외 핸들러 작성하기
+    calculateShippingCosts(orderData);
+} catch (e) {
+    if (e instanceof OrderProcessingError) // 4. 예외 클래스를 처리
+        errorList.push({order: orderData, errorCode: e.code,});
+	else
+        throw e;
+}
+```
+
+## 170R
 
 명칭
 
