@@ -118,7 +118,7 @@ class Employee extends Party {
         this._name = name;
         this._id = id;
         this._monthlyCost = monthlyCost;
-	    // 모든 서브 클래스가 수행하는 공통 코드
+        // 모든 서브 클래스가 수행하는 공통 코드
         if (this.isPrivileged) { this.assignCar(); }
     }
 }
@@ -158,25 +158,47 @@ class Employee extends Party {
 4. 테스트
 5. 공통 코드가 나중에 올 경우 공통 코드에 `함수 추출하기`와 `메서드 올리기`를 차례로 적용하기
 
-## 177R
+## 메서드 내리기
 
-명칭
+`특정 서브클래스 하나|소수 에만 관련된 메서드는 슈퍼클래스에서 제거하고 해당 서브클래스에 추가하자.`
+
+`해당 기능을 제공하는 서브클래스가 정확히 무엇인지를 호출자가 알고 있을 경우에만 적용하자.`
+
+- 반대 리팩터링 : 메서드 올리기
 
 **개요**.
 
 Before
 
 ```javascript
+class Employee {
+    get quota() {}
+}
 
+class Engineer extends Employee {}
+class Salesperson extends Employee {}
 ```
 
 After
 
 ```javascript
+class Employee {} //.2
 
+class Engineer extends Employee {} //.4
+class Salesperson extends Employee { //.1
+    get quota() {}
+}
 ```
 
 **절차**.
+
+1. 대상 메서드를 모든 서브클래스에 복사하기
+2. 슈퍼클래스에서 해당 메서드 제거하기
+3. 테스트
+4. 사용하지 않는 해당 메서드를 모든 서브클래스에서 제거하기
+5. 테스트
+
+## 178L
 
 명칭
 
