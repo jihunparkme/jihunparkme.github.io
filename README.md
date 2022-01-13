@@ -8,11 +8,41 @@
 
 ## Book
 
-📚  Refactoring
+📚  Effective-JAVA-3/E
 
 📚  Refactoring
 
 ### 📚 객체지향의 사실과 오해
+
+### 📚 CleanCode
+
+[2. 의미 있는 이름(Meaningful name)](https://data-make.tistory.com/632)
+
+[3. 함수(Function)](https://data-make.tistory.com/633)
+
+[4. 주석(comment)](https://data-make.tistory.com/634)
+
+[5. 형식 맞추기(Formatting)](https://data-make.tistory.com/635)
+
+[6. 객체와 자료 구조(Object and data structure)](https://data-make.tistory.com/636)
+
+[7. 오류 처리](https://data-make.tistory.com/637)
+
+[8. 경계(외부 API)](https://data-make.tistory.com/638)
+
+[9. 단위 테스트](https://data-make.tistory.com/640)
+
+[10. 클래스(Class)](https://data-make.tistory.com/641)
+
+[11. 시스템(System)](https://data-make.tistory.com/644)
+
+[12. 창발성(emergent creativity)](https://data-make.tistory.com/645)
+
+[13. 동시성(concurrent)](https://data-make.tistory.com/646)
+
+[14. 점진적인 개선](https://data-make.tistory.com/647)
+
+### 📚 자바 ORM 표준 JPA 프로그래밍
 
 [JPA(Java Persistence API)가 뭐지!?](https://data-make.tistory.com/608)
 
@@ -49,10 +79,6 @@
 [엔티티 그래프 (Entity Graph)](https://data-make.tistory.com/628)
 
 [엔티티 비교, 프록시, 성능 최적화](https://data-make.tistory.com/629)
-
-### 📚 CleanCode
-
-### 📚 자바 ORM 표준 JPA 프로그래밍
 
 ## lecture
 
