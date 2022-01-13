@@ -60,25 +60,47 @@ class Engineer extends Employee {}
 7. 테스트
 8. 다른 서브클래스의 메서드를 하나씩 제거
 
-## 174R
+## 필드 올리기
 
-명칭
+`필드들이 비슷한 방식으로 쓰인다고 판단되면 슈퍼클래스로 올리자.`
+
+`이 리팩터링을 통해 '데이터 중복 선언을 없앨' 수 있고, '해당 필드를 사용하는 동작을 서브클래스에서 슈퍼클래스로 옮길' 수 있다.`
+
+- 반대 리팩터링 : 필드 내리기
 
 **개요**.
 
 Before
 
-```javascript
-
+```java
+class Employee {}
+class Salesperson extends Employee {
+    private String name;
+}
+class Engineer extends Employee {
+    private String name;
+}
 ```
 
 After
 
-```javascript
-
+```java
+class Employee {
+    protected String name;
+}
+class Salesperson extends Employee {}
+class Engineer extends Employee {}
 ```
 
 **절차**.
+
+1. 후보 필드들이 똑같은 방식으로 사용되는지 살피기
+2. 필드들의 이름을 똑같은 이름으로 바꾸기 -> `필드 이름 바꾸기`
+3. 슈퍼클래스에 새로운 필드 생성하기 `protected 선언`
+4. 서브클래스의 필드들을 제거
+5. 테스트
+
+## 175R
 
 명칭
 
