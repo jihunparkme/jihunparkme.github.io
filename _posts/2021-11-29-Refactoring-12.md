@@ -100,25 +100,65 @@ class Engineer extends Employee {}
 4. 서브클래스의 필드들을 제거
 5. 테스트
 
-## 175R
+## 생성자 본문 올리기
 
-명칭
+`이 리팩터링으로 간단하게 끝나지 않는다면 '생성자를 팩터리 함수로 바꾸기'를 고려해보자.`
 
 **개요**.
 
 Before
 
 ```javascript
+class Party {}
 
+class Employee extends Party {
+    constructor(name, id, monthlyCost) {
+        super();
+
+        this._name = name;
+        this._id = id;
+        this._monthlyCost = monthlyCost;
+	    // 모든 서브 클래스가 수행하는 공통 코드
+        if (this.isPrivileged) { this.assignCar(); }
+    }
+}
 ```
 
 After
 
 ```javascript
+class Party {
+    constructor(name) { //.1
+        this._name = name; //.3
+    }
+    finishConstruction() {
+        if (this.isPrivileged) this.assignCar();
+    }
+}
 
+class Employee extends Party {
+    constructor(name, id, monthlyCost) {
+        super(name); //.3
+
+        this._id = id;
+        this._monthlyCost = monthlyCost;
+        
+        this.finishConstruction(); //.5
+    }
+}
 ```
 
 **절차**.
+
+1. 슈퍼클래스에 생성자 정의하기
+   - 서브클래스 생성자에서 호출 확인
+2. `문장 슬라이스하기`로 공통 문장을 모두 super() 호출 직후로 옮기기
+3. 공통 코드를 슈퍼클래스에 추가하고 서브클래스에서 제거하기
+   - 생성자 매개변수 중 공통 코드에서 참조하는 값들은 모두 super()로 건내기
+4. 테스트
+5. 공통 코드가 나중에 올 경우 공통 코드에 `함수 추출하기`와 `메서드 올리기`를 차례로 적용하기
+
+## 177R
 
 명칭
 
