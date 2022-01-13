@@ -288,7 +288,7 @@ function createEmployee(name, type) {
 
 ```javascript
 class Employee {
-    constructor(name) { //.6
+    constructor(name) { //.6 타입 코드 필드 제거
         this._name = name;
     }
     toString() { return `${this._name} (${this.type})`; }
@@ -318,17 +318,12 @@ function createEmployee(name, type) { //.3 생성자를 팩터리 함수로 바�
 
 ```javascript
 class Employee {
-    constructor(name) {
+    constructor(name, type) { //.6 타입 코드 필드 제거
         this._name = name;
     }
-    validateType(arg) {
-        if (!['engineer', 'manager', 'salesperson'].includes(arg)) {
-            throw new Error(`${arg}라는 직원 유형은 없습니다.`);
-        }
-    }
-    get typeString() { return this._type.toString(); }
-    get type() { return this._type; }
-    set type(arg) { this._type = Employee.createEmployee(arg); }
+    set type(arg) { this.type = Employee.createEmployee(arg); }
+    get typeString() { return this.type.toString(); }
+    get type() { return this.type; }
     toString() { return `${this._name} (${this.type.capitalizedName})`; }
     static createEmployee(aString) { //.3 생성자를 팩터리 함수로 바꾸기
         switch (aString) { //.5
