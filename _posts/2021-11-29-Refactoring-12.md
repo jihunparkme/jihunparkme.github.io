@@ -198,25 +198,45 @@ class Salesperson extends Employee { //.1
 4. 사용하지 않는 해당 메서드를 모든 서브클래스에서 제거하기
 5. 테스트
 
-## 178L
+## 필드 내리기
 
-명칭
+`서브클래스 하나|소수에만 사용되는 필드는 해당 서브클래스로 옮기자.`
+
+- 반대 리팩터링 : 필드 올리기
 
 **개요**.
 
 Before
 
 ```javascript
+class Employee {
+    private String quota;
+}
 
+class Engineer extends Employee {}
+class Salesperson extends Employee {}
 ```
 
 After
 
 ```javascript
+class Employee {} //.2
 
+class Engineer extends Employee {} //.4
+class Salesperson extends Employee { //.1
+    protected String quota;
+}
 ```
 
 **절차**.
+
+1. 대상 필드를 모든 서브클래스에 정의
+2. 슈퍼클래스에서 해당 필드 제거
+3. 테스트
+4. 사용하지 않는 해당 필드를 모든 서브클래스에서 제거하기 
+5. 테스트
+
+## 178R
 
 명칭
 
