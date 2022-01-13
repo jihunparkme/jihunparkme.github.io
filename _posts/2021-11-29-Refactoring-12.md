@@ -236,25 +236,123 @@ class Salesperson extends Employee { //.1
 4. 사용하지 않는 해당 필드를 모든 서브클래스에서 제거하기 
 5. 테스트
 
-## 178R
+## 타입 코드를 서브클래스로 바꾸기
 
-명칭
+`타입 코드는 구분을 위해 주로 사용된다.`
+
+`서브클래스는 조건에 따라 다르게 동작하도록 해주는 다형성을 제공한다.`
+
+`특정 타입에서만 의미가 있는 값을 사용하는 필드나 메서드가 있을 때 관계를 명확히 드러내준다.`
+
+- 반대 리팩터링 : 서브클래스 제거하기
+- 하위 리팩터링
+  -  타입 코드를 상태/전략 패턴으로 바꾸기
+  - 서브클래스 추출하기
 
 **개요**.
 
 Before
 
 ```javascript
-
+function createEmployee(name, type) {
+    return new Employee(name, type);
+}
 ```
 
 After
 
 ```javascript
-
+function createEmployee(name, type) {
+    switch (type) {
+        case 'engineer': return new Engineer(name);
+        case 'salesperson': return new Salesperson(name);
+        case 'manager': return new Manager(name);
+    }
+}
 ```
 
 **절차**.
+
+1. 타입 코드 필드를 `자가 캡슐화`하기
+2. 타입 코드 값 하나를 선택하여 그 값에 해당하는 `서브클래스` 만들기
+3. 매개변수로 받은 타입 코드와 새로운 서브클래스를 매핑하는 `선택 로직` 만들기
+4. 테스트
+5. 타입 코드 값 각각에 대해 서브클래스 생성과 선택 로직 추가를 반복
+6. 타입 코드 필드 제거
+7. 테스트
+8. 타입 코드 접근자를 이용하는 메서드를 모두 메서드 내리기와 조건부 로직을 다형성으로 바꾸기 적용
+
+**Example**
+
+- 직접 상속
+
+```javascript
+class Employee {
+    constructor(name) { //.6
+        this._name = name;
+    }
+    toString() { return `${this._name} (${this.type})`; }
+    get capitalizedType() { 
+        return (this._type.charAt(0).toUpperCase() + this._type.substr(1).toLowerCase());
+    }
+    toString() { return `${this._name} (${this.capitalizedType})`; }
+}
+
+class Engineer extends Employee { //.2 서브클래싱
+    get type() { return 'engineer'; } //.1
+}
+class Salesperson extends Employee {
+    get type() { return 'salesperson'; }
+}
+
+function createEmployee(name, type) { //.3 생성자를 팩터리 함수로 바꾸기
+    switch (type) { //.5
+        case 'engineer': return new Engineer(name);
+        case 'salesperson': return new Salesperson(name);
+        default: throw new Error(`${type}라는 직원 유형은 없습니다.`);
+    }
+}
+```
+
+- 간접 상속
+
+```javascript
+class Employee {
+    constructor(name) {
+        this._name = name;
+    }
+    validateType(arg) {
+        if (!['engineer', 'manager', 'salesperson'].includes(arg)) {
+            throw new Error(`${arg}라는 직원 유형은 없습니다.`);
+        }
+    }
+    get typeString() { return this._type.toString(); }
+    get type() { return this._type; }
+    set type(arg) { this._type = Employee.createEmployee(arg); }
+    toString() { return `${this._name} (${this.type.capitalizedName})`; }
+    static createEmployee(aString) { //.3 생성자를 팩터리 함수로 바꾸기
+        switch (aString) { //.5
+            case 'engineer': return new Engineer();
+            case 'salesperson': return new Salesperson();
+            default: throw new Error(`${aString}라는 직원 유형은 없습니다.`);
+        }
+    }
+}
+
+class EmployeeType { //.1 타입 코드를 객체로 바꾸기
+    get capitalizedName() {
+        return this.toString().charAt(0).toUpperCase() + this.toString().substr(1).toLowerCase();
+    }
+}
+class Engineer extends EmployeeType { 
+    toString() { return 'engineer'; }
+}
+class Salesperson extends EmployeeType {
+    toString() { return 'salesperson'; }
+}
+```
+
+## 182R
 
 명칭
 
