@@ -316,7 +316,7 @@ public String ipPort(@RequestParam IpPort ipPort) {
 }
 ```
 
-## 뷰 템플릿에 컨버터 적용
+## 🌞View Template 에 Converter 적용
 
 `Thymeleaf 는 렌더링 시에 컨버터를 적용`
 
@@ -451,3 +451,17 @@ class MyNumberFormatterTest {
 - 스프링 부트는 `DefaultFormattingConversionService` 를 상속 받은 WebConversionService` 를 내부에서 사용
 
 [Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/97990bebf3fcefc61b775b4fb8f24f08cdf48eb2)
+
+## 🌞Spring 에 Formatter 적용
+
+- 참고로, Converter 의 우선순위가 더 높다.
+
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new MyNumberFormatter());
+    }
+}
+```
