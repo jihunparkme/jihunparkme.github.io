@@ -13,7 +13,7 @@
 - 📚  Effective-JAVA-3/E
 - 📚  [Refactoring](#Refactoring)
 - 📚 [객체지향의 사실과 오해](#객체지향의-사실과-오해)
-- 📚 [Clean Code](Clean-Code)
+- 📚 [Clean Code](#Clean-Code)
 - 📚 [자바 ORM 표준 JPA 프로그래밍](#자바-ORM-표준-JPA-프로그래밍)
 
 **lecture**
