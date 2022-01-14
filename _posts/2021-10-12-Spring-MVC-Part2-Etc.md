@@ -465,3 +465,22 @@ public class WebConfig implements WebMvcConfigurer {
     }
 }
 ```
+
+### Spring 기본 Formatter
+
+- 객체의 각 필드마다 다른 형식의 formatter을 지정하고 싶다면 annotation 기반 formatter 를 사용하자
+
+  - `@NumberFormat` : 숫자 관련 형식
+  - `@DateTimeFormat` : 날짜 관련 형식
+
+  ```java
+  @Data
+  static class Form {
+      @NumberFormat(pattern = "###,###")
+      private Integer number;
+      @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+      private LocalDateTime localDateTime;
+  }
+  ```
+
+  [Annotation-driven Formatting](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#format-CustomFormatAnnotations)
