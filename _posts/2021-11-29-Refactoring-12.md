@@ -346,25 +346,75 @@ class Salesperson extends EmployeeType {
 }
 ```
 
-## 182R
+## 서브클래스 제거하기
 
-명칭
+`시스템이 성장하면서 활용되지 않거나, 필요로 하지 않는 방식으로 사용되는 서브클래스를 제거하자.`
+
+- 반대 리팩터링 : 타입 코드를 서브클래스로 바꾸기
 
 **개요**.
 
 Before
 
 ```javascript
+class Person {
+    constructor(name) {
+        this._name = name;
+    }
+    get name() { return this._name; }
+    get genderCode() { return 'X'; }
+    // ...
+}
 
+class Male extends Person {
+    get genderCode() { return 'M'; }
+}
+class Female extends Person {
+    get genderCode() { return 'F'; }
+}
+
+const numberOfMales = people.filter((p) => p instanceof Male).length;
 ```
 
 After
 
 ```javascript
+class Person {
+    constructor(name, genderCode) {
+        this._name = name;
+        this._genderCode= genderCode; //.3 서브클래스의 타입을 나타내는 필드 생성
+    }
+    get name() { return this._name; }
+    get genderCode() { return this._genderCode; }
+    //.2 타입 검사 코드 .4 서브클래스 참조가 아닌 타입 필드 사용
+    get isMale() { return 'M' === this._genderCode; } 
+    // ...
+}
 
+function createPerson(aRecord) { //.1 생성자를 팩터리 함수로 바꾸기
+    switch (aRecord.gender) {
+        case 'M': return new Person(aRecord.name, 'M');
+        case 'F': return new Person(aRecord.name, 'F');
+        default: return new Person(aRecord.name, 'X');
+    }
+}
+function loadFromInput(data) {
+    return data.map((aRecord) => createPerson(aRecord));
+}
+
+const numberOfMales = people.filter(p => p.isMale).length;
 ```
 
 **절차**.
+
+1. 서브클래스의 생성자를 `팩터리 함수`로 바꾸기
+2. 서브클래스 타입을 검사하는 코드가 있다면 검사 코드에 `함수 추출하기`, `함수 옮기기`를 적용하여 슈퍼클래스로 옮기기
+3. 서브클래스의 타입을 나타내는 필드를 슈퍼클래스에 만들기
+4. 서브클래스를 참조하는 메서드가 새로 만든 타입 필드를 이용하도록 수정
+5. 서브클래스 지우기
+6. 테스트
+
+## 185R
 
 명칭
 
