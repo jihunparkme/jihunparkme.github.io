@@ -440,3 +440,14 @@ class MyNumberFormatterTest {
     }
 }
 ```
+
+`DefaultFormattingConversionService`
+
+- `FormattingConversionService` 에 추가로 기본적인 통화, 숫자 관련 포맷터 제공
+- `FormattingConversionService` 는 `ConversionService` 관련 기능을 상속받기 때문에 결과적으로 컨버터도 포맷터도 모두 등록 가능
+
+- FormattingConversionServiceTest
+
+- 스프링 부트는 `DefaultFormattingConversionService` 를 상속 받은 WebConversionService` 를 내부에서 사용
+
+[Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/97990bebf3fcefc61b775b4fb8f24f08cdf48eb2)
