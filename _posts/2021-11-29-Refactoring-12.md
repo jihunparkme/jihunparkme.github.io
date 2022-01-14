@@ -284,37 +284,36 @@ function createEmployee(name, type) {
 
 **Example**
 
-- 직접 상속
+- Employee 직접 상속
 
 ```javascript
 class Employee {
     constructor(name) { //.6 타입 코드 필드 제거
         this._name = name;
     }
-    toString() { return `${this._name} (${this.type})`; }
-    get capitalizedType() { 
-        return (this._type.charAt(0).toUpperCase() + this._type.substr(1).toLowerCase());
-    }
+    set type(type) { this.type = Employee.createEmployee(this._name, arg); }
     toString() { return `${this._name} (${this.capitalizedType})`; }
+    get capitalizedType() { 
+        return (this.type.charAt(0).toUpperCase() + this.type.substr(1).toLowerCase());
+    }
+    function createEmployee(name, type) { //.3 생성자를 팩터리 함수로 바꾸기
+        switch (type) { //.5
+            case 'engineer': return new Engineer(name);
+            case 'salesperson': return new Salesperson(name);
+            default: throw new Error(`${type}라는 직원 유형은 없습니다.`);
+        }
+    }
 }
 
 class Engineer extends Employee { //.2 서브클래싱
-    get type() { return 'engineer'; } //.1
+    get type() { return 'engineer'; } //.1 타입 코드 필드 캡슐화
 }
 class Salesperson extends Employee {
     get type() { return 'salesperson'; }
 }
-
-function createEmployee(name, type) { //.3 생성자를 팩터리 함수로 바꾸기
-    switch (type) { //.5
-        case 'engineer': return new Engineer(name);
-        case 'salesperson': return new Salesperson(name);
-        default: throw new Error(`${type}라는 직원 유형은 없습니다.`);
-    }
-}
 ```
 
-- 간접 상속
+- Employee 간접 상속
 
 ```javascript
 class Employee {
