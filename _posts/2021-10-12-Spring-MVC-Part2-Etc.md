@@ -132,6 +132,9 @@ featured-img: spring_mvc_2
 **스프링 타입 변환 적용 예**
 
 - HTTP Query String 으로 전달되는 데이터는 모두 String Type 이지만, 스프링은 타입을 변환해 제공
+- 참고로, HttpMessageConverter 에는 컨버전 서비스 적용이 안됨!
+
+  - 내부에서 Jackson 같은 라이브러리를 사용
 
   - `@RequestParam`
 
