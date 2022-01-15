@@ -487,3 +487,76 @@ public class WebConfig implements WebMvcConfigurer {
   ```
 
   [Annotation-driven Formatting](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#format-CustomFormatAnnotations)
+
+# 파일 업로드
+
+**기본적인 HTML Form 전송 방식**
+
+- `application/x-www-form-urlencoded`
+- HTML Form
+  ```html
+  <form action="/save" method="post">
+    <inpout type="text" name="username" />
+    <inpout type="text" name="age" />
+    <button type="submit">전송</button>
+  </form>
+  ```
+- HTTP Message
+
+  ```http
+  <!-- start line -->
+  HTTP/1.1 200 OK
+
+  <!-- Entity Header -->
+  POST /save HTTP/1.1
+  Host: localhost:8080
+  Content-Type: application/x-www-form-urlencoded
+
+  <!-- Message Body -->
+  username=kim&age=20
+  ```
+
+**Form 내용과 여러 파일을 함께 전송하는 HTML Form 전송 방식**
+
+- `multipart/form-data`
+- HTML Form
+  - form tag 에 enctype="multipart/form-data" 지정
+  ```html
+  <form action="/save" method="post" enctype="multipart/form-data">
+    <inpout type="text" name="username" />
+    <inpout type="text" name="age" />
+    <inpout type="file" name="file1" />
+    <button type="submit">전송</button>
+  </form>
+  ```
+- HTTP Message
+
+  - 각각의 전송 항목이 구분
+  - Content-Disposition 라는 항목별 헤더와 부가 정보가 분리
+
+  ```http
+  <!-- start line -->
+  HTTP/1.1 200 OK
+
+  <!-- Entity Header -->
+  POST /save HTTP/1.1
+  Host: localhost:8080
+  Content-Type: multipart/form-data; boundary=----XXX
+  Content-Length: 10457
+
+  <!-- Message Body -->
+  ----XXX
+  Content-Disposition: form-data; name="username"
+
+  Kim
+  ----XXX
+  Content-Disposition: form-data; name="age"
+
+  20
+  ----XXX
+  Content-Disposition: form-data; name="file1"; filename="sample.jpg"
+  Content-Type: image/png
+
+  102941as9d86f7aa9807sd6fas987df6...
+  ----XXX--
+  ```
