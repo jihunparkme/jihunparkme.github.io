@@ -490,6 +490,8 @@ public class WebConfig implements WebMvcConfigurer {
 
 # 파일 업로드
 
+## 전송 방식
+
 **기본적인 HTML Form 전송 방식**
 
 - `application/x-www-form-urlencoded`
@@ -560,3 +562,26 @@ public class WebConfig implements WebMvcConfigurer {
   102941as9d86f7aa9807sd6fas987df6...
   ----XXX--
   ```
+
+## 서블릿과 파일 업로드
+
+**Multipart 관련 설정**
+
+```properties
+# HTTP 요청 메시지 확인
+logging.level.org.apache.coyote.http11=debug
+
+# 업로드 사이즈 제한 (사이즈 초과 시 SizeLimitExceededException 예외 발생)
+# max-file-size : 파일 하나 사이즈 (default > 1MB)
+# max-request-size : 여러 파일 요청의 경우 전체 사이즈 (default > 10MB)
+spring.servlet.multipart.max-file-size=1MB
+spring.servlet.multipart.max-request-size=10MB
+
+# Multipart 데이처 처리 여부 (default > true)
+spring.servlet.multipart.enabled=true
+```
+
+- multipart.enabled 옵션이 켜져 있다면, Spring `DispatcherServlet` 에서 `MultipartResolver` 실행
+- multipart 요청인 경우 Servlet Container 가 전달하는 `HttpServletRequest` 를 `MultipartHttpServletRequest` 로 변환해서 반환
+- Spring 이 제공하는 기본 `MultipartResolver` 는 `MultipartHttpServletRequest` Interface 를 구현한
+  `StandardMultipartHttpServletRequest` 를 반환
