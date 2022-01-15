@@ -35,7 +35,7 @@ HTTP Web Network 강의 노트
 
 # HTTP 해더 (일반 헤더)
 
-```header
+```text
 HTTP/1.1 200 OK         -- start line
 
 -- HTTP Header
