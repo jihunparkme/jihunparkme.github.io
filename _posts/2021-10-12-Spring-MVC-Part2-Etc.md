@@ -505,16 +505,13 @@ public class WebConfig implements WebMvcConfigurer {
   ```
 - HTTP Message
 
-  ```http
-  <!-- start line -->
+  ```text
   HTTP/1.1 200 OK
 
-  <!-- Entity Header -->
   POST /save HTTP/1.1
   Host: localhost:8080
   Content-Type: application/x-www-form-urlencoded
 
-  <!-- Message Body -->
   username=kim&age=20
   ```
 
@@ -536,17 +533,14 @@ public class WebConfig implements WebMvcConfigurer {
   - 각각의 전송 항목이 구분
   - Content-Disposition 라는 항목별 헤더와 부가 정보가 분리
 
-  ```http
-  <!-- start line -->
+  ```text
   HTTP/1.1 200 OK
 
-  <!-- Entity Header -->
   POST /save HTTP/1.1
   Host: localhost:8080
   Content-Type: multipart/form-data; boundary=----XXX
   Content-Length: 10457
 
-  <!-- Message Body -->
   ----XXX
   Content-Disposition: form-data; name="username"
 
@@ -563,6 +557,8 @@ public class WebConfig implements WebMvcConfigurer {
   ----XXX--
   ```
 
+[HTTP 메시지 참고](https://developer.mozilla.org/ko/docs/Web/HTTP/Messages)
+
 ## 서블릿과 파일 업로드
 
 **Multipart 관련 설정**
@@ -570,6 +566,9 @@ public class WebConfig implements WebMvcConfigurer {
 ```properties
 # HTTP 요청 메시지 확인
 logging.level.org.apache.coyote.http11=debug
+
+# 파일 업로드 경로 설정
+file.dir=C:/Users/Aaron/file/
 
 # 업로드 사이즈 제한 (사이즈 초과 시 SizeLimitExceededException 예외 발생)
 # max-file-size : 파일 하나 사이즈 (default > 1MB)
@@ -585,3 +584,90 @@ spring.servlet.multipart.enabled=true
 - multipart 요청인 경우 Servlet Container 가 전달하는 `HttpServletRequest` 를 `MultipartHttpServletRequest` 로 변환해서 반환
 - Spring 이 제공하는 기본 `MultipartResolver` 는 `MultipartHttpServletRequest` Interface 를 구현한
   `StandardMultipartHttpServletRequest` 를 반환
+
+**ServletUploadController.java**
+
+```java
+@Slf4j
+@Controller
+@RequestMapping("/servlet/")
+public class ServletUploadControllerV2 {
+
+    /**
+     * properties 설정 값 주입
+     */
+    @Value("${file.dir}")
+    private String fileDir;
+
+    @GetMapping("/upload")
+    public String newFile() {
+        return "upload-form";
+    }
+
+    @PostMapping("/upload")
+    public String saveFile(HttpServletRequest request) throws ServletException, IOException {
+        log.info("request={}", request);
+
+        String itemName = request.getParameter("itemName");
+        log.info("itemName={}", itemName);
+
+        /**
+         * Multipart 형식은 전송 데이터를 각 Part 로 나누어 전송
+         */
+        Collection<Part> parts = request.getParts();
+        log.info("parts={}", parts);
+
+        for (Part part : parts) {
+            log.info("==== PART ====");
+            log.info("name={}", part.getName());
+            Collection<String> headerNames = part.getHeaderNames();
+            for (String headerName : headerNames) {
+                log.info("header {}: {}", headerName, part.getHeader(headerName));
+            }
+
+            /*
+             *편의 메서드
+             */
+            //Content-Disposition: form-data; name="file"; filename="image.png"
+            //Content-Type: image/png
+            log.info("submittedFileName={}", part.getSubmittedFileName()); // 클라이언트가 전달한 파일명
+            log.info("size={}", part.getSize()); //part body size
+
+            //데이터 읽기
+            InputStream inputStream = part.getInputStream(); // Part의 전송 데이터 읽기
+            String body = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+            log.info("body={}", body);
+
+            //파일에 저장하기
+            if (StringUtils.hasText(part.getSubmittedFileName())) {
+                String fullPath = fileDir + part.getSubmittedFileName();
+                log.info("파일 저장 fullPath={}", fullPath);
+                part.write(fullPath); // Part를 통해 전송된 데이터를 저장
+            }
+        }
+
+        return "upload-form";
+    }
+}
+```
+
+```text
+request=org.springframework.web.multipart.support.StandardMultipartHttpServletRequest@2b82974a
+itemName=Spring
+parts=[org.apache.catalina.core.ApplicationPart@367a8c9f, org.apache.catalina.core.ApplicationPart@33180a33]
+==== PART ====
+name=itemName
+header content-disposition: form-data; name="itemName"
+submittedFileName=null
+size=6
+body=Spring
+==== PART ====
+name=file
+header content-disposition: form-data; name="file"; filename="image.png"
+header content-type: image/png
+submittedFileName=image.png
+size=191492
+body=�PNG
+...
+...
+```
