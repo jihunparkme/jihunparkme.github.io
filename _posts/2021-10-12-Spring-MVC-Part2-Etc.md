@@ -675,3 +675,18 @@ body=�PNG
 ## 🌞스프링과 파일 업로드
 
 - 스프링은 `MultipartFile` Interface 로 Multipart File 을 매우 편리하게 지원
+
+```java
+@PostMapping("/upload")
+public String saveFile(@RequestParam String itemName,
+                        @RequestParam MultipartFile file, HttpServletRequest request) throws IOException {
+
+    if (!file.isEmpty()) {
+        String fullPath = fileDir + file.getOriginalFilename(); //업로드 파일 명
+        log.info("파일 저장 fullPath={}", fullPath);
+        file.transferTo(new File(fullPath)); //파일 저장
+    }
+
+    return "upload-form";
+}
+```
