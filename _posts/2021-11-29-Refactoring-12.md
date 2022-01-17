@@ -414,8 +414,6 @@ const numberOfMales = people.filter(p => p.isMale).length;
 5. 서브클래스 지우기
 6. 테스트
 
-## 185R
-
 ## 슈퍼클래스 추출하기
 
 `슈퍼클래스로 끌어올리고 싶은 공통 요소를 발견했다면 슈퍼클래스 추출하기를 적용해보자.`
@@ -465,6 +463,43 @@ class Employee extends Party {
 4. 서브클래스에 남은 메서드 검토하기
    - 공통된 부분은 `함수 추출하기` 후 `메서드 올리기`를 적용하자.
 5. 기존 클래스 사용 코드를 슈퍼클래스의 인터페이스를 사용할지 고민하기
+
+**Example**
+
+```javascript
+class Party { //.1 빈 슈퍼클래스 만들기
+    constructor(name) {
+        this._name = name; //.3 필드 올리기
+        this._monthlyCost = monthlyCost;
+    }
+    get name() { return this._name; } //.3 메서드 올리기
+    get monthlyCost() { return this._monthlyCost; } //3. 함수 선언 바꾸기
+    get annualCost() { return this.monthlyCost * 12; } //3. 함수 선언 바꾸기
+}
+
+class Department extends Party { //.1 슈퍼클래스 상속
+    constructor(name, staff) {
+        super(name); //.3 필드 올리기
+        this._staff = staff;
+    }
+    get staff() { return this._staff.slice(); }
+    get totalMonthlyCost() { 
+        return this.staff
+            .map((e) => e.monthlyCost)
+            .reduce((sum, cost) => sum + cost);
+    }
+    get headCount() { return this.staff.length; }
+}
+
+class Employee extends Party { //.1 슈퍼클래스 상속
+    constructor(name, id, monthlyCost) {
+        super(name); //.3 필드 올리기
+        this._id = id;
+    }
+    get id() { return this._id; }
+```
+
+## 188R
 
 명칭
 
