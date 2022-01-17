@@ -416,23 +416,55 @@ const numberOfMales = people.filter(p => p.isMale).length;
 
 ## 185R
 
-명칭
+## 슈퍼클래스 추출하기
+
+`슈퍼클래스로 끌어올리고 싶은 공통 요소를 발견했다면 슈퍼클래스 추출하기를 적용해보자.`
+
+`상속은 프로그램이 성장하며 깨우쳐진다.`
 
 **개요**.
 
 Before
 
 ```javascript
-
+class Department {
+    get totalAnnualCost() {/**/}
+    get name() {/**/}
+    get headCount() {/**/}
+}
+class Employee {
+    get annualCost() {/**/}
+    get name() {/**/}
+    get id() {/**/}
+}
 ```
 
 After
 
 ```javascript
-
+class Party {
+    get name() {/**/}
+    get annualCost() {/**/}
+}
+class Department extends Party {
+    get annualCost() {/**/}
+    get headCount() {/**/}
+}
+class Employee extends Party {
+    get annualCost() {/**/}
+    get id() {/**/}
+}
 ```
 
 **절차**.
+
+1. 빈 슈퍼클래스 만들기
+   - 원래 클래스들이 새 클래스를 상속
+2. 테스트
+3. `생성자 본문 올리기` / `메서드 올리기` / `필드 올리기` 를 차례로 적용하여 공통 원소를 슈퍼클래스로 옮기기
+4. 서브클래스에 남은 메서드 검토하기
+   - 공통된 부분은 `함수 추출하기` 후 `메서드 올리기`를 적용하자.
+5. 기존 클래스 사용 코드를 슈퍼클래스의 인터페이스를 사용할지 고민하기
 
 명칭
 
