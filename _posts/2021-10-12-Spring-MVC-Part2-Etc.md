@@ -671,3 +671,7 @@ body=�PNG
 ...
 ...
 ```
+
+## 🌞스프링과 파일 업로드
+
+- 스프링은 `MultipartFile` Interface 로 Multipart File 을 매우 편리하게 지원
