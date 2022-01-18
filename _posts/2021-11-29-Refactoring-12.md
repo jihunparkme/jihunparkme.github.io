@@ -527,8 +527,6 @@ class Employee {}
 4. 빈 클래스 제거
 5. 테스트
 
-## 194L
-
 ## 서브클래스를 위임으로 바꾸기
 
 `서브클래싱 관련 문제에 직면할 경우 적용해보자.`
@@ -586,6 +584,8 @@ class PriorityOrderDelegate {
 
 **Example**
 
+- 서브 클래스가 하나일 때
+
 ```javascript
 class Booking {
     constructor(show, date) {
@@ -623,6 +623,71 @@ function createPremiumBooking(show, date, extras) { //.1 생성자를 팩터리 
 const aBooking = createBooking(show, date);
 const aPremiumBooking = createPremiumBooking(show, date, extras);
 ```
+
+- 서브 클래스가 여러 개일 때
+
+```javascript
+function createBird(data) { return new Bird(data); }
+
+class Bird {
+    constructor(data) {
+        this._name = data.name;
+        this._plumage = data.plumage;
+        this._specialDelegate = this.selectSpecialDelegate(data); //.3 위임 저장 필드 추가
+    }
+    get name() { return this._name; }
+    get plumage() { return this._specialDelegate.plumage; } //.7 서브클래스 호출 코드를 슈퍼클래스로
+    get airSpeedVelocity() { return this._specialDelegate.airSpeedVelocity; } //.7 서브클래스 호출 코드를 슈퍼클래스로
+    selectSpecialDelegate(data) { //.10 서브클래스 생성자 호출 코드
+        switch (data.type) {
+            case '유럽 제비':
+                return new EuropeanSwallowDelegate(data, this); //.4 위임 인스턴스 생성
+            case '아프리카 제비':
+                return new AfricanSwallowDelegate(data, this);
+            case '노르웨이 파랑 앵무':
+                return new NorwegianBlueParrotDelegate(data, this);
+            default:
+                return new SpeciesDelegate(data, this);
+        }
+    }
+}
+
+class SpeciesDelegate { //=> 슈퍼클래스 추출 (위임 클래스의 메서드, 역참조 코드의 중복 해결)
+    constructor(data, bird) {
+        this._bird = bird; //.2 슈퍼클래스 역참조
+    }
+    get plumage() { return this._bird._plumage || '보통이다'; } //=> 중복 메서드
+    get airSpeedVelocity() { return null; }
+}
+
+class EuropeanSwallowDelegate extends SpeciesDelegate { //.2 위임클래스 만들기
+    get airSpeedVelocity() { return 35; } //.6 함수 옮기기
+}
+
+class AfricanSwallowDelegate extends SpeciesDelegate { //.2 위임클래스 만들기
+    constructor(data) {
+        super(data, bird);
+        this._numberOfCoconuts = data.numberOfCoconuts;
+    }
+    get airSpeedVelocity() { return 40 - 2 * this._numberOfCoconuts; } //.6 함수 옮기기
+}
+
+class NorwegianBlueParrotDelegate extends SpeciesDelegate { //.2 위임클래스 만들기
+    constructor(data, bird) {
+        super(data, bird);
+        this._voltage = data.voltage;
+        this._isNailed = data.isNailed;
+    }
+    get airSpeedVelocity() { return this._isNailed ? 0 : 10 + this._voltage / 10; } //.6 함수 옮기기
+    get plumage() { //.6 함수 옮기기
+        if (this._voltage > 100) return '그을렸다';
+        else return this._bird_plumage || '예쁘다';
+        }
+    }
+}
+```
+
+## 199R
 
 명칭
 
