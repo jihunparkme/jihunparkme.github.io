@@ -527,25 +527,104 @@ class Employee {}
 4. 빈 클래스 제거
 5. 테스트
 
-## 189L
+## 194L
 
-명칭
+## 서브클래스를 위임으로 바꾸기
+
+`서브클래싱 관련 문제에 직면할 경우 적용해보자.`
+
+- 다양한 클래스에 서로 다른 이유로 위임을 할 수 없을 경우 (사람 객체를 '나이대'와 '소득 수준'을 기준으로 달리 하고 싶을 경우)
+  - 서브클래스는 젊은이/어르신이 되거나 부자/서민이 되어야 하고 둘 다는 불가능
+  - 동적 서브클래스 전환(서민 -> 부자)
+- 상속 클래스들의 결합도가 강할 경우
+
+`위임으로 바꾸었을 때의 장점이 상속을 없애는 단점보다 클 경우 적용해보자.`
 
 **개요**.
 
 Before
 
 ```javascript
-
+class Order {
+    get daysToShip() { return this._warehouse.daysToShip; }
+}
+class PriorityOrder extends Order {
+    get daysToShip() { return this._priorityPlan.daysToShip; }
+}
 ```
 
 After
 
 ```javascript
-
+class Order {
+    get daysToShip() {
+        return this._priorityDelegate ? this._priorityPlan.daysToShip : this._warehouse.daysToShip;
+    }
+}
+class PriorityOrderDelegate {
+    get daysToShip() { return this._priorityPlan.daysToShip; }
+}
 ```
 
 **절차**.
+
+1. 생성자를 호출하는 곳이 많을 경우 `팩터리 함수로 바꾸기`
+2. 위임클래스 만들기
+   - 생성자는 서브클래스가 사용하던 매개변수와 슈퍼클래스를 가리키는 역참조를 필요
+     - 위임에서 슈퍼클래스 데이터에 접근하려면 역참조가 필요
+3. 위임을 저장할 필드를 슈퍼클래스에 추가
+4. 서브클래스 생성 코드를 수정하여 위임 인스턴스를 생성하고 위임 필드에 대입해 초기화
+   - 팩터리 함수 혹은 생성자에서 작업 수행
+5. 서브클래스의 메서드 중 위임 클래스로 이동할 것을 고르기
+6. `함수 옮기기`를 적용해 위임 클래스로 옮기기
+7. 서브클래스 호출하는 코드를 슈퍼클래스로 옮기기
+8. 테스트
+9. 서브클래스의 모든 메서드 옮기기 (5~8 반복)
+10. 서브클래스 생성자를 호출하는 코드를 슈퍼클래스 생성자 호출로 수정
+11. 테스트
+12. 서브클래스 삭제
+
+**Example**
+
+```javascript
+class Booking {
+    constructor(show, date) {
+        this._show = show;
+        this._date = date;
+    }
+    get hasTalkback() { //.7 서브클래스 호출 코드를 슈퍼클래스로 옮기기
+        return (this._premiumDelegate) ? this._premiumDelegate.hasTalkback : this._show.hasOwnProperty('talkback') && !this.isPeakDay;
+    }
+    get basePrice() { 
+        let result = this._show.price;
+        if (this.isPeakDay) result += Math.round(result * 0.15);
+        return (this._premiumDelegate) ? this._premiumDelegate.extendBasePrice(result) : this._privateBasePrice;
+    }
+    get hasDinner() { return (this._premiumDelegate) ? this._premiumDelegate.hasDinner : undefined; }
+    _bePremium(extras) { this._premiumDelegate = new PremiumBookingDelegate(this, extras); } //.3 위임을 저장할 필드
+}
+
+class PremiumBookingDelegate { //.2 위임클래스 만들기
+    constructor(hostBooking, extras) {
+        this._host = hostBooking; //.2 슈퍼클래스 역참조
+        this._extras = extras;
+    }
+    get hasTalkback() { return this._host._show.hasOwnProperty('talkback'); } //.6 서브클래스의 함수 옮기기(역참조 이용)
+    get hasDinner() { return this._extras.hasOwnProperty('dinner') && !this._host.isPeakDay; }
+    extendBasePrice(base) { return Math.round(base + this._extras.premiumFee); }
+}
+function createBooking(show, date) { return new Booking(show, date); } //.1 생성자를 팩터리 함수로 바꾸기 (호출 캡슐화)
+function createPremiumBooking(show, date, extras) { //.1 생성자를 팩터리 함수로 바꾸기 (호출 캡슐화)
+    const result = new Booking(show, date, extras); //.10 패터리 메서드가 슈퍼클래스를 반환하도록 수정
+    result._bePremium(extras); //.4 위임 인스턴스를 생성하고 위임 필드에 대입해 초기화
+    return result;
+}
+
+const aBooking = createBooking(show, date);
+const aPremiumBooking = createPremiumBooking(show, date, extras);
+```
+
+
 
 명칭
 
