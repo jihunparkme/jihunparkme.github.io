@@ -473,8 +473,8 @@ class Party { //.1 빈 슈퍼클래스 만들기
         this._monthlyCost = monthlyCost;
     }
     get name() { return this._name; } //.3 메서드 올리기
-    get monthlyCost() { return this._monthlyCost; } //3. 함수 선언 바꾸기
-    get annualCost() { return this.monthlyCost * 12; } //3. 함수 선언 바꾸기
+    get monthlyCost() { return this._monthlyCost; } //3. 함수 선언 바꾸기 + 메서드 올리기
+    get annualCost() { return this.monthlyCost * 12; } //3. 함수 선언 바꾸기 + 메서드 올리기
 }
 
 class Department extends Party { //.1 슈퍼클래스 상속
@@ -483,12 +483,12 @@ class Department extends Party { //.1 슈퍼클래스 상속
         this._staff = staff;
     }
     get staff() { return this._staff.slice(); }
+    get headCount() { return this.staff.length; }
     get totalMonthlyCost() { 
         return this.staff
             .map((e) => e.monthlyCost)
             .reduce((sum, cost) => sum + cost);
     }
-    get headCount() { return this.staff.length; }
 }
 
 class Employee extends Party { //.1 슈퍼클래스 상속
@@ -497,27 +497,37 @@ class Employee extends Party { //.1 슈퍼클래스 상속
         this._id = id;
     }
     get id() { return this._id; }
+}
 ```
 
-## 188R
+## 계층 합치기
 
-명칭
+`어떤 클래스가 그 부모가 비슷해져서 더는 독립적으로 존재할 이유가 사라졌다면, 그 둘을 합쳐야 할 시점이다.`
 
 **개요**.
 
 Before
 
 ```javascript
-
+class Employee {}
+class Salesperson extends Employee {}
 ```
 
 After
 
 ```javascript
-
+class Employee {}
 ```
 
 **절차**.
+
+1. 제거할 클래스 고르기
+2. `필드 올리기`, `메서드 올리기`/ `필드 내리기`, `메서드 내리기` 를 적용하여 하나의 클래스로 옮기기
+3. 제거할 클래스를 참조하던 코드 수정
+4. 빈 클래스 제거
+5. 테스트
+
+## 189L
 
 명칭
 
