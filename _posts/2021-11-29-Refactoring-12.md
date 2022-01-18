@@ -609,13 +609,13 @@ class PremiumBookingDelegate { //.2 위임클래스 만들기
         this._host = hostBooking; //.2 슈퍼클래스 역참조
         this._extras = extras;
     }
-    get hasTalkback() { return this._host._show.hasOwnProperty('talkback'); } //.6 서브클래스의 함수 옮기기(역참조 이용)
-    get hasDinner() { return this._extras.hasOwnProperty('dinner') && !this._host.isPeakDay; }
-    extendBasePrice(base) { return Math.round(base + this._extras.premiumFee); }
+    get hasTalkback() { return this._host._show.hasOwnProperty('talkback'); } //.6 서브클래스 메서드 옮기기(역참조 이용)
+    get hasDinner() { return this._extras.hasOwnProperty('dinner') && !this._host.isPeakDay; } //.9 서브클래스 메서드 옮기기
+    extendBasePrice(base) { return Math.round(base + this._extras.premiumFee); } //.9 서브클래스 메서드 옮기기
 }
 function createBooking(show, date) { return new Booking(show, date); } //.1 생성자를 팩터리 함수로 바꾸기 (호출 캡슐화)
 function createPremiumBooking(show, date, extras) { //.1 생성자를 팩터리 함수로 바꾸기 (호출 캡슐화)
-    const result = new Booking(show, date, extras); //.10 패터리 메서드가 슈퍼클래스를 반환하도록 수정
+    const result = new Booking(show, date, extras); //.10 팩터리 메서드가 슈퍼클래스를 반환하도록 수정
     result._bePremium(extras); //.4 위임 인스턴스를 생성하고 위임 필드에 대입해 초기화
     return result;
 }
@@ -624,8 +624,6 @@ const aBooking = createBooking(show, date);
 const aPremiumBooking = createPremiumBooking(show, date, extras);
 ```
 
-
-
 명칭
 
 **개요**.
@@ -643,22 +641,3 @@ After
 ```
 
 **절차**.
-
-명칭
-
-**개요**.
-
-Before
-
-```javascript
-
-```
-
-After
-
-```javascript
-
-```
-
-**절차**.
-
