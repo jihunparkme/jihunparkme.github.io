@@ -690,3 +690,9 @@ public String saveFile(@RequestParam String itemName,
     return "upload-form";
 }
 ```
+
+### 파일 업로드, 다운로드 구현
+
+[예제로 구현하는 파일 업로드, 다운로드 (1)](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/8b208405d5104f87e0e055bc163408cc96937d3e)
+
+[예제로 구현하는 파일 업로드, 다운로드 (2)](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/c20895f7e420339dd0e7fc6ae528d2c0c243bdd4)
