@@ -687,22 +687,83 @@ class NorwegianBlueParrotDelegate extends SpeciesDelegate { //.2 위임클래스
 }
 ```
 
-## 199R
+## 슈퍼클래스를 위임으로 바꾸기
 
-명칭
+`상속은 혼란과 복잡도를 키우는 방식으로 이뤄지기도 한다.`
+
+- 슈퍼클래스의 기능들이 서브클래스에 어울리지 않는다면, 그 기능들은 상속을 통해 이용하면 안된다.
+- 제대로된 상속이라면 서브클래스가 슈퍼클래스의 모든 기능을 사용해야 하고, 서브클래스의 인스턴스를 슈퍼클래스의 인스턴스로도 취급할 수 있어야 한다.
+
+`위임을 이용하면 기능 일부만 빌려올 뿐, 서로 별개인 개념이 명확해진다.`
+
+`상속을 먼저 적용해보고, 문제가 생길 경우 슈퍼클래스를 위임으로 바꾸어보자.`
 
 **개요**.
 
 Before
 
 ```javascript
-
+class List {}
+class Stack extends List {}
 ```
 
 After
 
 ```javascript
-
+class Stack {
+    constructor() {
+        this._storage = new List();
+    }
+}
+class List {}
 ```
 
 **절차**.
+
+1. 슈퍼클래스 객체를 참조하는 필드를 서브클래스에 만들기
+   - 위임 참조를 새로운 슈퍼클래스 인스턴스로 초기화
+2. 슈퍼클래스의 동작 각각에 대응하는 전달 함수를 서브클래스에 만들기
+   - 서로 관련된 함수끼리 그룹으로 묶어 진행
+3. 슈퍼클래스의 동작 모두가 전달 함수로 오버라이드되었다면 상속 관계 끊기
+
+**Example**
+
+```javascript
+class CatalogItem {
+    constructor(id, title, tags) {
+        this._id = id;
+        this._title = title;
+        this._tags = tags;
+    }
+    get id() { return this._id; }
+    get title() { return this._title; }
+    hasTag(arg) { return this._tags.includes(arg); }
+}
+
+class Scroll { //.3 슈퍼클래스와 상속 관계 끊기
+    constructor(id, dataLastCleaned, catalogId, catalog) {
+        this._id = id;
+        this._catalogItem = catalog.get(catalogId); //.1 슈퍼클래스를 참조하는 속성
+        this._lastCleaned = dataLastCleaned;
+    }
+    get id() { return this._id; } //.2 슈퍼클래스의 동작 각각에 대응하는 전달 메서드 생성
+    get title() { return this._catalogItem.title; } //.2 
+    hasTag(aString) { return this._catalogItem.tags.hasTag(aString); } //.2 
+    needsCleaning(targetDate) {
+        const threshold = this.hasTag('revered') ? 700 : 1500;
+        return this.daysSinceLastCleaning(targetDate) > threshold;
+    }
+    daysSinceLastCleaning(targetDate) {
+        return this._lastCleaned.until(targetDate, ChronoUnit.DAYS);
+    }
+}
+
+const scrolls = aDocument
+        .map((record) => new Scroll(record.id,
+                                    LocalDate.parse(record.lastCleaned),
+                                    record.catalogData.id,
+                                    catalog,
+    ),
+);
+```
+
