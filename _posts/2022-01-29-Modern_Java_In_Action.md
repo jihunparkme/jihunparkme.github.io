@@ -1,4 +1,4 @@
-﻿---
+---
 layout: post
 title: Modern Java In Action
 summary: Modern Java In Action
