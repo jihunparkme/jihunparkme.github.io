@@ -22,7 +22,7 @@ featured-img: modern-java
 - \3. `병렬성과 공유 가변 데이터`
   - 기존의 자바 스레드 API보다 쉽게 병렬성을 활용
 
-## 동적 파라미터화 코드 전달하기
+# 동적 파라미터화 코드 전달하기
 
 `자주 바뀌는 요구사항에 효과적으로 대응하자.`
 
@@ -82,6 +82,99 @@ public <T> List<T> filter(List<T> list, Predicate<T> p) {
 List<Apple> greenApples = filter(inventory, new colorPredicate());
 ```
 
-## 람다 표현식
+# 람다 표현식
+
+`메서드로 전달할 수 있는 익명 함수를 단순화한 것.`
+
+- 람다 표현식의 구성
+
+  - 파라미터 리스트
+  - 화살표
+  - 람다 바디
+
+  ```java
+  (Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight());
+  '----람다 파라미터---화살표-------------람다 바디------------------'
+      
+  List<Apple> greenApples = filter(inventory, (Apple a) -> Color.GREEN.equals(a.getColor()));
+  ```
+
+## 함수형 인터페이스
+
+- 제네릭 파라미터에는 참조형(Byte, Integer, Object, List..)만 사용 가능
+
+### Predocate
+
+- 추상 메서드를 정의하여 제네릭 형식 T의 객체를 인수로 받아 `Boolean 반환`
+
+  ```java
+  @FunctionalInterface
+  public interface Predicate<T> {
+      boolean test(T t);
+  }
+  
+  public <T> List<T> filter(List<T> list, Predicate<T> p) {
+      List<T> result = new ArrayList<>();
+      for (T t : list) {
+          if (p.test(t)) {
+              result.add(t);
+          }
+      }
+      return result;
+  }
+  
+  Predicate<String> nonEmptyStringPredicate = (String s) -> !s.isEmpty();
+  List<String> nonEmpty = filter(listOfString, nonEmptyStringPredicate)
+  ```
+
+### Consumer
+
+- 추상 메서드를 정의하여 제네릭 형식 T의 객체를 인수로 받아 `void 반환` (특정 동작 수행)
+
+  ```java
+  @FunctionalInterface
+  public interface Consumer<T> {
+      void accept(T t);
+  }
+  
+  public <T> void forEach(List<T> list, Consumer<T> c) {
+      for(T t : list) {
+          c.accept(t);
+      }
+  }
+  forEach(
+      Arrays.asList(1,2,3,4,5),
+      (Integer i) -> System.out.println(i);
+  )
+  ```
+
+### Function
+
+- 추상 메서드를 정의하여 제네릭 형식 T의 객체를 인수로 받아 `제네릭 형식 R 객체를 반환` (입력을 출력으로 매핑할 경우)
+
+  ```java
+  @FunctionalInterface
+  public interface Function<T, R> {
+      R apply(T t);
+  }
+  
+  public <T, R> List<R> map(List<T> list, Function<T, R> f) {
+      List<R> result = new ArrayList<>();
+      for(T t : list) {
+          result.add(f.apply(t));
+      }
+      return result;
+  }
+  
+  // [7, 2, 6]
+  List<Integer> l = map(
+      Arrays.asList("lambdas", "in", "action"),
+      (String s) -> s.length()
+  );
+  ```
+
+  
+
+
 
 ## 27L
