@@ -283,6 +283,101 @@ int result = h.apply(1); // f(g(x)) -> 3
 
 # 함수형 데이터 처리
 
-## 스트림
+## Stream
 
-## 49R
+Stream : `데이터 처리 연산을 지원하도록 소스에서 추출된 연속된 요소`
+
+- 선언형으로 컬렉션 데이터를 처리
+- 멀티스레드 코드를 구현하지 않아도 데이터를 투명하게 병렬로 처리
+- 복잡한 루프, 조건문 등이 필요 없이 선언형 코드와 동작 파라미터화를 활용하면 변하는 요구사항에 쉽에 대응할 수 있다.
+- 스트림 API 를 통해 데이터 처리를 병렬화로 진행하면서 스레드와 락을 걱정할 필요가 없다.
+
+**특징**
+
+- 선언형 : 간결성 + 가독성 향상
+- 조립 : 유연성 향상
+- 병렬화 : 성능 향상
+
+**Java7**
+
+```java
+List<Dish> lowCaloricDishes = new ArrayList<>();
+for (Dish d : dishes) {
+    if (d.getCalories() < 400) {
+        lowCaloricDishes.add(d);
+    }
+}
+
+Collections.sort(lowCaloricDishes, new Comparator<Dish>() {
+    @Override
+    public int compare(Dish d1, Dish d2) {
+        return Integer.compare(d1.getCalories(), d2.getCalories());
+    }
+});
+List<String> lowCaloricDishesName = new ArrayList<>();
+for (Dish d : lowCaloricDishes) {
+    lowCaloricDishesName.add(d.getName());
+}
+```
+
+**Java8**
+
+```java
+//stream()
+List<String> lowCaloricDishesName =
+            menu.stream()
+                .filter(d -> d.getCalories() < 400) //조건
+                .sorted(comparing(Dish::getCalories)) //정렬
+                .map(Dish::getName) //추출
+                .collect(toList()); //리스트화
+
+//parallelStream()
+List<String> lowCaloricDishesName =
+            menu.parallelStream()
+                .filter(d -> d.getCalories() < 400)
+                .sorted(comparing(Dish::getCalories))
+                .map(Dish::getName)
+                .collect(toList());
+```
+
+**Example**
+
+```java
+//stream()
+List<String> threeHighCaloricDishNames =
+                menu.stream()
+                    .filter(dist -> dist.getCalories() < 300) //필터링 
+                    .map(Dish::getName) //추출
+                    .limit(3) //축소
+                    .collect(toList()); //리스트화 
+```
+
+- `filter` : 스트림에서 특정 요소 제외
+- `map` : 한 요소를 다른 요소로 변환하거나 정보 추출
+- `limit` : 정해진 요소 개수 제한
+- `sorted` : 요소 정렬
+- `collect` : 스트림을 다른 형식으로 변환
+- 중간 연산 : filter, map, limit, sorted, distinct ...
+  - 중간 연산을 합친 다음 합쳐진 중간 연산을 최종 연산으로 한 번에 처리(LAZY)
+- 최종 연산 : collect, forEach, count ..
+  - 스트림 파이프라인에서 결과를 도출
+
+### Stream VS Collection
+
+**데이터 계산 시점**
+
+- `Collection` : 현재 자료구조가 포함하는 모든 값을 메모리에 저장하고 모든 요소는 컬렉션에 추가 전에 요소는 미리 계산되어야 함
+  - 모든 정보가 로딩될 때까지 기다려야만 한다. ex) DVD
+- `Stream` : 요청할 때만 요소를 계산 (LAZY)
+  - 로딩된 일부 데이터를 먼저 볼 수 있다. ex) 스트리밍
+  - 단 한 번만 소비할 수 있다. -> 다시 탐색 시 새로운 스트림 생성이 필요
+
+**데이터 반복 처리 방법**
+
+- `Collection` : 사용자가 직접 요소를 반복 (외부 반복)
+- `Stream` : 반복을 알아서 처리하고 결과 스트림값을 어딘가에 저장 (내부 반복)
+  - 내부 반복의 경우 투명하게 병렬 처리, 더 최적화된 다양한 순서로 처리가 가능
+
+## Stream 활용
+
+## 59R
