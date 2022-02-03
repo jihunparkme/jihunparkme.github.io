@@ -362,7 +362,7 @@ List<String> threeHighCaloricDishNames =
 - 최종 연산 : collect, forEach, count ..
   - 스트림 파이프라인에서 결과를 도출
 
-### Stream VS Collection
+**Stream VS Collection**
 
 **데이터 계산 시점**
 
@@ -380,4 +380,134 @@ List<String> threeHighCaloricDishNames =
 
 ## Stream 활용
 
-## 59R
+### Filtering
+
+- `filter, distinct` : Predicate 를 인수로 받아 일치하는 모든 요소를 포함하는 스트림 반환
+
+  ```java
+  List<Dish> vegetarianMenu = menu.stream()
+                                  .filter(Dish::isVegetarian)
+                                  .distinct() //중복 필터링(hashCode, equals 로 결정)
+                                  .collect(toList());
+  ```
+
+### Slicing
+
+- `takeWhile, dropWhile` : Predicate 를 이용한 슬라이싱 (필터에 걸리면 반복 중단) 
+
+  ```java
+  List<Dish> sliceMenu1 = specialMenu.stream()
+                                      .takeWhile(dish -> dish.getCalories() < 320)
+                                      .collect(toList());
+  ```
+
+- 슬라이싱 후 나머지 요소 선택
+
+  ```java
+  List<Dish> sliceMenu2 = specialMenu.stream()
+                                      .dropWhile(dish -> dish.getCalories() < 320)
+                                      .collect(toList());
+  ```
+
+- `limit` : 스트림 축소
+
+  ```java
+  List<Dish> dishes = specialMenu.stream()
+                                  .filter(dish -> dish.getCalories() > 300)
+                                  .limit(3)
+                                  .collect(toList());
+  ```
+
+- `skip` : 건너뛰기(처음 n개 요소 제외)
+
+  ```java
+  List<Dish> dishes = menu.stream()
+                          .filter(dish -> dish.getCalories() > 300)
+                          .skip(2)
+                          .collect(toList());
+  ```
+
+### Mapping
+
+- `map` : 특정 함수 적용 결과 매핑
+
+  ```java
+  List<String> dishNames = menu.stream()
+                              .map(Dish::getName) //요리명 추출
+                              .map(String::length) //요리명 글자 길이 추출
+                              .collect(toList());
+  ```
+
+- `flatMap` : 생성된 스트림을 하나의 스트림으로 평명화
+
+  ```java
+  List<String> uniqueCharacters = 
+      words.stream()
+      	.map(word -> word.split("")) // 각 단어를 개별 문자를 포함하는 배열로 변환
+          .flatMap(Arrays:stram)
+          .distinct()
+          .forEach(toList());
+  ```
+
+### Serching & Maching
+
+- `allMatch` : 스트림에서 적어도 한 요소와 일치하는지 확인
+
+  ```java
+  boolean isVegetarian = menu.stream()
+      						.anyMatch(Dish::isVegetarian)
+  ```
+
+- `anyMatch` : 스트림의 모든 요소가 일치하는지 검사
+
+  ```java
+  boolean isHealthy = menu.stream()
+      					.allMatch(dish -> dish.getCalories() < 1000);
+  ```
+
+- `nonMatch` : 스트림의 요소 중 일치하는 요소가 없는지 확인
+
+  ```java
+  boolean isHealthy = menu.stream()
+      					.noneMatch(dish -> dish.getCalories() >= 1000);
+  ```
+
+- `findFirst` : 스트림에서 첫 번째 요소 찾기
+
+  ```java
+  Optional<Integer> firstSquaredDivisibleByThree = someNumbers.stream()
+      													.map(n -> n * n)
+      													.filter(n -> n % 3 == 0)
+      													.findFirst();
+  ```
+
+  
+
+- `findAny` : 스트림에서 임의의 요소 반환
+
+  ```java
+  Optional<Dish> dish = menu.stream()
+      					.filter(Dish:isVegetarian)
+      					.findAny();
+  ```
+
+### Reducing
+
+- `reduce` : 스트림의 모든 요소를 처리해서 값으로 도출 (초기값, BinaryOperator<T>)
+
+  ```java
+  //덧셈
+  int sum = numvers.stream()
+      			.reduce(0, Integer::sum) //.reduce(0, (a, b) -> a + b);
+  // 곱셈
+  int product = numvers.stream()
+      			.reduce(1, (a, b) -> a * b);
+  // 최댓값
+  Optional<Integer> max = numbers.stream()
+      							.reduce(Integer::max);
+  ```
+
+  
+
+## 73L
+
