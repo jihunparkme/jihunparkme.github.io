@@ -298,6 +298,11 @@ Stream : `데이터 처리 연산을 지원하도록 소스에서 추출된 연�
 - 조립 : 유연성 향상
 - 병렬화 : 성능 향상
 
+**상태 있는 연산과 상태 없는 연산**
+
+- 상태 있는 연산(stateful operation) : 값을 계산하는 데 필요한 상태를 저장하는 연산 (`reduce`, `sorted`, `distinct`)
+- 상태 없는 연산(stateless operation) : 상태를 저장하지 않는 연산 (`filter`, `map`)
+
 **Java7**
 
 ```java
@@ -504,10 +509,112 @@ List<String> threeHighCaloricDishNames =
       			.reduce(1, (a, b) -> a * b);
   // 최댓값
   Optional<Integer> max = numbers.stream()
-      							.reduce(Integer::max);
+      					.reduce(Integer::max);
   ```
 
-  
+## 숫자형 스트림
 
-## 73L
+- `mapToInt`, `mapToDouble`, `mapToLong` 메서드는 map 과 같은 기능을 수행하지만 Stream 대신 특화된 스트림을 반환
+
+  ```java
+  int calories = menu.stream() //Stream<Dish> 반환
+      				.mapToInt(Dish:getCalories) //IntStream 반환
+      				.sum();
+  ```
+
+- `boxed` : 특화 스트림을 일반 스트림으로 변환하기
+
+  ```java
+  IntStream intStream = menu.stream().mapToInt(Dish::getCalories);
+  Stream<Integer> stream = intStream.boxed();
+  ```
+
+- `OptionalInt`, `OptionalDouble`, `OptionalLong` 으로 이전 값의 존재 여부를 확인할 수 있다.
+
+  ```java
+  OptaionInt maxCalories = menu.stream()
+      				.mapToInt(Dish:getCalories)
+      				.max();
+  
+  int max = maxCalories.orElse(1);
+  ```
+
+- `range`(인수 미포함), `rangeClosed`(인수 포함) 로 숫자를 생성할 수 있다.
+
+  ```java
+  int count = IntStream.rangeClosed(1, 100) //1~100 범위
+      				.filter(n -> n % 2 == 0) //짝수 스트림
+      				.count(); //50
+  ```
+
+## 스트림 생성
+
+**값으로 스트림 생성**
+
+```java
+Stream<String> stream = Stream.of("Modern", "Java", "in", "Action");
+stream.map(String::toUpperCase).forEach(System.out::println);
+
+Stream<String> emptyStream = Stream.empty();
+```
+
+**Null이 될 수 있는 객체로 스트림 생성**
+
+```java
+//null이 될 수 있는 객체를 포함하는 Stream
+Stream<String> values = Stream.of("config", "home", "user")
+    						.flatMap(key -> Stream.ofNullable(System.getProperty(key)));
+```
+
+**배열로 스트림 생성**
+
+```java
+int[] numbers = {2, 3, 5, 7, 11, 13, 15, 17};
+int sum = Arrays.stream(numbers).sum();
+```
+
+**파일로 스트림 생성**
+
+- `Files.lines` : 주어진 파일의 행 스트림을 문자열로 반환
+
+```java
+//고유 단어의 수 계산
+long uniqueWords = 0;
+try(Stream<String> lines = Files.lines(Paths.get("modernJavaInAction/data.txt"), Charset.defaultCharset())) { //AutoCloseable
+    uniqueWords = lines.flatMap(line -> Arrays.stream(line.split(" "))) //고유 단어 수
+                        .distinct()
+                        .count();
+} catch(IOException e) {
+    
+}   
+```
+
+**무한 스트림 생성**
+
+- `Stream.iterate` : 생산된 각 값을 연속적으로 계산
+
+  ```java
+  //(iterate) 짝수 스트림 생성 : 생산된 각 값을 연속적으로 계산
+  Stream.iterate(0, n -> n + 1)
+      	.limit(10)
+      	.forEach(System.out::println);
+  
+  //무한 스트림 생성을 중단하는 방법
+  IntStream.iterate(0, n -> n<100, n -> n+4) 
+      		.forEach(System.out::println);
+  
+  IntStream.iterate(0, n -> n+4) 
+      		.takeWhile(n -> n<100)
+      		.forEach(System.out::println);
+  ```
+
+- `Stream.generate` : 생산된 각 값을 연속적으로 계산하지 않음 (상태가 없는 메서드에 주로 사용)
+
+  ```java
+  Stream.generate(Math::random)
+      	.limit(5)
+      	.forEach(System.out::pringln);
+  ```
+
+## 80R
 
