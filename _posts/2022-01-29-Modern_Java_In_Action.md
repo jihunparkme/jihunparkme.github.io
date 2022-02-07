@@ -616,5 +616,37 @@ try(Stream<String> lines = Files.lines(Paths.get("modernJavaInAction/data.txt"),
       	.forEach(System.out::pringln);
   ```
 
-## 80R
+# 스트림으로 데이터 수집
+
+- Collectors Class 에서 제공하는 메서드
+  - 리듀싱과 요약
+  - 요소 그룹화
+  - 요소 분할
+
+## 리듀싱
+
+```java
+// Collectors.counting
+long howManyDishes1 = menu.stream().collect(Collectors.counting());
+long howManyDishes2 = menu.stream().count();
+
+// Collectors.maxBy (minBy)
+Comparator<Dish> dishCaloriesComparator = Comparator.comparingInt(Dish::getCalories);
+Optional<Dish> mostCaloriesDish = menu.stream().collect(maxBy(dishCaloriesComparator));
+
+// Collectors.summingInt (summingLong, summingDouble)
+int totalCalories = menu.stream().collect(summingInt(Dish::getCalories));
+
+// Collectors.averagingInt (averagingLong, averagingDouble)
+double avgCalories = menu.stream().collect(averagingInt(Dish::getCalories));
+
+// Collectors.summarizingInt (summarizingLong, summarizingDouble)
+IntSummaryStatistics menuStatistics = menu.stream().collect(summarizingInt(Dish::getCalories));
+IntSummaryStatistics{count=10, sum=4500, min=80, average=512.1221, max=780}
+
+// Collectors.joining (내부적으로 StringBuilder를 이용하여 문자열 생성)
+String shortMenu = menu.strea().map(Dish::getName).collect(joining(", "));
+```
+
+## 84R
 
