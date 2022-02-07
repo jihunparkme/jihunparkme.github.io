@@ -623,7 +623,7 @@ try(Stream<String> lines = Files.lines(Paths.get("modernJavaInAction/data.txt"),
   - 요소 그룹화
   - 요소 분할
 
-## 리듀싱
+## Reducing
 
 ```java
 // Collectors.counting
@@ -648,5 +648,123 @@ IntSummaryStatistics{count=10, sum=4500, min=80, average=512.1221, max=780}
 String shortMenu = menu.strea().map(Dish::getName).collect(joining(", "));
 ```
 
-## 84R
+**범용 리듀싱 요약 연산**
+
+- 문제를 해결할 수 있는 다양한 해결 방법 중 문제에 특화된 해결책을 골라, 가독성과 성능을 모두 잡아보자.
+
+```java
+// max (시작값이 없으므로 Optional 반환)
+Optional<Dish> mostCalorieDish = menu.stream()
+    				.collect(reducing((d1, d2) -> d1.getCalories() > d2.getCalories() ? d1 : d2));
+
+// sum
+int totalCalories = menu.stream().collect(reducing(0, Dish::getCalories, (i, j) -> i + j));
+
+int totalCalories = menu.stream().collect(Dish::getCalories, Integer::sum);
+
+int totalCalories = menu.stream().map(Dish::getCalories).reduce(Integer::sum).get
+    
+int totalCalories = menu.stream().mapToInt(Dish::getCalories).sum()
+```
+
+## Grouping
+
+- 분류 함수
+  - `Collectors.groupingBy(f, toList())`
+
+```java
+// Type Groupging
+//{FISH=[salmon], OTHER=[fries, rice], MEAT=[pork, beef, chichen]}
+Map<Dish.Type, List<Dish>> dishesByType = menu.stream().collect(groupingBy(Dish::getType));
+
+// Calories Groupging
+public enum CaloricLevel { DIET, NORMAL, FAT }
+Map<CaloricLevel, List<Dish>> dishesByCaloricLevel = menu.stream().collect(
+    groupingBy(dish -> {
+        if (dish.getCalories() <= 400) return CaloricLevel.DIET;
+        else if (dish.getCalories() <= 700) return CaloricLevel.NORMAL;
+        else return CaloricLevel.FAT;
+    }));
+```
+
+**그룹화된 요소 조작**
+
+```java
+// Type & Calories Groupging (데이터가 없는 Type 도 포함)
+//{FISH=[], OTHER=[fries, rice], MEAT=[pork, beef, chichen]}
+Map<Dish.Type, List<Dish>> caloricDishedByType = menu.stream()
+    .collect(groupingBy(Dish::getType, filtering(dish -> dish.getCalories() > 500, toList())));
+
+// 그룹의 각 요리를 관리 이름 목록으로 변환
+Map<Dish.Type, List<String>> dishNamesByType = menu.stream()
+    .collect(groupingBy(Dish::getType, mapping(Dish.getName, toList())));
+
+// 각 형식의 요리 태그 추출
+//{FISH=[roasted, tasty], OTHER=[fried, fresh], MEAT=[salty, greasy]}
+Map<Dish.Type, Set<String>> dishNamesByType = menu.stream()
+    .collect(groupingBy(Dish::getType, flatMapping(dish -> dishTags.get(dish.getName()).stream(), toSet())));
+```
+
+**다수준 그룹화**
+
+```java
+public enum CaloricLevel { DIET, NORMAL, FAT }
+Map<Dish.Type, Map<CaloricLevel, List<Dish>>> dishesByTypeCaloricLevel = menu.stream()
+    .collect(
+    	groupingBy(Dish::getType, // 첫 번째 수준의 분류 함수    
+            groupingBy(dish -> { // 두 번째 수준의 분류 함수
+                if (dish.getCalories() <= 400) return CaloricLevel.DIET;
+                else if (dish.getCalories() <= 700) return CaloricLevel.NORMAL;
+                else return CaloricLevel.FAT;
+            })
+     )
+);
+//{FISH={DIET=[prawns], NORMAL=[salmon]}, MEAT={DIET=[chicken], NORMAL=[beef], FAT=[pork]}, ...} 
+```
+
+**서브그룹으로 데이터 수집**
+
+- 처음부터 값이 존재하지 않는 Key 는 Map 에 추가되지 않으므로 Optional wrapper 를 사용할 필요가 없음
+  - groupingBy Collector 는 Stream 첫 번째 요소를 찾은 이후에 그룹화 맵에 새로운 키를 추가(lazy)
+    - 리듀싱 컬렉터는 절대 Optional.empty()를 반환하지 않음
+  - collectingAndThen 는 적용할 컬렉터와 변환 함수를 인수로 받아 다른 컬렉터를 반환
+
+```java
+//요리 수를 종류별로 연산
+//{MEATH=3, FISH=5, OTHER=2}
+Map<Dish.Type, Long> typesCount = menu.stream().collect(
+											groupingBy(Dish::getType, counting()));
+
+//요리 종류 중 가장 높은 칼로리를 갖는 요리
+//{MEATH=Optional[pork], FISH=Optional[salmon], OTHER=Optional[buger]}
+Map<Dish.Type, Optional<Dish>> mostCaloricByType = menu.stream().collect(
+						groupingBy(Dish::getType, maxBy(comparingInt(Dish::getCalories))));
+
+//{MEATH=pork, FISH=salmon, OTHER=buger}
+Map<Dish.Type, Dish> mostCaloricByType = menu.stream().collect(
+    groupingBy(Dish::getType, //분류 함수
+               collectingAndThen(
+                   maxBy(comparingInt(Dish::getCalories)), // 감싸인 컬렉터
+                   Optional::get) // 변환 함수
+              )
+); 
+
+//각 요리 형식에존재하는 모든 CaloricLevel 값
+//{MEATH=[DIET, NORMAL], FISH=[NORMAL, FAT], OTHER=[DIET, NORMAL]}
+Map<Dish.Type, Set<CaloricLevel>> caloricLevelsByType = menu.stream().collect(
+    groupingBy(Dish::getType, mapping(dish -> {
+        if (dish.getCalories() <= 400) return CaloricLevel.DIET;
+        else if (dish.getCalories() <= 700) return CaloricLevel.NORMAL;
+        else return CaloricLevel.FAT;
+    },
+	toCollection(HashSet::new)))
+);
+```
+
+## Partitioning
+
+- 분할 함수
+  - return Boolean (true or false)
+
+## 92L
 
