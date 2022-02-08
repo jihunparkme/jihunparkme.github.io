@@ -765,6 +765,27 @@ Map<Dish.Type, Set<CaloricLevel>> caloricLevelsByType = menu.stream().collect(
 
 - 분할 함수
   - return Boolean (true or false)
+  - 분할 함수는 참, 거짓 두 가지 요소의 스트림 리스트를 모두 유지하는 장점이 있다.
+
+```java
+//{false=[pork, beef, salmon], true=[pizza, rice]}
+Map<Boolean, List<Dish>> partitionedMenu = menu.stream().collect(
+    										partitioningBy(Dish::isVegetarian));
+
+//{false={MEATH=[DIET, NORMAL], FISH=[NORMAL, FAT]}, true={OTHER=[DIET, NORMAL]}}
+Map<Boolean, Map<Dish.Type, List<Dish>>> vegetarianDishesByType = menu.stream().collect(
+    										partitioningBy(Dish::isVegetarian, //- 분할 함수
+                                                          groupingBy(Dish::getType))); //- 두 번째 컬렉터
+
+//채식 요리와 채식이 아닌 요리 각 그룹에서 가장 칼로리가 높은 요리
+//{false=pork, true=pizza}
+Map<Boolean, Dish> mostCaloricPartitionedByVegetarian = menu.stream().collect(
+								partitioningBy(Dish::isVegetarian,
+                                              collectingAndThen(maxBy(comparingInt(Dish::getCalories)), 
+                                                               Optional::get)));
+```
+
+
 
 ## 92L
 
