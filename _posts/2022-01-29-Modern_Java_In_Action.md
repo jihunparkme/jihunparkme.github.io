@@ -9,7 +9,7 @@ featured-img: modern-java
 
 # Modern Java In Action
 
-## 소개
+**소개**
 
 자바 8 설계의 밑바탕을 이루는 세 가지 프로그래밍 개념
 
@@ -500,6 +500,8 @@ List<String> threeHighCaloricDishNames =
 
 - `reduce` : 스트림의 모든 요소를 처리해서 값으로 도출 (초기값, BinaryOperator<T>)
 
+- 누적자를 초깃값으로 설정한 다음 BinaryOperator 로 스트림의 각 요소를 반복적으로 누적자와 합쳐 스트림을 하나의 값으로 리듀싱
+
   ```java
   //덧셈
   int sum = numvers.stream()
@@ -631,20 +633,25 @@ long howManyDishes1 = menu.stream().collect(Collectors.counting());
 long howManyDishes2 = menu.stream().count();
 
 // Collectors.maxBy (minBy)
+//:주어진 비교자를 이용해서 스트림의 최솟값 요소를 Optional로 감싼 값을 반환 (요소가 없을 경우 return Optional.empty())
 Comparator<Dish> dishCaloriesComparator = Comparator.comparingInt(Dish::getCalories);
 Optional<Dish> mostCaloriesDish = menu.stream().collect(maxBy(dishCaloriesComparator));
 
 // Collectors.summingInt (summingLong, summingDouble)
+//:스트림 항목에서 정수 프로퍼티값의 합
 int totalCalories = menu.stream().collect(summingInt(Dish::getCalories));
 
 // Collectors.averagingInt (averagingLong, averagingDouble)
+//:스트림 항목에서 정수 프로퍼티값의 평균값
 double avgCalories = menu.stream().collect(averagingInt(Dish::getCalories));
 
 // Collectors.summarizingInt (summarizingLong, summarizingDouble)
+//:스트림 내 항목의 최대, 최소, 합계, 평균 등의 정수 정보 통계 수집
 IntSummaryStatistics menuStatistics = menu.stream().collect(summarizingInt(Dish::getCalories));
 IntSummaryStatistics{count=10, sum=4500, min=80, average=512.1221, max=780}
 
-// Collectors.joining (내부적으로 StringBuilder를 이용하여 문자열 생성)
+// Collectors.joining
+//:내부적으로 StringBuilder를 이용하여 문자열 생성
 String shortMenu = menu.strea().map(Dish::getName).collect(joining(", "));
 ```
 
@@ -671,6 +678,7 @@ int totalCalories = menu.stream().mapToInt(Dish::getCalories).sum()
 
 - 분류 함수
   - `Collectors.groupingBy(f, toList())`
+  - 하나의 프로퍼티값(Key)을 기준으로 스트림의 항목을 그룹화
 
 ```java
 // Type Groupging
@@ -766,6 +774,7 @@ Map<Dish.Type, Set<CaloricLevel>> caloricLevelsByType = menu.stream().collect(
 - 분할 함수
   - return Boolean (true or false)
   - 분할 함수는 참, 거짓 두 가지 요소의 스트림 리스트를 모두 유지하는 장점이 있다.
+  - 프레디케이트를 스트림의 각 항목에 적용한 결과로 항목 분할
 
 ```java
 //{false=[pork, beef, salmon], true=[pizza, rice]}
@@ -785,7 +794,93 @@ Map<Boolean, Dish> mostCaloricPartitionedByVegetarian = menu.stream().collect(
                                                                Optional::get)));
 ```
 
+**Example**
+
+- 숫자를 소수와 비소수로 분할하기
+
+```java
+public boolean isPrime(int candidate) {
+    int candidateRoot = (int) Math.sqrt((double) candidate);
+    return IntStream.range(2, candidateRoot)
+        .noneMatch(i -> candidate % i == 0);
+}
+
+public Map<Boolean, List<Integer>> partitionPrimes(int n) {
+    return IntStream.rangeClosed(2, n).boxed()
+        .collect(partitioningBy(candidate -> isPrime(candidate)));
+}
+```
+
+## Collector
+
+- Collector Interface
+
+```java
+/* T : 수집될 스트림 항목의 제네릭 형식
+ * A : 수집 과정에서 중간 결과를 누적하는 객체의 형식(누적자)
+ * R : 수집 연산 결과 객체의 형식
+ * supplier() -> accumulator() -> combiner() -> finisher()
+ */
+public interface Collector<T, A, R> {
+    //supplier() : 새로운 결과 컨테이너 만들기(수집 과정에서 빈 누적자 인스턴스를 만드는 파라미터가 없는 함수)
+    Supplier<A> supplier();
+    //accumulator() : 결과 컨테이너에 스트림 요소 추가하기(리듀싱 연산을 수행하는 함수 반환)
+    BiConsumer<A, T> accumulator();
+    //combiner() : 두 결과 컨테이너 병합(스트림의 서로 다른 서브파트를 병렬로 처리할 때 누적자가 결과를 어떻게 처리할지 정의)
+    BinaryOperator<A> combiner();
+    //finisher() : 최종 변환값을 결과 컨터네이너 적용하기
+    Function<A, R> finisher();
+    // characteristics() : 컬렉터의 연산을 정의하는 Characteristics 형식의 불변 집합 반환(어떤 최적화를 이용해 리듀싱 연산을 수행할 것인지 힌트 제공)
+    Set<Characteristics> characteristics();
+}
+```
+
+- Example toList()
+
+```java
+public class ToListCollector<T> implements Collector<T, List<T>, List<T>> {
+    @Override
+    public Supplier<List<T>> supplier() { //<- 수집 연산의 시작
+        return () -> new ArrayList<T>(); //= return ArrayList::new; (생성자 참조)
+    }
+    @Override
+    public BiConsumer<List<T>, T> accumulator() { //<- 탐색한 항목을 누적하고 바로 누적자를 수정
+        return (list, item) -> list.add(item); //= return LisT::add;
+    }
+    @Override
+    public Function<List<T>, List<T>> finisher() { 
+        return Fcuntion.identity(); //<- 항등 함수
+    }
+    @Override
+    public BinaryOperator<List<T>> combiner() {
+        return (list1, list2) -> { //<- 두 번째 콘텐츠와 합쳐서 첫 번째 누적자 수정
+            list1.addAll(list2); //<- 변경된 첫 번째 누적자 반환
+            return list1;
+        };
+    }
+    @Override
+    public Set<Characteristics> characteristics() {
+        /* UNORDERED: 리듀싱 결과는 스트림 요소의 방문 순서나 누적 순서에 영향을 받지 않음
+      * CONCURRENT: 다중 스레드에서 accumulator 함수를 동시에 호출할 수 있으며, 스트림의 병렬 리듀싱 수행 가능
+      * IDENTITY_FINISH: 리듀싱 과정의 최종 결과로 누적자 객체를 바로 사용
+      */
+        return Collections.unmodifiableSet(EnumSet.of(IDENTITY_FINISH, CONCURRENT));
+    }
+}
+```
+
+- 사용하기
+
+```java
+//Before
+List<Dish> dishes = menu.stream().collect(toList());
+//After
+List<Dish> dishes = menu.stream().collect(new ToListCollector<Dish>());
+```
+
+# 병렬 데이터 처리와 성능
 
 
-## 92L
+
+## 102R
 
