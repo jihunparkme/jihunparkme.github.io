@@ -880,7 +880,81 @@ List<Dish> dishes = menu.stream().collect(new ToListCollector<Dish>());
 
 # 병렬 데이터 처리와 성능
 
+## 병렬 스트림
 
+- `parallelStream()` : 각각의 스레드에서 처리할 수 있도록 스트림 요소를 여러 청크로 분할한 스트림
+- 내부적으로 `ForkJoinPool` 을 사용
 
-## 102R
+```java
+//parallel() : 순차 스트림을 병렬 스트림으로
+//sequential() : 병렬 스트림을 순차 스트림으로
+public Long parallelSum(long n) {
+    return Stream.iterate(1L, i -> i + 1)
+                .limit(n)
+                .parallel()
+                .reduce(0L, Long::sum);
+}
+```
+
+**스트림 성능 측정**
+
+- Java Microbenchmark Harness(JMH) 라이브러리를 통해 벤치마크 구현이 가능
+
+- [Microbenchmarking with Java](https://www.baeldung.com/java-microbenchmark-harness)
+
+  ```java
+  // https://mvnrepository.com/artifact/org.openjdk.jmh/jmh-core (핵심 JMH 구현 포함)
+  implementation group: 'org.openjdk.jmh', name: 'jmh-core', version: '1.34'
+      
+  // https://mvnrepository.com/artifact/org.openjdk.jmh/jmh-generator-annprocess (JAR 파일 생성에 도움을 주는 어노테이션 프로세서 포함)
+  testImplementation group: 'org.openjdk.jmh', name: 'jmh-generator-annprocess', version: '1.34'
+  ```
+
+- 함수 성능 측정
+
+  - 올바른 자료구조를 선택해야 병렬 실행도 최적의 성능을 발휘할 수 있다.
+  - 함수형 프로그래밍을 올바르게 사용하여 병렬 실행의 힘을 이용해보자.
+
+  ```java
+  @BenchmarkMode(Mode.AverageTime) //<- 벤치마크 대상 메서드 실행에 걸린 평균 시간 측정
+  @OutputTimeUnit(TimeUnit.MILLISECONDS) //<- 벤치마크 결과를 밀리초 단위 출력
+  @Fork(value = 2, jvmArgs = { "-Xms4G", "-Xmx4G" }) //<- 4GB 힙 공간을 제공한 환경에서 두 번의 수행을 통해 결과 신뢰성 확보
+  public class ParallelStreamBenchmark {
+  
+      private static final long N = 10_000_000L;
+  
+      @Benchmark //<- 벤치마크 대상 메서드
+      public long sequentialSum() {
+          return Stream.iterate(1L, i -> i + 1).limit(N).reduce(0L, Long::sum);
+      }
+      
+  	@Benchmark
+  	public long parallelRangedSum() {
+  		/* iterate() 대신 LongStream.rangeClosed()
+  		 * 기본형 long을 직접 사용하여 박싱, 언박싱 오버헤드 해결
+            * 청크로 분할할 수 있는 숫자 범위 생산
+            */
+  		return LongStream.rangeClosed(1, N).parallel().reduce(0L, Long::sum);
+  	}
+  
+      @TearDown(Level.Invocation) //<- 매 벤치마크 실행 후 GC 동작 시도
+      public void tearDown() {
+          System.gc();
+      }
+  }
+  ```
+
+**병렬 스트림 주의점**
+
+- 병렬화를 이용하려면, 스트림을 재귀적으로 분할해야 하고,
+- 각 서브 스트림을 서로 다른 스레드의 리듀싱 연산으로 할당해야 하고,
+- 이들 결과를 하나의 값으로 합쳐야 한다.
+- 멀티 코어 간의 데이터 이동은 생각보다 비싸므로, 코어 간 데이터 전송 시간보다 훨씬 오래 걸리는 작업만 병렬로 처리하자.
+- 또한, 병렬 스트림과 병렬 계산에서는 공유된 가변 상태를 피하자.
+
+**병렬 스트림 효과적으로 사용하기**
+
+- 
+
+## 108R
 
