@@ -946,15 +946,42 @@ public Long parallelSum(long n) {
 
 **병렬 스트림 주의점**
 
-- 병렬화를 이용하려면, 스트림을 재귀적으로 분할해야 하고,
-- 각 서브 스트림을 서로 다른 스레드의 리듀싱 연산으로 할당해야 하고,
-- 이들 결과를 하나의 값으로 합쳐야 한다.
+- 병렬화를 이용하려면, `스트림을 재귀적으로 분할`해야 하고,
+
+- 각 서브 스트림을 `서로 다른 스레드의 리듀싱 연산으로 할당`해야 하고,
+
+- 이들 `결과를 하나의 값으로 합쳐`야 한다.
+
 - 멀티 코어 간의 데이터 이동은 생각보다 비싸므로, 코어 간 데이터 전송 시간보다 훨씬 오래 걸리는 작업만 병렬로 처리하자.
-- 또한, 병렬 스트림과 병렬 계산에서는 공유된 가변 상태를 피하자.
+
+- 또한, 병렬 스트림과 병렬 계산에서는 공유된 가변 상태를 피하자. `상태 공유에 따른 부작용`
+
+  ```java
+  public static long sideEffectParallelSum(long n) {
+      Accumulator accumulator = new Accumulator();
+      LongStream.rangeClosed(1, n).parallel().forEach(accumulator::add);
+      return accumulator.total;
+  }
+  
+  public static class Accumulator {
+      private long total = 0;
+      public void add(long value) { total += value; }
+  }
+  
+  // 여러 스레드에서 동시에 누적자를 수정하면서 올바른 결과값이 나오지 않게 된다.
+  System.out.println(ParallelStreams.sideEffectParallelSum(10_000_000L))
+  ```
 
 **병렬 스트림 효과적으로 사용하기**
 
-- 
+- 확신이 서지 않으면 직접 측정하자.
+- 박싱을 주의하자.
+- 순차 스트림보다 병렬 스트림에서 성능이 떨어지는 연산이 있다.
+- 스트림에서 수행하는 전체 파이프라인 연산 비용을 고려하자.
+- 소량의 데이터에서는 병렬 스트림이 도움이 되지 않는다.
+- 스트림을 구성하는 자료구조가 적절한지 확인하자.
+- 스트림의 특성과 파이프라인의 중간 연산이 스트림의 특성을 어떻게 바꾸는지에 따라 분해 과정의 성능이 달라질 수 있다.
+- 최종 연산의 병합 과정 비용을 살펴보자.
 
 ## 108R
 
