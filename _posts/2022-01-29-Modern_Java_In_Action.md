@@ -1078,7 +1078,7 @@ Map<String, String> ageOfFriends = Map.ofEntries(
 
 **removeIf**
 
-Predicate를 만족하는 요소 제거 (List, Set)
+- Predicate를 만족하는 요소 제거 (List, Set)
 
 ```java
 transactions.removeIf(transaction ->
@@ -1087,7 +1087,7 @@ transactions.removeIf(transaction ->
 
 **replaceAll**
 
-UnaryOperator 함수를 이용하여 요소 수정 (List)
+- UnaryOperator 함수를 이용하여 요소 교체 (List)
 
 ```java
 referenceCodes.replaceAll(code -> Character.toUpperCase(code.charAt(0)) + code.substring(1));
@@ -1095,7 +1095,7 @@ referenceCodes.replaceAll(code -> Character.toUpperCase(code.charAt(0)) + code.s
 
 **sort**
 
-리스트 정렬 (List)
+- 리스트 정렬 (List)
 
 ```java
 list.sort(Comparator.naturalOrder()); // 오름차순
@@ -1106,11 +1106,171 @@ list.sort(Collections.reverseOrder(String.CASE_INSENSITIVE_ORDER));
 
 ### 맵 처리
 
-# 121R
+**1. forEach**
 
+- 기존 맵에서 키/값을 반복하며 확인했다면, forEach 메서드를 사용해보자.
 
+```java
+ageOfFriens.forEach((friend, age) -> System.out.println(friens + " is" + age + " years old"));
+```
+
+**2. Order**
+
+- Entry.comparingByValue / Entry.comparingByKey
+
+```java
+favouriteMovies.entrySet().stream()
+    .sorted(Entry.comparingByKey()) // 오름차순
+//    .sorted(Entry.comparingByKey(Comparator.reverseOrder())) // 내림차순
+    .forEachOrdered(System.out::println);
+```
+
+**3. getOrDefault**
+
+- 찾으려는 키가 존재하지 않으면 기본값을 반환 getOrDefault(key, default)
+
+```java
+Map<String, String> favouriteMovies = Map.ofEntries(
+                                        entry("Raphael", "Star Wars"),
+                                        entry("Olivia", "James Bond"));
+
+System.out.println(favouriteMovies.getOrDefault("Olivia", "Matrix")); // James Bond
+System.out.println(favouriteMovies.getOrDefault("Thibaut", "Matrix")); // Matrix
+```
+
+**4. Compute Pattern**
+
+**computeIfAbsent**
+
+- 제공된 키에 해당하는 값이 없으면(값이 없거나 널), 키를 이용해 새 값을 계산하고 맵에 추가
+  - 현재 키와 관련된 값이 맵에 존재하며 널이 아닐 때만 새 값을 계산
+
+```java
+Map<String, byte[]> dataToHash = new HashMap<>();
+MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+
+lines.forEach(line ->
+        dataToHash.computeIfAbsent(line, // 맵에서 찾을 키
+                                   this::calculateDigest)); // 키가 존재하지 않을 경우 동작
+
+private byte[] calculateDigest(String key) {
+    return messageDigest.digest(key.getBytes(StandardCharsets.UTF_8));
+}
+
+// Map이 여러 값을 저장하는 형태일 경우
+friendsToMovies.computeIfAbsent("Raphael", name -> new ArrayList<>())
+    						.add("Star Wars");
+```
+
+**computeIfPresent**
+
+- 제공된 키가 존재하면 새 값을 계산하고 맵에 추가
+
+**compute**
+
+- 제공된 키로 새 값을 계산하고 맵에 저장
+
+**5. Remove Pattern**
+
+```java
+//제공된 키에 해당하는 맵 항목 제거
+favouriteMovies.remove(key)
+    
+//키가 특정한 값과 연관되어 있을 경우에만 항목을 제거하는 오버로드 버전 메서드
+favouriteMovies.remove(key, value);
+
+//특정 조건에 해당하는 항목 삭제
+favouriteMovies.entrySet().removeIf(entry -> entry.getValue < 10);
+```
+
+**6. Replace Pattern**
+
+**replaceAll**
+
+- BiFunction 을 적용한 결과로 각 항목의 값을 교체
+
+```java
+Map<String, String> favouriteMovies = new HashMap<>();
+favouriteMovies.put("Raphael", "Star Wars");
+favouriteMovies.put("Olivia", "james bond");
+favouriteMovies.replaceAll((friend, movie) -> movie.toUpperCase());
+```
+
+**Replace**
+
+- 키가 존재하면 맵의 값 교체
+
+**7. Merge**
+
+두 개의 맵에서 값을 합치거나 교체할 경우 사용
+
+- 중복된 키가 없을 경우
+
+```java
+Map<String, String> family = Map.ofEntries(
+        entry("Teo", "Star Wars"), entry("Cristina", "James Bond"));
+Map<String, String> friends = Map.ofEntries(
+    	entry("Raphael", "Star Wars"));
+
+Map<String, String> everyone = new HashMap<>(family);
+everyone.putAll(friends);
+```
+
+- 중복된 키가 있을 경우
+
+```java
+Map<String, String> family = Map.ofEntries(
+        entry("Teo", "Star Wars"), entry("Cristina", "James Bond"));
+Map<String, String> friends = Map.ofEntries(
+    	entry("Raphael", "Star Wars"), entry("Cristina", "Matrix"));
+
+Map<String, String> everyone = new HashMap<>(family);
+friends.forEach((k, v) -> // forEach + merge 로 key 충돌 해결
+                everyone.merge(k, v, (movie1, movie2) -> movie1 + " & " + movie2));
+```
+
+- 초기 검사 구현이 필요할 경우
+  - 지정된 키와 연관된 값이 없거나 널이면,  두 번째 인수를 키와 연결
+  - 그렇지 않을 경우, 세 번째 인자의 BiFunction을 적용
+
+```java
+moviesToCount.merge(movieName, 1L, (key, count) -> count + 1L);
+```
+
+### ConcurrentHashMap
+
+ConcurrentHashMap 클래스는 동시 친화적이며 내부 자료구조의 특정 부분만 잠궈 동시 추가, 갱신 작업을 허용
+
+**forEach**
+
+- 각 (키/값) 쌍에 주어진 액션 실행
+
+**reduce**
+
+- 모든 (키/값) 쌍을 제공된 리듀스 함수를 이용해 결과로 합침
+
+**search**
+
+- 널이 아닌 값을 반환할 떄까지 각 (키/값) 쌍에 함수 적용
+
+**(키/값) 인수를 이용한 네 가지 연산 형태 지원**
+
+ConcurrentHashMap  상태를 잠그지 않고 연산을 수행하므로, 연산에 제공한 함수는 계산이 진행되는 동안 바뀔 수 있는 객체, 값, 순서 등에 의존하면 안 됨!
+
+- 키/값으로 연산 : `forEach`, `reduce`, `search`
+- 키로 연산 : `forEachKey`, `reduceKeys`, `searchKeys`
+- 값으로 연산 : `forEachValue`, `reduceValues`, `searchValues`
+- Map.entry 객체로 연산 : `forEachEntry`, `reduceEntries`, `searchEntriess`
+
+**Count**
+
+mappingCount
+
+- 맵의 매핑 개수를 반환 (매핑 개수가 int의 범위를 넘어서는 이후의 상황 대처)
 
 ## 리팩터링, 테스팅, 디버깅
 
-## 람다를 이용한 도메인 전용 언어
+## 128R
+
+람다를 이용한 도메인 전용 언어
 
