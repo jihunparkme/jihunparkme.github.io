@@ -1003,6 +1003,114 @@ public Long parallelSum(long n) {
 |HashSet|Good|
 |TreeSet|Good|
 
+## 포크/조인 프레임워크
 
-## 109R
+병렬 스트림을 제대로 사용하기 위해 병렬 스트림 내부 구조를 살펴보자.
+
+`병렬화할 수 있는 작업을 재귀적으로 작은 작업으로 분할한 후, 서브태스크 각각의 결과를 합쳐 전체 결과를 만들도록 설계`
+
+`서브태스크를 스레드 풀(ForkJoinPool)의 작업자 스레드에 분산 할당하는 ExecutorService Intergace 구현`
+
+- 스레드 풀을 이용하려면, RecursiveTask<R>의 서브클래스를 만들어야 한다.
+
+`포크/조인 프레임워크의 알고리즘은 `분할/정복` 알고리즘의 병렬화 버전이다.`
+
+**포크/조인 프레임워크 제대로 사용하기**
+
+- join 메서드를 태스크에 호출하면 태스크가 생산하는 결과가 준비될 때까지 호출자를 블록시킨다.
+- RecursiveTask 내에서는 ForkJoinPool의 invoke 메서드를 사용하지 말자.
+  - 대신 compute나 fork 메서드 직접 호출하고, 순차 코드에서 병렬 계산을 시작 시에만 invoke 사용
+- 서브태스크에서 fork 메서드를 호출해서 ForkJoinPool의 일정 조절
+  - 한 쪽 작업에는 fork, 다른 한 쪽 작업에는 compute 를 호출하자.
+  - 두 서브 태스크의 한 태스크에는 같은 스레드를 재사용할 수 있다.
+- 포크/조인 프레임워크를 이용하는 병렬 계산은 디버깅이 어렵다.
+- 멀티코어에 포크/조인 프레임워크를 사용하는 것이 순차 처리보다 무조건 빠른 것은 아니다.
+
+**포크/조인 프레임워크의 작업 훔치기**
+
+포크/조인 프레임워크의 병렬 처리 방법
+
+- 풀에 있는 작업자 스레드의 태스크를 재분배하고 균형을 맞출 때 `작업 훔치기 알고리즘`을 사용
+  - `작업 훔치기 알고리즘` : 스레드는 자신에게 할당된 태스크를 포함하는 `이중 연결 리스트를 참조`하며 작업이 끝날 때마다 큐의 헤드에서 다른 태스크를 가져와 작업을 처리 -> 할 일이 없어진 스레드는 유휴 상태로 바뀌는 것이 아니라 (모든 큐가 빌 때까지) `다른 스레드 큐의 꼬리에서 작업을 훔쳐`온다.
+- 따라서, 태스크 크기를 작게 나누어야 작업자 스레드 간의 작업 부화를 비슷한 수준으로 유지할 수 있다.
+
+# 스트림과 람다를 이용한 효과적 프로그래밍
+
+## 컬렉션 API 개선
+
+### 컬렉션 팩토리
+
+**List Factory** (불변)
+
+```java
+//Before
+List<String> friends = Arrays.asList("Park", "Kim", "Jeong");
+
+//After
+List<String> friends = List.of("Park", "Kim", "Jeong")
+```
+
+**Set Factory**
+
+```java
+Set<String> friends = Set.of("Park", "Kim", "Jeong");
+```
+
+**Map Factory**
+
+```java
+// 열 개 이하의 키/값 쌍을 가진 작은 맵을 만들 경우
+Map<String, Integer> ageOfFriends = Map.of("Park", 20, "Kim", 21, "Jeong", 25);
+
+// 그 이상의 맵 생성 (Map.enty: Map.Entry 객체를 만드는 새로운 팩토리 메서드)
+import static java.util.Map.entry;
+Map<String, String> ageOfFriends = Map.ofEntries(
+        entry("Park", 20),
+        entry("Kim", 21),
+        entry("Jeong", 25));
+```
+
+### 리스트와 집합 처리
+
+기존 컬렉션 객체와 Iterator 객체를 혼용한 삭제, 수정은 쉽게 문제를 일으켰었다.
+
+그래서, java8에서는 List, Set Interface 에 새로운 메서드가 추가되었다. (기존 컬렉션 자체를 수정)
+
+**removeIf**
+
+Predicate를 만족하는 요소 제거 (List, Set)
+
+```java
+transactions.removeIf(transaction ->
+                     Character.isDigit(transaction.getReferenceCode().charAt(0)));
+```
+
+**replaceAll**
+
+UnaryOperator 함수를 이용하여 요소 수정 (List)
+
+```java
+referenceCodes.replaceAll(code -> Character.toUpperCase(code.charAt(0)) + code.substring(1));
+```
+
+**sort**
+
+리스트 정렬 (List)
+
+```java
+list.sort(Comparator.naturalOrder()); // 오름차순
+list.sort(Comparator.reverseOrder());
+list.sort(String.CASE_INSENSITIVE_ORDER); // 대소문자 구분없이 오름차순
+list.sort(Collections.reverseOrder(String.CASE_INSENSITIVE_ORDER));
+```
+
+### 맵 처리
+
+# 121R
+
+
+
+## 리팩터링, 테스팅, 디버깅
+
+## 람다를 이용한 도메인 전용 언어
 
