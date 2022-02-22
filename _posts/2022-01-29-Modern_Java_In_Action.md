@@ -1272,7 +1272,161 @@ mappingCount
 
 ## 리팩터링, 테스팅, 디버깅
 
-## 128R
+### 리팩터링
+
+**코드 가독성 개선**
+
+코드 가독성이 좋다?란 '어떤 코드를 다른 사람도 쉽게 이해할 수 있음'을 의미한다.
+
+**1. 익명 클래스를 람다 표현식으로 리팩터링하기**
+
+- 익명 클래스에서 사용한 this와 super는 람다 표현식에서 다른 의미를 갖는다.
+  - 익명 클래스에서 this는 익명 클래스 자신
+  - 람다에서 this는 람다를 감싸는 클래스
+- 익명 클래스는 감싸고 있는 클래스의 변수를 가릴 수 있다.
+  - 람다 표현식으로는 불가
+
+```java
+/*
+ * 익명 클래스 사용
+ */
+Runnable r1 = new Runnable() {
+    public void run() {
+        System.out.println("Hello");
+    }
+};
+
+/*
+ * 람다 표현식 사용
+ */
+Runnable r2 = () -> System.out.println("Hello");
+
+interface Task {
+    public void execute();
+}
+public static void doSomething(Runnable r) { r.run(); }
+public static void doSomething(Task a) { r.execute(); }
+// 람다 표현식의 대상 형식이 모호할 경우 명시적 형변환을 이용
+doSomething((Task)() -> System.out.println("Hello"));
+doSomething((Runnable)() -> System.out.println("Hello"));
+```
+
+**2. 람다 표현식을 메서드 참조로 리팩터링하기**
+
+```java
+/*
+ * 람다 표현식 사용
+ */
+Map<CaloricLevel, List<Dish>< dishesByCaloricLevel = 
+    menu.stream().collect(
+            groupingBy(dish -> {
+              if (dish.getCalories() <= 400) { return CaloricLevel.DIET; }
+              else if (dish.getCalories() <= 700) { return CaloricLevel.NORMAL; }
+              else { return CaloricLevel.FAT; }
+    }));
+
+/*
+ * 메서드 참조 사용
+ */
+public class Dish {
+    //...
+    
+    public CaloricLevel getCaloricLevel() {
+        if (dish.getCalories() <= 400) { return CaloricLevel.DIET; }
+        else if (dish.getCalories() <= 700) { return CaloricLevel.NORMAL; }
+        else { return CaloricLevel.FAT; }
+    }
+}
+
+Map<CaloricLevel, List<Dish>< dishesByCaloricLevel = 
+    menu.stream().collect(groupingBy(Dish::getCaloricLevel));
+```
+
+```java
+// 람다 표현식 사용
+inventory.sort((Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight()));
+// 정적 헬퍼 메서드(comparing, maxBy) 참조 사용
+inventory.sort(comparing(Apple::getWeight));
+
+// 람다 표현식 사용
+int totalCalories = menu.stream().map(Dish::getCalories).reduce(0, (c1, c2) -> c1 + c2);
+// 내장 헬퍼 메서드(sum, maximum) 참조 사용
+int totalCalories = menu.stream().collect(summingInt(Dish::getCalories));
+```
+
+**3. 명령형 데이터 처리를 스트림으로 리팩터링하기**
+
+스트림 API로 데이터 처리 파이프라인의 의도를 더 명확하게 보여주자.
+
+```java
+/*
+ * 명령형 코드
+ */
+List<String> dishNames = new ArrayList<>();
+for(Dish dish: menu) {
+    if(dish.getCalories() > 300) {
+        dishNames.add(dish.getName());
+    }
+}
+
+/*
+ * 스트림 API
+ */
+menu.parallelStream()
+    .filter(d -> d.getCalories() > 300)
+    .map(Dish::getName)
+    .collect(toList());
+```
+
+**4. 코드 유연성 개선**
+
+람다 표현식을 이용해서 동작 파라미터화를 쉽게 구현해보자.
+
+- 함수형 인터페이스 적용
+
+  - 람다 표현식을 이용하기 위해 함수형 인터페이스를 추가
+
+- 조건부 연기 실행
+
+  ```java
+  // Before : 복잡한 제어 흐름 코드 (상태 노출 및 매번 상태 체크)
+  if (logger.isLoggable(Log.FINER)) {
+      logger.finer("Problem: " + generateDiagnostic());
+  }
+  // After : 가독성과 캡슐화 강화
+  public void log(Level level, Supplier<String> msgSupplier) {
+      if(logger.isLoggable(level)) {
+          log(level, msgSupplier.get());
+      }
+  }
+  
+  logger.log(Level.FINER, () -> "Problem: " + generateDiagnostic());
+  ```
+
+- 실행 어라운드
+
+  - 준비, 종료 과정을 처리하는 로직을 재사용하여 코드 중복 줄이기
+
+  ```java
+  String oneLine = processFile((BufferedReader b) -> b.readLine()); // 람다 전달
+  String twoLines = processFile((BufferedReader b) -> b.readLine() + b.readLine()); // 다른 람다 전달
+  
+  public static String processFile(BufferedReaderProcessor p) throws IOException {
+      try (BufferedReader br = new BufferedReader(new FileReader("Aaron/MJIA/test.txt"))) {
+          return p.process(br); // 인수로 전달된 BufferedReaderProcessor 실행
+      }
+  } // IOException을 던질 수 있는 람다의 함수형 인터페이스
+  
+  public interface BufferedReaderProcessor {
+      String process(BufferedReader b) throws IOException;
+  }
+  ```
+
+## 132R
+
+### 테스팅
+
+### 디버깅
 
 람다를 이용한 도메인 전용 언어
 
