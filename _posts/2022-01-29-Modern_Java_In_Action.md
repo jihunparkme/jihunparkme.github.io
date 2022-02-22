@@ -1040,7 +1040,9 @@ public Long parallelSum(long n) {
 
 ### 컬렉션 팩토리
 
-**List Factory** (불변)
+반환 객체는 불변
+
+**List Factory** 
 
 ```java
 //Before
