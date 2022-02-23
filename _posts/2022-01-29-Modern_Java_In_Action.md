@@ -1317,7 +1317,7 @@ doSomething((Runnable)() -> System.out.println("Hello"));
 /*
  * 람다 표현식 사용
  */
-Map<CaloricLevel, List<Dish>< dishesByCaloricLevel = 
+Map<CaloricLevel, List<Dish> dishesByCaloricLevel = 
     menu.stream().collect(
             groupingBy(dish -> {
               if (dish.getCalories() <= 400) { return CaloricLevel.DIET; }
@@ -1421,12 +1421,3 @@ menu.parallelStream()
       String process(BufferedReader b) throws IOException;
   }
   ```
-
-## 132R
-
-### 테스팅
-
-### 디버깅
-
-람다를 이용한 도메인 전용 언어
-
