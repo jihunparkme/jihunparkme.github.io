@@ -1421,3 +1421,146 @@ menu.parallelStream()
       String process(BufferedReader b) throws IOException;
   }
   ```
+
+### 람다 테스팅
+
+**Example**
+
+```java
+public class Point {
+    private final int x;
+    private final int y;
+    public final static Comparator<Point> compareByXAndThenY = 
+        comparing(Point::getX).thenComparing(Point::getY);
+    
+    private Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public Point moveRightBy(int x) {
+        return new Point(this.x + x, this.y);
+    }
+}
+```
+
+```java
+@Test
+public void testMoveRightBy() throws Exception {
+    Point p1 = new Point(5, 5);
+	Point p2 = p1.moveRightBy(10);
+    assertEquals(15, p2.getX());
+    assertEquals(5, p2.getY());
+}
+```
+
+**1. 보이는 람다 표현식의 동작 테스팅**
+
+- 람다는 익명이므로 테스트 코드 이름을 호출할 수 없다.
+- 필요 시 `람다를 필드에 저장`해서 재사용하거나, 람다 로직 테스트가 가능하다.
+- 람다 표현식은 함수형 인터페이스의 인스턴스를 생성하므로 `인스턴스의 동작으로 람다 표현식을 테스트`할 수 있다
+
+```java
+public class Point {
+	//...
+    public final static Comparator<Point> compareByXAndThenY = 
+        comparing(Point::getX).thenComparing(Point::getY);
+	//...
+}
+```
+
+```java
+@Test
+public void testComparingTwoPoints() throws Exception {
+    Point p1 = new Point(10, 15);
+    Point p2 = new Point(10, 25);
+    int result = Point.compareByXAndThenY.compare(p1, p2);
+    assertTrue(result < 0);
+}
+```
+
+**2. 람다를 사용하는 메서드의 동작에 집중하자**
+
+- 람다의 목표는 정해진 동작을 다른 메서드에서 사용할 수 있도록, `하나의 조각으로 캡슐화` 하는 것
+- 세부 구현을 포함하는 람다 표현식을 공개하지 말아야 한다.
+
+```java
+public static List<Point> moveAllPointsRightBy(List<Point> points, int x) {
+    return points.stream()
+        		.map(p -> new Point(p.getX() + x, p.getY()))
+        		.collect(toList());
+}
+```
+
+```java
+@Test
+public void testMoveAllPointsRightBy() throws Exception {
+    List<Point> points = Arrays.asList(new Point(5, 5), new Point(10, 5));
+	List<Point> expectedPoints = Arrays.asList(new Point(15, 5), new Point(20, 5));
+    List<Point> newPoints = Point.moveAllPointsRightBy(points, 10);
+    assertEquals(expectedPoints, newPoints);
+}
+```
+
+**3. 복잡한 람다를 개별 메서드로 분할하기**
+
+- 많은 로직을 포함하는 복잡한 람다 표현식의 경우, 람다 표현식을 메서드 참조로 바꾸자.
+
+```java
+// 람다 표현식을 메서드 참조로 바꾼 예시
+public class Dish {
+    //...
+    public CaloricLevel getCaloricLevel() {
+        if (dish.getCalories() <= 400) { return CaloricLevel.DIET; }
+        else if (dish.getCalories() <= 700) { return CaloricLevel.NORMAL; }
+        else { return CaloricLevel.FAT; }
+    }
+}
+
+Map<CaloricLevel, List<Dish> dishesByCaloricLevel = 
+    menu.stream().collect(groupingBy(Dish::getCaloricLevel));
+```
+
+**4. 고차원 함수 테스팅**
+
+- 메서드가 함수를 인수로 받을 경우, 다른 람다로 메서드 동작을 테스트
+
+  ```java
+  @Test
+  public void testFilter() throws Exception {
+      List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
+      List<Integer> even = filter(numbers, i -> i % 2 == 0);
+      List<Integer> smallerThanThree = filter(numbers, i -> i < 3);
+      assertEquals(Arrays.asList(2, 4), even);
+      assertEquals(Arrays.asList(1, 2), smallerThanThree);
+  }
+  ```
+
+- 다른 함수를 반환하는 메서드의 경우, 함수형 인터페이스의 인스턴스로 간주하고 함수의 동작을 테스트
+
+### 디버깅
+
+**1. 스택 트레이스 확인하기**
+
+- 스택 트레이스를 통해 프로그램이 어디서, 어떻게 멈추게 되었는지 살펴보자.
+- 다만, 람다 표현식은 이름이 없어서 복잡한 스택 트레이스가 생성된다.
+  - 메서드 참조를 사용해도 스택 트레이스에서는 메서드명이 나타나지 않는다.
+- 따라서, 람다 표현식과 관련한 스택 트레이스는 이해하기 어려울 수 있다.
+
+**2. 정보 로깅**
+
+- `peek`  스트림 연산을 활용하여 스트림 파이프라인에 적용된 각 연산이 어떤 결과를 도출하는지 확인할 수 있다.
+
+```java
+List<Integer> result = 
+    Stream.of(2, 3, 4, 5) //or numbers.stream()
+        .peek(x -> System.out.println("from stream: " + x)) // 소스에서 처음 소비한 요소
+        .map(x -> x + 17)
+        .peek(x -> System.out.println("after map: " + x)) // map 동작 실행 결과
+        .filter(x -> x % 2 == 0)
+        .peek(x -> System.out.println("after filter: " + x)) // filter 동작 후 선택된 숫자
+        .limit(3)
+        .peek(x -> System.out.println("after limit: " + x)) // limit 동작 후 선택된 숫자
+        .collect(toList());
+```
