@@ -23,7 +23,7 @@ Optional 형식을 통해 도메인 모델의 의미를 명확히 만들고, nul
 - `자바 철학에 위배` : 자바는 개발자로부터 모든 포인터를 숨겼지만 null 포인터는 예외
 - `형식 시스템에 구멍을 만듦` : null의 의미를 알 수 없음
 
-**java.util.Optional<T>**
+**java.util.Optional`<T>`**
 
 - 값이 있을 경우 Optional 클래스는 값을 감싼다.
 - 값이 없으면 Optional.empty
@@ -82,17 +82,76 @@ Optional<String> name = optPerson.flatMap(Person::getCar)
   }
   ```
 
-  
+**Optional 스트림 조작**
 
+```java
+public Set<String> getCarInsuranceNames(List<Person> persons) {
+    Stream<Optional<String>> stream =  persons.stream()
+        .map(Person::getCar) //return Stream<Optional<Car>>
+        .map(optCar -> optCar.flatMap(Car::getInsurance)) //return Optional<Insurance>
+        .map(optInsurance -> optInsurance.map(Insurance::getName)) //return Optional<String> mapping
+        .flatMap(Optional::stream) //return Stream<Optional<String>>
+        .collect(toSet());
+    
+    return stream.filter(Optional::isPresent) //null이 아닌 값만 전달
+        		.map(Optional::get)
+        		.collect(toSet());
+}
+```
 
+**Default Action & Optional unwrap**
 
+- `get()` : Optional 에 값이 반드시 있을 경우 사용하자. (없을 경우 NoSuchElementException 발생)
+- `orElse(T other)` : Optional이 값을 포함하지 않을 때 기본값 제공
+- `orElseGet(Supplier<? extends T> other)` : Optional 이 비어있을 경우 기본값 생성
+- `orElseThrow(Supplier<? extends X> exceptionSupplier)` : Optional이 비어있을 때 예외 발생
+- `ifPresent(Comsumer<? super T> consumer)` : 값이 존재할 경우 인수로 넘겨준 동작 실행
+- `ifPresentOrElse(Comsumer<? super T> action, Runnable emptyAction)` : Optional 이 비었을 때 실행할 수 있는 Runnable을 인수로 받음
 
+**두 Optional 합치기**
 
-165R
+- Before
 
-## Date & Time API
+```java
+public Optional<Insurance> nullSafeFindCheapestInsurance(Optional<Person> person, Optional<Car> car) {
+    if (person.isPresent() && car.isPresent()) {
+        return Optional.of(findCheapestInsurance(person.get(), car.get()));
+    } else {
+        return Optional.empty();
+    }
+}
+```
 
-## Default Method
+- After
 
-## Java Module System
+```java
+public Optional<Insurance> nullSafeFindCheapestInsurance(Optional<Person> person, Optional<Car> car) {
+    return person.flatMap(p -> car.map(c -> findCheapestInsurance(p, c)));
+}
+```
 
+**필터로 특정 값 거르기**
+
+- Optional 에 값이 있을 경우 filter 동작
+
+```java
+Optional<Insurance> optInsurance = Optional.of(insurance);
+optInsurance.filter(insurance ->
+                   "CambridgeInsurance".equals(insurance.getName()))
+    			.ifPresent(x -> System.out.pringln("ok"));
+```
+
+```java
+int minAge = 20;
+Optional<Person> optPerson = Optional.of(person);
+//Person이 minAge 이상의 나이일 경우에만 보험회사 이름 반환
+Optional<String> name = optPerson.filter(p -> p.getAge() >= minAge)
+							    .flatMap(Person::getCar)
+    							.flatMap(Car::getInsurance)
+							    .map(Insurance::getName)
+    							.orElse("Unkown");
+```
+
+**Reference**
+
+- [Optional Class Method](https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html)
