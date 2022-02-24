@@ -196,3 +196,155 @@ Optional<Object> value = Optional.ofNullable(map.get("key"));
           			.orElse(0); //기본값 0
   }
   ```
+
+## Date & Time API
+
+### java.time
+
+- [java.time package](https://docs.oracle.com/javase/8/docs/api/java/time/package-summary.html) 는 `LocalDate`, `LocalTime`, `LocalDateTime`, `Instant`, `Duration`, `Period` 등 새로운 클래스를 제공
+
+**`LocalDate`**
+
+- 시간을 제외한 날짜를 표현하는 불변 객체
+
+- 생성
+
+  ```java
+  LocalDate date = LocalDate.of(2022, 1, 1);
+  
+  //현재 날짜 정보
+  LocalDate today = LocalDate.now();
+  
+  //parse 정적 메서드 사용
+  LocalDate date = LocalDate.parse("2022-01-01");
+  ```
+
+- 사용
+
+  ```java
+  int year = date.getYear(); // 2022
+  int monthValue = date.getMonthValue(); // 1
+  Month month = date.getMonth(); // JANUARY
+  int day = date.getDayOfMonth(); // 1
+  DayOfWeek dow = date.getDayOfWeek(); // SATURDAY
+  int len = date.lengthOfMonth(); // 31 (days in JANUARY)
+  boolean leap = date.isLeapYear(); // false (not a leap year), 윤년 여부
+  System.out.println(date); //2022-01-01
+  
+  //TemporalField를 이용한 LocalDate 값 읽기
+  int year = date.get(ChronoField.YEAR); // 2022
+  int month = date.get(ChronoField.MONTH_OF_YEAR); // 1
+  int day = date.get(ChronoField.DAY_OF_MONTH); // 1
+  ```
+
+**`LocalTime`**
+
+- 날짜를 제외한 시간을 표현하는 불변 객체
+
+- 생성
+
+  ```java
+  LocalTime time = LocalTime.of(12, 34, 56); // 12:34:56
+  
+  //parse 정적 메서드 사용
+  LocalTime time = LocalTime.parse("12:34:56");
+  ```
+
+- 사용
+
+  ```java
+  int hour = time.getHour(); // 12
+  int minute = time.getMinute(); // 34
+  int second = time.getSecond(); // 56
+  ```
+
+**`LocalDateTime`**
+
+- 날짜와 시간을 모두 표현
+
+- 생성
+
+  ```java
+  //2022-01-01T12:34:56
+  LocalDateTime dt1 = LocalDateTime.of(2022, Month.JANUARY, 1, 12, 34, 56);
+  
+  // LocalDate + LocalTime
+  LocalDateTime dt2 = LocalDateTime.of(date, time);
+  
+  // LocalDate <- atTime
+  LocalDateTime dt3 = date.atTime(12, 34, 56);
+  
+  // LocalDate <- LocalTime
+  LocalDateTime dt4 = date.atTime(time);
+  
+  // LocalTime <- LocalDate
+  LocalDateTime dt5 = time.atDate(date);
+  ```
+
+- 사용
+
+  ```java
+  LocalDate date1 = dt1.toLocalDate();
+  LocalTime time1 = dt1.toLocalTime();
+  ```
+
+**`Instant`**
+
+- 기계 전용 유틸리티
+
+- Unix epoch time 기준으로 특정 지점까지의 시간을 초로 표현
+
+- 나노초(10억분의 1초)의 정밀도 제공
+
+  ```java
+  Instant.ofEpochSecond(3);
+  Instant.ofEpochSecond(3, 0);
+  Instant.ofEpochSecond(2, 1_000_000_000); //1초 후의 나노초
+  Instant.ofEpochSecond(4, -1_000_000_000); //4초 전의 나노초
+  ```
+
+**`Duration`**
+
+- 두 시간 객체 사이의 지속시간 [Docs](https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html)
+
+  ```java
+  Duration d1 = Duration.between(time1, time2);
+  Duration d2 = Duration.between(dateTime1, dateTime2);
+  Duration d3 = Duration.between(instant1, instant2);
+  
+  //시간 객체를 사용하지 않고 생성
+  Duration threeMinutes = Duration.ofMinutes(3);
+  Duration threeMinutes = Duration.ofMinutes(3, ChronoUnit.MINUTES);
+  ```
+
+**`Period`**
+
+- 두 시간 객체 사이의 지속 시간을 년,월,일로 표현할 경우 [Docs](https://docs.oracle.com/javase/8/docs/api/java/time/Period.html)
+
+  ```java
+  Period tenDays = Period.between(LocalDate.of(2022, 1, 1),
+                                 LocalDate.of(2022, 1, 11));
+  
+  //시간 객체를 사용하지 않고 생성
+  Period tenDays = Period.ofDays(10);
+  Period threeWeeks = Period.ofWeeks(3);
+  Period twoYearsSixMonthsOneDay = Period.of(2, 6, 1);
+  ```
+
+**간격을 표현하는 날짜와 시간 클래스의 공통 메서드**
+
+```text
+- between
+- from
+- of
+- parse
+- addTo
+- get
+- isNegative
+- isZero
+- minus
+- multipliedBy
+- negated
+- plus
+- subtractFrom
+```
