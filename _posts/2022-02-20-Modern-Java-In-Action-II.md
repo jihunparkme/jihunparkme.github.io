@@ -155,3 +155,44 @@ Optional<String> name = optPerson.filter(p -> p.getAge() >= minAge)
 **Reference**
 
 - [Optional Class Method](https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html)
+
+### Optional 활용
+
+**잠재적으로 null이 될 수 있는 대상을 Optional로 감싸기**
+
+```java
+Optional<Object> value = Optional.ofNullable(map.get("key"));
+```
+
+**예외와 Optional 클래스**
+
+- 예외를 빈 Optional로 처리하기
+
+  ```java
+  //OptionalUtility.java
+  public static Optional<Integer> stringToInt(String s) {
+      try {
+          return Optional.of(Integer.parseInt(s));
+      } catch {
+          return Optional.empty();
+      }
+  }
+  ```
+
+**기본형 Optional 을 사용하지 말자**
+
+- 기본형 Optional 에는 `OptionalInt`, `OptionalLong`, `OptionalDouble` 등이 있다.
+  - 이 기본형 특화 Optional은 다른 일반 Optional과 혼용할 수 없다.
+
+**응용**
+
+- Optional로 프로퍼티에서 지속 시간 읽기
+
+  ```java
+  public int readDuration(Properties props, String name) {
+      return Optional.ofNullable(props.getProperty(name)) //null일 경우 Optional 처리
+          			.flatMap(OptionalUtility::stringToInt) //OptionalUtility.stringToInt 메서드 참조
+          			.filter(i -> i > 0) //음수 필터링
+          			.orElse(0); //기본값 0
+  }
+  ```
