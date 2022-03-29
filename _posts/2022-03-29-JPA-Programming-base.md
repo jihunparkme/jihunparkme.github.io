@@ -74,3 +74,17 @@ featured-img: jpa-base
       ```java
       entityManager.remove(member);
       ``` 
+
+## 영속성 컨텍스트의 이점
+
+- `1차 캐시`에서의 조회
+  - 사용자의 하나의 요청-응답(하나의 트랜젝션) 내에서만 효과가 있으므로 성능 이점을 기대하지는 않음.
+  - 엔티티 조회 시 먼저 1차 캐시에서 조회 후, 없을 경우 DB에서 조회
+- 영속 엔티티의 `동일성(identity) 보장`
+  - 1차 캐시로 반복 가능한 읽기(REPEATABLE READ) 등급의 트랜잭션 격리 수준을 데이터베이스가 아닌 애플리케이션 차원에서 제공
+- 트랜잭션을 지원하는 `쓰기 지연`(transactional write-behind)
+  - Query를 쌓아 두다가 transaction.commit() 을 하는 순간 데이터베이스에 Query 전송
+- 변경 감지(Dirty Checking)
+  - transaction.commit() 시점에 엔티티와 스냅샷(처음 읽어 온 엔티티 상태) 비교 후 변경이 감지되면 Update Query 를 쓰기 지연 SQL 저장소에 저장
+  - 이후 DB에 Query 전송 및 Commit
+- 지연 로딩(Lazy Loading)
