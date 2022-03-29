@@ -104,3 +104,19 @@ featured-img: jpa-base
 
 - 직접 호출 : em.flush()
 - 자동 호출 : 트랜잭션 커밋, JPQL 쿼리 실행
+
+# 엔티티 매핑
+
+객체와 테이블 매핑
+- `@Entity`: JPA가 관리하는 클래스 (기본 생성자 필수)
+- `@Table`: 엔티티와 매핑할 테이블 지정
+
+필드와 컬럼 매핑
+- `@Column`
+
+기본 키 매핑
+- `@Id`
+
+연관관계 매핑
+- `@ManyToOne`
+- `@JoinColumn`
