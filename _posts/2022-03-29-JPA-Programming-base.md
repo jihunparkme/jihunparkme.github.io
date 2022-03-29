@@ -41,3 +41,36 @@ featured-img: jpa-base
   EntityTransaction tx = em.getTransaction();
   tx.begin();
   ```
+
+# 영속성 관리
+
+## 영속성 컨텍스트
+
+`PersistenceContext` (엔티티를 영구 저장하는 환경)
+
+- EntityManager 를 통해 PersistenceContext 에 접근
+  - EntityManager, PersistenceContext 는 `1:1`, `N:1` 관계 존재
+
+- 엔티티 생명주기
+  - `비영속` (new / transient)
+    - 영속성 컨텍스트와 전혀 관계가 없는 **새로운** 상태
+      ```java
+      Member member = new Member();
+      member.setId(1L);
+      member.setName("Aaron");
+      ``` 
+  - `영속` (managed)
+    - 영속성 컨텍스트에 **관리**되는 상태
+      ```java
+      entityManager.persist(member);
+      ```
+  - `준영속` (detached)
+    - 영속성 컨텍스트에 저장되었다가 **분리**된 상태
+      ```java
+      entityManager.detach(member);
+      ```
+  - `삭제` (removed)
+    - **삭제**된 상태
+      ```java
+      entityManager.remove(member);
+      ``` 
