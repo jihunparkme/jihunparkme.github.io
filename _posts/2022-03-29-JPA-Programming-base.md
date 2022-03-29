@@ -1,6 +1,6 @@
 ---
 layout: post
-title: JPA Programming Base
+title: JPA Programming Basic
 summary: JPA Programming Part 1. 자바 ORM 표준 JPA 프로그래밍 - 기본편
 categories: (Inflearn)JPA-Programming
 featured-img: jpa-base
