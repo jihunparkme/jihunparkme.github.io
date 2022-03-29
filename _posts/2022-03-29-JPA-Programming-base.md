@@ -77,7 +77,9 @@ featured-img: jpa-base
       entityManager.remove(member);
       ``` 
 
-## 영속성 컨텍스트의 이점
+.
+
+**`영속성 컨텍스트의 이점`**
 
 - `1차 캐시`에서의 조회
   - 사용자의 하나의 요청-응답(하나의 트랜젝션) 내에서만 효과가 있으므로 성능 이점을 기대하지는 않음.
@@ -91,7 +93,9 @@ featured-img: jpa-base
   - 이후 DB에 Query 전송 및 Commit
 - 지연 로딩(Lazy Loading)
 
-## Flush
+.
+
+**`Flush`**
 
 **영속성 컨텍스트의 변경내용을 데이터베이스에 반영하는 역할**
 
@@ -107,6 +111,8 @@ featured-img: jpa-base
 
 # 엔티티 매핑
 
+**`객체와 테이블`**
+
 객체와 테이블 매핑
 - `@Entity`: JPA가 관리하는 클래스 (기본 생성자 필수)
 - `@Table`: 엔티티와 매핑할 테이블 지정
@@ -120,3 +126,29 @@ featured-img: jpa-base
 연관관계 매핑
 - `@ManyToOne`
 - `@JoinColumn`
+
+.
+
+**`데이터베이스 스키마 자동 생성`**
+
+@Entity가 있는 클래스 DDL을 애플리케이션 실행 시점에 자동 생성 (개발 환경에서만 사용)
+
+```xml
+<property name="hibernate.hbm2ddl.auto" value="create" />
+```
+
+- `create`: 기존테이블 삭제 후 다시 생성 (DROP + CREATE)
+- `create-drop`: create와 같으나 종료시점에 테이블 DROP
+- `update`: 변경분만 반영(운영DB에는 사용하면 안됨)
+- `validate` 엔티티와 테이블이 정상 매핑되었는지만 확인
+- `none`: 사용하지 않음
+
+**주의**
+
+- 운영 장비에는 절대 create, create-drop, update 사용하면 안됨.
+
+  - 개발 초기 단계는 create 또는 update
+
+  - 테스트 서버는 update 또는 validate
+
+  - 스테이징과 운영 서버는 validate 또는 none
