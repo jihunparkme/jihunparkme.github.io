@@ -84,7 +84,21 @@ featured-img: jpa-base
   - 1차 캐시로 반복 가능한 읽기(REPEATABLE READ) 등급의 트랜잭션 격리 수준을 데이터베이스가 아닌 애플리케이션 차원에서 제공
 - 트랜잭션을 지원하는 `쓰기 지연`(transactional write-behind)
   - Query를 쌓아 두다가 transaction.commit() 을 하는 순간 데이터베이스에 Query 전송
-- 변경 감지(Dirty Checking)
+- `변경 감지`(Dirty Checking)
   - transaction.commit() 시점에 엔티티와 스냅샷(처음 읽어 온 엔티티 상태) 비교 후 변경이 감지되면 Update Query 를 쓰기 지연 SQL 저장소에 저장
   - 이후 DB에 Query 전송 및 Commit
 - 지연 로딩(Lazy Loading)
+
+## Flush
+
+**영속성 컨텍스트의 변경내용을 데이터베이스에 반영**
+
+발생 시점
+
+- 변경 감지
+- 쓰기 지연 SQL 저장소의 쿼리를 데이터베이스에 전송 (CUD Query)
+
+호출 방법
+
+- 직접 호출 : em.flush()
+- 자동 호출 : 트랜잭션 커밋, JPQL 쿼리 실행
