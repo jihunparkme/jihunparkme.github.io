@@ -68,6 +68,8 @@ featured-img: jpa-base
     - 영속성 컨텍스트에 저장되었다가 **분리**된 상태
       ```java
       entityManager.detach(member);
+      entityManager.clear()
+      entityManager.close()
       ```
   - `삭제` (removed)
     - **삭제**된 상태
