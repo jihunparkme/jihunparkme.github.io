@@ -322,7 +322,7 @@ public class Member {
   public class Team {
       @Id @GeneratedValue
       private Long id;
-      
+       
       @OneToMany(mappedBy = "team")
       List<Member> members = new ArrayList<Member>();
   }
@@ -332,10 +332,54 @@ public class Member {
 
 **양방향 매핑 규칙**
 
-- 객체의 두 관계 중 하나의 객체를 연관관계의 주인으로 지정
+- 관계를 갖는 두 객체 중 하나의 객체를 연관관계의 주인으로 지정
   - 연관관계의 주인만이 외래 키를 관리(등록, 수정)하고, 주인이 아닌 쪽은 조회만 가능
-  - 주인이 아닌 참조에 mappedBy 속성으로 주인 필드를 지정
-- 연관관계의 주인은 다(`N`:1)에 해당하는 객체쪽이 갖는 것이 좋음 (DB에서 외래키를 갖는 테이블)
+  - 주인이 아닌 객체의 필드에 mappedBy 속성으로 주인 필드를 지정
+- 연관관계의 주인은 **다(`N`:1)에 해당하는 객체**쪽이 갖도록(외래키를 갖는 테이블 기준)
+  - 연관관계의 주인에 값 설정하기
+    ```java
+    Team team = new Team();
+    team.setName("TeamA");
+    em.persist(team);
+
+    Member member = new Member();
+    member.setName("member1");
+    //연관관계의 주인에 값 설정
+    member.setTeam(team);
+    //순수 객체 상태를 고려해서 항상 양쪽에 값 설정하기
+    team.getMembers().add(member);
+    em.persist(member);
+    ```
+  - 연관관계 편의 메소드를 생성하는 것이 편리
+    ```java
+    @Entity
+    public class Member {
+      //..
+
+      public void changeTeam(Team team) {
+        this.tema = team;
+        team.getMembers().add(this);
+      }
+    }
+
+    // OR (두 객체 중 한 객체를 선택)
+
+    @Entity
+    public class Team {
+      //...
+
+      public void addMember(Member member) {
+        member.setTeam(this);
+        members.add(member);
+      }
+    }
+    ```
+- 양방향 매핑시에 무한 루프로 인한 StackOverflow 조심하기
+  - toString(), lombok, JSON 생성 라이브러리(=> Controller DTO 반환으로 해결)
+
+> 단방향 매핑만으로도 연관관계 매핑은 완료된 상태.
+> 
+> 추후 역방향 탐색이 필요할 경우에 추가하기!(테이블에 영향 X)
 
 ## 다중성(Multiplicity)
 
