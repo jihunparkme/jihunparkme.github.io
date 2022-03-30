@@ -291,7 +291,6 @@ public class Member {
 
   //...
   //단방향 연관관계 설정 (참조 저장)
-
   Team team = new Team();
   team.setName("TeamA");
   em.persist(team);
@@ -304,6 +303,40 @@ public class Member {
   ```
 - 양방향
 
+  - 객체의 양방향 관계는 사실 서로 다른 단뱡향 관계 2개라는 사실.
+    - 객체를 양방향으로 참조하려면 단방향 연관관계를 2개 만들어야 함
+  - 테이블은 외래 키 하나로 두 테이블의 연관관계를 관리
+
+  ```java
+  @Entity
+  public class Member {
+      @Id @GeneratedValue
+      private Long id;
+
+      @ManyToOne
+      @JoinColumn(name = "TEAM_ID")
+      private Team team;
+  }
+
+  @Entity
+  public class Team {
+      @Id @GeneratedValue
+      private Long id;
+      
+      @OneToMany(mappedBy = "team")
+      List<Member> members = new ArrayList<Member>();
+  }
+  ```
+
+## 연관관계의 주인(Owner)
+
+**양방향 매핑 규칙**
+
+- 객체의 두 관계 중 하나의 객체를 연관관계의 주인으로 지정
+  - 연관관계의 주인만이 외래 키를 관리(등록, 수정)하고, 주인이 아닌 쪽은 조회만 가능
+  - 주인이 아닌 참조에 mappedBy 속성으로 주인 필드를 지정
+- 연관관계의 주인은 다(`N`:1)에 해당하는 객체쪽이 갖는 것이 좋음 (DB에서 외래키를 갖는 테이블)
+
 ## 다중성(Multiplicity)
 
 - 다대일(N:1)
@@ -311,4 +344,3 @@ public class Member {
 - 일대일(1:1)
 - 다대다(N:M)
 
-## 연관관계의 주인(Owner)
