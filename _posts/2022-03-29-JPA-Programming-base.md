@@ -233,6 +233,8 @@ public class Member {
     - 주로 오라클, PostgreSQL, DB2, H2 에서 사용
   - **TABLE** : 키 생성용 테이블 사용, (모든 DB, @TableGenerator)
 
+Long Type + 대체키 + 키 생성전략 사용 권장
+
 **AUTO & IDENTITY**
 
 ```java
@@ -265,3 +267,48 @@ public class Member {
   private Long id;
 }
  ```
+
+# 연관관계 매핑
+
+*JPA는 객체의 참조와 테이블의 외래 키를 매핑*
+
+## 방향(Direction)
+
+- 단방향
+  ```java
+  @Entity
+  public class Member {
+      @Id @GeneratedValue
+      private Long id;
+
+      @Column(name = "USERNAME")
+      private String name;
+
+      @ManyToOne
+      @JoinColumn(name = "TEAM_ID")
+      private Team team;
+  }
+
+  //...
+  //단방향 연관관계 설정 (참조 저장)
+
+  Team team = new Team();
+  team.setName("TeamA");
+  em.persist(team);
+
+  Member member = new Member();
+  member.setName("member1");
+  member.setTeam(team);
+
+  em.persist(member);
+  ```
+- 양방향
+
+## 다중성(Multiplicity)
+
+- 다대일(N:1)
+- 일대다(1:N)
+- 일대일(1:1)
+- 다대다(N:M)
+
+## 연관관계의 주인(Owner)
