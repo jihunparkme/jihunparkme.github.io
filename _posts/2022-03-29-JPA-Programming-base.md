@@ -219,3 +219,49 @@ public class Member {
     private String temp;
 }
 ```
+.
+
+**`기본 키`**
+
+- `@Id` : 직접 할당할 경우
+- `@GeneratedValue` : 자동 생성할 경우
+  - **AUTO** : 방언에 따라 자동 지정 (default)
+  - **IDENTITY** : 데이터베이스에 위임 (MYSQL)
+    - 주로 MySQL, PostgreSQL, SQL Server, DB2 에서 사용
+    - 참고) **DB INSERT Query 실행 후에 ID 값을 알 수 있으므로, *em.persist() 시점에 즉시 INSERT Query 실행 및 DB 식별자 조회***
+  - **SEQUENCE** : 데이터베이스 시퀀스 오브젝트 사용 (ORACLE, @SequenceGenerator)
+    - 주로 오라클, PostgreSQL, DB2, H2 에서 사용
+  - **TABLE** : 키 생성용 테이블 사용, (모든 DB, @TableGenerator)
+
+**AUTO & IDENTITY**
+
+```java
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+private Long id;
+```
+
+**SEQUENCE**
+
+`allocationSize`
+- 시퀀스를 한 번 호출할 때 증가하는 수 (성능 최적화에 사용, default. 50)
+  - 웹 서버를 내리는 시점에 메모리에 저장되어있던 시퀀스들이 날라가서 구멍이 생기므로, 50~100이 적절
+  - DB 시퀀스 값이 하나씩 증가하도록 설정되어 있다면, 이 값을 반드시 1로 설정
+- ex) 초기 1 ~ 51 까지 조회, 이후 시퀀스는 DB에서 조회하지 않고 메모리상에서 조회
+  - 메모리에서 시퀀스 51을 만나는 순간 다시 DB에서 조회(next call)
+- 미리 시퀀스 값을 올려두므로 동시성 문제가 되지 않음
+- 이 부분은 Table 전략도 유사
+
+```java
+@Entity
+@SequenceGenerator(
+        name = "MEMBER_SEQ_GENERATOR", //생성 이름
+        sequenceName = "MEMBER_SEQ", //매핑할 데이터베이스 시퀀스 이름
+        initialValue = 1, allocationSize = 1)
+public class Member {
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE,
+          generator = "MEMBER_SEQ_GENERATOR")
+  private Long id;
+}
+ ```
