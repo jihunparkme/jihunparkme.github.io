@@ -274,7 +274,7 @@ public class Member {
 
 ## 방향(Direction)
 
-- 단방향
+- `단방향`
   ```java
   @Entity
   public class Member {
@@ -301,7 +301,7 @@ public class Member {
 
   em.persist(member);
   ```
-- 양방향
+- `양방향`
 
   - 객체의 양방향 관계는 사실 서로 다른 단뱡향 관계 2개라는 사실.
     - 객체를 양방향으로 참조하려면 단방향 연관관계를 2개 만들어야 함
@@ -385,11 +385,26 @@ public class Member {
 
 ## 다중성(Multiplicity)
 
-- 다대일(N:1) - @ManyToOne
-  - 테이블 외래키 기준으로 연관된 참조를 설정(연관관계의 주인)
-- 일대다(1:N) - @OneToMany
-  - 반대 객체에도 방향 설정 추가(조회만 가능)
-- 일대일(1:1) - @OneToOne
-- 다대다(N:M) - @ManyToMany
+`다대일(N:1)` - @ManyToOne
+- 테이블 외래키 기준으로 연관된 참조를 설정(N이 연관관계의 주인)
+- 양방향 연결을 할 경우, 반대 객체에도 OneToMany 방향 설정 추가(조회만 가능)
+
+`일대다(1:N)` - @OneToMany
+- 일대다 단방향
+  - 위와 반대 케이스로 일(1)이 연관관계의 주인이 될 경우, A(1) 테이블 업데이트를 시도했지만 B(N) 테이블도 함께 업데이트를 해야하는 상황으로 여러 이슈 발생 요소가 생김
+    - 엔티티가 관리하는 외래키가 다른 테이블에 있으므로 연관관계 관리를 위해 추가 업데이트 쿼리 발생
+    ```java
+    @OneToMany
+    @JoinColumn(name = "team_id")
+    private List<Member> members = new ArrayList<>();
+    ```
+- 일대다 양방향
+  - 공식적으로 존재하지 않는 매핑
+  
+> 일대다 단뱡향 매핑보다 다대일 양방향 매핑을 사용하자
+
+`일대일(1:1)` - @OneToOne
+
+`다대다(N:M)` - @ManyToMany
 
 
