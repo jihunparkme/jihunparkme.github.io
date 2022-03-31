@@ -385,11 +385,11 @@ public class Member {
 
 ## 다중성(Multiplicity)
 
-`다대일(N:1)` - @ManyToOne
+**`다대일(N:1)`** - @ManyToOne
 - 테이블 외래키 기준으로 연관된 참조를 설정(N이 연관관계의 주인)
 - 양방향 연결을 할 경우, 반대 객체에도 OneToMany 방향 설정 추가(조회만 가능)
 
-`일대다(1:N)` - @OneToMany
+**`일대다(1:N)`** - @OneToMany
 - 일대다 단방향
   - 위와 반대 케이스로 일(1)이 연관관계의 주인이 될 경우, A(1) 테이블 업데이트를 시도했지만 B(N) 테이블도 함께 업데이트를 해야하는 상황으로 여러 이슈 발생 요소가 생김
     - 엔티티가 관리하는 외래키가 다른 테이블에 있으므로 연관관계 관리를 위해 추가 업데이트 쿼리 발생
@@ -398,13 +398,49 @@ public class Member {
     @JoinColumn(name = "team_id")
     private List<Member> members = new ArrayList<>();
     ```
-- 일대다 양방향
-  - 공식적으로 존재하지 않는 매핑
+- 일대다 양방향 연결은 공식적으로 존재하지 않는 매핑
   
 > 일대다 단뱡향 매핑보다 다대일 양방향 매핑을 사용하자
 
-`일대일(1:1)` - @OneToOne
+**`일대일(1:1)`** - @OneToOne
 
-`다대다(N:M)` - @ManyToMany
+ex) 회원과 개인 락커의 관계
+
+- 주/대상 테이블 중에 외래키 선택 가능
+  - 주 테이블 선택
+    - JPA 매핑이 편리하여 객체지향 개발자 선호
+    - 장점. 주 테이블만 조회해서 대상 테이블 데이터 확인 가능
+    - 단점. 값이 없으면 외래키에 null 허용
+  - 대상 테이블 선택
+    - 전통 DB 개발자 선호
+    - 장점. 주/대상 테이블을 1:1 관계에서 1:N 관계로 변경 시 테이블 구조 유지 가능
+    - 단점. 프록시 기능의 한계로 지연 로딩으로 설정해도 항상 즉시 로딩
+- 외래키에 DB 유니크(UNI) 제약조건 필요
+- 다대일 매핑 설정 방법과 유사
+
+단방향
+
+```java
+@Entity
+  public class Member {
+    //..
+    @OneToOne
+    @JoinColumn(name = "locker_id")
+    private Locker locker;
+  }
+```
+
+양방향
+
+```java
+@Entity
+public class Locker {
+    //..
+    @OneToOne(mappedBy = "Locker")
+    private Member member;
+}
+```
+
+**`다대다(N:M)`** - @ManyToMany
 
 
