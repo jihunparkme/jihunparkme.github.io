@@ -389,6 +389,8 @@ public class Member {
 - 테이블 외래키 기준으로 연관된 참조를 설정(N이 연관관계의 주인)
 - 양방향 연결을 할 경우, 반대 객체에도 OneToMany 방향 설정 추가(조회만 가능)
 
+<center><img src="https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/f637530a85ae745b781273d819211a4a5ed49093/post_img/jpa/N-1-two-way.png" width="80%"></center>
+
 **`일대다(1:N)`** - @OneToMany
 - 일대다 단방향
   - 위와 반대 케이스로 일(1)이 연관관계의 주인이 될 경우, A(1) 테이블 업데이트를 시도했지만 B(N) 테이블도 함께 업데이트를 해야하는 상황으로 여러 이슈 발생 요소가 생김
@@ -406,17 +408,22 @@ public class Member {
 
 ex) 회원과 개인 락커의 관계
 
+- 외래키에 DB 유니크(UNI) 제약조건 필요
+- 설정은 다대일 매핑과 유사
 - 주/대상 테이블 중에 외래키 선택 가능
   - 주 테이블 선택
     - JPA 매핑이 편리하여 객체지향 개발자 선호
     - 장점. 주 테이블만 조회해서 대상 테이블 데이터 확인 가능
     - 단점. 값이 없으면 외래키에 null 허용
+      
+    <center><img src="https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/f637530a85ae745b781273d819211a4a5ed49093/post_img/jpa/1-1-main-table.png" width="80%"></center>
+
   - 대상 테이블 선택
     - 전통 DB 개발자 선호
     - 장점. 주/대상 테이블을 1:1 관계에서 1:N 관계로 변경 시 테이블 구조 유지 가능
     - 단점. 프록시 기능의 한계로 지연 로딩으로 설정해도 항상 즉시 로딩
-- 외래키에 DB 유니크(UNI) 제약조건 필요
-- 다대일 매핑 설정 방법과 유사
+    
+    <center><img src="https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/f637530a85ae745b781273d819211a4a5ed49093/post_img/jpa/1-1-target-table.png" width="80%"></center>
 
 단방향
 
@@ -443,4 +450,59 @@ public class Locker {
 
 **`다대다(N:M)`** - @ManyToMany
 
+- RDB는 정규화된 테이블 2개로 다대다 관계를 표현할 수 없으므로 **중간 테이블이 필요**
+- 객체는 @ManyToMany, @JoinTable로 다대다 관계를 표현할 수 있지만, **기타 데이터를 포함시킬 수 없는 한계**로 실무에서는 사용하기 어려움
+  - 연결 테이블용 엔티티를 추가하는 방법 사용
+- @ManyToMany -> **@OneToMany, @ManyToOne** 로 풀어서 사용하자.
 
+<center><img src="https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/f637530a85ae745b781273d819211a4a5ed49093/post_img/jpa/many-to-many.png" width="80%"></center>
+
+Member.java
+
+```java
+@Entity
+public class Member {
+  //...
+  @OneToMany(mappedBy = "member")
+  private List<MemberProduct> memberProducts = new ArrayList()<>;
+}
+```
+
+MemberProduct.java
+
+id 대신 (member, product)를 묶어서 PK, FK로 사용할 수도 있지만, 
+
+향후 비즈니스적인 조건이 추가될 경우를 고려하면, GeneratedValue ID를 사용하는 것이 더 유연하고 개발이 쉬워지는 장점이 있음
+
+```java
+@Entity
+public class MemberProduct {
+
+    @Id @GeneratedValue
+    @Column(name = "member_product_id ")
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    private int orderAmount;
+    private int price;
+    private LocalDataTime orderDateTime;
+}
+```
+
+Product.java
+
+```java
+@Entity
+public class Product {
+    //...
+    @OneToMany(mappedBy = "product")
+    private List<MemberProduct> memberProducts = new ArrayList()<>;
+}
+```
