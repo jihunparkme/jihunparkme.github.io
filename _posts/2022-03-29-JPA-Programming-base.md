@@ -9,6 +9,10 @@ featured-img: jpa-base
 
 # JPA Programming Base
 
+영한님의 [자바 ORM 표준 JPA 프로그래밍 - 기본편](https://www.inflearn.com/course/ORM-JPA-Basic/dashboard) 강의 노트
+
+[Project](https://github.com/jihunparkme/inflearn-spring-jpa-roadmap)
+
 **JPA**
 
 - Java Persistence API
@@ -504,5 +508,105 @@ public class Product {
     //...
     @OneToMany(mappedBy = "product")
     private List<MemberProduct> memberProducts = new ArrayList()<>;
+}
+```
+
+# 고급 매핑
+
+**`상속관계 매핑`**
+
+- **객체의 상속 구조**와 **DB의 슈퍼/서브타입 관계**를 매핑
+
+- DB 슈퍼/서브타입 논리 모델을 물리 모델로 구현하는 방법
+  - @DiscriminatorColumn(name=“DTYPE”) / 자식 타입 필드 사용 (default. DTYPE)
+  - @DiscriminatorValue(“XXX”) / 자식 타입명 수정 시 (default. entity name)
+  - @Inheritance(strategy=InheritanceType.XXX) / 상속 타입
+
+조인 전략 `JOINED`
+    
+<center><img src="https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/master/post_img/jpa/join-strategy.png" width="80%"></center>
+
+- 기본 정석으로 사용
+- 장점
+  - 테이블 정규화 (저장공간 효율화)
+  - 외래키 참조 무결성 제약조건 활용
+- 단점
+  - 조회 쿼리가 복잡해지고, 조인을 많이 사용하게 되어 성능 저하
+  - 데이터 저장 시 INSERT Query 두 번 호출
+
+```java
+//Item.java
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name=“DTYPE”)
+public class Item {
+
+    @Id @GeneratedValue
+    private Long id;
+
+    private String name;
+    private Integer price;
+}
+//Album.java
+@Entity
+@DiscriminatorValue("A")
+public class Album extends Item {
+
+    private String artist;
+}
+//Movie.java
+@Entity
+@DiscriminatorValue("M")
+public class Movie extends Item {
+
+    private String director;
+    private String actor;
+}
+//Book.java
+@Entity
+@DiscriminatorValue("B")
+public class Book extends Item {
+
+    private String author;
+    private String isbn;
+}
+```
+
+단일 테이블 전략 `SINGLE_TABLE`
+
+<center><img src="https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/master/post_img/jpa/single-table-strategy.png" width="80%"></center>
+
+- 단순하고 확장 가능성이 없을 경우 사용
+- 장점
+  - 조회 시 조인이 필요 없으므로 일반적으로 조회 성능이 빠르고 단순
+- 단점
+  - 자식 엔티티가 매핑한 컬럼은 모두 null 허용
+  - 단일 테이블에 많은 필드를 저장하므로 테이블이 커질 수 있고, 상황에 따라 조회 성능이 저하될 수 있음
+
+```java
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn
+public class Item {
+}
+```
+
+구현 클래스마다 테이블 전략 `TABLE_PER_CLASS`
+- 부모 클래스는 추상(abstract) 클래스로 생성
+
+<center><img src="https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/master/post_img/jpa/other-table-strategy.png" width="80%"></center>
+
+- 유지 보수 및 관리 최악으로 비추하는 전략..
+- 장점
+  - 서브 타입을 명확하게 구분해서 처리하기 효과적
+  - not null 제약조건 사용 가능
+- 단점
+  - 자식 테이블을 함께 조회할 때 성능 저하(UNION Query)
+  - 자식 테이블을 통합해서 쿼리를 작성하기 어려움
+
+```java
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Item {
 }
 ```
