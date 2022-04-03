@@ -610,3 +610,14 @@ public class Item {
 public abstract class Item {
 }
 ```
+
+.
+
+**`@MappedSuperclass`**
+
+- 공통 매핑 정보가 필요할 경우 사용
+- 추상 클래스 권장(직접 생성해서 사용할 일이 없음)
+- ex. 등록일, 수정일, 등록자, 수정자 등..
+- 헷갈리지 않기!
+  - 상속관계 매핑X - 자식 클래스에 매핑 정보만 제공)
+  - 엔티티/테이블 매핑X - 조회, 검색(em.find(BaseEntity)) 불가
