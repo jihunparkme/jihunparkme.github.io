@@ -615,9 +615,40 @@ public abstract class Item {
 
 **`@MappedSuperclass`**
 
-- 공통 매핑 정보가 필요할 경우 사용
-- 추상 클래스 권장(직접 생성해서 사용할 일이 없음)
+- **공통 매핑 정보**가 필요할 경우 사용
+- **추상 클래스** 권장(직접 생성해서 사용할 일이 없음)
 - ex. 등록일, 수정일, 등록자, 수정자 등..
 - 헷갈리지 않기!
   - 상속관계 매핑X - 자식 클래스에 매핑 정보만 제공)
   - 엔티티/테이블 매핑X - 조회, 검색(em.find(BaseEntity)) 불가
+
+# 프록시 & 연관관계 관리
+
+## 프록시 객체
+
+데이터베이스 조회를 미루는 가짜(프록시) 엔티티 객체 조회 방법 : em.getReference()
+
+- 실제 클래스를 상속 받아 만들어지고, 실제와 겉 모양이 같은 빈 깡통
+- 실제 객체의 참조를 보관하고, 메서드를 호출하면 실제 객체의 메서드를 호출
+
+**프록시 객체 특징**
+
+<center><img src="https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/master/post_img/jpa/proxy.png" width="80%"></center>
+
+- 프록시 객체는 처음 사용할 때 한 번만 초기화
+  - 초기화 시 프록시 객체를 통해 실제 엔티티에 접근 가능
+- 프록시 객체는 원본 엔티티를 상속받으므로, 타입 체크 시 instance of 사용
+- 한 영속성 컨텍스트 안에서 동일한 ID 조회 시, JPA는 항상 같은 엔티티를 반환
+  - 영속성 컨텍스트에 찾는 엔티티가 이미 있다면, em.getReference()를 호출해도 실제 엔티티를 반환
+  - 반대로 프록시 조회 후, 엔티티 조회를 해도 실제 엔티티가 아닌 porxy 반환
+- 준영속 상태일 때(em.clear / em.close / em.detach), 프록시를 초기화하면 LazyInitializationException 발생
+
+```java
+//프록시 인스턴스의 초기화 여부 확인
+emf.getPersistenceUnitUtil().isLoaded(entity);
+//프록시 클래스 확인
+entity.getClass();
+//프록시 강제 초기화
+org.hibernate.Hibernate.initialize(entity);
+entity.getName() //JPA는 호출 시 초기화
+```
