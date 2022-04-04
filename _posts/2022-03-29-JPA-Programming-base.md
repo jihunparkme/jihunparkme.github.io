@@ -624,24 +624,26 @@ public abstract class Item {
 
 # 프록시 & 연관관계 관리
 
-## 프록시 객체
+## 프록시
 
-데이터베이스 조회를 미루는 가짜(프록시) 엔티티 객체 조회 방법 : em.getReference()
+DB 조회를 미루는(Lazy) 가짜(Proxy) 엔티티 객체 조회
 
-- 실제 클래스를 상속 받아 만들어지고, 실제와 겉 모양이 같은 빈 깡통
-- 실제 객체의 참조를 보관하고, 메서드를 호출하면 실제 객체의 메서드를 호출
+`em.getReference()`
+
+- 실제 클래스를 상속 받아 만들어지고, 실제와 겉 모양만 같은 빈 깡통
+- 실제 엔티티의 참조(target)를 보관하고, 프록시 메서드를 호출하면 실제 엔티티 메서드를 호출
 
 **프록시 객체 특징**
 
-<center><img src="https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/master/post_img/jpa/proxy.png" width="80%"></center>
+<center><img src="https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/master/post_img/jpa/proxy.png" width="70%"></center>
 
-- 프록시 객체는 처음 사용할 때 한 번만 초기화
+- 프록시 객체는 처음 사용할 때 `한 번만` 초기화
   - 초기화 시 프록시 객체를 통해 실제 엔티티에 접근 가능
 - 프록시 객체는 원본 엔티티를 상속받으므로, 타입 체크 시 instance of 사용
-- 한 영속성 컨텍스트 안에서 동일한 ID 조회 시, JPA는 항상 같은 엔티티를 반환
+- 한 영속성 컨텍스트 안에서 동일한 ID 조회 시, `JPA는 항상 같은 타입의 엔티티를 반환`
   - 영속성 컨텍스트에 찾는 엔티티가 이미 있다면, em.getReference()를 호출해도 실제 엔티티를 반환
   - 반대로 프록시 조회 후, 엔티티 조회를 해도 실제 엔티티가 아닌 porxy 반환
-- 준영속 상태일 때(em.clear / em.close / em.detach), 프록시를 초기화하면 LazyInitializationException 발생
+- 준영속 상태일 때(em.clear() / em.close() / em.detach()), 프록시를 초기화하면 `LazyInitializationException` 발생
 
 ```java
 //프록시 인스턴스의 초기화 여부 확인
@@ -652,3 +654,5 @@ entity.getClass();
 org.hibernate.Hibernate.initialize(entity);
 entity.getName() //JPA는 호출 시 초기화
 ```
+
+## 즉시 로딩과 지연 로딩
