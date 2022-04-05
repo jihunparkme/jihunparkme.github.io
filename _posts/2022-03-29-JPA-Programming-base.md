@@ -656,3 +656,28 @@ entity.getName() //JPA는 호출 시 초기화
 ```
 
 ## 즉시 로딩과 지연 로딩
+
+**즉시 로딩**
+
+```java
+@ManyToOne(fetch = FetchType.EAGER)
+```
+
+- 연관 객체를 조인으로 함께 조회
+
+**지연 로딩**
+
+```java
+@ManyToOne(fetch = FetchType.LAZY)
+```
+
+- 연관 객체를 프록시로 조회
+- 프록시 메서드를 호출하는 시점에 초기화(조히)
+
+**주의 사항**
+- 실무에서는 `지연 로딩만 사용`하자
+  - 즉시 로딩 적용 시, 연관 관계가 많아지게 되면 예상하지 못한 SQL 발생
+  - 또한, JPQL에서 N+1 문제 발생
+- N+1 문제 해결은 JPQL fetch join 혹은 Entity Graph 기능을 사용하자.
+- @ManyToOne, @OneToOne의 default는 즉시 로딩이므로 LAZY 설정 필요
+  - @OneToMany, @ManyToMany default : 지연 로딩
