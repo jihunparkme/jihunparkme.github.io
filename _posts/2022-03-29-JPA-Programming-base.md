@@ -665,7 +665,7 @@ entity.getName() //JPA는 호출 시 초기화
 
 - 연관 객체를 조인으로 함께 조회
 
-**지연 로딩**
+**지연 로딩** 
 
 ```java
 @ManyToOne(fetch = FetchType.LAZY)
@@ -674,10 +674,47 @@ entity.getName() //JPA는 호출 시 초기화
 - 연관 객체를 프록시로 조회
 - 프록시 메서드를 호출하는 시점에 초기화(조히)
 
-**주의 사항**
+**즉시/지연 로딩 주의 사항**
 - 실무에서는 `지연 로딩만 사용`하자
   - 즉시 로딩 적용 시, 연관 관계가 많아지게 되면 예상하지 못한 SQL 발생
   - 또한, JPQL에서 N+1 문제 발생
 - N+1 문제 해결은 JPQL fetch join 혹은 Entity Graph 기능을 사용하자.
 - @ManyToOne, @OneToOne의 default는 즉시 로딩이므로 LAZY 설정 필요
   - @OneToMany, @ManyToMany default : 지연 로딩
+
+## 영속성 전이
+
+`CASCADE`
+
+```java
+@OneToMany(mappedBy="parent", cascade=CascadeType.PERSIST)
+```
+
+- 특정 엔티티를 영속 상태로 만들 때, **연관된 엔티티도 함께 영속 상태로 만들고 싶을 경우 사용**
+  - 연관관계를 매핑하는 것과는 아무 관련 없음.
+- 엔티티의 소유자가 하나일 때(단일 엔티티에 종속적, 라이프 사이클이 유사)만 사용하기. 
+  - 여러 엔티티에서 관리되는 경우 사용 X! (관리가 힘들어진다..)
+- 종류 (보통 **ALL, PERSIST, REMOVE** 안에서 사용하며 라이프 사이클을 동일하게 유지)
+  - `ALL`: 모두 적용
+  - `PERSIST`: 영속
+  - `REMOVE`: 삭제
+  - MERGE: 병합
+  - REFRESH: REFRESH
+  - DETACH: DETACH
+
+
+## 고아 객체
+
+```java
+@OneToMany(mappedBy="parent", cascade=CascadeType.PERSIST, orphanRemoval = true)
+```
+
+- **부모 엔티티와 연관관계가 끊어진 자식 엔티티**
+- 참조가 제거된 엔티티는 다른 곳에서 참조하지 않는 고아 객체로 보고 삭제
+  - 고아 객체 제거 설정 : `orphanRemoval = true`
+  - 영속성 전이와 동일하게 특정 엔티티가 개인 소유할 때만 사용하기
+  - @OneToOne, @OneToMany만 사용 가능
+  - 부모 엔티티를 제거할 때 CascadeType.REMOVE와 동일하게 자식도 함께 제거
+- 영속성 전이와 함께 사용할 경우 (CascadeType.ALL + orphanRemovel=true)
+  - 부모 엔티티를 통해 자식의 생명 주기 관리 가능
+  - DDD Aggregate Root 개념을 구현할 때 유용
