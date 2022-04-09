@@ -718,3 +718,22 @@ entity.getName() //JPA는 호출 시 초기화
 - 영속성 전이와 함께 사용할 경우 (CascadeType.ALL + orphanRemovel=true)
   - 부모 엔티티를 통해 자식의 생명 주기 관리 가능
   - DDD Aggregate Root 개념을 구현할 때 유용
+
+# JPA Data Type
+
+**`엔티티 타입`**
+
+- @Entity로 정의하는 객체
+- 데이터가 변해도 식별자로 추적 가능
+
+**`값 타입`**
+
+- 식별자가 없고, 값 변경 시 추적 불가
+- 생명 주기를 엔티티에 의존
+- 데이터 공유 X!
+- 기본값 타입
+  - Java Basic Type : int, double..
+  - Wrapper Class : Integer, Long..
+  - String
+- 임베디드 타입
+- 컬렉션 값 타입
