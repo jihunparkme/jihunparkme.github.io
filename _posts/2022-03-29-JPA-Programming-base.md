@@ -737,3 +737,50 @@ entity.getName() //JPA는 호출 시 초기화
   - String
 - 임베디드 타입
 - 컬렉션 값 타입
+
+## Embedded Type
+
+- 새로운 값 타입 정의 (기본 값 타입을 모아서 만든 복합 값 타입)
+  - `@Embeddable`: 값 타입 정의
+  - `@Embedded`: 값 타입 사용
+  ```java
+  @Embeddable
+  public class Address {
+
+      private String city;
+      private String street;
+      private String zipcode;
+
+      public Address() {}
+      //..
+  }
+
+
+  @Entity
+  public class Member extends BaseEntity{
+    
+    //..
+    @Embedded
+    private Address homeAddress;
+
+    @AttributeOverrides({
+        @AttributeOverride(name = "city",
+                column = @Column(name = "work_city")),
+        @AttributeOverride(name = "street",
+                column = @Column(name = "work_street")),
+        @AttributeOverride(name = "zipcode",
+                column = @Column(name = "work_zipcode")),
+    })
+    private Address workAddress;
+  }
+  ```
+- 장점
+  - 재사용
+  - 높은 응집도
+  - 임베디드 타입 클래스만이 사용하는 유용한 메서드 생성
+  - 임베디드 타입을 소유한 엔티티의 생명주기를 의존
+- 특징
+  - 잘 설계된 ORM Application은 매핑한 테이블 수보다 클래스 수가 더 많음
+  - 한 엔티티에서 같은 임베디드 타입을 사용하여 컬럼명이 중복될 경우
+    - `@AttributeOverrides`, `@AttributeOverride` 를 사용해서 컬러명 속성 재정의
+  - 임베디드 타입의 값이 null이면, 매핑 컬럼 값 모두 null
