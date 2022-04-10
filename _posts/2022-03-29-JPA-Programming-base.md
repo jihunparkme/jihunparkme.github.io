@@ -743,37 +743,39 @@ entity.getName() //JPA는 호출 시 초기화
 - 새로운 값 타입 정의 (기본 값 타입을 모아서 만든 복합 값 타입)
   - `@Embeddable`: 값 타입 정의
   - `@Embedded`: 값 타입 사용
-  ```java
-  @Embeddable
-  public class Address {
+  
+```java
+@Embeddable
+public class Address {
 
-      private String city;
-      private String street;
-      private String zipcode;
+    private String city;
+    private String street;
+    private String zipcode;
 
-      public Address() {}
-      //..
-  }
-
-
-  @Entity
-  public class Member extends BaseEntity{
-    
+    public Address() {}
     //..
-    @Embedded
-    private Address homeAddress;
+}
 
-    @AttributeOverrides({
-        @AttributeOverride(name = "city",
-                column = @Column(name = "work_city")),
-        @AttributeOverride(name = "street",
-                column = @Column(name = "work_street")),
-        @AttributeOverride(name = "zipcode",
-                column = @Column(name = "work_zipcode")),
-    })
-    private Address workAddress;
-  }
-  ```
+
+@Entity
+public class Member extends BaseEntity{
+  
+  //..
+  @Embedded
+  private Address homeAddress;
+
+  @AttributeOverrides({
+      @AttributeOverride(name = "city",
+              column = @Column(name = "work_city")),
+      @AttributeOverride(name = "street",
+              column = @Column(name = "work_street")),
+      @AttributeOverride(name = "zipcode",
+              column = @Column(name = "work_zipcode")),
+  })
+  private Address workAddress;
+}
+```
+
 - 장점
   - 재사용
   - 높은 응집도
