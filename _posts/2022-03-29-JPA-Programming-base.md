@@ -728,7 +728,7 @@ entity.getName() //JPA는 호출 시 초기화
 
 **`값 타입`**
 
-- 식별자가 없고, 값 변경 시 추적 불가
+- 식별자가 없으므로 값 변경 시 추적 불가
 - 생명 주기를 엔티티에 의존
 - 데이터 공유 X!
 - 기본값 타입
@@ -737,22 +737,44 @@ entity.getName() //JPA는 호출 시 초기화
   - String
 - 임베디드 타입
 - 컬렉션 값 타입
+- 안전하게 불변 객체로 만들기
 
 ## Embedded Type
 
 - 새로운 값 타입 정의 (기본 값 타입을 모아서 만든 `복합 값 타입`)
   - `@Embeddable`: 값 타입 정의
   - `@Embedded`: 값 타입 사용
-  
+
+장점
+
+- 값 타입을 객체지향적으로 사용 (재사용, 높은 응집도 ..)
+- 임베디드 타입 클래스만이 사용하는 유용한 메서드 생성
+- 임베디드 타입을 소유한 엔티티의 생명주기를 의존
+
+특징
+
+- 잘 설계된 ORM Application은 매핑한 테이블 수보다 클래스 수가 더 많음
+- 한 엔티티에서 같은 임베디드 타입을 사용하여 컬럼명이 중복될 경우
+  - `@AttributeOverrides`, `@AttributeOverride` 를 사용해서 컬러명 속성 재정의
+- 임베디드 타입의 값이 null이면, 매핑 컬럼 값 모두 null
+
 ```java
 @Embeddable
 public class Address {
 
+    @Column(length = 10)
     private String city;
+    @Column(length = 20)
     private String street;
+    @Column(length = 5)
     private String zipcode;
 
     public Address() {}
+
+    private String fullAddress() {
+        return getCity() + " " + getStreet() + " " + getZipcode();
+    }
+
     //..
 }
 
@@ -776,27 +798,17 @@ public class Member extends BaseEntity{
 }
 ```
 
-- 장점
-  - 재사용
-  - 높은 응집도
-  - 임베디드 타입 클래스만이 사용하는 유용한 메서드 생성
-  - 임베디드 타입을 소유한 엔티티의 생명주기를 의존
-- 특징
-  - 잘 설계된 ORM Application은 매핑한 테이블 수보다 클래스 수가 더 많음
-  - 한 엔티티에서 같은 임베디드 타입을 사용하여 컬럼명이 중복될 경우
-    - `@AttributeOverrides`, `@AttributeOverride` 를 사용해서 컬러명 속성 재정의
-  - 임베디드 타입의 값이 null이면, 매핑 컬럼 값 모두 null
-
 ## 값 타입
 
 **`불변 객체`**
 
 - 값 타입을 여러 엔티티에서 공유하면 Side Effect(부작용) 발생
-  - 실제 인스턴스 값을 공유하는 것은 위험하므로 `값을 복사해서 사용하기`
+  - 인스턴스 값을 공유하는 것은 위험하므로 `값을 복사해서 사용하기`
+  
 - `값 타입을 불변 객체로 설계`하여 객체 타입을 수정할 수 없게 만들기
   - 불변 객체: 생성 시점를 제외하고 값을 변경할 수 없는 객체
-  - 생성자로만 값을 설정하고, Setter 생성하지 않기
-  - Integer, String은 자바가 제공하는 대표적인 불변 객체
+    - 생성자로만 값을 설정하고, Setter는 생성하지 않기
+    - Integer, String은 자바가 제공하는 대표적인 불변 객체
 
   ```java
   Address address = new Address("city", "street", "10000");
@@ -805,7 +817,7 @@ public class Member extends BaseEntity{
   member.setUsername("member1");
   member.setHomeAddress(address);
   em.persist(member);
-
+  // 값을 공유하지 않고 새로 생성
   Address newAddress = new Address("NewCity", address.getStreet(), address.getZipcode());
   member.setHomeAddress(newAddress);
   ```
@@ -816,6 +828,7 @@ public class Member extends BaseEntity{
   - 동일성(identity) 비교: 인스턴스 참조 값 비교 `==`
   - 동등성(equivalence) 비교: 인스턴스 값 비교 `equals()`
 - 값 타입의 equals() 메소드를 적절하게 재정의
+  - 프록시 사용을 고려하여 getter() 사용 추천
   ```java
   @Override
   public boolean equals(Object o) {
@@ -862,8 +875,8 @@ public class Member extends BaseEntity{
 - 저장
   ```java
   //..
-  member.getAddressHistory().adD(new Address("city1", "street1", "zipCode1"));
-  member.getAddressHistory().adD(new Address("city2", "street2", "zipCode2"));
+  member.getAddressHistory().add(new Address("city1", "street1", "zipCode1"));
+  member.getAddressHistory().add(new Address("city2", "street2", "zipCode2"));
   ```
 - 조회
   - default. FetchType.LAZY 전략 사용
