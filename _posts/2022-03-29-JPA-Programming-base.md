@@ -789,7 +789,7 @@ public class Member extends BaseEntity{
 
 ## 값 타입
 
-**불변 객체**
+**`불변 객체`**
 
 - 값 타입을 여러 엔티티에서 공유하면 Side Effect(부작용) 발생
   - 실제 인스턴스 값을 공유하는 것은 위험하므로 `값을 복사해서 사용하기`
@@ -798,19 +798,19 @@ public class Member extends BaseEntity{
   - 생성자로만 값을 설정하고, Setter 생성하지 않기
   - Integer, String은 자바가 제공하는 대표적인 불변 객체
 
-```java
-Address address = new Address("city", "street", "10000");
+  ```java
+  Address address = new Address("city", "street", "10000");
 
-Member member = new Member();
-member.setUsername("member1");
-member.setHomeAddress(address);
-em.persist(member);
+  Member member = new Member();
+  member.setUsername("member1");
+  member.setHomeAddress(address);
+  em.persist(member);
 
-Address newAddress = new Address("NewCity", address.getStreet(), address.getZipcode());
-member.setHomeAddress(newAddress);
-```
+  Address newAddress = new Address("NewCity", address.getStreet(), address.getZipcode());
+  member.setHomeAddress(newAddress);
+  ```
 
-**값 타입 비교**
+**`값 타입 비교`**
 
 - 값 타입 비교는 `equals`를 사용한 동등성 비교를 사용
   - 동일성(identity) 비교: 인스턴스 참조 값 비교 `==`
@@ -818,17 +818,108 @@ member.setHomeAddress(newAddress);
 - 값 타입의 equals() 메소드를 적절하게 재정의
   ```java
   @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
-        return Objects.equals(getCity(), address.getCity()) 
-        && Objects.equals(getStreet(), address.getStreet()) 
-        && Objects.equals(getZipcode(), address.getZipcode());
-    }
+  public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Address address = (Address) o;
+      return Objects.equals(getCity(), address.getCity()) 
+      && Objects.equals(getStreet(), address.getStreet()) 
+      && Objects.equals(getZipcode(), address.getZipcode());
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getCity(), getStreet(), getZipcode());
-    }
+  @Override
+  public int hashCode() {
+      return Objects.hash(getCity(), getStreet(), getZipcode());
+  }
   ```
+
+**`값 타입 컬렉션`**
+
+- `값 타입을 하나 이상 저장`할 경우 사용
+  - 셀렉트 박스와 같이 **값 변경이 필요 없는 단순한 경우 사용**
+  - `@ElementCollection`, `@CollectionTable`
+- 데이터베이스는 컬렉션을 같은 테이블에 저장할 수 없으므로, 별도의 테이블이 필요
+  - 값 타입 컬렉션은 엔티티와 생명주기가 같음 (Casecade.ALL + orphanRemoval=true)
+  
+  ```java
+  @Entity
+  public class Member extends BaseEntity{
+    //...
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns =
+        @JoinColumn(name = "member_id")
+    )
+    @Column(name = "food_name")
+    private Set<String> favoriteFoods = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "ADDRESS", joinColumns =
+        @JoinColumn(name = "member_id")
+    )
+    private List<Address> addressHistory = new ArrayList<>();
+  }
+  ```
+- 저장
+  ```java
+  //..
+  member.getAddressHistory().adD(new Address("city1", "street1", "zipCode1"));
+  member.getAddressHistory().adD(new Address("city2", "street2", "zipCode2"));
+  ```
+- 조회
+  - default. FetchType.LAZY 전략 사용
+- 수정
+  ```java
+  findMember.getAddressHistory.remove(new Address("oldCity", "street", "12345"));
+  findMember.getAddressHistory.add(new Address("newCity", "street", "12345"));
+
+  fineMember.getFavoriteFoods().remove("치킨");
+  fineMember.getFavoriteFoods().add("햄버거");
+  ```
+
+**`값 타입 컬렉션의 제약`**
+
+- 값 타입 컬렉션은 엔티티와 다르게 `식별자 개념이 없으므로 변경 시 추적이 어려운 큰 단점` 존재
+  - 변경 사항이 발생하면, 주인 엔티티와 연관된 모든 데이터를 삭제하고, 값 타입 컬렉션에 있는 모든 값을 다시 저장하는 비효율적인 동작(식별자가 없으므로..)
+  - 값 타입 컬렉션을 매핑하는 테이블은 모든 컬럼을 묶어서 기본 키로 구성해야 함
+- 결론적으로, 셀렉트 박스와 같이 변경이 필요 없는 단순한 경우가 아니라면, 값 타입 컬렉션 대신 일대다 단방향 관계를 추천 (식별자, 지속적인 값 추적, 변경이 필요한 경우)
+  ```java
+  @Embeddable
+  public class Address {
+
+      private String city;
+      private String street;
+      private String zipcode;
+      //...
+  }
+
+  @Entity
+  @Table(name = "ADDRESS")
+  public class AddressEntity {
+
+    @Id @GeneratedValue
+    private Long id;
+
+    private Address address;
+
+    public AddressEntity(String city, String street, String zipcode) {
+      this.address = new Address(city, street, zipcode);
+    }
+      //..
+  }
+
+  @Entity
+  public class Member extends BaseEntity{
+    //...
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "member_id")
+    private List<AddressEntity> addressHistory = new ArrayList<>();
+  }
+  ```
+
+
+
+
+
+
+
+
