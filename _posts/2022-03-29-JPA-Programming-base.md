@@ -809,3 +809,26 @@ em.persist(member);
 Address newAddress = new Address("NewCity", address.getStreet(), address.getZipcode());
 member.setHomeAddress(newAddress);
 ```
+
+**값 타입 비교**
+
+- 값 타입 비교는 `equals`를 사용한 동등성 비교를 사용
+  - 동일성(identity) 비교: 인스턴스 참조 값 비교 `==`
+  - 동등성(equivalence) 비교: 인스턴스 값 비교 `equals()`
+- 값 타입의 equals() 메소드를 적절하게 재정의
+  ```java
+  @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(getCity(), address.getCity()) 
+        && Objects.equals(getStreet(), address.getStreet()) 
+        && Objects.equals(getZipcode(), address.getZipcode());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCity(), getStreet(), getZipcode());
+    }
+  ```
