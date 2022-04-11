@@ -740,7 +740,7 @@ entity.getName() //JPA는 호출 시 초기화
 
 ## Embedded Type
 
-- 새로운 값 타입 정의 (기본 값 타입을 모아서 만든 복합 값 타입)
+- 새로운 값 타입 정의 (기본 값 타입을 모아서 만든 `복합 값 타입`)
   - `@Embeddable`: 값 타입 정의
   - `@Embedded`: 값 타입 사용
   
@@ -786,3 +786,26 @@ public class Member extends BaseEntity{
   - 한 엔티티에서 같은 임베디드 타입을 사용하여 컬럼명이 중복될 경우
     - `@AttributeOverrides`, `@AttributeOverride` 를 사용해서 컬러명 속성 재정의
   - 임베디드 타입의 값이 null이면, 매핑 컬럼 값 모두 null
+
+## 값 타입
+
+**불변 객체**
+
+- 값 타입을 여러 엔티티에서 공유하면 Side Effect(부작용) 발생
+  - 실제 인스턴스 값을 공유하는 것은 위험하므로 `값을 복사해서 사용하기`
+- `값 타입을 불변 객체로 설계`하여 객체 타입을 수정할 수 없게 만들기
+  - 불변 객체: 생성 시점를 제외하고 값을 변경할 수 없는 객체
+  - 생성자로만 값을 설정하고, Setter 생성하지 않기
+  - Integer, String은 자바가 제공하는 대표적인 불변 객체
+
+```java
+Address address = new Address("city", "street", "10000");
+
+Member member = new Member();
+member.setUsername("member1");
+member.setHomeAddress(address);
+em.persist(member);
+
+Address newAddress = new Address("NewCity", address.getStreet(), address.getZipcode());
+member.setHomeAddress(newAddress);
+```
