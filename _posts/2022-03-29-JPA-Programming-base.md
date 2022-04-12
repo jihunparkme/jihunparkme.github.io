@@ -1027,3 +1027,18 @@ List<Member> resultList = em.createQuery(jpql, Member.class)
     .setMaxResults(10)
     .getResultList();
 ```
+
+**조인**
+
+- 내부 조인: 
+  - SELECT m FROM Member m `[INNER] JOIN` m.team t
+- 외부 조인
+  - SELECT m FROM Member m `LEFT [OUTER] JOIN` m.team t
+- 세타 조인
+  - select count(m) `from Member m, Team t` where m.username = t.name
+
+Join On (JPA 2.1, Hibernate 5.1 이상)
+  - 조인 대상 필터링
+    - SELECT m, t FROM Member m LEFT JOIN m.team t `on t.name = 'A' `
+  - 연관관계가 없는 엔티티 외부 조인
+    - SELECT m, t FROM Member m LEFT JOIN Team t `on m.username = t.name`
