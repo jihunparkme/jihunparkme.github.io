@@ -930,9 +930,7 @@ public class Member extends BaseEntity{
   ```
 # 객체지향 쿼리 언어
 
-## JPQL
-
-**Java Persistence Query Language**
+**`JPQL (Java Persistence Query Language)`**
 
 - SQL을 추상화한 객체 지향 쿼리 언어(특정 데이터베이스에 의존 X)
 - 테이블이 아닌 엔티티 객체를 대상으로 쿼리
@@ -944,28 +942,8 @@ public class Member extends BaseEntity{
     Member.class
   ).getResultList();
   ```
-**반환 타입**
 
-- `TypeQuery`: 반환 타입이 명확할 때 사용
-- `Query`: 반환 타입이 명확하지 않을 때 사용
-
-**조회**
-
-- `query.getResultList()`: 결과가 하나 이상일 경우 (리스트 반환)
-  - 결과가 없으면 빈 리스트 반환
-- `query.getSingleResult()`: 결과가 정확히 하나일 경우 (단일 객체 반환)
-  - 결과가 없으면: javax.persistence.NoResultException
-  - 둘 이상이면: javax.persistence.NonUniqueResultException
-
-**파라미터 바인딩**
-
-```java
-Member result = em.createQuery("select m from Member m where m.username = :username", Member.class)
-                    .setParameter("username", "member1")
-                    .getSingleResult();
-```
-
-## QueryDSL
+**`QueryDSL`**
 
 - 문자가 아닌 자바코드로 JPQL 작성
   - 컴파일 시점에 문법 오류 체크s
@@ -985,7 +963,7 @@ Member result = em.createQuery("select m from Member m where m.username = :usern
 
 [Reference documentation](http://querydsl.com/static/querydsl/5.0.0/reference/html_single/)
 
-## 네이티브 SQL
+**`네이티브 SQL`**
 
 - JPQL로 해결할 수 없는 특정 데이터베이스에 의존적인 기능 사용 시 SQL을 직접 작성
 
@@ -997,7 +975,42 @@ Member result = em.createQuery("select m from Member m where m.username = :usern
     em.createNativeQuery(sql, Member.class).getResultList(); 
   ```
 
-## 기타
+**`기타`**
 
 - JPA를 사용하면서 JDBC API, SpringJdbcTemplate, MyBatis 등을 함께 사용 가능
 - 단, 영속성 컨텍스트를 적절한 시점(SQL을 실행하기 직전)에 강제 플러시 필요 (em.flush())
+
+## 기본 문법
+
+**`반환 타입`**
+
+- `TypeQuery`: 반환 타입이 명확할 때 사용
+- `Query`: 반환 타입이 명확하지 않을 때 사용
+
+**`조회`**
+
+- `query.getResultList()`: 결과가 하나 이상일 경우 (리스트 반환)
+  - 결과가 없으면 빈 리스트 반환
+- `query.getSingleResult()`: 결과가 정확히 하나일 경우 (단일 객체 반환)
+  - 결과가 없으면: javax.persistence.NoResultException
+  - 둘 이상이면: javax.persistence.NonUniqueResultException
+
+**`파라미터 바인딩`**
+
+```java
+Member result = em.createQuery("select m from Member m where m.username = :username", Member.class)
+                    .setParameter("username", "member1")
+                    .getSingleResult();
+```
+
+**`프로젝션`**
+
+- SELECT 절에 조회할 대상을 지정하는 방식
+  - 엔티티 프로젝션, 임베디드 타입 프로젝션, 스칼라 타입 프로젝션
+  - 스칼라 타입 프로젝션의 경우 여러 값 조회 시 DTO 조회 추천
+
+  ```java
+  List<MemberDto> result = 
+        em.createQuery("select new jpql.MemberDto(m.username, m.age) from Member m", MemberDto.class)
+        .getResultList();
+  ```
