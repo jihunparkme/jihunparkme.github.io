@@ -1037,8 +1037,31 @@ List<Member> resultList = em.createQuery(jpql, Member.class)
 - 세타 조인
   - select count(m) `from Member m, Team t` where m.username = t.name
 
-Join On (JPA 2.1, Hibernate 5.1 이상)
+. 
+
+- Join On (JPA 2.1, Hibernate 5.1 이상)
   - 조인 대상 필터링
     - SELECT m, t FROM Member m LEFT JOIN m.team t `on t.name = 'A' `
   - 연관관계가 없는 엔티티 외부 조인
     - SELECT m, t FROM Member m LEFT JOIN Team t `on m.username = t.name`
+
+**서브 쿼리**
+
+```java
+select m from Member m
+where m.age > (select avg(m2.age) from Member m2)
+```
+
+- 지원 함수
+  - [NOT] EXISTS (Subquery): 서브쿼리에 결과가 존재하면 참
+  - {ALL | ANY | SOME} (Subquery)
+    - ALL: 모두 만족하면 참
+    - ANY, SOME: 조건을 하나라도 만족하면 참
+  - [NOT] IN (Subquery): 서브쿼리의 결과 중 하나라도 같은 것이 있으면 참
+
+.
+
+- 한계
+  - JPA는 WHERE, HAVING 절에서만 서브 쿼리 사용 가능
+    - Hibernate를 사용할 경우 SELECT 절도 가능
+  - FROM 절의 서브 쿼리는 현재 JPQL에서 불가능 (조인으로 풀어보기)
