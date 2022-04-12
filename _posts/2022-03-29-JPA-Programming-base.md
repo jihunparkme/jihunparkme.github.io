@@ -800,7 +800,7 @@ public class Member extends BaseEntity{
 
 ## 값 타입
 
-**`불변 객체`**
+**불변 객체**
 
 - 값 타입을 여러 엔티티에서 공유하면 Side Effect(부작용) 발생
   - 인스턴스 값을 공유하는 것은 위험하므로 `값을 복사해서 사용하기`
@@ -822,7 +822,7 @@ public class Member extends BaseEntity{
   member.setHomeAddress(newAddress);
   ```
 
-**`값 타입 비교`**
+**값 타입 비교**
 
 - 값 타입 비교는 `equals`를 사용한 동등성 비교를 사용
   - 동일성(identity) 비교: 인스턴스 참조 값 비교 `==`
@@ -846,7 +846,7 @@ public class Member extends BaseEntity{
   }
   ```
 
-**`값 타입 컬렉션`**
+**값 타입 컬렉션**
 
 - `값 타입을 하나 이상 저장`할 경우 사용
   - 셀렉트 박스와 같이 **값 변경이 필요 없는 단순한 경우 사용**
@@ -889,7 +889,7 @@ public class Member extends BaseEntity{
   fineMember.getFavoriteFoods().add("햄버거");
   ```
 
-**`값 타입 컬렉션의 제약`**
+**값 타입 컬렉션의 제약**
 
 - 값 타입 컬렉션은 엔티티와 다르게 `식별자 개념이 없으므로 변경 시 추적이 어려운 큰 단점` 존재
   - 변경 사항이 발생하면, 주인 엔티티와 연관된 모든 데이터를 삭제하고, 값 타입 컬렉션에 있는 모든 값을 다시 저장하는 비효율적인 동작(식별자가 없으므로..)
@@ -930,7 +930,7 @@ public class Member extends BaseEntity{
   ```
 # 객체지향 쿼리 언어
 
-**`JPQL (Java Persistence Query Language)`**
+**JPQL (Java Persistence Query Language)**
 
 - SQL을 추상화한 객체 지향 쿼리 언어(특정 데이터베이스에 의존 X)
 - 테이블이 아닌 엔티티 객체를 대상으로 쿼리
@@ -938,12 +938,11 @@ public class Member extends BaseEntity{
 
   ```java
   List<Member> result = em.createQuery(
-    "select m From Member m where m.name like ‘%park%'", 
-    Member.class
+    "select m From Member m where m.name like ‘%park%'", Member.class
   ).getResultList();
   ```
 
-**`QueryDSL`**
+**QueryDSL**
 
 - 문자가 아닌 자바코드로 JPQL 작성
   - 컴파일 시점에 문법 오류 체크s
@@ -963,7 +962,7 @@ public class Member extends BaseEntity{
 
 [Reference documentation](http://querydsl.com/static/querydsl/5.0.0/reference/html_single/)
 
-**`네이티브 SQL`**
+**네이티브 SQL**
 
 - JPQL로 해결할 수 없는 특정 데이터베이스에 의존적인 기능 사용 시 SQL을 직접 작성
 
@@ -975,27 +974,27 @@ public class Member extends BaseEntity{
     em.createNativeQuery(sql, Member.class).getResultList(); 
   ```
 
-**`기타`**
+**기타**
 
 - JPA를 사용하면서 JDBC API, SpringJdbcTemplate, MyBatis 등을 함께 사용 가능
 - 단, 영속성 컨텍스트를 적절한 시점(SQL을 실행하기 직전)에 강제 플러시 필요 (em.flush())
 
 ## 기본 문법
 
-**`반환 타입`**
+**반환 타입**
 
 - `TypeQuery`: 반환 타입이 명확할 때 사용
 - `Query`: 반환 타입이 명확하지 않을 때 사용
 
-**`조회`**
+**조회**
 
 - `query.getResultList()`: 결과가 하나 이상일 경우 (리스트 반환)
   - 결과가 없으면 빈 리스트 반환
 - `query.getSingleResult()`: 결과가 정확히 하나일 경우 (단일 객체 반환)
-  - 결과가 없으면: javax.persistence.NoResultException
-  - 둘 이상이면: javax.persistence.NonUniqueResultException
+  - 결과가 없으면: **javax.persistence.NoResultException**
+  - 둘 이상이면: **javax.persistence.NonUniqueResultException**
 
-**`파라미터 바인딩`**
+**파라미터 바인딩**
 
 ```java
 Member result = em.createQuery("select m from Member m where m.username = :username", Member.class)
@@ -1003,7 +1002,7 @@ Member result = em.createQuery("select m from Member m where m.username = :usern
                     .getSingleResult();
 ```
 
-**`프로젝션`**
+**프로젝션**
 
 - SELECT 절에 조회할 대상을 지정하는 방식
   - 엔티티 프로젝션, 임베디드 타입 프로젝션, 스칼라 타입 프로젝션
