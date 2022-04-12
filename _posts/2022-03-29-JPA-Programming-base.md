@@ -932,8 +932,9 @@ public class Member extends BaseEntity{
 
 ## JPQL
 
-- Java Persistence Query Language
-- SQL을 추상화한 객체 지향 쿼리 언어
+**Java Persistence Query Language**
+
+- SQL을 추상화한 객체 지향 쿼리 언어(특정 데이터베이스에 의존 X)
 - 테이블이 아닌 엔티티 객체를 대상으로 쿼리
 - 문자로 JPQL이 작성되다보니 동적 쿼리 작성이 어려운 단점
 
@@ -943,6 +944,26 @@ public class Member extends BaseEntity{
     Member.class
   ).getResultList();
   ```
+**반환 타입**
+
+- `TypeQuery`: 반환 타입이 명확할 때 사용
+- `Query`: 반환 타입이 명확하지 않을 때 사용
+
+**조회**
+
+- `query.getResultList()`: 결과가 하나 이상일 경우 (리스트 반환)
+  - 결과가 없으면 빈 리스트 반환
+- `query.getSingleResult()`: 결과가 정확히 하나일 경우 (단일 객체 반환)
+  - 결과가 없으면: javax.persistence.NoResultException
+  - 둘 이상이면: javax.persistence.NonUniqueResultException
+
+**파라미터 바인딩**
+
+```java
+Member result = em.createQuery("select m from Member m where m.username = :username", Member.class)
+                    .setParameter("username", "member1")
+                    .getSingleResult();
+```
 
 ## QueryDSL
 
