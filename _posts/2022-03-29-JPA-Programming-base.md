@@ -1014,3 +1014,16 @@ Member result = em.createQuery("select m from Member m where m.username = :usern
         em.createQuery("select new jpql.MemberDto(m.username, m.age) from Member m", MemberDto.class)
         .getResultList();
   ```
+
+**페이징**
+
+- setFirstResult(int startPosition) : 조회 시작 위치
+- setMaxResults(int maxResult) : 조회할 데이터 수
+
+```java
+String jpql = "select m from Member m order by m.name desc";
+List<Member> resultList = em.createQuery(jpql, Member.class)
+    .setFirstResult(0)
+    .setMaxResults(10)
+    .getResultList();
+```
