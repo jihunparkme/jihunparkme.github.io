@@ -39,6 +39,7 @@ featured-img: jpa-base
   ```java
   EntityManager em = emf.createEntityManager();
   ```
+
 **EntityTransaction**
 - JPA의 모든 데이터 변경은 트랜젝션 안에서 실행
   ```java
@@ -50,7 +51,7 @@ featured-img: jpa-base
 
 ## 영속성 컨텍스트
 
-`PersistenceContext` (엔티티를 영구 저장하는 환경)
+**PersistenceContext** (엔티티를 영구 저장하는 환경)
 
 - EntityManager 를 통해 PersistenceContext 에 접근
   - EntityManager, PersistenceContext 는 `1:1`, `N:1` 관계 존재
@@ -83,7 +84,7 @@ featured-img: jpa-base
 
 .
 
-**`영속성 컨텍스트의 이점`**
+**영속성 컨텍스트의 이점**
 
 - `1차 캐시`에서의 조회
   - 사용자의 하나의 요청-응답(하나의 트랜젝션) 내에서만 효과가 있으므로 성능 이점을 기대하지는 않음.
@@ -99,7 +100,7 @@ featured-img: jpa-base
 
 .
 
-**`Flush`**
+**Flush**
 
 **영속성 컨텍스트의 변경내용을 데이터베이스에 반영하는 역할**
 
@@ -115,7 +116,7 @@ featured-img: jpa-base
 
 # 엔티티 매핑
 
-**`객체와 테이블`**
+**객체와 테이블**
 
 객체와 테이블 매핑
 - `@Entity`: JPA가 관리하는 클래스 (기본 생성자 필수)
@@ -133,7 +134,7 @@ featured-img: jpa-base
 
 .
 
-**`데이터베이스 스키마 자동 생성`**
+**데이터베이스 스키마 자동 생성**
 
 @Entity가 있는 클래스 DDL을 애플리케이션 실행 시점에 자동 생성 (개발 환경에서만 사용)
 
@@ -159,7 +160,7 @@ featured-img: jpa-base
 
 .
 
-**`필드와 컬럼`**
+**필드와 컬럼**
 
 ```java
 @Entity
@@ -225,7 +226,7 @@ public class Member {
 ```
 .
 
-**`기본 키`**
+**기본 키**
 
 - `@Id` : 직접 할당할 경우
 - `@GeneratedValue` : 자동 생성할 경우
@@ -278,7 +279,7 @@ public class Member {
 
 ## 방향(Direction)
 
-- `단방향`
+**`단방향`**
   ```java
   @Entity
   public class Member {
@@ -305,7 +306,7 @@ public class Member {
 
   em.persist(member);
   ```
-- `양방향`
+**`양방향`**
 
   - 객체의 양방향 관계는 사실 서로 다른 단뱡향 관계 2개라는 사실.
     - 객체를 양방향으로 참조하려면 단방향 연관관계를 2개 만들어야 함
@@ -513,7 +514,7 @@ public class Product {
 
 # 고급 매핑
 
-**`상속관계 매핑`**
+**상속관계 매핑**
 
 - **객체의 상속 구조**와 **DB의 슈퍼/서브타입 관계**를 매핑
 
