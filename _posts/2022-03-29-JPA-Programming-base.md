@@ -928,11 +928,55 @@ public class Member extends BaseEntity{
     private List<AddressEntity> addressHistory = new ArrayList<>();
   }
   ```
+# 객체지향 쿼리 언어
 
+## JPQL
 
+- Java Persistence Query Language
+- SQL을 추상화한 객체 지향 쿼리 언어
+- 테이블이 아닌 엔티티 객체를 대상으로 쿼리
+- 문자로 JPQL이 작성되다보니 동적 쿼리 작성이 어려운 단점
 
+  ```java
+  List<Member> result = em.createQuery(
+    "select m From Member m where m.name like ‘%park%'", 
+    Member.class
+  ).getResultList();
+  ```
 
+## QueryDSL
 
+- 문자가 아닌 자바코드로 JPQL 작성
+  - 컴파일 시점에 문법 오류 체크s
+  - 편리한 동적쿼리 작성
+- JPQL 빌더 역할
+  
+  ```java
+  JPAFactoryQuery query = new JPAQueryFactory(em);
+  QMember m = QMember.member;
 
+  List<Member> list = 
+      query.selectFrom(m)
+            .where(m.age.gt(18))
+            .orderBy(m.name.desc())
+            .fetch();
+  ```
 
+[Reference documentation](http://querydsl.com/static/querydsl/5.0.0/reference/html_single/)
 
+## 네이티브 SQL
+
+- JPQL로 해결할 수 없는 특정 데이터베이스에 의존적인 기능 사용 시 SQL을 직접 작성
+
+  ```java
+  String sql =
+    "SELECT ID, AGE, TEAM_ID, NAME FROM MEMBER WHERE NAME = ‘kim’";
+
+  List<Member> resultList =
+    em.createNativeQuery(sql, Member.class).getResultList(); 
+  ```
+
+## 기타
+
+- JPA를 사용하면서 JDBC API, SpringJdbcTemplate, MyBatis 등을 함께 사용 가능
+- 단, 영속성 컨텍스트를 적절한 시점(SQL을 실행하기 직전)에 강제 플러시 필요 (em.flush())
