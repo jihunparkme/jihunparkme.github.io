@@ -1081,3 +1081,11 @@ where m.age > (select avg(m2.age) from Member m2)
   ```java
   em.createQuery("select i from Item i where type(i) = Book", Item.class);
   ```
+- `COALESCE` : 특정 컬럼이 null일 경우 출력 대체 값 반환
+  ```java
+  select coalesce(m.username,'이름 없는 회원') from Member m
+  ```
+- `NULLIF` : 지정된 두 식이 같으면 Null 값을 반환
+  ```java
+  select NULLIF(m.username, '관리자') from Member m
+  ```
