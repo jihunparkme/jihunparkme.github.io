@@ -1065,3 +1065,19 @@ where m.age > (select avg(m2.age) from Member m2)
   - JPA는 WHERE, HAVING 절에서만 서브 쿼리 사용 가능
     - Hibernate를 사용할 경우 SELECT 절도 가능
   - FROM 절의 서브 쿼리는 현재 JPQL에서 불가능 (조인으로 풀어보기)
+
+**타입 표현**
+
+- `문자`: 'She''s'
+- `숫자`: 10L(Long), 10D(Double), 10F(Float)
+- `Boolean`: true, false
+- `ENUM`: jpql.MemberType.Admin (패키지명 포함) or query.setParameter()
+    ```java
+    Member result = em.createQuery("select m from Member m where m.type = :userType", Member.class)
+                    .setParameter("userType", MemberType.ADMIN)
+                    .getResultList();
+    ```
+- `엔티티 타입`: 상속 관계에서 사용
+  ```java
+  em.createQuery("select i from Item i where type(i) = Book", Item.class);
+  ```
