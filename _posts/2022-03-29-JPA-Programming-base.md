@@ -1081,11 +1081,35 @@ where m.age > (select avg(m2.age) from Member m2)
   ```java
   em.createQuery("select i from Item i where type(i) = Book", Item.class);
   ```
-- `COALESCE` : 특정 컬럼이 null일 경우 출력 대체 값 반환
+- `COALESCE` : 특정 컬럼이 Null일 경우 대체 값 반환
   ```java
   select coalesce(m.username,'이름 없는 회원') from Member m
   ```
-- `NULLIF` : 지정된 두 식이 같으면 Null 값을 반환
+- `NULLIF` : 지정된 두 식이 같으면 Null 반환
   ```java
   select NULLIF(m.username, '관리자') from Member m
+  ```
+
+## 중급 문법
+
+**경로 표현식**
+
+- `상태 필드` (m.username): 경로 탐색의 종점 (탐색 불가)
+- `단일 값 연관 경로` (m.team): 묵시적 내부 조인(inner join) 발생 (탐색 가능)
+- `컬렉션 값 연관 경로` (m.orders): 묵시적 내부 조인 발생 (탐색 불가)
+  - 명시적 조인을 통해 별칭으로 탐색 가능
+
+.
+
+- `명시적 조인`: JOIN 키워드를 직접 사용
+  - 조인이 발생하는 상황을 한 눈에 파악할 수 있어서 쿼리 튜닝이 편리
+  - 조인은 SQL 튜닝에 중요한 포인트이므로, **가급적 명시적 조인을 사용하자 !!**
+  ```java
+  select m, t from Member m join m.team t
+  ```
+- `묵시적 조인`: 경로 표현식에 의해 묵시적으로 조인 발생
+  - 내부 조인만 가능
+  - 조인 쿼리를 파악하기 어려움
+  ```java
+  select m.team from Member m
   ```
