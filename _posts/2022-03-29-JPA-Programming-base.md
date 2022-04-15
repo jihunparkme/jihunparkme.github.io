@@ -1118,8 +1118,8 @@ where m.age > (select avg(m2.age) from Member m2)
 
 **Fetch Join**
 
-- JPQL 성능 최적화를 위해 제공
-- 쿼리 한 번에 연관된 엔티티나 컬렉션을 함께 조회 (즉시 로딩)
+- JPQL `성능 최적화`를 위해 제공
+- 쿼리 한 번에 `연관된 엔티티나 컬렉션을 함께 조회` (즉시 로딩 우선 적용)
   - 일반 조인에서는 연관된 엔티티를 함께 조회하지 않음
 - N + 1 이슈의 해결 방법
 - [ LEFT [OUTER] / INNER ] JOIN FETCH
@@ -1141,9 +1141,37 @@ where m.age > (select avg(m2.age) from Member m2)
   INNER JOIN MEMBER M ON T.ID=M.TEAM_ID
   WHERE T.NAME = '팀A
   ```
+- 일대다 관계에서의 N+1 문제는 `batchSize 설정으로 해결 가능`
+    - LAZY 동작 시, IN 쿼리로 size 만큼 한 번에 조회
+      - 개별 성정
+        ```java
+        @BatchSize(size = 100)
+        @OneToMany(mappedBy = "team")
+        List<Member> members = new ArrayList<Member>();
+        ```
+      - Global 설정
+        ```yml
+        hibernate.default_batch_fetch_size: 100
+        ```
+  - SQL
+    ```sql
+    select *
+    from member
+    where member.team_id in (?, ?, ?..)
+    ```
 
 **DISTINCT**
 
-- JPQL에서 DISTINCT는 2가지 기능을 제공
+- JPQL에서 DISTINCT가 제공하는 기능
   - 쿼리에 DISTINCT 추가
   - 애플리케이션에서 중복 엔티티 제거
+
+**한계**
+
+- 페치 조인 대상에는 별칭 불가
+  - 객체 그래프 사상(N에 해당하는 모든 데이터 조회를 기대)과 맞지 않음
+  - t.members에서 조건을 걸고 싶다면, member를 select절에서 사용하자.
+- 컬렉션은 한 개만 페치 조인 가능
+- 컬렉션 페치 조인을 하면 페이징 API 사용 불가
+  - 단일 값 연관 필드(1:1/N:1)는 페치 조인을 해도 페이징 가능
+  - 컬렉션 페치 조인으로 컬렉션 데이터가 잘리는 현상 발생
