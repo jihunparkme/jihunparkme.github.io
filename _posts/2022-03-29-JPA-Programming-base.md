@@ -1113,3 +1113,37 @@ where m.age > (select avg(m2.age) from Member m2)
   ```java
   select m.team from Member m
   ```
+
+### 페치 조인
+
+**Fetch Join**
+
+- JPQL 성능 최적화를 위해 제공
+- 쿼리 한 번에 연관된 엔티티나 컬렉션을 함께 조회 (즉시 로딩)
+  - 일반 조인에서는 연관된 엔티티를 함께 조회하지 않음
+- N + 1 이슈의 해결 방법
+- [ LEFT [OUTER] / INNER ] JOIN FETCH
+  ```sql
+  SELECT m FROM Member m JOIN FETCH m.team;
+  ```
+
+**Collection Fetch Join**
+
+- 일대다 관계에서의 페치 조인
+
+  ```sql
+  -- JPQL
+  SELECT t FROM Team t JOIN FETCH t.members WHERE t.name = '팀A'
+
+  -- SQL
+  SELECT T.*, M.*
+  FROM TEAM T
+  INNER JOIN MEMBER M ON T.ID=M.TEAM_ID
+  WHERE T.NAME = '팀A
+  ```
+
+**DISTINCT**
+
+- JPQL에서 DISTINCT는 2가지 기능을 제공
+  - 쿼리에 DISTINCT 추가
+  - 애플리케이션에서 중복 엔티티 제거
