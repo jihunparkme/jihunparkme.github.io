@@ -1078,9 +1078,22 @@ where m.age > (select avg(m2.age) from Member m2)
                     .getResultList();
     ```
 - `엔티티 타입`: 상속 관계에서 사용
-  ```java
-  em.createQuery("select i from Item i where type(i) = Book", Item.class);
-  ```
+  - 조회 대상을 특정 자식으로 한정
+    ```sql
+    --JPQL
+    select i from Item i where type(i) IN (Book, Movie) 
+
+    --SQL
+    select i from i where i.DTYPE in ('Book', 'Movie')
+    ```
+  - 타입 캐스팅
+    ```sql
+    --JPQL
+    select i from Item i where treat(i as Book).auther = 'kim'
+
+    --SQL
+    select i.* from Item i where i.DTYPE = 'B' and i.auther = 'kim'
+    ```
 - `COALESCE` : 특정 컬럼이 Null일 경우 대체 값 반환
   ```java
   select coalesce(m.username,'이름 없는 회원') from Member m
