@@ -1127,6 +1127,10 @@ where m.age > (select avg(m2.age) from Member m2)
   select m.team from Member m
   ```
 
+**엔티티 직접 사용**
+
+- JPQL에서 엔티티를 직접 사용하면 SQL에서 해당 엔티티의 기본 키 값을 사용
+
 ### 페치 조인
 
 **Fetch Join**
