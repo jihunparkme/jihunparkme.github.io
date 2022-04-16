@@ -1136,6 +1136,14 @@ where m.age > (select avg(m2.age) from Member m2)
 - 미리 정의해두고 사용하는 JPQL 정적 쿼리
 - 애플리케이션 로딩 시점에 쿼리 검증 및 캐싱 후 재사용
 
+**벌크 연산**
+
+- 한 번의 쿼리로 여러 엔티티 변경 (UPDATE, DELETE)
+  - executeUpdate()로 영향을 받은 엔티티 수 확인 가능
+- 벌크 연산은 `영속성 컨텍스트를 무시하고 데이터베이스에 직접 쿼리를 전달`하므로
+  - 벌크 연산을 먼저 실행하거나
+  - 벌크 연산 수행 후 영속성 컨텍스트 초기화 (em.clear())
+
 ```java
 @Entity
 @NamedQuery(
