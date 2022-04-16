@@ -1131,6 +1131,26 @@ where m.age > (select avg(m2.age) from Member m2)
 
 - JPQL에서 엔티티를 직접 사용하면 SQL에서 해당 엔티티의 기본 키 값을 사용
 
+**Named Query**
+
+- 미리 정의해두고 사용하는 JPQL 정적 쿼리
+- 애플리케이션 로딩 시점에 쿼리 검증 및 캐싱 후 재사용
+
+```java
+@Entity
+@NamedQuery(
+        name = "Member.findByUsername",
+        query="select m from Member m where m.username = :username")
+public class Member {
+ ...
+}
+//
+List<Member> resultList =
+ em.createNamedQuery("Member.findByUsername", Member.class)
+    .setParameter("username", "회원1")
+    .getResultList();
+```
+
 ### 페치 조인
 
 **Fetch Join**
