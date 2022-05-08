@@ -73,7 +73,7 @@ logging:
     org.hibernate.type: trace
 ```
 
-### @Transactional
+**@Transactional**
 
 - @Transactional이 테스트 케이스에 적용될 경우, 테스트 종료 후 바로 롤백 실행
 - 롤백을 원하지 않을 경우 @Rollback(false) 사용
@@ -97,7 +97,7 @@ logging:
   }
   ```
 
-### Build
+**Build**
 
 ```console
 ./gradlew clean build
@@ -107,7 +107,7 @@ cd build/libs/
 java -jar XXX.jar
 ```
 
-### Query Parameter Log
+**Query Parameter Log**
 
 [spring-boot-data-source-decorator Public](https://github.com/gavlyukovskiy/spring-boot-data-source-decorator)
 
@@ -116,3 +116,14 @@ implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
 ```
 
 - 외부 라이브러리는 시스템 자원을 사용하므로 운영 적용 시 성능테스트 필요
+
+## 도메인 분석 설계
+
+**도메인 모델과 테이블 설계**
+
+- 회원이 주문을 하기 때문에 회원이 주문리스트를 가지는 것이 잘 설계한 것처럼 보이지만, 객체 세상은 실제 세계와는 다르다 
+  - 회원이 주문을 참조하지 않고, 주문이 회원을 참조하는 것으로 충분하다.
+- 외래키가 있는 곳을 연관관계의 주인으로 정하자.
+
+**엔티티 클래스 개발**
+
