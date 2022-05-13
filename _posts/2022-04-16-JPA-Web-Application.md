@@ -190,12 +190,12 @@ private List<OrderItem> orderItems = new ArrayList<>();
 
 **테이블, 컬럼명 생성 전략**
 
-- 하이버네이트의 기존 구현은 엔티티의 필드명을 그대로 테이블의 컬럼명으로 사용
-  - `SpringPhysicalNamingStrategy`
-- 스프링 부트 신규 설정은 (엔티티/필드 > 테이블/컬럼)
-  - `CamelCase` -> `_`(underscore)
-  - `.`(dot) -> `_`(underscore)
-  - `대문자` -> `소문자`
+- `SpringPhysicalNamingStrategy`
+  - 하이버네이트의 기존 구현은 엔티티의 필드명을 그대로 테이블의 컬럼명으로 사용
+  - 스프링 부트 기본 설정은 (엔티티/필드 > 테이블/컬럼)
+    - `CamelCase` -> `_`(underscore)
+    - `.`(dot) -> `_`(underscore)
+    - `대문자` -> `소문자`
 - 논리명 적용
   - 명시적으로 컬럼/테이블명을 직접 적지 않으면 `ImplicitNamingStrategy` 사용
   ```properties
@@ -204,7 +204,7 @@ private List<OrderItem> orderItems = new ArrayList<>();
   ```
 - 물리명 적용
   - 모든 논리명, 실제 테이블에 적용
-  - 회사 룰로 변경 가능(username -> usernm)
+  - `SpringPhysicalNamingStrategy` 를 참고해서 커스터마이징 룰로 변경 가능(username -> usernm)
   ```properties
   spring.jpa.hibernate.naming.physical-strategy: 
   org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
