@@ -212,3 +212,65 @@ private List<OrderItem> orderItems = new ArrayList<>();
 - Reference
   - [Configure Hibernate Naming Strategy](https://docs.spring.io/spring-boot/docs/2.1.3.RELEASE/reference/htmlsingle/#howto-configure-hibernate-naming-strategy)
   - [Naming strategies](https://docs.jboss.org/hibernate/orm/5.4/userguide/html_single/Hibernate_User_Guide.html#naming)
+
+## 도메인 개발
+
+### DI를 주입 방법 비교
+
+공통적으로는 Spring 가동 시 의존성 주입 발생
+
+**Field Injection**
+
+  - 테스트 코드 작성 시 의존성 필드를 변경할 수 없어 **mock 객체 주입이 어려운 단점**
+  ```java
+  @Service
+  public class MemberService {
+
+      @Autowired
+      private MemberRepository memberRepository;
+  }
+  ```
+**Setter injection**
+
+  - 테스트 코드 작성 시 **mock 객체 주입 가능**
+  - 하지만, setter 메서드가 노출되어 **중간에 생성자 변경을 시도**할 수 있고, 의존성 필드 추가 시 **번거로운 코드 추가가 필요**
+  ```java
+  @Service
+  public class MemberService {
+      private MemberRepository memberRepository;
+
+      @Autowired
+      public voidMemberRepository(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+      }
+  }
+  ```
+**Construct injection**
+
+  - 생성자에서 injection 되므로 **중간에 생성자 변경 불가능**
+  - 테스트 코드 작성 시 **생성자 주입 관련하여 컴파일 오류로 명확하게 인지 가능**
+  ```java
+  @Service
+  public class MemberService {
+      private MemberRepository memberRepository;
+
+      @Autowired
+      public MemberRepository(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+      }
+  }
+  ```
+  
+**Construct injection using lombok**
+  - final 필드만 대상으로 생성자 생성
+  - injection에 필요한 필드만 구분 가능
+  ```java
+  @Service
+  @RequiredArgsConstructor
+  public class MemberService {
+
+      private final MemberRepository memberRepository;
+  }
+  ```
+
+  > <https://data-make.tistory.com/657>
