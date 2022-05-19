@@ -215,6 +215,27 @@ private List<OrderItem> orderItems = new ArrayList<>();
 
 ## 도메인 개발
 
+### Repository
+
+- `@Repository`
+  - 스프링 빈으로 등록, JPA 예외를 스프링 기반 예외로 예외 변환
+- `@PersistenceContext`
+  - 엔티티 메니저( EntityManager) 주입
+- `@PersistenceUnit`
+  - 엔티티 메니터 팩토리( EntityManagerFactory) 주입
+
+### Service
+
+- `@Service`
+- `@Transactional`
+  - 트랜잭션, 영속성 컨텍스트
+  - `readOnly=true`
+    - 데이터의 변경이 없는 읽기 전용 메서드에 사용
+    - 영속성 컨텍스트를 flush 하지 않으므로 약간의 성능 향상(읽기 전용에는 다 적용)
+  - 데이터베이스 드라이버가 지원하면 DB에서 성능 향상
+- `@Autowired`
+  - 생성자 Injection으로 많이 사용, 생성자가 하나면 생략 가능
+
 ### DI를 주입 방법 비교
 
 공통적으로는 Spring 가동 시 의존성 주입 발생
@@ -247,8 +268,11 @@ private List<OrderItem> orderItems = new ArrayList<>();
   ```
 **Construct injection**
 
-  - 생성자에서 injection 되므로 **중간에 생성자 변경 불가능**
+  - 생성자 주입 방식을 권장
+  - 변경 불가능한 안전한 객체 생성
+    - 생성자에서 injection 되므로 **중간에 생성자 변경 불가능**
   - 테스트 코드 작성 시 **생성자 주입 관련하여 컴파일 오류로 명확하게 인지 가능**
+  - 생성자가 하나면, @Autowired 생략 가능
   ```java
   @Service
   public class MemberService {
@@ -263,7 +287,10 @@ private List<OrderItem> orderItems = new ArrayList<>();
   
 **Construct injection using lombok**
   - final 필드만 대상으로 생성자 생성
+    - final 키워드를 추가하면 컴파일 시점에 memberRepository를 설정하지 않는 오류 체크 가능
+    - 보통 기본 생성자를 추가할 때 발견
   - injection에 필요한 필드만 구분 가능
+  
   ```java
   @Service
   @RequiredArgsConstructor
@@ -273,6 +300,15 @@ private List<OrderItem> orderItems = new ArrayList<>();
   }
   ```
 
-  
-
   > <https://data-make.tistory.com/657>
+
+  ### Test
+
+- `@RunWith(SpringRunner.class)`
+  - 스프링과 테스트 통합
+- `@SpringBootTest`
+  - 스프링 부트 띄우고 테스트(이게 없으면 @Autowired 다 실패)
+- `@Transactional`
+  - 반복 가능한 테스트 지원, 각각의 테스트를 실행할 때마다 트랜잭션을 시작하고 테스트가 끝나면 트랜잭션을 강제로 롤백 (이 어노테이션이 테스트 케이스에서 사용될 때만 롤백)
+
+> [GivenWhenThen](https://martinfowler.com/bliki/GivenWhenThen.html)
