@@ -314,3 +314,14 @@ private List<OrderItem> orderItems = new ArrayList<>();
   - 이 어노테이션이 테스트 케이스에서 사용될 때만 롤백
 
 > [GivenWhenThen](https://martinfowler.com/bliki/GivenWhenThen.html)
+
+
+### In-Memory DB
+
+- 테스트는 케이스 격리된 환경에서 실행하고, 테스트 종료 시 데이터를 초기화하는 것이 좋다.
+  - 인메모리 DB를 사용하는 것이 가장 이상적!
+- 테스트 케이스를 위한 스프링 환경(`test/resources/application.yml`)과, 일반적으로 애플리케이션을 실행하는 환경(`main/resources/application.yml`)은 설정 파일을 다르게 사용하자.
+- 스프링 부트는 datasource 설정이 없으면, 기본적을 메모리 DB를 사용
+  - driver-class도 현재 등록된 라이브러를 보고 탐색
+  - ddl-auto 도 create-drop 모드로 동작
+  - 데이터소스나, JPA 관련된 별도의 추가 설정을 하지 않아도 된다.
