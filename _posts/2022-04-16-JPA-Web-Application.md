@@ -309,6 +309,8 @@ private List<OrderItem> orderItems = new ArrayList<>();
 - `@SpringBootTest`
   - 스프링 부트 띄우고 테스트(이게 없으면 @Autowired 다 실패)
 - `@Transactional`
-  - 반복 가능한 테스트 지원, 각각의 테스트를 실행할 때마다 트랜잭션을 시작하고 테스트가 끝나면 트랜잭션을 강제로 롤백 (이 어노테이션이 테스트 케이스에서 사용될 때만 롤백)
+  - 반복 가능한 테스트 지원
+  - 각각의 테스트를 실행할 때마다 트랜잭션을 시작하고 **테스트가 끝나면 트랜잭션을 강제로 롤백**
+  - 이 어노테이션이 테스트 케이스에서 사용될 때만 롤백
 
 > [GivenWhenThen](https://martinfowler.com/bliki/GivenWhenThen.html)
