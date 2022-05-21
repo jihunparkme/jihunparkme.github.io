@@ -236,7 +236,7 @@ private List<OrderItem> orderItems = new ArrayList<>();
 - `@Autowired`
   - 생성자 Injection으로 많이 사용, 생성자가 하나면 생략 가능
 
-### DI를 주입 방법 비교
+### DI 주입
 
 공통적으로는 Spring 가동 시 의존성 주입 발생
 
@@ -318,10 +318,12 @@ private List<OrderItem> orderItems = new ArrayList<>();
 
 ### In-Memory DB
 
-- 테스트는 케이스 격리된 환경에서 실행하고, 테스트 종료 시 데이터를 초기화하는 것이 좋다.
-  - 인메모리 DB를 사용하는 것이 가장 이상적!
-- 테스트 케이스를 위한 스프링 환경(`test/resources/application.yml`)과, 일반적으로 애플리케이션을 실행하는 환경(`main/resources/application.yml`)은 설정 파일을 다르게 사용하자.
-- 스프링 부트는 datasource 설정이 없으면, 기본적을 메모리 DB를 사용
-  - driver-class도 현재 등록된 라이브러를 보고 탐색
-  - ddl-auto 도 create-drop 모드로 동작
-  - 데이터소스나, JPA 관련된 별도의 추가 설정을 하지 않아도 된다.
+- 테스트는 케이스 격리된 환경에서 실행하고, 테스트 종료 시 데이터를 초기화하 하자.
+  - In-Memory DB 사용이 가장 이상적!
+- 테스트 케이스를 위한 스프링 환경(`src/test/resources/application.yml`)과 애플리케이션을 실행하는 환경(`src/main/resources/application.yml`) 설정 파일을 **분리해서 사용**하자.
+- 스프링 부트는 datasource 설정이 없으면, 기본적을 In-Memory DB 사용
+  - driver-class : 현재 등록된 라이브러리를 보고 결정
+  - ddl-auto : create-drop 모드로 동작
+  - **datasource, JPA 관련된 별도의 추가 설정을 하지 않아도 가능 (자동으로 인메모리 모드 전환)**
+
+> [H2 Database Engine Cheat Sheet](https://www.h2database.com/html/cheatSheet.html)
