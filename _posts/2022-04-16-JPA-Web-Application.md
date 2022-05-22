@@ -125,7 +125,7 @@ implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
   - 회원이 주문을 참조하지 않고, 주문이 회원을 참조하는 것으로 충분하다.
 - 외래키가 있는 곳을 연관관계의 주인으로 정하자.
 
-`**엔티티 클래스 개발**`
+**`엔티티 클래스 개발`**
 
 - 이론적으로 엔티티 클래스 설계 시 **Getter/Setter를 모두 제공하지 않고, 꼭 필요할 경우 별도의 메서드를 제공**하는 것이 이상적이다.
   - 실무에서는 엔티티 데이터를 조회할 일이 많으므로, Getter 정도는 열어두는 것이 편리
@@ -135,7 +135,7 @@ implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
   - 중간 테이블에 컬럼 추가가 불가능하고, 쿼리를 세밀하게 실행하기 어려우므로 실무에서 사용하기에는 한계 존재
   - 대신, 중간 엔티티를 만들고 대다대 매핑을 일대다, 다대일 매핑으로 풀어내서 사용하자
 - **값 타입**은 생성자에서 값을 모두 초기화해서 **변경 불가능한 클래스로 설계**하자.
-  - JPA 스펙상 엔티티나 임베디드 타입은 자바 기본 생성자를 public 또는 (가급적) protected 로 설정해주자.
+  - JPA 스펙상 엔티티나 임베디드 타입은 자바 기본 생성자를 public 또는 (가급적) protected 로 설정해주자. `@NoArgsConstructor(access = AccessLevel.PROTECTED)`
   - JPA 구현 라이브러리가 객체를 생성할 때 리플랙션, 프록시 같은 기술을 사용할 수 있도록 지원해야 하기 때문
 
 ### 엔티티 설계 주의사항
@@ -224,6 +224,38 @@ private List<OrderItem> orderItems = new ArrayList<>();
 - `@PersistenceUnit`
   - 엔티티 메니터 팩토리( EntityManagerFactory) 주입
 
+```java
+@Repository
+@RequiredArgsConstructor
+public class MemberRepository {
+
+    /**
+     * SpringBoot(SpringDataJPA) 가
+     * @PersistenceContext 대신 final, RequiredArgsConstructor (@Autowired)로 대체 가능하도록 지원
+     */
+    private final EntityManager em;
+
+    public void save(Member member) {
+        em.persist(member);
+    }
+
+    public Member findOne(Long id) {
+        return em.find(Member.class, id);
+    }
+
+    public List<Member> findAll() {
+        return em.createQuery("select m from Member m", Member.class)
+                .getResultList();
+    }
+
+    public List<Member> findByName(String name) {
+        return em.createQuery("select m from Member m where m.name = :name", Member.class)
+                .setParameter("name", name)
+                .getResultList();
+    }
+}
+```
+
 ### Service
 
 - `@Service`
@@ -302,7 +334,7 @@ private List<OrderItem> orderItems = new ArrayList<>();
 
   > <https://data-make.tistory.com/657>
 
-  ### Test
+### Test
 
 - `@RunWith(SpringRunner.class)`
   - 스프링과 테스트 통합
@@ -327,3 +359,18 @@ private List<OrderItem> orderItems = new ArrayList<>();
   - **datasource, JPA 관련된 별도의 추가 설정을 하지 않아도 가능 (자동으로 인메모리 모드 전환)**
 
 > [H2 Database Engine Cheat Sheet](https://www.h2database.com/html/cheatSheet.html)
+
+### 도메인 모델 패턴
+
+**도메인 모델 패턴**
+
+- 엔티티가 비즈니스 로직을 가지고 객체 지향의 특성을 적극 활용하는 패턴
+- 서비스 계층은 단순히 엔티티에 필요한 요청을 위임하는 역할
+- JPA, ORM...
+- [Domain Model](http://martinfowler.com/eaaCatalog/domainModel.html)
+
+**트랜잭션 스크립트 패턴**
+
+- 엔티티에 비즈니스 로직이 거의 없고 서비스 계층에서 대부분의 비즈니스 로직을 처리하는 패턴
+- Mybatis
+- [Transaction Script](http://martinfowler.com/eaaCatalog/transactionScript.html)
