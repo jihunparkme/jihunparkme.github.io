@@ -374,3 +374,99 @@ public class MemberRepository {
 - 엔티티에 비즈니스 로직이 거의 없고 서비스 계층에서 대부분의 비즈니스 로직을 처리하는 패턴
 - Mybatis
 - [Transaction Script](http://martinfowler.com/eaaCatalog/transactionScript.html)
+
+## 변경 감지와 병합
+
+**준영속 엔티티**
+
+- 영속성 컨텍스트가 더이상 관리하지 않는 엔티티
+- 식별자를 가지고 있는 new Object 앤티티를 준영속 엔티티로 볼 수 있음
+
+```java
+Book book = new Book();
+book.setId(form.getId());
+book.setName(form.getName());
+book.setPrice(form.getPrice());
+book.setStockQuantity(form.getStockQuantity());
+book.setAuthor(form.getAuthor());
+book.setIsbn(form.getIsbn());
+```
+
+### 준영속 엔티티를 수정하는 방법
+
+**변경 감지 기능 사용**
+
+- 영속성 컨텍스트에서 엔티티를 다시 조회한 후에 데이터를 수정하는 방법
+- 트랜잭션 안에서 엔티티를 다시 조회/변경할 경우 트랜잭션 커밋 시점에 변경 감지(Dirty Checking)가 동작해서 UPDATE 쿼리 실행
+- 귀찮을 수 있지만 병합은 위험성이 존재하므로 Dirty Checking 을 잘 활용하자.
+
+```java
+/**
+  * @param itemId
+  * @param param : 파리미터로 넘어온 준영속 상태의 엔티티
+  */
+  @Transactional
+  public void updateItem(Long itemId, Item param) {
+    Item findItem = itemRepository.findOne(itemId); //같은 엔티티 조회(영속 상태)
+    findItem.setPrice(param.getPrice()); //데이터 수정
+    findItem.setName(param.getName());
+    findItem.setStockQuantity(param.getStockQuantity());
+    // Transactional commit -> flush
+  }
+```
+
+**병합(merge) 사용**
+
+- 준영속 상태의 엔티티를 영속 상태로 변경할 때 사용하는 기능
+- `변경 감지 기능`을 사용하면 원하는 속성만 선택해서 변경할 수 있지만, `병합`을 사용하면 모든 필드가 변경되므로 **병합 시 값이 없으면 null 로 업데이트되는 위험성 존재**
+
+\1. merge() 실행
+
+\2. 파라미터로 넘어온 준영속 엔티티의 식별자 값으로 1차 캐시에서 엔티티를 조회
+
+\2-1. 만약 1차 캐시에 엔티티가 없으면 데이터베이스에서 엔티티를 조회하고, 1차 캐시에 저장
+
+\3. 조회한 영속 엔티티에 준영속 엔티티의 모든 값을 채워 넣는다.
+
+\4. 영속 상태인 엔티티 반환
+
+\5. 트랜잭션 커밋 시점에 변경 감지 기능이 동작해서 데이터베이스 UPDATE 쿼리 실행
+
+```java
+@Transactional
+void update(Item itemParam) { //itemParam: 파리미터로 넘어온 준영속 상태의 엔티티
+    Item mergeItem = em.merge(item);
+}
+```
+
+**결론**
+
+- 엔티티를 변경할 때 항상 `변경 감지`를 사용하자.
+- 컨트롤러에서 어설프게 엔티티를 생성하지 말자. 
+- `트랜잭션이 있는 서비스 계층`에 식별자와 변경할 데이터를 명확하게 전달하자.
+  - parameter, dto 활용
+- `트랜잭션이 있는 서비스 계층`에서 영속 상태의 엔티티를 조회하고, 엔티티의 데이터를 직접 변경하하자.
+  - 트랜잭션 커밋 시점에 변경 감지 실행
+  - Setter 없이 엔티티에서 바로 추적 가능한 메서드를 만들자.
+
+```java
+/**
+ * Controller
+ */ 
+@PostMapping(value = "/items/{itemId}/edit")
+public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookForm form) {
+
+    itemService.updateItem(itemId, form.getName(), form.getPrice(), form.getStockQuantity());
+
+    return "redirect:/items";
+}
+
+/**
+ * Service
+ */
+@Transactional
+public void updateItem(Long itemId, String name, int price, int stockQuantity) {
+    Item findItem = itemRepository.findOne(itemId); //같은 엔티티 조회(영속 상태)
+    findItem.change(name, price, stockQuantity);
+}
+```
