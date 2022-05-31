@@ -17,15 +17,52 @@ featured-img: jpa-spring-uses-2
 
 API와 Template Engin은 공통 처리를 해야 하는 요소가 다르므로 패키지를 분리하여 관리하는 것이 좋음.
 
+```text
+ㄴ src.main.java
+    ㄴ example
+        ㄴ api
+        ㄴ controller
+```
+
 ### 회원 등록 API
 
-엔티티 대신 API 요청 스펙에 맞는 별도 DTO를 사용하기.
+엔티티 대신 **API 요청 스펙에 맞는 별도 DTO를 사용**하기.
 
 - 엔티티와 프레젠테이션 계층을 위한 로직 분리할 수 있음
 - 엔티티가 변경되어도 API 스펙이 변하지 않음
   - 엔티티 필드가 변경되더라도 컴파일 에러로 바로 체크 가능
 - 엔티티와 API 스펙을 명확하게 분리할 수 있음
 - 실무에서는 절대 엔티티를 API 스펙에 노출하지 말자!
+
+```java
+@PostMapping("/api/members")
+public CreateMemberResponse saveMember(@RequestBody @Valid CreateMemberRequest request) {
+    Member member = new Member();
+    member.setName(request.getName());
+    member.setAddress(request.getAddress());
+
+    Long id = memberService.join(member);
+    return new CreateMemberResponse(id);
+}
+
+@Data
+static class CreateMemberRequest {
+    @NotEmpty
+    private String name;
+
+    @Embedded
+    private Address address;
+}
+
+@Data
+static class CreateMemberResponse {
+    private Long id;
+
+    public CreateMemberResponse(Long id) {
+        this.id = id;
+    }
+}
+```
 
 ### 회원 수정 API
 
