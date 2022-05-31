@@ -28,7 +28,7 @@ API와 Template Engin은 공통 처리를 해야 하는 요소가 다르므로 �
 
 엔티티 대신 **API 요청 스펙에 맞는 별도 DTO를 사용**하기.
 
-- 엔티티와 프레젠테이션 계층을 위한 로직 분리할 수 있음
+- 엔티티와 프레젠테이션(API) 계층을 위한 로직 분리할 수 있음
 - 엔티티가 변경되어도 API 스펙이 변하지 않음
   - 엔티티 필드가 변경되더라도 컴파일 에러로 바로 체크 가능
 - 엔티티와 API 스펙을 명확하게 분리할 수 있음
@@ -66,11 +66,12 @@ static class CreateMemberResponse {
 
 ### 회원 수정 API
 
-- 등록과 마찬가지로 별도 DTO 사용하기
+등록과 마찬가지로 **별도 DTO 사용**하기
+
 - 변경감지를 활용해서 데이터 수정하기
 - CQS(Command-Query Separation) : 가급적이면 Command와 Query를 분리하자.
 
-Controller
+**Controller**
 
 ```java
 @PutMapping("/api/members/{id}")
@@ -93,7 +94,7 @@ static class UpdateMemberResponse {
     private String name;
 }
 ```
-Service
+**Service**
 
 ```java
 @Service
@@ -113,6 +114,37 @@ public class MemberService {
 ```
 
 ### 회원 조회 API
+
+등록, 수정과 마찬가지로 **엔티티를 API 응답 스펙 맞는 별도 DTO로 변환하여 반환**하기
+
+- 엔티티가 변경되어도 API 스펙이 변경되지 않음
+- Result 클래스로 컬렉션을 감싸주면서 향후 필요한 필드를 자유롭게 추가 가능
+- API 요청에 필요한 필드만 노출
+
+```java
+@GetMapping("/api/members")
+public Result member() {
+    List<Member> findMembers = memberService.findMembers();
+    List<MemberDto> collect = findMembers.stream()
+            .map(m -> new MemberDto(m.getName()))
+            .collect(Collectors.toList());
+
+    return new Result(collect.size(), collect);
+}
+
+@Data
+@AllArgsConstructor
+static class Result<T> {
+    private int count;
+    private T data;
+}
+
+@Data
+@AllArgsConstructor
+static class MemberDto {
+    private String name;
+}
+```
 
 ## 지연 로딩과 조회 성능 최적화
 
