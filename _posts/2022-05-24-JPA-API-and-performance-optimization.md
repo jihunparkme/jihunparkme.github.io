@@ -66,6 +66,52 @@ static class CreateMemberResponse {
 
 ### 회원 수정 API
 
+- 등록과 마찬가지로 별도 DTO 사용하기
+- 변경감지를 활용해서 데이터 수정하기
+- CQS(Command-Query Separation) : 가급적이면 Command와 Query를 분리하자.
+
+Controller
+
+```java
+@PutMapping("/api/members/{id}")
+public UpdateMemberResponse updateMember(@PathVariable("id") Long id, @RequestBody @Valid UpdateMemberRequest request) {
+
+    memberService.update(id, request.getName()); // Command
+    Member findMember = memberService.findOne(id); // Query
+    return new UpdateMemberResponse(findMember.getId(), findMember.getName());
+}
+
+@Data
+static class UpdateMemberRequest {
+    private String name;
+}
+
+@Data
+@AllArgsConstructor
+static class UpdateMemberResponse {
+    private Long id;
+    private String name;
+}
+```
+Service
+
+```java
+@Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
+public class MemberService {
+
+    //...
+
+    @Transactional
+    public void update(Long id, String name) {
+        Member member = memberRepository.findOne(id);
+        member.setName(name);
+        // Transactional commit -> flush (변경감지)
+    }
+}
+```
+
 ### 회원 조회 API
 
 ## 지연 로딩과 조회 성능 최적화
