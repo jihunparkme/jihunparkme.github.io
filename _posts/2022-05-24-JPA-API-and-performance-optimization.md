@@ -119,7 +119,7 @@ public class MemberService {
 
 - 엔티티가 변경되어도 API 스펙이 변경되지 않음
 - Result 클래스로 컬렉션을 감싸주면서 향후 필요한 필드를 자유롭게 추가 가능
-- API 요청에 필요한 필드만 노출
+- API 요청에 필요한 필드만 노출 (용도에 따라 DTO를 생성)
 
 ```java
 @GetMapping("/api/members")
@@ -147,6 +147,18 @@ static class MemberDto {
 ```
 
 ## 지연 로딩과 조회 성능 최적화
+
+지연 로딩으로 발생하는 성능 문제를 해결해보자.
+
+.
+
+**엔티티를 직접 노출할 경우**
+
+- 순환 참조 문제 발생 `StackOverflowError`
+  - @JsonIgnore 설정으로 해결 가능
+- @JsonIgnore 을 추가하더라도 지연로딩으로 인한 proxy(bytebuddy) 객체를 jackson 라이브러리가 읽을 수 없는 문제 발생 `Type definition error`
+  - Hibernate5Module 을 Spring Bean 으로 등록하면 해결 가능
+  - 단, 지연 로딩 객체는 null 출력, 강제 지연 로딩도 가능하지만 성능 악화 발생
 
 ## 컬렉션 조회 최적화
 
