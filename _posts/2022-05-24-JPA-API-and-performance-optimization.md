@@ -165,6 +165,22 @@ static class MemberDto {
 - 엔티티를 직접 노출하지 않고, 엔티티를 DTO로 변환
 - 1 + N 문제 발생 (엔티티 직접 노출과 동일)
   - 첫 번째 쿼리의 결과 N번 만큼 쿼리가 추가로 실행되는 문제
+  - ex) Order 조회 시 Member - N번, Delivery - N 번, 총 1 + N + N 개의 쿼리 발생
+
+**페치 조인 최적화**
+
+- 페치 조인을 사용해서 1 + N 문제를 쿼리 1번 만에 조회
+- OrderRepository.java
+  
+    ```java
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery(
+                        "select o from Order o" +
+                                " join fetch o.member m" +
+                                " join fetch o.delivery d", Order.class)
+                .getResultList();
+    }
+    ```
 
 ## 컬렉션 조회 최적화
 
