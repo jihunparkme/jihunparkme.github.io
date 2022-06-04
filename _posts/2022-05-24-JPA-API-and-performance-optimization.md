@@ -170,17 +170,47 @@ static class MemberDto {
 **페치 조인 최적화**
 
 - 페치 조인을 사용해서 1 + N 문제를 쿼리 1번 만에 조회
+- 코드가 간결하고, 다른 API에서 재사용이 쉬움
 - OrderRepository.java
   
-    ```java
-    public List<Order> findAllWithMemberDelivery() {
-        return em.createQuery(
-                        "select o from Order o" +
-                                " join fetch o.member m" +
-                                " join fetch o.delivery d", Order.class)
-                .getResultList();
-    }
-    ```
+```java
+public List<Order> findAllWithMemberDelivery() {
+    return em.createQuery(
+                    "select o from Order o" +
+                            " join fetch o.member m" +
+                            " join fetch o.delivery d", Order.class)
+            .getResultList();
+}
+```
+
+**DTO로 바로 조회**
+
+조회된 엔티티를 DTO로 변환하는 과정 필요 없이, 바로 DTO 조회해서 성능 최적화하기
+
+- 원하는 필드만 선택(SELECT)해서 조회
+  - DB <-> 네트워크 용량 최적화 (생각보다 미비한 차이)
+- new 명령어를 사용해서 JPQL의 결과를 DTO로 즉시 변환
+- API 스펙에 맞추다보니 변경이 어려우므로, 다른 API에서 Repository 재사용이 어려움
+- 사용할 경우 순수한 엔티티를 조회하는 레파지토리와 화면 종속적인 레파지토리를 분리하는 것을 추천
+
+```java
+public List<OrderSimpleQueryDto> findOrderDtos() {
+    return em.createQuery(
+                    "select new jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address)" +
+                            " from Order o" +
+                            " join o.member m" +
+                            " join o.delivery d", OrderSimpleQueryDto.class)
+            .getResultList();
+}
+```
+
+⭐️ **쿼리 방식 선택 권장 순서** ⭐️
+
+1. `엔티티를 DTO로 변환`
+2. 필요 시 `페치 조인으로 성능 최적화` (대부분의 성능 이슈가 해결)
+3. 그래도 안되면 `DTO로 직접 조회`
+4. 최후의 방법은 `JPA가 제공하는 네이티브 SQL` 혹은 `Spring JDBC Template`을 사용해서 SQL을 직접
+사용
 
 ## 컬렉션 조회 최적화
 
