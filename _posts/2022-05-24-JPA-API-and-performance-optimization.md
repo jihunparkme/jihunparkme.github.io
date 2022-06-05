@@ -26,7 +26,7 @@ API와 Template Engin은 공통 처리를 해야 하는 요소가 다르므로 �
 
 ### 회원 등록 API
 
-엔티티 대신 **API 요청 스펙에 맞는 별도 DTO를 사용**하기.
+엔티티 대신 `API 요청 스펙에 맞는 별도 DTO를 사용`하기.
 
 - 엔티티와 프레젠테이션(API) 계층을 위한 로직 분리할 수 있음
 - 엔티티가 변경되어도 API 스펙이 변하지 않음
@@ -66,7 +66,7 @@ static class CreateMemberResponse {
 
 ### 회원 수정 API
 
-등록과 마찬가지로 **별도 DTO 사용**하기
+등록과 마찬가지로 `별도 DTO 사용`하기
 
 - 변경감지를 활용해서 데이터 수정하기
 - CQS(Command-Query Separation) : 가급적이면 Command와 Query를 분리하자.
@@ -115,7 +115,7 @@ public class MemberService {
 
 ### 회원 조회 API
 
-등록, 수정과 마찬가지로 **엔티티를 API 응답 스펙 맞는 별도 DTO로 변환하여 반환**하기
+등록, 수정과 마찬가지로 `엔티티를 API 응답 스펙 맞는 별도 DTO로 변환하여 반환`하기
 
 - 엔티티가 변경되어도 API 스펙이 변경되지 않음
 - Result 클래스로 컬렉션을 감싸주면서 향후 필요한 필드를 자유롭게 추가 가능
@@ -162,7 +162,7 @@ static class MemberDto {
 
 **엔티티를 DTO로 변환**
 
-- 엔티티를 직접 노출하지 않고, 엔티티를 DTO로 변환
+- 엔티티를 직접 노출하지 않고, `엔티티를 DTO로 변환`
 - 1 + N 문제 발생 (엔티티 직접 노출과 동일)
   - 첫 번째 쿼리의 결과 N번 만큼 쿼리가 추가로 실행되는 문제
   - ex) Order 조회 시 Member - N번, Delivery - N 번, 총 1 + N + N 개의 쿼리 발생
