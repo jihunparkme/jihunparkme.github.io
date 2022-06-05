@@ -160,6 +160,21 @@ static class MemberDto {
   - Hibernate5Module 을 Spring Bean 으로 등록하면 해결 가능
   - 단, 지연 로딩 객체는 null 출력, 강제 지연 로딩도 가능하지만 성능 악화 발생
 
+```java
+// OrderSimpleApiController.java
+
+@GetMapping("/api/v1/simple-orders")
+public List<Order> ordersV1() {
+    List<Order> all = orderRepository.findAllByString(new OrderSearch());
+    for (Order order : all) {
+        order.getMember().getName(); // Lazy 강제 초기화
+        order.getDelivery().getAddress(); // Lazy 강제 초기화
+    }
+
+    return all;
+}
+```
+
 **엔티티를 DTO로 변환**
 
 - 엔티티를 직접 노출하지 않고, `엔티티를 DTO로 변환`
@@ -167,13 +182,44 @@ static class MemberDto {
   - 첫 번째 쿼리의 결과 N번 만큼 쿼리가 추가로 실행되는 문제
   - ex) Order 조회 시 Member - N번, Delivery - N 번, 총 1 + N + N 개의 쿼리 발생
 
+```java
+// OrderSimpleApiController.java
+
+@GetMapping("/api/v2/simple-orders")
+public List<SimpleOrderDto> ordersV2() {
+    List<SimpleOrderDto> result = orderRepository.findAllByString(new OrderSearch()).stream()
+            .map(SimpleOrderDto::new)
+            .collect(toList());
+
+    return result;
+}
+
+@Data
+static class SimpleOrderDto {
+    private Long orderId;
+    private String name;
+    private LocalDateTime orderDate;
+    private OrderStatus orderStatus;
+    private Address address;
+
+    public SimpleOrderDto(Order order) {
+        orderId = order.getId();
+        name = order.getMember().getName(); // LAZY 초기화
+        orderDate = order.getOrderDate();
+        orderStatus = order.getStatus();
+        address = order.getDelivery().getAddress(); // LAZY 초기화
+    }
+}
+```
+
 **페치 조인 최적화**
 
 - 페치 조인을 사용해서 1 + N 문제를 쿼리 1번 만에 조회
 - 코드가 간결하고, 다른 API에서 재사용이 쉬움
-- OrderRepository.java
   
 ```java
+// OrderRepository.java
+
 public List<Order> findAllWithMemberDelivery() {
     return em.createQuery(
                     "select o from Order o" +
@@ -194,6 +240,8 @@ public List<Order> findAllWithMemberDelivery() {
 - 사용할 경우 순수한 엔티티를 조회하는 레파지토리와 화면 종속적인 레파지토리를 분리하는 것을 추천
 
 ```java
+// OrderRepository.java
+
 public List<OrderSimpleQueryDto> findOrderDtos() {
     return em.createQuery(
                     "select new jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address)" +
