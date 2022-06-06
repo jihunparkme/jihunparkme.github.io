@@ -298,6 +298,51 @@ public List<Order> ordersV1() {
   - N : order 조회 수, M : orderItem 조회 수
   - 총 1 + N + N + N + M 개의 쿼리 발생
 
+```java
+@GetMapping("/api/v2/orders")
+public List<OrderDto> ordersV2() {
+    List<Order> orders = orderRepository.findAllByString(new OrderSearch());
+    List<OrderDto> result = orders.stream()
+            .map(OrderDto::new)
+            .collect(toList());
+    return result;
+}
+
+@Data
+static class OrderDto {
+    private Long orderId;
+    private String name;
+    private LocalDateTime orderDate;
+    private OrderStatus orderStatus;
+    private Address address;
+    private List<OrderItemDto> orderItems;
+
+    public OrderDto(Order order) {
+        this.orderId = order.getId();
+        this.name = order.getMember().getName();
+        this.orderDate = order.getOrderDate();
+        this.orderStatus = order.getStatus();
+        this.address = order.getDelivery().getAddress();
+        this.orderItems = order.getOrderItems().stream() // 엔티티 필드 또한 DTO로 변환
+                .map(OrderItemDto::new)
+                .collect(toList());
+    }
+}
+
+@Data
+static class OrderItemDto {
+    private String itemName;
+    private int orderPrice;
+    private int count;
+
+    public OrderItemDto(OrderItem orderItem) {
+        this.itemName = orderItem.getItem().getName();
+        this.orderPrice = orderItem.getOrderPrice();
+        this.count = orderItem.getCount();
+    }
+}
+```
+
 **페치 조인 최적화**
 
 -
