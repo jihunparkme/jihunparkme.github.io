@@ -292,7 +292,11 @@ public List<Order> ordersV1() {
 
 **엔티티를 DTO로 변환**
 
-- 
+- 트랜잭션 안에서 지연 로딩 필요 (지연 로딩으로 너무 많은 SQL 실행)
+- 지연 로딩은 영속성 컨텍스트에 있는 엔티티 사용을 시도하고 없으면 SQL을 실행
+- ex) Order 조회 시 Member - N번, Address - N 번, OrderItem - N 번, item M번
+  - N : order 조회 수, M : orderItem 조회 수
+  - 총 1 + N + N + N + M 개의 쿼리 발생
 
 **페치 조인 최적화**
 
