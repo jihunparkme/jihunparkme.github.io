@@ -5,6 +5,7 @@ summary: 김창준님의 함께 자라기
 categories: (Book)함께-자라기
 featured-img: growing-up-together
 # mathjax: true
+
 ---
 
 # 함께 자라기
@@ -252,7 +253,7 @@ featured-img: growing-up-together
   - 우리가 바람직하다고 생각하는 (무언가를 정하는)방향을 함께 정하면서 네트워크를 형성해 진행해보자.
 - `Affordable Loss Principle`
   - 오래 살아남으려면 ROI(수익률)를 보지 말고, 감당할 수 있을 만큼의 손실(변화에 필요한 비용)을 설정한 후 방법을 탐색하자.
--  `pilot in the plane`
+- `pilot in the plane`
   - `non predictive control` vs `redictive control`
   - 컨트롤할 수 있는 범위 바깥을 예측/예상하려고 노력하기보다,  **컨트롤할 수 있을 만큼 예상**하자
 - `lemonade principle`
@@ -362,3 +363,14 @@ featured-img: growing-up-together
 - 토론 주제를 안전한 환경에서 이야기하게 해주는 것(`팀 토론 등 특별히 고안된 활동`) 자체가 심리적 안전감을 높일 수 있다. 우리팀의 현상황에 대해 열린 대화를 시작해보자.
 
 > [옥시전 프로젝트 - 뛰어난 관리자의 특징에 대한 연구](https://rework.withgoogle.com/subjects/managers/)
+
+### 팀의 학습 속도
+
+- 리더는 팀 학습 속도에 영향을 줄 수 있다.
+  - 단순히 기술적 탁월함만을 갖춘 사람보다는 `학습 환경을 만들 수 있는` 리더가 필요하다.
+- 업무 수행 능력뿐만 아니라, `협력`, `기회`와 `가능성`, `큰 변화`의 흐름에 동참하는 중요성과 즐거움을 가진 사람을 뽑는게 중요하다.
+  - `조직적` 도전 > `기술적` 도전
+- 개개인이 새로운 기술을 획득해야 한다고 보지 않고, `함께 일하는` 새로운 방법을 만들어야 한다.
+
+**진정한 학습은 실행 속에서 이루어지고, 진정한 실행은 학습을 수반한다.**
+
