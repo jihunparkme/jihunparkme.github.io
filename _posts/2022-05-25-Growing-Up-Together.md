@@ -5,7 +5,6 @@ summary: 김창준님의 함께 자라기
 categories: (Book)함께-자라기
 featured-img: growing-up-together
 # mathjax: true
-
 ---
 
 # 함께 자라기
@@ -253,7 +252,7 @@ featured-img: growing-up-together
   - 우리가 바람직하다고 생각하는 (무언가를 정하는)방향을 함께 정하면서 네트워크를 형성해 진행해보자.
 - `Affordable Loss Principle`
   - 오래 살아남으려면 ROI(수익률)를 보지 말고, 감당할 수 있을 만큼의 손실(변화에 필요한 비용)을 설정한 후 방법을 탐색하자.
-- `pilot in the plane`
+-  `pilot in the plane`
   - `non predictive control` vs `redictive control`
   - 컨트롤할 수 있는 범위 바깥을 예측/예상하려고 노력하기보다,  **컨트롤할 수 있을 만큼 예상**하자
 - `lemonade principle`
@@ -373,4 +372,11 @@ featured-img: growing-up-together
 - 개개인이 새로운 기술을 획득해야 한다고 보지 않고, `함께 일하는` 새로운 방법을 만들어야 한다.
 
 **진정한 학습은 실행 속에서 이루어지고, 진정한 실행은 학습을 수반한다.**
+
+### 프로젝트 확률론
+
+- 애자일은 좋은 일에 대해서는 `그리고 `확률을 `또는` 확률로 바꾸고
+  - 한 사람만이라도 중요한 `통찰`이 있었다면 이걸 `공유`해서 또는 확률로 만든다.
+- 나쁜 일에 대해서는 `또는` 확률을 `그리고` 확률로 바꾸는 경향이 있습니다.
+  - `버그`가 발생하면 여러 사람이 `중복 검토`를 해서 모두가 실수해야지만 구멍이 나게 그리고 확률로 바꾼다.
 
