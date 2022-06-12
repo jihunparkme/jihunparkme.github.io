@@ -382,24 +382,70 @@ public List<Order> findAllWithItem() {
 **페이징**
 
 컬렉션 페치 조인에서 `페이징이 불가능한 단점 존재`
+
 - 일대다(1:N) 조인이 발생하므로 데이터가 일(1) 기준이 아닌 다(N)를 기준으로 row가 예측할 수 없이 증가
 - 일(1)인 Order 기준으로 페이징 하고 싶지만, 다(N)인 OrderItem을 조인하면 OrderItem이 기준이 되어버리는 문제
 - 이 경우 하이버네이트는 경고 로그를 남기고 모든 DB 데이터를 읽은 후 메모리에서 페이징을 시도 (최악의 경우 OOM 장애 발생)
 
+페이징 + 컬렉션 엔티티 조회 **문제 해결**
 
+- ToOne(OneToOne, ManyToOne) 관계는 모두 `페치 조인`으로
+- 컬렉션은 `지연 로딩`으로 조회
+- 지연 로딩 성능 최적화를 위해 `hibernate.default_batch_fetch_size`(글로벌 설정) 또는 `@BatchSize`(개별 최적화) 적용
+  - 컬렉션이나, 프록시 객체를 한꺼번에 설정한 size 만큼 IN 쿼리 조회
 
+default_batch_fetch_size 사이즈 선택
 
-한계 돌파
-그러면 페이징 + 컬렉션 엔티티를 함께 조회하려면 어떻게 해야할까?
-지금부터 코드도 단순하고, 성능 최적화도 보장하는 매우 강력한 방법을 소개하겠다. 대부분의 페이징 +
-컬렉션 엔티티 조회 문제는 이 방법으로 해결할 수 있다.
-먼저 ToOne(OneToOne, ManyToOne) 관계를 모두 페치조인 한다. ToOne 관계는 row수를
-증가시키지 않으므로 페이징 쿼리에 영향을 주지 않는다. 
-컬렉션은 지연 로딩으로 조회한다.
-지연 로딩 성능 최적화를 위해 hibernate.default_batch_fetch_size , @BatchSize 를 적용한다.
-hibernate.default_batch_fetch_size: 글로벌 설정
-@BatchSize: 개별 최적화
-이 옵션을 사용하면 컬렉션이나, 프록시 객체를 한꺼번에 설정한 size 만큼 IN 쿼리로 조회한다.
+  - 적당한 사이즈는 100~1000 사이 권장
+  - IN 절 파라미터를 1000 으로 제한하는 데이터베이스가 있음(max size = 1,000)
+  - 사이즈를 높게 설정할 경우 한꺼번에 DB에서 애플리케이션으로 불러오므로 DB에 순간 부하가 증가할 수 있음.
+  - 하지만 애플리케이션은 사이즈가 어떻게 설정이 되어있든 결국 전체 데이터를 로딩해야 하므로 메모리 사용량이 같다.
+  - 1000 으로 설정하는 것이 성능상 가장 좋지만, 결국 DB든 애플리케이션이든 순간 부하를 어디까지 견딜 수 있는지 테스트를 진행해보며 결정하는 것이 중요
+
+장점
+
+- `쿼리 호출 수`가 1+N 에서 1+1 로 `최적화`
+- IN 쿼리 사용으로 일반 조인보다 `DB 데이터 전송량 최적화`
+- 페치 조인 방식과 비교해서 쿼리 호출 수가 약간 증가하지만(IN 쿼리), `DB 데이터 전송량 감소`(중복 제거)
+- 컬렉션 페치 조인에서 `페이징이 불가능한 단점을 해결`
+
+```java
+// OrderApiController.java
+
+@GetMapping("/api/v3.1/orders")
+public List<OrderDto> ordersV3_page(@RequestParam(value = "offset", defaultValue = "0") int offset,
+                                    @RequestParam(value = "limit", defaultValue = "100") int limit) {
+    List<Order> orders = orderRepository.findAllWithMemberDelivery(offset, limit);
+
+    List<OrderDto> result = orders.stream()
+            .map(o -> new OrderDto(o))
+            .collect(toList());
+
+    return result;
+}
+
+// OrderRepository.java
+
+public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+    return em.createQuery(
+                    "select o from Order o" +
+                            " join fetch o.member m" +
+                            " join fetch o.delivery d", Order.class)
+            .setFirstResult(offset)
+            .setMaxResults(limit)
+            .getResultList();
+}
+```
+
+```yml
+// application.yml
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+```
 
 **DTO 직접 조회**
 
