@@ -448,7 +448,46 @@ spring:
 ```
 ### DTO 직접 조회
 
--
+- ToOne(N:1, 1:1) 관계 조회한 후, ToMany(1:N) 관계는 별도 처리
+  - ToOne 관계는 조인 시 Row 수가 증가하지 않지만, ToMany 관계는 조인 시 Row 수가 증가하여 최적화가 어려우므로 별도 조회
+- 루트 1 번, 컬렉션 N 번, 총 1 + N 번의 쿼리 실행
+
+[commit log](https://github.com/jihunparkme/inflearn-spring-jpa-roadmap/commit/c8f22282071f2539827b144b879507f9972d5544)
+
+```java
+public List<OrderQueryDto> findOrderQueryDtos() {
+    // 루트 조회 : ToOne 관계를 한 번에 조회 (1 번의 쿼리 N 개의 Row)
+    List<OrderQueryDto> result = findOrders();
+
+    // 컬렉션 조회 : 컬렉션은 루프를 돌면서 별도로 조회 (N 번의 쿼리)
+    result.forEach(o -> {
+        List<OrderItemQueryDto> orderItems = findOrderItems(o.getOrderId());
+        o.setOrderItems(orderItems);
+    });
+
+    return result;
+}
+
+private List<OrderQueryDto> findOrders() {
+    return em.createQuery(
+                    "select new jpabook.jpashop.repository.order.query.OrderQueryDto(o.id, m.name, o.orderDate, o.status, d.address)" +
+                            " from Order o" +
+                            " join o.member m" +
+                            " join o.delivery d", OrderQueryDto.class)
+            .getResultList();
+}
+
+private List<OrderItemQueryDto> findOrderItems(Long orderId) {
+    return em.createQuery(
+                    "select new jpabook.jpashop.repository.order.query.OrderItemQueryDto(oi.order.id, i.name, oi.orderPrice, oi.count)" +
+                            " from OrderItem oi" +
+                            " join oi.item i" +
+                            " where oi.order.id = : orderId",
+                    OrderItemQueryDto.class)
+            .setParameter("orderId", orderId)
+            .getResultList();
+}
+```
 
 ### 컬렉션 조회 최적화
 
