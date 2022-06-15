@@ -491,7 +491,43 @@ private List<OrderItemQueryDto> findOrderItems(Long orderId) {
 
 ### 컬렉션 조회 최적화
 
--
+- 루트 1 번, 컬렉션 1 번 조회
+  - Map을 사용하여 매칭 성능 개선 - O(1)
+- ToOne 관계를 먼저 조회한 후, 얻은 식별자 Id로 ToMany 관계를 한꺼번에 조회
+
+```java
+public List<OrderQueryDto> findAllByDto_optimization() {
+    // 루트 조회 : ToOne 관계를 한 번에 조회 (1 번의 쿼리)
+    List<OrderQueryDto> result = findOrders();
+
+    // 컬렉션 조회 : IN 절을 활용하여 한 번에 조회 (1번의 쿼리)
+    Map<Long, List<OrderItemQueryDto>> orderItemMap = findOrderItemMap(toOrderIds(result));
+
+    // 루프를 돌면서 컬렉션 세팅
+    result.forEach(o -> o.setOrderItems(orderItemMap.get(o.getOrderId())));
+
+    return result;
+}
+
+private List<Long> toOrderIds(List<OrderQueryDto> result) {
+    return result.stream()
+            .map(o -> o.getOrderId())
+            .collect(Collectors.toList());
+}
+
+private Map<Long, List<OrderItemQueryDto>> findOrderItemMap(List<Long> orderIds) {
+    List<OrderItemQueryDto> orderItems = em.createQuery(
+                    "select new jpabook.jpashop.repository.order.query.OrderItemQueryDto(oi.order.id, i.name, oi.orderPrice, oi.count)" +
+                            " from OrderItem oi" +
+                            " join oi.item i" +
+                            " where oi.order.id in :orderIds", OrderItemQueryDto.class)
+            .setParameter("orderIds", orderIds)
+            .getResultList();
+
+    return orderItems.stream()
+            .collect(Collectors.groupingBy(OrderItemQueryDto::getOrderId));
+}
+```
 
 ### 플랫 데이터 최적화
 
