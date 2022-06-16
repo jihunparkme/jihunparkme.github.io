@@ -163,7 +163,7 @@ static class MemberDto {
 ```java
 // OrderSimpleApiController.java
 
-@GetMapping("/api/v1/simple-orders")
+@GetMapping("/api/simple-orders")
 public List<Order> ordersV1() {
     List<Order> all = orderRepository.findAllByString(new OrderSearch());
     for (Order order : all) {
@@ -185,7 +185,7 @@ public List<Order> ordersV1() {
 ```java
 // OrderSimpleApiController.java
 
-@GetMapping("/api/v2/simple-orders")
+@GetMapping("/api/simple-orders")
 public List<SimpleOrderDto> ordersV2() {
     List<SimpleOrderDto> result = orderRepository.findAllByString(new OrderSearch()).stream()
             .map(SimpleOrderDto::new)
@@ -412,7 +412,7 @@ default_batch_fetch_size 사이즈 선택
 ```java
 // OrderApiController.java
 
-@GetMapping("/api/v3.1/orders")
+@GetMapping("/api/orders")
 public List<OrderDto> ordersV3_page(@RequestParam(value = "offset", defaultValue = "0") int offset,
                                     @RequestParam(value = "limit", defaultValue = "100") int limit) {
     List<Order> orders = orderRepository.findAllWithMemberDelivery(offset, limit);
@@ -531,6 +531,40 @@ private Map<Long, List<OrderItemQueryDto>> findOrderItemMap(List<Long> orderIds)
 
 ### 플랫 데이터 최적화
 
--
+- 쿼리를 한 번 실행하는 장점이 있지만,
+- 조인으로 생기는 중복 데이터가 DB에서 애플리케이션으로 전달되어 상황에 따라 위 방법보다 느릴 수 있음
+- 반환 Dto 스펙으로 변환을 위해 애플리케이션에서 추가 작업(변환 로직)이 필요
+- 페이징 불가능
+
+```java
+// OrderApiController.java
+
+@GetMapping("/api/orders")
+public List<OrderQueryDto> ordersV6() {
+    List<OrderFlatDto> flats = orderQueryRepository.findAllByDto_flat();
+
+    return flats.stream()
+            .collect(groupingBy(o -> new OrderQueryDto(o.getOrderId(), o.getName(), o.getOrderDate(), o.getOrderStatus(), o.getAddress()),
+                    mapping(o -> new OrderItemQueryDto(o.getOrderId(), o.getItemName(), o.getOrderPrice(), o.getCount()), toList())
+            )).entrySet().stream()
+            .map(e -> new OrderQueryDto(e.getKey().getOrderId(),
+                    e.getKey().getName(), e.getKey().getOrderDate(), e.getKey().getOrderStatus(),
+                    e.getKey().getAddress(), e.getValue()))
+            .collect(toList());
+}
+
+// OrderQueryRepository.java
+
+public List<OrderFlatDto> findAllByDto_flat() {
+    return em.createQuery(
+                    "select new jpabook.jpashop.repository.order.query.OrderFlatDto(o.id, m.name, o.orderDate, o.status, d.address, i.name, oi.orderPrice, oi.count)" +
+                            " from Order o" +
+                            " join o.member m" +
+                            " join o.delivery d" +
+                            " join o.orderItems oi" +
+                            " join oi.item i", OrderFlatDto.class)
+            .getResultList();
+}
+```
 
 ## 실무 필수 최적화
