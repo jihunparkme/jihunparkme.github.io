@@ -611,10 +611,10 @@ public List<OrderFlatDto> findAllByDto_flat() {
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/jpa/OSIV-ON.png?raw=true 'Result')
 
 - OSIV를 사용할 경우, (View Template이나 API 컨트롤러에서의) `지연로딩`을 위해 View rendering | API response 완료 시점까지 영속성 컨텍스트와 `데이터베이스 커넥션을 유지`해야 한다.
-  - Service Layer에서 트랜젝션이 끝나더라도 rendering | API response 완료 후에야 데이터베이스 커넥션을 돌려주고, 영속성 컨텍스트가 사라지게 된다.
+  - Service Layer에서 트랜젝션이 끝나더라도 rendering | API response 완료 후에야 데이터베이스 커넥션을 반환하고, 영속성 컨텍스트를 닫게 된다.
 - 지연 로딩은 영속성 컨텍스트가 살아있어야 하므로, 영속성 컨텍스트는 기본적으로 데이터베이스 커넥션을 유지하는 장점
 - 하지만! 너무 오랜시간동안 데이터베이스 커넥션 리소스를 유지하므로, 실시간 트래픽이 중요한 애플리케이션에서는 커넥션이 부족하여 장애로 이어질 수 있다.
-  - 컨트롤러에서 외부 API를 호출하면 외부 API 응답 대기 시간 만큼 커넥션 리소스를 반환하지 못하게 된다.
+  - 컨트롤러에서 외부 API를 호출하면 외부 API 응답 대기 시간 만큼 커넥션 리소스를 반환하지 못하게 되는 단점
 
 ### OSIV OFF
 
@@ -622,8 +622,7 @@ public List<OrderFlatDto> findAllByDto_flat() {
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/jpa/OSIV-OFF.png?raw=true 'Result')
 
-- OSIV를 끄면 트랜잭션을 종료할 때 영속성 컨텍스트를 닫고, 데이터베이스 커넥션도 반환한다. 따라서
-커넥션 리소스를 낭비하지 않는다.
-OSIV를 끄면 모든 지연로딩을 트랜잭션 안에서 처리해야 한다. 따라서 지금까지 작성한 많은 지연 로딩
-코드를 트랜잭션 안으로 넣어야 하는 단점이 있다. 그리고 view template에서 지연로딩이 동작하지
-않는다. 결론적으로 트랜잭션이 끝나기 전에 지연 로딩을 강제로 호출해 두어야 한
+- OSIV를 끄면 트랜잭션을 종료할 때 데이터베이스 커넥션을 반환하고, 영속성 컨텍스트를 닫아 커넥션 리소스를 낭비하지 않음
+- 단, 모든 지연로딩을 트랜잭션 안에서 처리해야 하여, 기존 지연 로딩 코드를 트랜잭션 안으로 넣거나 fetch join을 사용해야 하는 단점이 존재
+  - view template에서 지연로딩이 동작하지 않음.
+  - 트랜잭션이 끝나기 전, 지연 로딩 강제 호출 팔요
