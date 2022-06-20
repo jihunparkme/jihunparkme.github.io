@@ -626,3 +626,16 @@ public List<OrderFlatDto> findAllByDto_flat() {
 - 단, 모든 지연로딩을 트랜잭션 안에서 처리해야 하여, 기존 지연 로딩 코드를 트랜잭션 안으로 넣거나 fetch join을 사용해야 하는 단점이 존재
   - view template에서 지연로딩이 동작하지 않음.
   - 트랜잭션이 끝나기 전, 지연 로딩 강제 호출 팔요
+
+### CQS
+
+CQS([Command–query separation](https://en.wikipedia.org/wiki/Command%E2%80%93query_separation))
+
+- 커멘드와 쿼리 분리하여 OSIV를 끈 상태로 복잡성을 관리
+- 보통 비즈니스 로직(등록/수정)에서는 성능이 크게 문제 없지만, 복잡한 화면을 출력하기 위한 쿼리는 성능을 최적화 하는 것이 중요
+  - 크고 복잡한 애플리케이션을 개발한다면, 이 둘의 관심사를 명확하게 분리하여 유지보수하기 쉽게 만들자.
+    - OrderService: 핵심 비즈니스 로직
+    - OrderQueryService: 화면이나 API에 맞춘 서비스 (주로 조회 전용 트랜잭션)
+  - 보통 서비스 계층에서 트랜잭션을 유지하므로, 두 서비스 모두 트랜잭션을 유지하면서 지연 로딩 사용 가능
+
+> 추천: 고객 서비스의 실시간 API는 OSIV OFF, ADMIN 과 같이 커넥션을 많이 사용하지 않는 곳에서는 OSIV ON
