@@ -639,3 +639,13 @@ CQS([Command–query separation](https://en.wikipedia.org/wiki/Command%E2%80%93q
   - 보통 서비스 계층에서 트랜잭션을 유지하므로, 두 서비스 모두 트랜잭션을 유지하면서 지연 로딩 사용 가능
 
 > 추천: 고객 서비스의 실시간 API는 OSIV OFF, ADMIN 과 같이 커넥션을 많이 사용하지 않는 곳에서는 OSIV ON
+
+## 소개
+
+### Spring Data JPA
+
+- [Spring Data JPA](https://spring.io/projects/spring-data-jpa)는 JPA 사용 시 반복되는 코드를 자동화
+  - `org.springframework.boot:spring-boot-starter-data-jpa`
+- **JpaRepository** 인터페이스에서 기본적인 CRUD 기능을 모두 제공
+- 일반화하기 어려운 기능도 메서드 이름으로 정확한 JPQL 쿼리 실행 가능
+- 개발자는 인터페이스만 만들면 구현체는 Spring Data JPA가 애플리케이션 실행시점에 주입
