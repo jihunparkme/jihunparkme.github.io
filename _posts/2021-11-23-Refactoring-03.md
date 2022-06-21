@@ -27,16 +27,16 @@ featured-img: refactoring
 
 `객체 내부의 객체라면 참조를 값으로 바꾸자.`
 
-- 변수 캡슐화하기
-- 변수 쪼개기
-- 문장 슬라이드하기
-- 함수 추출하기
-- 질의 함수와 변경 함수 분리하기
-- 세터 제거하기
-- 파생변수를 질의 함수로 바꾸기
-- 여러 함수를 클래스로 묶기
-- 여러 함수를 변환 함수로 묶기
-- 참조를 값으로 바꾸기
+- [변수 캡슐화하기](https://jihunparkme.github.io/Refactoring-06/#%EB%B3%80%EC%88%98-%EC%BA%A1%EC%8A%90%ED%99%94%ED%95%98%EA%B8%B0)
+- [변수 쪼개기](https://jihunparkme.github.io/Refactoring-09/#%EB%B3%80%EC%88%98-%EC%AA%BC%EA%B0%9C%EA%B8%B0)
+- [문장 슬라이드하기](https://jihunparkme.github.io/Refactoring-08/#%EB%AC%B8%EC%9E%A5-%EC%8A%AC%EB%9D%BC%EC%9D%B4%EB%93%9C%ED%95%98%EA%B8%B0)
+- [함수 추출하기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
+- [질의 함수와 변경 함수 분리하기](https://jihunparkme.github.io/Refactoring-11/#%EC%A7%88%EC%9D%98-%ED%95%A8%EC%88%98%EC%99%80-%EB%B3%80%EA%B2%BD-%ED%95%A8%EC%88%98-%EB%B6%84%EB%A6%AC%ED%95%98%EA%B8%B0)
+- [세터 제거하기](https://jihunparkme.github.io/Refactoring-11/#%EC%84%B8%ED%84%B0-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0)
+- [파생변수를 질의 함수로 바꾸기](https://jihunparkme.github.io/Refactoring-09/#%ED%8C%8C%EC%83%9D-%EB%B3%80%EC%88%98%EB%A5%BC-%EC%A7%88%EC%9D%98-%ED%95%A8%EC%88%98%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [여러 함수를 클래스로 묶기](https://jihunparkme.github.io/Refactoring-06/#%EC%97%AC%EB%9F%AC-%ED%95%A8%EC%88%98%EB%A5%BC-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%EB%AC%B6%EA%B8%B0)
+- [여러 함수를 변환 함수로 묶기](https://jihunparkme.github.io/Refactoring-06/#%EC%97%AC%EB%9F%AC-%ED%95%A8%EC%88%98%EB%A5%BC-%EB%B3%80%ED%99%98-%ED%95%A8%EC%88%98%EB%A1%9C-%EB%AC%B6%EA%B8%B0)
+- [참조를 값으로 바꾸기](https://jihunparkme.github.io/Refactoring-09/#%EC%B0%B8%EC%A1%B0%EB%A5%BC-%EA%B0%92%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
 
 ## 거대한 클래스
 
@@ -46,9 +46,9 @@ featured-img: refactoring
 
 `코드량이 너무 많다면 중복을 제거하고 작은 메서드로 추출하자.`
 
-- 클래스 추출하기
-- 슈퍼클래스 추출하기
-- 타입 코드를 서브클래스로 바꾸기
+- [클래스 추출하기](https://jihunparkme.github.io/Refactoring-07/#%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
+- [슈퍼클래스 추출하기](https://jihunparkme.github.io/Refactoring-12/#%EC%8A%88%ED%8D%BC%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
+- [타입 코드를 서브클래스로 바꾸기](https://jihunparkme.github.io/Refactoring-12/#%ED%83%80%EC%9E%85-%EC%BD%94%EB%93%9C%EB%A5%BC-%EC%84%9C%EB%B8%8C%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
 
 ## 기능 편애
 
@@ -56,26 +56,26 @@ featured-img: refactoring
 
 `해당 함수가 원하는 적절한 모듈로 옮겨주자.`
 
-- 함수 옮기기
-- 함수 추출하기
+- [함수 옮기기](https://jihunparkme.github.io/Refactoring-08/#%ED%95%A8%EC%88%98-%EC%98%AE%EA%B8%B0%EA%B8%B0)
+- [함수 추출하기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
 
 ## 기본형 집착
 
 `기본형만 고집하지 말고 클래스로 만들어서 사용하자.`
 
-- 기본형을 객체로 바꾸기
-- 타입 코드를 서브클래스로 바꾸기
-- 조건부 로직을 다형성으로 바꾸기
-- 클래스 추출하기
-- 매개변수 객체 만들기
+- [기본형을 객체로 바꾸기](https://jihunparkme.github.io/Refactoring-07/#%EA%B8%B0%EB%B3%B8%ED%98%95%EC%9D%84-%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [타입 코드를 서브클래스로 바꾸기](https://jihunparkme.github.io/Refactoring-12/#%ED%83%80%EC%9E%85-%EC%BD%94%EB%93%9C%EB%A5%BC-%EC%84%9C%EB%B8%8C%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [조건부 로직을 다형성으로 바꾸기](https://jihunparkme.github.io/Refactoring-10/#%EC%A1%B0%EA%B1%B4%EB%B6%80-%EB%A1%9C%EC%A7%81%EC%9D%84-%EB%8B%A4%ED%98%95%EC%84%B1%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [클래스 추출하기](https://jihunparkme.github.io/Refactoring-07/#%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
+- [매개변수 객체 만들기](https://jihunparkme.github.io/Refactoring-06/#%EB%A7%A4%EA%B0%9C%EB%B3%80%EC%88%98-%EA%B0%9D%EC%B2%B4-%EB%A7%8C%EB%93%A4%EA%B8%B0)
 
 ## 기이한 이름
 
 `이름만 보고도 무슨 일을 하고 어떻게 사용해야 하는지 명확하게 알 수 있도록 신경쓰자.`
 
-- 함수 선언 바꾸기
-- 변수 이름 바꾸기
-- 필드 이름 바꾸기
+- [함수 선언 바꾸기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%84%A0%EC%96%B8-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [변수 이름 바꾸기](https://jihunparkme.github.io/Refactoring-06/#%EB%B3%80%EC%88%98-%EC%9D%B4%EB%A6%84-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [필드 이름 바꾸기](https://jihunparkme.github.io/Refactoring-09/#%ED%95%84%EB%93%9C-%EC%9D%B4%EB%A6%84-%EB%B0%94%EA%BE%B8%EA%B8%B0)
 
 ## 긴 매개변수 목록
 
@@ -87,11 +87,11 @@ featured-img: refactoring
 
 `여러 함수를 클래스로 묶는다면 매개변수를 줄일 수 있다.`
 
-- 매개변수를 질의 함수로 바꾸기
-- 객체 통쨰로 넘기기
-- 매개변수 객체 만들기
-- 플래그 인수 제거하기
-- 여러 함수를 클래스로 묶기
+- [매개변수를 질의 함수로 바꾸기](https://jihunparkme.github.io/Refactoring-11/#%EB%A7%A4%EA%B0%9C%EB%B3%80%EC%88%98%EB%A5%BC-%EC%A7%88%EC%9D%98-%ED%95%A8%EC%88%98%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [객체 통째로 넘기기](https://jihunparkme.github.io/Refactoring-11/#%EA%B0%9D%EC%B2%B4-%ED%86%B5%EC%A7%B8%EB%A1%9C-%EB%84%98%EA%B8%B0%EA%B8%B0)
+- [매개변수 객체 만들기](https://jihunparkme.github.io/Refactoring-06/#%EB%A7%A4%EA%B0%9C%EB%B3%80%EC%88%98-%EA%B0%9D%EC%B2%B4-%EB%A7%8C%EB%93%A4%EA%B8%B0)
+- [플래그 인수 제거하기](https://jihunparkme.github.io/Refactoring-11/#%ED%94%8C%EB%9E%98%EA%B7%B8-%EC%9D%B8%EC%88%98-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0)
+- [여러 함수를 클래스로 묶기](https://jihunparkme.github.io/Refactoring-06/#%EC%97%AC%EB%9F%AC-%ED%95%A8%EC%88%98%EB%A5%BC-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%EB%AC%B6%EA%B8%B0)
 
 ## 긴 함수
 
@@ -109,14 +109,14 @@ featured-img: refactoring
 
 `반복문도 독립된 함수로 만들자.`
 
-- 함수 추출하기 
-- 임시 변수를 질의 함수로 바꾸기
-- 매개변수 객체 만들기
-- 객체 통째로 넘기기
-- 함수를 명령으로 바꾸기
-- 조건문 분해하기
-- 조건부 로직을 다형성으로 바꾸기
-- 반복문 쪼개기
+- [함수 추출하기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0) 
+- [임시 변수를 질의 함수로 바꾸기](https://jihunparkme.github.io/Refactoring-07/#%EC%9E%84%EC%8B%9C-%EB%B3%80%EC%88%98%EB%A5%BC-%EC%A7%88%EC%9D%98-%ED%95%A8%EC%88%98%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [매개변수 객체 만들기](https://jihunparkme.github.io/Refactoring-06/#%EB%A7%A4%EA%B0%9C%EB%B3%80%EC%88%98-%EA%B0%9D%EC%B2%B4-%EB%A7%8C%EB%93%A4%EA%B8%B0)
+- [객체 통째로 넘기기](https://jihunparkme.github.io/Refactoring-11/#%EA%B0%9D%EC%B2%B4-%ED%86%B5%EC%A7%B8%EB%A1%9C-%EB%84%98%EA%B8%B0%EA%B8%B0)
+- [함수를 명령으로 바꾸기](https://jihunparkme.github.io/Refactoring-11/#%ED%95%A8%EC%88%98%EB%A5%BC-%EB%AA%85%EB%A0%B9%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [조건문 분해하기](https://jihunparkme.github.io/Refactoring-10/#%EC%A1%B0%EA%B1%B4%EB%AC%B8-%EB%B6%84%ED%95%B4%ED%95%98%EA%B8%B0)
+- [조건부 로직을 다형성으로 바꾸기](https://jihunparkme.github.io/Refactoring-10/#%EC%A1%B0%EA%B1%B4%EB%B6%80-%EB%A1%9C%EC%A7%81%EC%9D%84-%EB%8B%A4%ED%98%95%EC%84%B1%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [반복문 쪼개기](https://jihunparkme.github.io/Refactoring-08/#%EB%B0%98%EB%B3%B5%EB%AC%B8-%EC%AA%BC%EA%B0%9C%EA%B8%B0)
 
 ## 내부자 거래
 
@@ -126,19 +126,19 @@ featured-img: refactoring
 
 `상속 구조에서 자식 클래스는 부모 클래스의 데이터에 접근하고 싶은 경우가 많은데, 부모 품을 떠나야 할 때다. 인터페이스로 연결하여 결합도를 낮추자.`
 
-- 함수 옮기기
-- 필드 옮기기
-- 위임 숨기기
-- 서브클래스를 위임으로 바꾸기
-- 슈퍼클래스를 위임으로 바꾸기
+- [함수 옮기기](https://jihunparkme.github.io/Refactoring-08/#%ED%95%A8%EC%88%98-%EC%98%AE%EA%B8%B0%EA%B8%B0)
+- [필드 옮기기](https://jihunparkme.github.io/Refactoring-08/#%ED%95%84%EB%93%9C-%EC%98%AE%EA%B8%B0%EA%B8%B0)
+- [위임 숨기기](https://jihunparkme.github.io/Refactoring-07/#%EC%9C%84%EC%9E%84-%EC%88%A8%EA%B8%B0%EA%B8%B0)
+- [서브클래스를 위임으로 바꾸기](https://jihunparkme.github.io/Refactoring-12/#%EC%84%9C%EB%B8%8C%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%EC%9C%84%EC%9E%84%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [슈퍼클래스를 위임으로 바꾸기](https://jihunparkme.github.io/Refactoring-12/#%EC%8A%88%ED%8D%BC%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%EC%9C%84%EC%9E%84%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
 
 ## 데이터 뭉치
 
 `뭉쳐 다니는 데이터들을 하나의 클래스로 묶어주자.`
 
-- 클래스 추출하기
-- 매개변수 객체 만들기
-- 객체 통째로 넘기기
+- [클래스 추출하기](https://jihunparkme.github.io/Refactoring-07/#%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
+- [매개변수 객체 만들기](https://jihunparkme.github.io/Refactoring-06/#%EB%A7%A4%EA%B0%9C%EB%B3%80%EC%88%98-%EA%B0%9D%EC%B2%B4-%EB%A7%8C%EB%93%A4%EA%B8%B0)
+- [객체 통째로 넘기기](https://jihunparkme.github.io/Refactoring-11/#%EA%B0%9D%EC%B2%B4-%ED%86%B5%EC%A7%B8%EB%A1%9C-%EB%84%98%EA%B8%B0%EA%B8%B0)
 
 ## 데이터 클래스
 
@@ -148,11 +148,11 @@ featured-img: refactoring
 
 `다른 클래스에서 해당 데이터 클래스의 Getter나 Setter를 사용하는 코드를 찾아서 이를 데이터 클래스로 가져올 수 있는지 살펴보고 가능하다면 옮겨보자.`
 
-- 레코드 캡슐화하기
-- 세터 제거하기
-- 함수 옮기기
-- 함수 추출하기
-- 단계 쪼개기
+- [레코드 캡슐화하기](https://jihunparkme.github.io/Refactoring-07/#%EB%A0%88%EC%BD%94%EB%93%9C-%EC%BA%A1%EC%8A%90%ED%99%94%ED%95%98%EA%B8%B0)
+- [세터 제거하기](https://jihunparkme.github.io/Refactoring-11/#%EC%84%B8%ED%84%B0-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0)
+- [함수 옮기기](https://jihunparkme.github.io/Refactoring-08/#%ED%95%A8%EC%88%98-%EC%98%AE%EA%B8%B0%EA%B8%B0)
+- [함수 추출하기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
+- [단계 쪼개기](https://jihunparkme.github.io/Refactoring-06/#%EB%8B%A8%EA%B3%84-%EC%AA%BC%EA%B0%9C%EA%B8%B0)
 
 ## 뒤엉킨 변경
 
@@ -160,10 +160,10 @@ featured-img: refactoring
 
 `맥락을 잘 구분하자.`
 
-- 단계 쪼개기
-- 함수 옮기기
-- 함수 추출하기
-- 클래스 추출하기
+- [단계 쪼개기](https://jihunparkme.github.io/Refactoring-06/#%EB%8B%A8%EA%B3%84-%EC%AA%BC%EA%B0%9C%EA%B8%B0)
+- [함수 옮기기](https://jihunparkme.github.io/Refactoring-08/#%ED%95%A8%EC%88%98-%EC%98%AE%EA%B8%B0%EA%B8%B0)
+- [함수 추출하기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
+- [클래스 추출하기](https://jihunparkme.github.io/Refactoring-07/#%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
 
 ## 메시지 체인
 
@@ -173,9 +173,9 @@ featured-img: refactoring
 
 `적절하게 함수로 추출하고 위치를 옮겨 체인을 숨겨보자.`
 
-- 위임 숨기기
-- 함수 추출하기
-- 함수 옮기기
+- [위임 숨기기](https://jihunparkme.github.io/Refactoring-07/#%EC%9C%84%EC%9E%84-%EC%88%A8%EA%B8%B0%EA%B8%B0)
+- [함수 추출하기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
+- [함수 옮기기](https://jihunparkme.github.io/Refactoring-08/#%ED%95%A8%EC%88%98-%EC%98%AE%EA%B8%B0%EA%B8%B0)
 
 ## 반복되는 switch문
 
@@ -183,13 +183,13 @@ featured-img: refactoring
 
 `다형성을 이용해서 악취를 없애자.`
 
-- 조건부 로직을 다형성으로 바꾸기
+- [조건부 로직을 다형성으로 바꾸기](https://jihunparkme.github.io/Refactoring-10/#%EC%A1%B0%EA%B1%B4%EB%B6%80-%EB%A1%9C%EC%A7%81%EC%9D%84-%EB%8B%A4%ED%98%95%EC%84%B1%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
 
 ## 반복문
 
 `반복문보다는 filter, map 등의 파이프라인 연산을 이용하자.`
 
-- 반복문을 파이프라인으로 바꾸기
+- [반복문을 파이프라인으로 바꾸기](https://jihunparkme.github.io/Refactoring-08/#%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84-%ED%8C%8C%EC%9D%B4%ED%94%84%EB%9D%BC%EC%9D%B8%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
 
 ## 산탄총 수술
 
@@ -201,13 +201,13 @@ featured-img: refactoring
 
 `코드를 재구성할 때에는 덩어리로 뭉쳐지는 것을 개의치 말자.`
 
-- 함수 옮기기
-- 필드 옮기기
-- 여러 함수를 클래스로 묶기
-- 여러 함수를 변환 함수로 묶기
-- 단계 쪼개기
-- 함수 인라인하기
-- 클래스 인라인하기
+- [함수 옮기기](https://jihunparkme.github.io/Refactoring-08/#%ED%95%A8%EC%88%98-%EC%98%AE%EA%B8%B0%EA%B8%B0)
+- [필드 옮기기](https://jihunparkme.github.io/Refactoring-08/#%ED%95%84%EB%93%9C-%EC%98%AE%EA%B8%B0%EA%B8%B0)
+- [여러 함수를 클래스로 묶기](https://jihunparkme.github.io/Refactoring-06/#%EC%97%AC%EB%9F%AC-%ED%95%A8%EC%88%98%EB%A5%BC-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%EB%AC%B6%EA%B8%B0)
+- [여러 함수를 변환 함수로 묶기](https://jihunparkme.github.io/Refactoring-06/#%EC%97%AC%EB%9F%AC-%ED%95%A8%EC%88%98%EB%A5%BC-%EB%B3%80%ED%99%98-%ED%95%A8%EC%88%98%EB%A1%9C-%EB%AC%B6%EA%B8%B0)
+- [단계 쪼개기](https://jihunparkme.github.io/Refactoring-06/#%EB%8B%A8%EA%B3%84-%EC%AA%BC%EA%B0%9C%EA%B8%B0)
+- [함수 인라인하기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%9D%B8%EB%9D%BC%EC%9D%B8%ED%95%98%EA%B8%B0)
+- [클래스 인라인하기](https://jihunparkme.github.io/Refactoring-07/#%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%9D%B8%EB%9D%BC%EC%9D%B8%ED%95%98%EA%B8%B0)
 
 ## 상속 포기
 
@@ -217,26 +217,26 @@ featured-img: refactoring
 
 `부모의 인터페이스를 따르고 싶지 않으면 아예 상속 메커니즘에서 벗어나도록, 위임 클래스를 만들고 이를 이용하도록 만들자.`
 
-- 매서드 내리기
-- 필드 내리기
-- 서브클래스를 위임으로 바꾸기
-- 슈퍼클래스를 위임으로 바꾸기
+- [매서드 내리기](https://jihunparkme.github.io/Refactoring-12/#%EB%A9%94%EC%84%9C%EB%93%9C-%EB%82%B4%EB%A6%AC%EA%B8%B0)
+- [필드 내리기](https://jihunparkme.github.io/Refactoring-12/#%ED%95%84%EB%93%9C-%EB%82%B4%EB%A6%AC%EA%B8%B0)
+- [서브클래스를 위임으로 바꾸기](https://jihunparkme.github.io/Refactoring-12/#%EC%84%9C%EB%B8%8C%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%EC%9C%84%EC%9E%84%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [슈퍼클래스를 위임으로 바꾸기](https://jihunparkme.github.io/Refactoring-12/#%EC%8A%88%ED%8D%BC%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%EC%9C%84%EC%9E%84%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
 
 ## 서로 다른 인터페이스의 대안 클래스들
 
 `서로 다른 클래스의 두 메서드가, 하는 일은 비슷한데, 인터페이스가 다른 경우, 인터페이스를 통일시키고, 가능하다면 추출하자.`
 
-- 함수 선언 바꾸기
-- 함수 옮기기
-- 슈퍼클래스 추출하기
+- [함수 선언 바꾸기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%84%A0%EC%96%B8-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [함수 옮기기](https://jihunparkme.github.io/Refactoring-08/#%ED%95%A8%EC%88%98-%EC%98%AE%EA%B8%B0%EA%B8%B0)
+- [슈퍼클래스 추출하기](https://jihunparkme.github.io/Refactoring-12/#%EC%8A%88%ED%8D%BC%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
 
 ## 성의 없는 요소
 
 `구조를 잡기 위해 사용된 프로그램 요소가 필요 없어 보인다면, 인라인으로 처리해주자.`
 
-- 함수 인라인하기
-- 클래스 인라인하기
-- 계층 합치기
+- [함수 인라인하기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%9D%B8%EB%9D%BC%EC%9D%B8%ED%95%98%EA%B8%B0)
+- [클래스 인라인하기](https://jihunparkme.github.io/Refactoring-07/#%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%9D%B8%EB%9D%BC%EC%9D%B8%ED%95%98%EA%B8%B0)
+- [계층 합치기](https://jihunparkme.github.io/Refactoring-12/#%EA%B3%84%EC%B8%B5-%ED%95%A9%EC%B9%98%EA%B8%B0)
 
 ## 임시 필드
 
@@ -246,15 +246,15 @@ featured-img: refactoring
 
 `이런 필드의 유효성 체크 로직은 '유효하지 않은 경우'를 위한 대안 클래스를 만들어 제거하자.`
 
-- 클래스 추출하기
-- 함수 옮기기
-- 특이 케이스 추가하기
+- [클래스 추출하기](https://jihunparkme.github.io/Refactoring-07/#%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
+- [함수 옮기기](https://jihunparkme.github.io/Refactoring-08/#%ED%95%A8%EC%88%98-%EC%98%AE%EA%B8%B0%EA%B8%B0)
+- [특이 케이스 추가하기](https://jihunparkme.github.io/Refactoring-10/#%ED%8A%B9%EC%9D%B4-%EC%BC%80%EC%9D%B4%EC%8A%A4-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0)
 
 ## 전역 데이터
 
 `함수 스코프에 넣어주자.`
 
-- 변수 캡슐화하기
+- [변수 캡슐화하기](https://jihunparkme.github.io/Refactoring-06/#%EB%B3%80%EC%88%98-%EC%BA%A1%EC%8A%90%ED%99%94%ED%95%98%EA%B8%B0)
 
 ## 주석
 
@@ -266,18 +266,18 @@ featured-img: refactoring
 
 `선행 조건을 명시하고 싶다면 어서션을 추가할 수도 있다.`
 
-- 함수 추출하기
-- 함수 선언 바꾸기
-- 어서션 추가하기
+- [함수 추출하기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
+- [함수 선언 바꾸기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%84%A0%EC%96%B8-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [어서션 추가하기](https://jihunparkme.github.io/Refactoring-10/#%EC%96%B4%EC%84%9C%EC%85%98-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0)
 
 ## 중개자
 
 `클래스가 다른 클래스에 구현을 위임하는 '중간 역할'만을 하고 있다면 직접 소통하도록 바꿔주자.`
 
-- 중개자 제거하기
-- 함수 인라인하기
-- 서브클래스를 위임으로 바꾸기
-- 슈퍼클래스를 위임으로 바꾸기
+- [중개자 제거하기](https://jihunparkme.github.io/Refactoring-07/#%EC%A4%91%EA%B0%9C%EC%9E%90-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0)
+- [함수 인라인하기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%9D%B8%EB%9D%BC%EC%9D%B8%ED%95%98%EA%B8%B0)
+- [서브클래스를 위임으로 바꾸기](https://jihunparkme.github.io/Refactoring-12/#%EC%84%9C%EB%B8%8C%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%EC%9C%84%EC%9E%84%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [슈퍼클래스를 위임으로 바꾸기](https://jihunparkme.github.io/Refactoring-12/#%EC%8A%88%ED%8D%BC%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%EC%9C%84%EC%9E%84%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EA%B8%B0)
 
 ## 중복 코드
 
@@ -287,9 +287,9 @@ featured-img: refactoring
 
 `서브 클래스에 중복 내용이 있다면 상위로 위치를 올려보자.`
 
-- 함수 추출하기
-- 문장 슬라이드하기
-- 메서드 올리기
+- [함수 추출하기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0)
+- [문장 슬라이드하기](https://jihunparkme.github.io/Refactoring-08/#%EB%AC%B8%EC%9E%A5-%EC%8A%AC%EB%9D%BC%EC%9D%B4%EB%93%9C%ED%95%98%EA%B8%B0)
+- [메서드 올리기](https://jihunparkme.github.io/Refactoring-12/#%EB%A9%94%EC%84%9C%EB%93%9C-%EC%98%AC%EB%A6%AC%EA%B8%B0)
 
 ## 추측성 일반화
 
@@ -297,8 +297,8 @@ featured-img: refactoring
 
 `하는 일 없는 추상 클래스는 합쳐버리고, 인라인 코드 활용으로 걸리적거리는 코드를 치워버리자.`
 
-- 계층 합치기
-- 함수 인라인하기
-- 클래스 인라인하기
-- 함수 선언 바꾸기
-- 죽은 코드 제거하기
+- [계층 합치기](https://jihunparkme.github.io/Refactoring-12/#%EA%B3%84%EC%B8%B5-%ED%95%A9%EC%B9%98%EA%B8%B0)
+- [함수 인라인하기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%9D%B8%EB%9D%BC%EC%9D%B8%ED%95%98%EA%B8%B0)
+- [클래스 인라인하기](https://jihunparkme.github.io/Refactoring-07/#%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%9D%B8%EB%9D%BC%EC%9D%B8%ED%95%98%EA%B8%B0)
+- [함수 선언 바꾸기](https://jihunparkme.github.io/Refactoring-06/#%ED%95%A8%EC%88%98-%EC%84%A0%EC%96%B8-%EB%B0%94%EA%BE%B8%EA%B8%B0)
+- [죽은 코드 제거하기](https://jihunparkme.github.io/Refactoring-08/#%EC%A3%BD%EC%9D%80-%EC%BD%94%EB%93%9C-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0)
