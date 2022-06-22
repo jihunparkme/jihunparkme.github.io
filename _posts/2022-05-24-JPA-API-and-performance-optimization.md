@@ -649,3 +649,20 @@ CQS([Command–query separation](https://en.wikipedia.org/wiki/Command%E2%80%93q
 - **JpaRepository** 인터페이스에서 기본적인 CRUD 기능을 모두 제공
 - 일반화하기 어려운 기능도 메서드 이름으로 정확한 JPQL 쿼리 실행 가능
 - 개발자는 인터페이스만 만들면 구현체는 Spring Data JPA가 애플리케이션 실행시점에 주입
+
+[commit](https://github.com/jihunparkme/inflearn-spring-jpa-roadmap/commit/36e27e79e66ff9fdf9bfb77c1fdf549d650ed989)
+
+### QueryDSL
+
+- [QueryDSL](http://querydsl.com/) 로 조건에 따라 실행되는 동적 쿼리를 만들 수 있다.
+- 자바 코드로 동적 쿼리를 SQL(JPQL)과 유사하게 생성 (JPQL을 코드로 만드는 빌더 역할)
+- QueryDSL 장점
+  - 직관적인 문법
+  - 컴파일 시점에 빠른 문법 오류 발견
+  - 코드 자동완성
+  - 코드 재사용
+  - JPQL new 명령어와 반대로 심플한 DTO 조회 지원
+
+> Querydsl은 JPA로 애플리케이션을 개발 할 때 선택이 아닌 필수!
+
+[commit](https://github.com/jihunparkme/inflearn-spring-jpa-roadmap/commit/38ab8087edd167b8add79f1b5bd43bc76de8a923)
