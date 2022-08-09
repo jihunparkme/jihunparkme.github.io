@@ -75,6 +75,69 @@ DriverManager 커넥션 요청 흐름
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/07ceef6ef29e47d9b2a0ffaefbeb397791d1281f)
 
+## 등록
+
+```java
+@Slf4j
+public class MemberRepository {
+
+    public Member save(Member member) throws SQLException {
+        String sql = "insert into member(member_id, money) values(?, ?)";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(sql); // 데이터베이스에 전달할 SQL과 파라미터로 전달할 데이터들을 준비
+            pstmt.setString(1, member.getMemberId());
+            pstmt.setInt(2, member.getMoney());
+            pstmt.executeUpdate(); // 준비된 SQL을 커넥션을 통해 실제 데이터베이스로 전달
+            return member;
+        } catch (SQLException e) {
+            log.error("db error", e);
+            throw e;
+        } finally {
+            close(con, pstmt, null);
+        }
+    }
+
+    private void close(Connection con, Statement stmt, ResultSet rs) {
+
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                log.info("error", e);
+            }
+        }
+
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                log.info("error", e);
+            }
+        }
+
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                log.info("error", e);
+            }
+        }
+    }
+
+    private Connection getConnection() {
+        return DBConnectionUtil.getConnection();
+    }
+}
+```
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/b93bc90231003c3eaa0852d4fc6d073ca6f4b6eb)
+
+
 # ConnectionPool & DataSource
 
 # Transaction
