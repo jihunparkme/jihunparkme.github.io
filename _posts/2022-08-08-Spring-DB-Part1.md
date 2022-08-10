@@ -254,6 +254,40 @@ public void delete(String memberId) throws SQLException {
 
 - 커넥션 풀 오픈소스 `commons-dbcp2`, `tomcat-jdbc pool`, `HikariCP`에 직접 의존하는 것이 아니라, DataSource 인터페이스에만 의존하면 된다!
 
+### DriverManager
+
+**DriverManager**
+
+- 커넥션을 획득할 때 마다 URL/USERNAME/PASSWORD 를 파라미터로 계속 전달
+
+**DataSourceDriverManager**
+
+- 반면, 처음 객체를 생성할 때만 필요한 파리미터를 넘기고, 커넥션을 획득할 때는 단순히 dataSource.getConnection() 만 호출
+- `설정`과 `사용`의 분리가 명확
+
+```java
+@Test
+void driverManager() throws SQLException {
+    Connection con1 = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+    Connection con2 = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+    log.info("connection={}, class={}", con1, con1.getClass());
+    log.info("connection={}, class={}", con2, con2.getClass());
+}
+
+@Test
+void dataSourceDriverManager() throws SQLException {
+    DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
+    useDataSource(dataSource);
+}
+
+private void useDataSource(DataSource dataSource) throws SQLException {
+    Connection con1 = dataSource.getConnection();
+    Connection con2 = dataSource.getConnection();
+    log.info("connection={}, class={}", con1, con1.getClass());
+    log.info("connection={}, class={}", con2, con2.getClass());
+}
+```
+
 # Transaction
 
 # Transaction Problem
