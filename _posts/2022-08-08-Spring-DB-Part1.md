@@ -229,7 +229,7 @@ public void delete(String memberId) throws SQLException {
 
 커넥션을 관리하는 수영장(!) 
 
-- 데이터베이스 커넥션을 매번 새로 만드는 과정에서 발생하는 응답 속도 저하 문제를 해결하기 위해 **커넥션을 미리 생성해두고 사용**
+- DriverManager 를 통해 데이터베이스 커넥션을 매번 새로 생성하는 과정에서 발생하는 응답 속도 저하 문제를 해결하기 위해 **커넥션을 미리 생성해두고 사용**
 
 **ConnectionPool 초기화**
 
@@ -247,6 +247,12 @@ public void delete(String memberId) throws SQLException {
 - 커넥션을 요청하면 커넥션 풀은 자신이 가지고 있는 커넥션 중 하나를 반환
 - 커넥션 풀로부터 받은 커넥션을 사용해서 SQL을 DB에 전달하고, 그 결과를 받아서 처리
 - 커넥션을 모두 사용하면 커넥션을 종료하지 않고 다시 사용할 수 있도록 커넥션 풀에 반환
+
+## DataSource
+
+**커넥션을 획득하는 방법을 추상화 하는 인터페이스**
+
+- 커넥션 풀 오픈소스 `commons-dbcp2`, `tomcat-jdbc pool`, `HikariCP`에 직접 의존하는 것이 아니라, DataSource 인터페이스에만 의존하면 된다!
 
 # Transaction
 
