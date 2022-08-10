@@ -214,7 +214,7 @@ public void delete(String memberId) throws SQLException {
 }
 ```
 
-# ConnectionPool & DataSource
+# Connection Pool & DataSource
 
 **데이터베이스 커넥션 획득 과정**
 
@@ -287,6 +287,27 @@ private void useDataSource(DataSource dataSource) throws SQLException {
     log.info("connection={}, class={}", con2, con2.getClass());
 }
 ```
+
+### Connection Pool
+
+- 커넥션 풀은 별도의 쓰레드 사용해서 커넥션 풀에 커넥션을 채운다.
+
+```java
+@Test
+void dataSourceConnectionPool() throws SQLException, InterruptedException {
+    HikariDataSource dataSource = new HikariDataSource();
+    dataSource.setJdbcUrl(URL);
+    dataSource.setUsername(USERNAME);
+    dataSource.setPassword(PASSWORD);
+    dataSource.setMaximumPoolSize(10);
+    dataSource.setPoolName("MyPool");
+    
+    useDataSource(dataSource);
+    Thread.sleep(1000); // 커넥션 생성 시간 대기
+}
+```
+
+> [HikariCP](https://github.com/brettwooldridge/HikariCP)
 
 # Transaction
 
