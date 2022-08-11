@@ -349,6 +349,33 @@ void dataSourceConnectionPool() throws SQLException, InterruptedException {
 
 # Transaction
 
+**DB에서 트랜잭션은 하나의 작업를 안전하게 처리하도록 보장**
+
+- `커밋(Commit)` : 모든 작업이 성공해서 DB에 정상 반영하는 것
+- `롤백(Rollback)` : 작업이 하나라도 실패해서 작업 이전으로 되돌리는 것
+
+## 트랜잭션 ACID
+
+트랜잭션은 원자성(Atomicity), 일관성(Consistency), 격리성(Isolation), 지속성(Durability)을 보장해야 한다.
+
+- `원자성(Atomicity)` : 트랜잭션 내에서 실행한 작업들은 마치 하나의 작업인 것처럼 모두 성공 하거나 모두 실패해야 한다.
+- `일관성(Consistency)` : 모든 트랜잭션은 일관성 있는 데이터베이스 상태를 유지해야 한다. 
+-  데이터베이스에서 정한 무결성 제약 조건을 항상 만족해야 한다.
+- `격리성(Isolation)` : 동시에 실행되는 트랜잭션들이 서로에게 영향을 미치지 않도록 격리한다. 
+  - 동시에 같은 데이터를 수정하지 못하도록 해야 한다.
+  - 트랜잭션 간에 격리성을 완벽히 보장하려면 트랜잭션을 거의 순서대로 실행해야 하므로 ANSI 표준은 트랜잭션의 격리 수준을 4단계로 나누어 정의
+  - 격리성은 동시성과 관련된 성능 이슈로 인해 트랜잭션 격리 수준(Isolation level)을 선택할 수 있다.
+    - **READ UNCOMMITED**(커밋되지 않은 읽기)
+    - **READ COMMITTED**(커밋된 읽기)
+    - **REPEATABLE READ**(반복 가능한 읽기)
+    - **SERIALIZABLE**(직렬화 가능)
+- `지속성(Durability)` : 트랜잭션을 성공적으로 끝내면 그 결과가 항상 기록되어야 한다.
+  - 중간에 시스템에 문제가 발생해도 데이터베이스 로그 등을 사용해서 성공한 트랜잭션 내용을 복구해야 한다.
+
+> [트랜잭션 ACID](http://en.wikipedia.org/wiki/ACID)
+> 
+> [@Transactional 잘 사용해보기](https://data-make.tistory.com/738)
+
 # Transaction Problem
 
 # Java Excaption
