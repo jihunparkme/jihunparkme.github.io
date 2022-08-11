@@ -382,6 +382,8 @@ void dataSourceConnectionPool() throws SQLException, InterruptedException {
 - 결과를 반영하고 싶지 않다면 rollback 을 호출
 - 커밋을 호출하기 전까지는 임시로 데이터를 저장 -> 해당 트랜잭션을 시작
 
+
+
 # Transaction Problem
 
 # Java Excaption
