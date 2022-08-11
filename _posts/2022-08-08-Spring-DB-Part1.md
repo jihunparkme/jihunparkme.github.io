@@ -115,6 +115,8 @@ public class MemberRepository {
 }
 ```
 
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/b93bc90231003c3eaa0852d4fc6d073ca6f4b6eb)
+
 **DataSource**
 
 ```java
@@ -140,6 +142,8 @@ public class MemberRepository {
     }
 }
 ```
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/4a040f96418607642bad23b60bb505c68f2cbdfa)
 
 ## 등록
 
@@ -169,8 +173,6 @@ public class MemberRepository {
     }
 }
 ```
-
-[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/b93bc90231003c3eaa0852d4fc6d073ca6f4b6eb)
 
 ## 조회
 
@@ -326,7 +328,7 @@ private void useDataSource(DataSource dataSource) throws SQLException {
 ### Connection Pool
 
 - 커넥션 풀은 별도의 쓰레드 사용해서 커넥션 풀에 커넥션을 채운다.
-- 커넥션 풀을 사용하면 커넥션을 재사용.
+- DriverManagerDataSource 는 항상 새로운 커넥션을 생성하는 반면, 커넥션 풀은 커넥션을 재사용
 
 ```java
 @Test
