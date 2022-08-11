@@ -376,6 +376,12 @@ void dataSourceConnectionPool() throws SQLException, InterruptedException {
 > 
 > [@Transactional 잘 사용해보기](https://data-make.tistory.com/738)
 
+**트랜잭션의 사용 예시**
+
+- 데이터 변경 쿼리를 실행하고 데이터베이스에 결과를 반영하려면 commit 을 호출하고,
+- 결과를 반영하고 싶지 않다면 rollback 을 호출
+- 커밋을 호출하기 전까지는 임시로 데이터를 저장 -> 해당 트랜잭션을 시작
+
 # Transaction Problem
 
 # Java Excaption
