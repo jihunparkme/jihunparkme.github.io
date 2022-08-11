@@ -75,33 +75,13 @@ DriverManager 커넥션 요청 흐름
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/07ceef6ef29e47d9b2a0ffaefbeb397791d1281f)
 
-## 등록
+## getConnection() & close()
+
+**DriverManager**
 
 ```java
 @Slf4j
 public class MemberRepository {
-
-    public Member save(Member member) throws SQLException {
-        String sql = "insert into member(member_id, money) values(?, ?)";
-
-        Connection con = null;
-        PreparedStatement pstmt = null;
-
-        try {
-            con = getConnection();
-            pstmt = con.prepareStatement(sql); // 데이터베이스에 전달할 SQL과 파라미터로 전달할 데이터들을 준비
-            pstmt.setString(1, member.getMemberId());
-            pstmt.setInt(2, member.getMoney());
-            pstmt.executeUpdate(); // 준비된 SQL을 커넥션을 통해 실제 데이터베이스로 전달
-            return member;
-        } catch (SQLException e) {
-            log.error("db error", e);
-            throw e;
-        } finally {
-            close(con, pstmt, null);
-        }
-    }
-
     private void close(Connection con, Statement stmt, ResultSet rs) {
 
         if (rs != null) {
@@ -131,6 +111,61 @@ public class MemberRepository {
 
     private Connection getConnection() {
         return DBConnectionUtil.getConnection();
+    }
+}
+```
+
+**DataSource**
+
+```java
+@Slf4j
+public class MemberRepository {
+
+    private final DataSource dataSource;
+
+    public MemberRepositoryV1(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    private void close(Connection con, Statement stmt, ResultSet rs) {
+        JdbcUtils.closeResultSet(rs);
+        JdbcUtils.closeStatement(stmt);
+        JdbcUtils.closeConnection(con);
+    }
+
+    private Connection getConnection() throws SQLException {
+        Connection con = dataSource.getConnection();
+        log.info("get connection={}, class={}", con, con.getClass());
+        return con;
+    }
+}
+```
+
+## 등록
+
+```java
+@Slf4j
+public class MemberRepository {
+
+    public Member save(Member member) throws SQLException {
+        String sql = "insert into member(member_id, money) values(?, ?)";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(sql); // 데이터베이스에 전달할 SQL과 파라미터로 전달할 데이터들을 준비
+            pstmt.setString(1, member.getMemberId());
+            pstmt.setInt(2, member.getMoney());
+            pstmt.executeUpdate(); // 준비된 SQL을 커넥션을 통해 실제 데이터베이스로 전달
+            return member;
+        } catch (SQLException e) {
+            log.error("db error", e);
+            throw e;
+        } finally {
+            close(con, pstmt, null);
+        }
     }
 }
 ```
@@ -291,6 +326,7 @@ private void useDataSource(DataSource dataSource) throws SQLException {
 ### Connection Pool
 
 - 커넥션 풀은 별도의 쓰레드 사용해서 커넥션 풀에 커넥션을 채운다.
+- 커넥션 풀을 사용하면 커넥션을 재사용.
 
 ```java
 @Test
