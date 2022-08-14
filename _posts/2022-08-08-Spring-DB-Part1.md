@@ -396,7 +396,7 @@ set autocommit true; -- default
 
 **수동 커밋**
 
-- 수동 커밋 모드로 설정하는 것을 트랜잭션의 시작한
+- 수동 커밋 모드로 설정하는 것이 **트랜잭션 시작**
 - 이후 commit, rollback 호출 필요
 - 수동/자동 커밋 모드는 한번 설정하면 해당 세션에서 계속 유지 (중간 변경도 가능)
 
@@ -404,6 +404,25 @@ set autocommit true; -- default
 set autocommit false;
 -- ...
 commit;
+```
+
+# Lock
+
+- 세션이 트랜잭션을 시작하고 데이터를 수정하는 동안 커밋 or 롤백 전까지 다른 세션에서 해당 데이터를 수정할 수 없도록 락을 제공
+- 다른 세션은 락을 획득할 때까지 대기
+  - 락 대기 시간을 넘어가면 락 타임아웃 오류 발생(락 대기 시간을 설정 가능)
+
+**Lock Timeout 시간 설정**
+
+```sql
+SET LOCK_TIMEOUT <milliseconds>
+```
+
+**Lock Timeout Error**
+
+```text
+Timeout trying to lock table {0}; SQL statement:
+...
 ```
 
 # Transaction Problem
