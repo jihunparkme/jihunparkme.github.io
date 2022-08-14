@@ -382,6 +382,30 @@ void dataSourceConnectionPool() throws SQLException, InterruptedException {
 - 결과를 반영하고 싶지 않다면 rollback 을 호출
 - 커밋을 호출하기 전까지는 임시로 데이터를 저장 -> 해당 트랜잭션을 시작
 
+## 자동커밋과 수동커밋
+
+**자동 커밋**
+
+- 각각의 쿼리 실행 직후 자동으로 커밋 호출
+- 커밋이나 롤백을 직접 호출하지 않아도 되는 편리함
+- 하지만, 원하는 트랜잭션 기능을 제대로 사용할 수 없는 단점 존재
+
+```sql
+set autocommit true; -- default
+```
+
+**수동 커밋**
+
+- 수동 커밋 모드로 설정하는 것을 트랜잭션의 시작한
+- 이후 commit, rollback 호출 필요
+- 수동/자동 커밋 모드는 한번 설정하면 해당 세션에서 계속 유지 (중간 변경도 가능)
+
+```sql
+set autocommit false;
+-- ...
+commit;
+```
+
 # Transaction Problem
 
 # Java Excaption
