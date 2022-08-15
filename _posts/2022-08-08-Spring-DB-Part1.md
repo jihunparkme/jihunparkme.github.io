@@ -425,6 +425,13 @@ Timeout trying to lock table {0}; SQL statement:
 ...
 ```
 
+**조회와 락**
+
+- 일반적인 조회는 락을 사용하지 않지만,
+- 락을 획득해서 변경을 막고 싶다면, `select .. for update` 구문을 사용
+  - 트랜잭션 종료 시점까지 해당 데이터를 다른 곳에서 변경하지 못하도록 강제로 막아야 할 경우 사용
+  - 해당 세션이 조회 시점에 락을 가져가버리기 때문에 다른 세션에서 해당 데이터를 변경할 수 없다(트랜잭션 커밋 시 락 반납)
+
 # Transaction Problem
 
 # Java Excaption
