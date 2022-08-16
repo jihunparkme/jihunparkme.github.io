@@ -443,7 +443,19 @@ Timeout trying to lock table {0}; SQL statement:
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/a7c5b2dafc32c69e59263bff7f1e4821cba8f79f)
 
-# Transaction Problem
+# Spring and Troubleshooting
+
+## 트랜잭션 문제
+
+**JDBC 구현 기술이 서비스 계층에 누수되는 문제**
+
+## 예외 누수 문제
+
+**데이터 접근 계층의 JDBC 구현 기술 예외가 서비스 계층으로 전파**
+
+## JDBC 반복 문제
+
+**try, catch, finally .. 유사한 코드의 반복**
 
 # Java Excaption
 
