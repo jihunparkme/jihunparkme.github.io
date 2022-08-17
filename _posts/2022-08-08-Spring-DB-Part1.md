@@ -432,7 +432,7 @@ Timeout trying to lock table {0}; SQL statement:
   - 트랜잭션 종료 시점까지 해당 데이터를 다른 곳에서 변경하지 못하도록 강제로 막아야 할 경우 사용
   - 해당 세션이 조회 시점에 락을 가져가버리기 때문에 다른 세션에서 해당 데이터를 변경할 수 없다(트랜잭션 커밋 시 락 반납)
 
-## 과거의 적용
+## 과거 트랜잭션 적용
 
 - 트랜잭션은 서비스 계층에서부터 시작
   - 비즈니스 로직이 잘못되면 문제가 되는 부분을 함께 롤백해주어야 한다.
@@ -445,17 +445,34 @@ Timeout trying to lock table {0}; SQL statement:
 
 # Spring and Troubleshooting
 
-## 트랜잭션 문제
+**기존 트랜잭션의 문제점**
 
-**JDBC 구현 기술이 서비스 계층에 누수되는 문제**
+- **트랜잭션 문제**
+  - JDBC 구현 기술이 서비스 계층에 누수되는 문제
+- **예외 누수 문제**
+  - 데이터 접근 계층의 JDBC 구현 기술 예외가 서비스 계층으로 전파
+- **JDBC 반복 문제**
+  - try, catch, finally .. 유사한 코드의 반복
 
-## 예외 누수 문제
+**트랜잭션 추상화**
 
-**데이터 접근 계층의 JDBC 구현 기술 예외가 서비스 계층으로 전파**
+- `PlatformTransactionManager` interface
+  - JdbcTransactionManager
+  - JpaTransactionManager
+  - HibernateTransactionManager
+  - EtcTransactionManager
 
-## JDBC 반복 문제
+```java
+public interface PlatformTransactionManager extends TransactionManager {
 
-**try, catch, finally .. 유사한 코드의 반복**
+	TransactionStatus getTransaction(@Nullable TransactionDefinition definition) throws TransactionException;
+
+	void commit(TransactionStatus status) throws TransactionException;
+
+	void rollback(TransactionStatus status) throws TransactionException;
+}
+
+```
 
 # Java Excaption
 
