@@ -511,15 +511,16 @@ private Connection getConnection() throws SQLException {
 
 ```java
 private void close(Connection con, Statement stmt, ResultSet rs) {
-    JdbcUtils.closeResultSet(rs);
-    JdbcUtils.closeStatement(stmt);
+    //...
     DataSourceUtils.releaseConnection(con, dataSource);
 }
 ```
 
 - 트랜잭션을 사용하기 위해 동기화된 커넥션은 커넥션을 닫지 않고 그대로 유지
 - TransactionSynchronizationManager가 관리하는 커넥션이 없는 경우 해당 커넥션을 닫음
+- commit(status), rollback(status) 호출 시 알아서 release 수행
 
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/3e878dca32eaf1faecfbbf86272450d1d1174af2)
 
 # Java Excaption
 
