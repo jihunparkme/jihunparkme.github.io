@@ -454,6 +454,8 @@ Timeout trying to lock table {0}; SQL statement:
 - **JDBC 반복 문제**
   - try, catch, finally .. 유사한 코드의 반복
 
+## Spring Transaction Manager
+
 **트랜잭션 추상화**
 
 - `PlatformTransactionManager` interface
@@ -471,8 +473,23 @@ public interface PlatformTransactionManager extends TransactionManager {
 
 	void rollback(TransactionStatus status) throws TransactionException;
 }
-
 ```
+
+**리소스 동기화**
+
+- 트랜잭션을 유지하기 위해 트랜잭션의 시작부터 끝까지 같은 데이터베이스 커넥션을 유지해야 한다.
+  - 과거에는 파라미터로 커넥션을 전달했지만
+  - 스프링은 `org.springframework.transaction.support.TransactionSynchronizationManager`를 통해 `ThreadLocal`로 커넥션을 동기화
+    - `TransactionManager`는 내부에서 `TransactionSynchronizationManager`를 사용하고, `TransactionManager`를 통해 커넥션을 획득
+    - `ThreadLocal`을 사용해서 멀티쓰레드 상황에 안전하게 커넥션을 동기화가 가능
+
+.
+
+- 동작 방식
+  - 1.**TransactionManager는 dataSource를 통해 커넥션을 만들고** 트랜잭션 시작
+  - 2.TransactionManager는 트랜잭션이 시작된 커넥션을 **TransactionSynchronizationManager에 보관**
+  - 3.Repository는 **TransactionSynchronizationManager에 보관된 커넥션을 꺼내서** 사용
+  - 4.트랜잭션이 종료되면 TransactionManager는 **TransactionSynchronizationManager에 보관된 커넥션을 통해** 트랜잭션을 종료하고, 커넥션도 닫음
 
 # Java Excaption
 
