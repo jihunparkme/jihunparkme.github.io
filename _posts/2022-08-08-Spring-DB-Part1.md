@@ -491,6 +491,36 @@ public interface PlatformTransactionManager extends TransactionManager {
   - 3.Repository는 **TransactionSynchronizationManager에 보관된 커넥션을 꺼내서** 사용
   - 4.트랜잭션이 종료되면 TransactionManager는 **TransactionSynchronizationManager에 보관된 커넥션을 통해** 트랜잭션을 종료하고, 커넥션도 닫음
 
+## TransactionManager
+
+트랜잭션 동기화를 사용하려면 DataSourceUtils를 사용
+
+**DataSourceUtils.getConnection()**
+
+```java
+private Connection getConnection() throws SQLException {
+    Connection con = DataSourceUtils.getConnection(dataSource);
+    return con;
+}
+```
+
+- TransactionSynchronizationManager가 관리하는 커넥션이 있으면 해당 커넥션을 반환
+- 커넥션이 없는 경우 새로운 커넥션을 생성해서 반환
+
+**DataSourceUtils.releaseConnection()**
+
+```java
+private void close(Connection con, Statement stmt, ResultSet rs) {
+    JdbcUtils.closeResultSet(rs);
+    JdbcUtils.closeStatement(stmt);
+    DataSourceUtils.releaseConnection(con, dataSource);
+}
+```
+
+- 트랜잭션을 사용하기 위해 동기화된 커넥션은 커넥션을 닫지 않고 그대로 유지
+- TransactionSynchronizationManager가 관리하는 커넥션이 없는 경우 해당 커넥션을 닫음
+
+
 # Java Excaption
 
 # Spring Problem
