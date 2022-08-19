@@ -540,6 +540,24 @@ private void close(Connection con, Statement stmt, ResultSet rs) {
     - 획득한 커넥션을 통해 커밋/롤백 후 트랜잭션 종료
 10. 전체 `리소스`(TransactionSynchronizationManager, ThreadLocal, setAutoCommit(true), con.close()..) `정리`
 
+## Transaction Template
+
+템플릿 콜백 패턴 적용을 위해 `TransactionTemplate` 템플릿 클래스 작성
+- Transaction의 반복되는 try, catch, finally 코드 제거
+- 단, 서비스 로직에 트랜잭션 처리 코드가 포함되어 있는 단점이 존재
+
+```java
+public class TransactionTemplate {
+    private PlatformTransactionManager transactionManager;
+
+    // 응답값이 있을 경우 사용
+    public <T> T execute(TransactionCallback<T> action) {..}
+    // 응답값이 없을 경우 사용
+    void executeWithoutResult(Consumer<TransactionStatus> action) {..}
+}
+```
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/2f35347a20031d957e86c5af1281675344b12859)
 
 # Java Excaption
 
