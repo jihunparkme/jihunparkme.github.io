@@ -522,6 +522,25 @@ private void close(Connection con, Statement stmt, ResultSet rs) {
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/3e878dca32eaf1faecfbbf86272450d1d1174af2)
 
+## Transaction Manager 전체 동작 흐름
+
+서비스 로직 실행..
+
+1. 서비스 계층에서 `트랜잭션 시작`. getTransaction()
+2. transactionManager는 내부에서 데이터소스를 사용해 `커넥션 생성`
+3. 커넥션을 `수동 커밋 모드로 변경`해서 실제 데이터베이스 트랜잭션 시작. setAutoCommit(false)
+4. 커넥션을 `TransactionSynchronizationManager`에 보관
+5. TransactionSynchronizationManager는 `ThreadLocal`에 커넥션을 보관
+   - ThreadLocal: 멀티 쓰레드 환경에서도 안전하게 커넥션 보관
+6. 서비스는 비즈니스 로직을 실행하면서 리포지토리의 `메서드들을 호출` (커넥션을 파라미터로 전달할 필요가 없어짐)
+7. 리포지토리는 DataSourceUtils.getConnection()을 통해 `TransactionSynchronizationManager`에 보관된 `커넥션을 꺼내서 사용`
+   - 같은 커넥션을 사용하고, 트랜잭션도 유지
+8. 획득한 커넥션을 사용해서 `SQL`을 데이터베이스에 `전달 및 실행`
+9. 비즈니스 로직이 끝나고 `트랜잭션을 종료`를 위해 `TransactionSynchronizationManager`를 통한 `동기화된 커넥션을 획득`
+    - 획득한 커넥션을 통해 커밋/롤백 후 트랜잭션 종료
+10. 전체 `리소스`(TransactionSynchronizationManager, ThreadLocal, setAutoCommit(true), con.close()..) `정리`
+
+
 # Java Excaption
 
 # Spring Problem
