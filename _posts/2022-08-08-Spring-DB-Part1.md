@@ -564,6 +564,10 @@ public class TransactionTemplate {
 **TransactionalProxy 도입을 통해 트랜잭션 처리 객체와 비즈니스 로직 처리 서비스 객체를 명확하게 분리**
 
 - `@Transactional`을 트랜잭션 처리가 필요한 곳에 추가해주면, 스프링의 트랜잭션 AOP가 트랜잭션 프록시를 적용하고 자동으로 트랜잭션 처리
+- `TransactionalProxy`를 도입하면 `@Transactional`이 붙어 있는 메서드나 클래스에 Spring이 해당 서비스 로직을 상속받아서 자동으로 트랜잭션 코드를 생성
+  - `xxxService$$EnhancerBySpringCGLIB$$..`
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/dfef452d4a4570a7b8666deed961da7af7ff13cc)
 
 # Java Excaption
 
