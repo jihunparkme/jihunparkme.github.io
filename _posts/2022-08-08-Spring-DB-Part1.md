@@ -559,6 +559,12 @@ public class TransactionTemplate {
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/2f35347a20031d957e86c5af1281675344b12859)
 
+## Transaction AOP
+
+**TransactionalProxy 도입을 통해 트랜잭션 처리 객체와 비즈니스 로직 처리 서비스 객체를 명확하게 분리**
+
+- `@Transactional`을 트랜잭션 처리가 필요한 곳에 추가해주면, 스프링의 트랜잭션 AOP가 트랜잭션 프록시를 적용하고 자동으로 트랜잭션 처리
+
 # Java Excaption
 
 # Spring Problem
