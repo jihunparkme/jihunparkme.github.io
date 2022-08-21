@@ -572,6 +572,91 @@ public class TransactionTemplate {
     - 획득한 커넥션을 통해 커밋/롤백 후 트랜잭션 종료
 12. 전체 `리소스`(TransactionSynchronizationManager, ThreadLocal, setAutoCommit(true), con.close()..) `정리`
 
+## SpringBoot 자동 리소스 등록
+
+**기존에는 데이터소스와 트랜잭션 매니저를 XML로 등록하거나 직접 스프링 빈으로 등록해야 했지만, SpringBoot를 통해 많은 부분이 자동화**
+
+### 자동 등록
+
+**DataSource**
+
+- `application.properties`에 있는 속성을 사용해서 DataSource를 생성하고 스프링 빈에 자동으로 등록
+  - 직접 DataSource를 빈으로 등록하면 스프링 부트는 자동으로 등록하지
+않음
+
+```properties
+spring.datasource.url=jdbc:h2:tcp://localhost/~/test
+spring.datasource.username=sa
+spring.datasource.password=
+```
+
+**TransactionManager**
+
+- 스프링 부트는 적절한 트랜잭션 매니저(PlatformTransactionManager)를 자동으로 스프링 빈에 등록
+  - 자동 등록 스프링 빈 이름: transactionManager
+  - DataSource와 마찬가지로 직접 TransactionManager를 빈으로 등록하면 스프링 부트는 자동으로 등록하지 않음
+- 자동으로 등록되는 트랜잭션 매니저는 현재 등록된 라이브러리를 보고 판단
+  - JDBC: DataSourceTransactionManager
+  - JPA: JpaTransactionManager 
+  - JDBC + JPA: JpaTransactionManager
+
+```java
+@Slf4j
+@SpringBootTest
+class MemberServiceV3_4Test {
+
+    @TestConfiguration
+    static class TestConfig {
+
+        private final DataSource dataSource;
+
+        public TestConfig(DataSource dataSource) {
+            this.dataSource = dataSource;
+        }
+
+        @Bean
+        MemberRepositoryV3 memberRepositoryV3() {
+            return new MemberRepositoryV3(dataSource);
+        }
+
+        @Bean
+        MemberServiceV3_3 memberServiceV3_3() {
+            return new MemberServiceV3_3(memberRepositoryV3());
+        }
+    }
+}
+```
+
+- SpringBoot가 application.properties에 지정된 속성을 참고해서 데이터소스와 트랜잭션 매니저를 자동으로 생성
+- 생성자를 통해 SpringBoot가 만들어준 데이터소스 빈을 주입 가능
+
+### 직접 등록
+
+```java
+@TestConfiguration
+static class TestConfig {
+    @Bean
+    DataSource dataSource() {
+        return new DriverManagerDataSource(URL, USERNAME, PASSWORD);
+    }
+
+    @Bean
+    PlatformTransactionManager transactionManager() {
+        return new DataSourceTransactionManager(dataSource());
+    }
+
+    @Bean
+    MemberRepositoryV3 memberRepositoryV3() {
+        return new MemberRepositoryV3(dataSource());
+    }
+
+    @Bean
+    MemberServiceV3_3 memberServiceV3_3() {
+        return new MemberServiceV3_3(memberRepositoryV3());
+    }
+}
+```
+
 # Java Excaption
 
 # Spring Problem
