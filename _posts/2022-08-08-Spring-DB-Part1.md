@@ -522,24 +522,6 @@ private void close(Connection con, Statement stmt, ResultSet rs) {
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/3e878dca32eaf1faecfbbf86272450d1d1174af2)
 
-## Transaction Manager 전체 동작 흐름
-
-서비스 로직 실행..
-
-1. 서비스 계층에서 `트랜잭션 시작`. getTransaction()
-2. transactionManager는 내부에서 데이터소스를 사용해 `커넥션 생성`
-3. 커넥션을 `수동 커밋 모드로 변경`해서 실제 데이터베이스 트랜잭션 시작. setAutoCommit(false)
-4. 커넥션을 `TransactionSynchronizationManager`에 보관
-5. TransactionSynchronizationManager는 `ThreadLocal`에 커넥션을 보관
-   - ThreadLocal: 멀티 쓰레드 환경에서도 안전하게 커넥션 보관
-6. 서비스는 비즈니스 로직을 실행하면서 리포지토리의 `메서드들을 호출` (커넥션을 파라미터로 전달할 필요가 없어짐)
-7. 리포지토리는 DataSourceUtils.getConnection()을 통해 `TransactionSynchronizationManager`에 보관된 `커넥션을 꺼내서 사용`
-   - 같은 커넥션을 사용하고, 트랜잭션도 유지
-8. 획득한 커넥션을 사용해서 `SQL`을 데이터베이스에 `전달 및 실행`
-9. 비즈니스 로직이 끝나고 `트랜잭션을 종료`를 위해 `TransactionSynchronizationManager`를 통한 `동기화된 커넥션을 획득`
-    - 획득한 커넥션을 통해 커밋/롤백 후 트랜잭션 종료
-10. 전체 `리소스`(TransactionSynchronizationManager, ThreadLocal, setAutoCommit(true), con.close()..) `정리`
-
 ## Transaction Template
 
 템플릿 콜백 패턴 적용을 위해 `TransactionTemplate` 템플릿 클래스 작성
@@ -563,11 +545,32 @@ public class TransactionTemplate {
 
 **TransactionalProxy 도입을 통해 트랜잭션 처리 객체와 비즈니스 로직 처리 서비스 객체를 명확하게 분리**
 
-- `@Transactional`을 트랜잭션 처리가 필요한 곳에 추가해주면, 스프링의 트랜잭션 AOP가 트랜잭션 프록시를 적용하고 자동으로 트랜잭션 처리
+- `@Transactional`을 트랜잭션 처리가 필요한 곳에 추가해주면, 스프링의 트랜잭션 AOP가 트랜잭션이 적용된 프록시를 생성하고 자동으로 트랜잭션 처리
 - `TransactionalProxy`를 도입하면 `@Transactional`이 붙어 있는 메서드나 클래스에 Spring이 해당 서비스 로직을 상속받아서 자동으로 트랜잭션 코드를 생성
   - `xxxService$$EnhancerBySpringCGLIB$$..`
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/dfef452d4a4570a7b8666deed961da7af7ff13cc)
+
+## 트랜잭션 AOP 동작 흐름
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/transaction-aop.png?raw=true 'Result')
+
+0. Transaction이 적용된 클래스/메서드 호출
+1. Transaction이 적용된 `Spring AOP Proxy 호출`
+2. Spring Container에 등록된 `Transaction Manager` 획득
+3. `트랜잭션 시작`. transactionManager.getTransaction()
+4. transactionManager는 내부에서 DataSource를 사용해 `커넥션 생성`
+5. 커넥션을 `수동 커밋 모드로 변경`해서 실제 데이터베이스 트랜잭션 시작. setAutoCommit(false)
+6. 커넥션을 `TransactionSynchronizationManager`에 보관
+7. TransactionSynchronizationManager는 `ThreadLocal`에 커넥션을 보관
+   - ThreadLocal: 멀티 쓰레드 환경에서도 안전하게 커넥션 보관
+8. Spring AOP Proxy에서 실제 비즈니스 로직을 실행하면서 리포지토리의 `메서드들을 호출` (커넥션을 파라미터로 전달할 필요가 없어짐)
+9. 리포지토리는 DataSourceUtils.getConnection()을 통해 `TransactionSynchronizationManager`에 보관된 `커넥션을 꺼내서 사용`
+    - 같은 커넥션을 사용하고, 트랜잭션도 유지
+10. 획득한 커넥션을 사용해서 `SQL`을 데이터베이스에 `전달 및 실행`
+11. 비즈니스 로직이 끝나고 `트랜잭션을 종료`를 위해 `TransactionSynchronizationManager`를 통한 `동기화된 커넥션을 획득`
+    - 획득한 커넥션을 통해 커밋/롤백 후 트랜잭션 종료
+12. 전체 `리소스`(TransactionSynchronizationManager, ThreadLocal, setAutoCommit(true), con.close()..) `정리`
 
 # Java Excaption
 
