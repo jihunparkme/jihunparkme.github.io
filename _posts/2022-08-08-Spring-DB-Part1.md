@@ -657,6 +657,10 @@ static class TestConfig {
 }
 ```
 
+> [ Configure a DataSource](https://docs.spring.io/spring-boot/docs/current/reference/html/data.html#data.sql.datasource)
+> 
+> [Common Application Properties](https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html)
+
 # Java Excaption
 
 # Spring Problem
