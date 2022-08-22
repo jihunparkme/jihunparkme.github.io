@@ -676,6 +676,7 @@ static class TestConfig {
   - unchecked exception
 - `Exception` : 애플리케이션 로직에서 사용할 수 있는 실질적인 최상위 예외
   - Exception과 그 하위 예외는 모두 컴파일러가 체크하는 checked exception
+  - 컴파일러가 체크해 주기 때문에 잡거나 던지거나 하나를 필수로 선택
   - 단, RuntimeException은 예외
 - `RuntimeException` : 컴파일러가 체크하지 않는 unchecked exception
   - RuntimeException과 그 자식 예외는 모두 unchecked exception
@@ -687,10 +688,22 @@ static class TestConfig {
 
 .
 
-- 예외 처리하기
+- 예외 잡기 `try-catch`
   - Repository 예외 발생 -> Service로 예외 throws -> Service에서 예외 처리 -> 이후 정상 흐름으로 동작
-- 예외 던지기
+- 예외 던지기 `throws Exception`
   - Repository 예외 발생 -> Service로 예외 throws -> Controller로 예외 throws
   - 예외를 처리하지 못하고 계속 던지면 main() 쓰레드의 경우 예외 로그를 출력하면서 시스템이 종료되고, 웹 애플리케이션의 경우 WAS가 해당 예외를 받아서 처리하는데, 주로 사용자에게 지정한 오류 페이지를 전달
+
+## Checked Exception
+
+**체크 예외는 잡아서 처리하거나, 밖으로 던지도록 선언**
+
+예외를 잡아서 처리할 수 없을 경우에는 예외를 throws로 던져줘야 함.
+
+- 장점: 실수로 예외를 누락하지 않도록 컴파일러를 통해 문제를 잡아주는 안전 장치
+- 단점: 모든 체크 예외를 반드시 잡거나 던지도록 처리해야 하는 번거로움
+  - 크게 신경쓰고 싶지 않은 예외까지 모두 챙겨야 하고, 의존관계에 따른 단점도 존재
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/e0376ce16d24366cc0cd90831eaa997f7683f948)
 
 # JDBC Repetitive Problem
