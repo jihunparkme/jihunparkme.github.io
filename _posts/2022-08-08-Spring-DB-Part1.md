@@ -75,7 +75,9 @@ DriverManager 커넥션 요청 흐름
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/07ceef6ef29e47d9b2a0ffaefbeb397791d1281f)
 
-## getConnection() & close()
+---
+
+**`getConnection() & close()`**
 
 **DriverManager**
 
@@ -145,7 +147,9 @@ public class MemberRepository {
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/4a040f96418607642bad23b60bb505c68f2cbdfa)
 
-## 등록
+---
+
+**`등록`**
 
 ```java
 @Slf4j
@@ -174,7 +178,9 @@ public class MemberRepository {
 }
 ```
 
-## 조회
+---
+
+**`조회`**
 
 ```java
 public Member findById(String memberId) throws SQLException {
@@ -207,7 +213,9 @@ public Member findById(String memberId) throws SQLException {
 }
 ```
 
-## 수정, 삭제
+---
+
+**`수정, 삭제`**
 
 ```java
 public void update(String memberId, int money) throws SQLException {
