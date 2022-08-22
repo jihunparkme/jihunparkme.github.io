@@ -667,4 +667,17 @@ static class TestConfig {
 
 # Java Excaption
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/java-exception.png?raw=true 'Result')
+
+- `Object` : 모든 객체의 최상위 부모
+- `Throwable` : 최상위 예외이다
+- `Error` : 애플리케이션에서 복구 불가능한 시스템 예외(메모리 부족이나 심각한 시스템 오류)
+  - unchecked exception
+  - 상위 예외를 잡으면 그 하위 예외(Error..)까지 함께 잡으므로, Throwable 예외는 잡지 말고, Exception부터 잡자.
+- `Exception` : 애플리케이션 로직에서 사용할 수 있는 실질적인 최상위 예외
+  - Exception과 그 하위 예외는 모두 컴파일러가 체크하는 checked exception
+  - 단, RuntimeException은 예외
+- `RuntimeException` : 컴파일러가 체크하지 않는 unchecked exception
+  - RuntimeException과 그 자식 예외는 모두 unchecked exception
+
 # JDBC Repetitive Problem
