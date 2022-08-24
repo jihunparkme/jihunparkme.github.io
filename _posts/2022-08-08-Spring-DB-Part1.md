@@ -744,4 +744,39 @@ static class TestConfig {
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/0124d2db88719152a47c8187bd928ba4ada69286)
 
+**`활용`**
+
+- CheckedException이 발생하면 RuntimeException으로 전환해서 예외를 던지자.
+- 시스템에서 발생한 예외는 대부분 복구 불가능 예외이므로, Runtime Exception을 사용하면 서비스나 컨트롤러가 복구 불가능한 예외를 신경쓰지 않아도 되고 공통으로 처리할 수 있다.
+- 해당 객체가 처리할 수 없는 예외는 무시하면 되므로, 예외를 강제로 의존하지 않아도 된다.
+- RuntimeException은 놓칠 수 있기 때문에 문서화가 중요
+  
+JPA EntityManager
+
+```java
+/**
+* Make an instance managed and persistent.
+* @param entity entity instance
+* @throws EntityExistsException if the entity already exists.
+* @throws IllegalArgumentException if the instance is not an
+* entity
+* @throws TransactionRequiredException if there is no transaction when
+* invoked on a container-managed entity manager of that is of type
+* <code>PersistenceContextType.TRANSACTION</code>
+*/
+public void persist(Object entity);
+
+```
+
+JdbcTemplate
+
+```java
+/**
+* Issue a single SQL execute, typically a DDL statement.
+* @param sql static SQL to execute
+* @throws DataAccessException if there is any problem
+*/
+void execute(String sql) throws DataAccessException;
+```
+
 # JDBC Repetitive Problem
