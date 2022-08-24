@@ -714,6 +714,20 @@ static class TestConfig {
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/e0376ce16d24366cc0cd90831eaa997f7683f948)
 
+**`활용`**
+
+\1. 기본적으로 Unchecked(Runtime) Exception를 사용하자.
+
+- Checked Exception은 Service, Controller에서 처리할 수 없는 예외를 throws 선언으로 계속 던지다보면, `복구 불가능한 예외`, `의존 관계 문제` 발생
+  - `복구 불가능한 예외`: 로그를 남기고 ServletFilter, SpringInterceptor, Spring ControllerAdvice를 통해 일관성있게 공통으로 처리하자. (실무의 대부분의 예외들은 복구 불가능한 시스템 예외)
+  - `의존 관계 문제`: 처리할 수도 없는 SQLException에 의존하여 기술이 변경되면 의존 코드를 전부 고쳐주어야 하는 문제 발생(OCP, DI 위반). -> Exception을 던져서 문제를 해결할 수 있을 것 같지만, 모든 예외를 다 단지기 떄문에 체크 예외를 체크할 수 있는 기능이 무효화
+
+\2. 체크 예외는 비즈니스 로직상 의도적으로 던지는 예외를 잡아서 반드시 처리해야 하는 경우에만 사용하자.
+
+- 계좌 이체 실패 예외
+- 결제시 포인트 부족 예외
+- 로그인 ID, PW 불일치 예외
+
 ## Unchecked Exception
 
 **컴파일러가 체크하지 않는 예외**
