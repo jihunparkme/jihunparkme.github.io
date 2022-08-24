@@ -704,7 +704,7 @@ static class TestConfig {
 
 ## Checked Exception
 
-**체크 예외는 잡아서 처리하거나, 밖으로 던지도록 선언**
+**컴파일러가 예외를 체크해주면, 잡아서 처리하거나, 밖으로 던지도록 선언**
 
 예외를 잡아서 처리할 수 없을 경우에는 예외를 throws로 던져줘야 함.
 
@@ -713,5 +713,21 @@ static class TestConfig {
   - 크게 신경쓰고 싶지 않은 예외까지 모두 챙겨야 하고, 의존관계에 따른 단점도 존재
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/e0376ce16d24366cc0cd90831eaa997f7683f948)
+
+## Unchecked Exception
+
+**컴파일러가 체크하지 않는 예외**
+
+체크 예외와 언체크 예외는 기본적으로 동일하지만, 
+
+- Checked Exception: 예외를 잡아서 처리하지 않으면 항상 throws 선언 필요
+- Unchecked Exception: 예외를 잡아서 처리하지 않아도 throws 생략 가능
+
+예외를 처리할 수 없을 때 예외를 밖으로 던지는데, throws를 필수로 선언해야 하는가 생략할 수 있는가의 차이가 큼
+
+- 장점: 신경쓰고 싶지 않은 언체크 예외는 무시하고 throws 선언 생략 가능
+- 단점: 컴파일러가 예외 누락을 잡아주지 않으므로, 실수로 예외를 누락할 수 있음
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/0124d2db88719152a47c8187bd928ba4ada69286)
 
 # JDBC Repetitive Problem
