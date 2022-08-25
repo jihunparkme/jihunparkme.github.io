@@ -779,4 +779,23 @@ JdbcTemplate
 void execute(String sql) throws DataAccessException;
 ```
 
+## Stack Trace
+
+**예외를 전환할 때는 반드시 기존 예외를 포함해야 하자**
+
+- 그렇지 않으면.. 스택 트레이스를 확인할 때 상단에서 발생한 예외를 확인할 수 없는 심각한 문제 발셍
+- 로그를 출력할 때 마지막 파라미터에 예외를 넣어주면 로그에 스택 트레이스 출력 가능
+
+```java
+@Test
+void printEx() {
+    Controller controller = new Controller();
+    try {
+        controller.request();
+    } catch (Exception e) {
+        log.info("ex", e);
+    }
+}
+```
+
 # JDBC Repetitive Problem
