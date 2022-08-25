@@ -797,5 +797,8 @@ void printEx() {
     }
 }
 ```
+ 
+# Spring Exception
 
-# JDBC Repetitive Problem
+- 서비스 계층은 가급적 특정 구현 기술에 의존하지 않고, 순수하게 유지하는 것이 좋다.
+- 예외에 대한 의존을 해결하기 위해 런타임 예외를 적용해 보자.
