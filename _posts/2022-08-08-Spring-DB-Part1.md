@@ -801,6 +801,8 @@ void printEx() {
 # Spring Exception
 
 - 서비스 계층은 가급적 특정 구현 기술에 의존하지 않고, 순수하게 유지하는 것이 좋다.
-- 예외에 대한 의존(예외 누수)을 해결하기 위해 런타임 예외를 적용해 보자.
+- 예외에 대한 의존(예외 누수)을 해결하기 위해 런타임 예외와 인터페이스를 적용해 보자.
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/a677e76e32cf55c8199ea55af9ef1da95d7510bb)
+
+- 
