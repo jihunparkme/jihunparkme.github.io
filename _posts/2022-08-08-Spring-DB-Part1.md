@@ -805,4 +805,6 @@ void printEx() {
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/a677e76e32cf55c8199ea55af9ef1da95d7510bb)
 
-- 
+  ## 접근 예외 생성
+
+  Service Layer에서 특정 기술에 의존적인 예외(ex. SQLException)를 잡아서 처리할 경우, RuntimeException 예외를 속상받은 커스텀 예외로 변환해서 처리할 수 있음
