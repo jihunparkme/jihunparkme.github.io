@@ -805,9 +805,11 @@ void printEx() {
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/a677e76e32cf55c8199ea55af9ef1da95d7510bb)
 
-## 접근 예외 생성
+**접근 예외 생성**
 
 Service Layer에서 특정 기술에 의존적인 예외(ex. SQLException)를 잡아서 처리하고 싶을 경우, RuntimeException 예외를 속상받은 커스텀 예외를 Repository Layer에서 변환해서 처리할 수 있음
+
+- 단, SQL ErrorCode는 데이터베이스 마다 다르므로 데이터베이스에 종속적
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/102ae536eac0e7cd9296162d404cb7422337ae7b)
 
@@ -866,3 +868,5 @@ assertThat(resultEx.getClass()).isEqualTo(BadSqlGrammarException.class);
 ```
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/88bcc83bb8812622c130348cf2b1d5ab5d2805e4)
+
+**스프링 예외 추상화 적용**
