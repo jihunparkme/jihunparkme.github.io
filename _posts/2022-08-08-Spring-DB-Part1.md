@@ -811,18 +811,29 @@ Service Layer에서 특정 기술에 의존적인 예외(ex. SQLException)를 �
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/102ae536eac0e7cd9296162d404cb7422337ae7b)
 
-**데이터베이스가 전달하는 예외 추상화**
+## 스프링의 예외 추상화
 
 - 각 예외는 특정 기술에 종속되지 않게 설계
-  - 특정 기술을 사용하면서 발생하는 예외를 스프링이 제공하는 예외로 변환하는 역할도 수행
+  - 데이터베이스 오류 코드를 스프링이 정의한 예외로 자동 변환해 주는 변환기 제공
+  - 특정 기술을 사용하면서 발생하는 예외를 스프링이 제공하는 예외로 변환하는 역할  수행
+
+- 스프링이 제공하는 SQL 예외 변환기
+  
+  ```java
+  SQLExceptionTranslator exTranslator = new SQLErrorCodeSQLExceptionTranslator(dataSource);
+  DataAccessException resultEx = exTranslator.translate("explanation", sql, e);
+  // => 적절한 스프링 데이터 접근 계층의 예외로 변환해서 반환
+
+  assertThat(resultEx.getClass()).isEqualTo(BadSqlGrammarException.class);
+  ```
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-exception.png?raw=true 'Result')
 
 - 스프링이 제공하는 데이터 접근 계층의 모든 예외는 런타임 예외
 - `DataAccessException`
-  - `NonTransient Exception`
+  - `NonTransient` Exception
     - 일시적이지 않은 예외, 같은 SQL을 그대로 반복 실행하면 실패
     - ex. SQL 문법 오류, 데이터베이스 제약조건 위배 등
-  - `Transient Exception`
+  - `Transient` Exception
     - 일시적인 예외, 하위 예외는 동일한 SQL을 다시 시도했을 때 성공할 가능성 존재
     - ex. 쿼리 타임아웃, 락 관련 오류 등
