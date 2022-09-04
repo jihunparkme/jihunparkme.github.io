@@ -833,19 +833,38 @@ Service Layer에서 특정 기술에 의존적인 예외(ex. SQLException)를 �
 - 특정 기술을 사용하면서 발생하는 예외를 스프링이 제공하는 예외로 변환하는 역할 수행
 - 예외 변환기를 통해서 SQLException의 ErrorCode에 맞는 적절한 스프링 데이터 접근 예외로 변환
 - Service/Controller Layer에서 예외 처리가 필요하면 특정 기술에 종속적인 SQLException 대신 스프링이 제공하는 데이터 접근 예외를 사용
-  ```java
-  // Repository.java
-  try {
-  } catch (SQLException e) {
-    throw exTranslator.translate("save", sql, e);
-  }
-  
-  // Service.java
-  try {
-  } catch (DuplicateKeyException e) {
-    //..
-  }
-  ```
+  - Repository
+    ```java
+    public class MemberRepositoryImpl implements MemberRepository {
+      private final SQLExceptionTranslator exTranslator;
+
+      public MemberRepositoryImpl(DataSource dataSource) {
+          this.dataSource = dataSource;
+          this.exTranslator = new SQLErrorCodeSQLExceptionTranslator(dataSource);
+      }
+
+      //...
+
+      @Override
+      public Member save(Member member) {
+          try {
+              // save logic
+          } catch (SQLException e) {
+              throw exTranslator.translate("save", sql, e);
+          } finally {
+              close(con, pstmt, null);
+          }
+      }
+    }
+    ```
+  - Service
+    ```java
+    try {
+      MemberRepository.save(member);
+    } catch (DuplicateKeyException e) {
+      //..
+    }
+    ```
 
 **스프링이 제공하는 SQL 예외 변환기**
   
