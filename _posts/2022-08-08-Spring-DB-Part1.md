@@ -836,6 +836,7 @@ Service Layer에서 특정 기술에 의존적인 예외(ex. SQLException)를 �
   - Repository
     ```java
     public class MemberRepositoryImpl implements MemberRepository {
+      private final DataSource dataSource;
       private final SQLExceptionTranslator exTranslator;
 
       public MemberRepositoryImpl(DataSource dataSource) {
@@ -852,7 +853,7 @@ Service Layer에서 특정 기술에 의존적인 예외(ex. SQLException)를 �
           } catch (SQLException e) {
               throw exTranslator.translate("save", sql, e);
           } finally {
-              close(con, pstmt, null);
+            // close
           }
       }
     }
