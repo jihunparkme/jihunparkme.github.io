@@ -903,3 +903,5 @@ assertThat(resultEx.getClass()).isEqualTo(BadSqlGrammarException.class);
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/88bcc83bb8812622c130348cf2b1d5ab5d2805e4)
 
 **스프링 예외 추상화 적용**
+
+- 
