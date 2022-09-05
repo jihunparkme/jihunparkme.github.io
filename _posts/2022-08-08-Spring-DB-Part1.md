@@ -902,6 +902,58 @@ assertThat(resultEx.getClass()).isEqualTo(BadSqlGrammarException.class);
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/88bcc83bb8812622c130348cf2b1d5ab5d2805e4)
 
-**스프링 예외 추상화 적용**
+**템플릿 콜백 패턴**
 
-- 
+- JDBC의 반복 문제를 해결 `JdbcTemplate`
+  - 커넥션 조회, 커넥션 동기화
+  - PeparedStatement 생성 및 파라미터 바인딩
+  - 쿼리 실행
+  - 결과 바인딩
+  - 예외 발생시 스프링 예외 변환기 실행
+  - 리소스 종료
+- 트랜잭션을 위한 커넥션 동기화, 스프링 예외 변환기도 자동 실행
+
+```java
+@Slf4j
+public class MemberRepository implements MemberRepository {
+    private final JdbcTemplate template;
+
+    public MemberRepository(DataSource dataSource) {
+        template = new JdbcTemplate(dataSource);
+    }
+
+    @Override
+    public Member save(Member member) {
+        String sql = "insert into member(member_id, money) values(?, ?)";
+        template.update(sql, member.getMemberId(), member.getMoney());
+        return member;
+    }
+
+    @Override
+    public Member findById(String memberId) {
+        String sql = "select * from member where member_id = ?";
+        return template.queryForObject(sql, memberRowMapper(), memberId);
+    }
+
+    @Override
+    public void update(String memberId, int money) {
+        String sql = "update member set money=? where member_id=?";
+        template.update(sql, money, memberId);
+    }
+
+    @Override
+    public void delete(String memberId) {
+        String sql = "delete from member where member_id=?";
+        template.update(sql, memberId);
+    }
+
+    private RowMapper<Member> memberRowMapper() {
+        return (rs, rowNum) -> {
+            Member member = new Member();
+            member.setMemberId(rs.getString("member_id"));
+            member.setMoney(rs.getInt("money"));
+            return member;
+        };
+    }
+}
+```
