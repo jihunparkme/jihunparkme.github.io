@@ -62,3 +62,7 @@ featured-img: spring-db-part-2
 
 **단점**
 - 동적 SQL 작성이 어려움
+
+**기본 적용**
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/cda214cbc34892473c3a20600284f54ddf106377)
