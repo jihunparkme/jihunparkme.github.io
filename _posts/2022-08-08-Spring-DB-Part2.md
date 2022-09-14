@@ -61,8 +61,10 @@ featured-img: spring-db-part-2
     - 예외 발생시 스프링 예외 변환기 실행...
 
 **단점**
-- 동적 SQL 작성이 어려움
+- 동적 쿼리 작성의 어려움(개발자가 직접 작성해 주어야 함..)
 
 **기본 적용**
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/cda214cbc34892473c3a20600284f54ddf106377)
+
+[Memory to JdbcTemplate](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/8af0157ca827a31bd215e7ca8f3e3093ab7a177d)
