@@ -68,3 +68,50 @@ featured-img: spring-db-part-2
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/cda214cbc34892473c3a20600284f54ddf106377)
 
 [Memory to JdbcTemplate](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/8af0157ca827a31bd215e7ca8f3e3093ab7a177d)
+
+## NamedParameterJdbcTemplate
+
+**이름 지정 파라미터**
+
+- 바인딩으로 인한 문제를 줄이기 위해 NamedParameterJdbcTemplate는 SQL에서 `?` 대신 `:parameterName` 을 사용
+- 코드를 줄이는 것도 중요하지만, 모호함을 제거해서 코드를 명확하게 만드는 것이 유지보수 관점에서 매우 중요
+
+**SqlParameterSource**
+
+BeanPropertySqlParameterSource
+
+```java
+String sql = "insert into item (item_name, price, quantity) " +
+                "values (:itemName, :price, :quantity)";
+
+SqlParameterSource param = new BeanPropertySqlParameterSource(item);
+```
+
+MapSqlParameterSource
+
+```java
+String sql = "update item " +
+        "set item_name=:itemName, price=:price, quantity=:quantity " +
+        "where id=:id";
+
+SqlParameterSource param = new MapSqlParameterSource()
+        .addValue("itemName", updateParam.getItemName())
+        .addValue("price", updateParam.getPrice())
+        .addValue("quantity", updateParam.getQuantity())
+        .addValue("id", itemId); //이 부분이 별도로 필요하다.
+```
+
+Map
+
+```java
+String sql = "select id, item_name, price, quantity from item where id = :id ";
+
+Map<String, Object> param = Map.of("id", id);
+Item item = template.queryForObject(sql, param, itemRowMapper());
+```
+
+BeanPropertyRowMapper
+
+```java
+BeanPropertyRowMapper<Item> rowMapper = BeanPropertyRowMapper.newInstance(Item.class);
+```
