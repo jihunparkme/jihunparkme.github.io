@@ -81,15 +81,20 @@ featured-img: spring-db-part-2
 **SqlParameterSource**
 
 BeanPropertySqlParameterSource
+- 자동으로 파라미터 객체를 생성
+- getXXX()를 활용해 자동 생성
 
 ```java
 String sql = "insert into item (item_name, price, quantity) " +
                 "values (:itemName, :price, :quantity)";
 
 SqlParameterSource param = new BeanPropertySqlParameterSource(item);
+KeyHolder keyHolder = new GeneratedKeyHolder();
+template.update(sql, param, keyHolder);
 ```
 
 MapSqlParameterSource
+- SQL에 더 특화된 기능 제공
 
 ```java
 String sql = "update item " +
@@ -100,10 +105,10 @@ SqlParameterSource param = new MapSqlParameterSource()
         .addValue("itemName", updateParam.getItemName())
         .addValue("price", updateParam.getPrice())
         .addValue("quantity", updateParam.getQuantity())
-        .addValue("id", itemId); //이 부분이 별도로 필요하다.
+        .addValue("id", itemId); // 별도로 필요
 ```
 
-Map
+**Map**
 
 ```java
 String sql = "select id, item_name, price, quantity from item where id = :id ";
@@ -112,7 +117,10 @@ Map<String, Object> param = Map.of("id", id);
 Item item = template.queryForObject(sql, param, itemRowMapper());
 ```
 
-BeanPropertyRowMapper
+**BeanPropertyRowMapper**
+
+- ResultSet 결과를 받아서 자바빈 규약에 맞춰 데이터 변환
+- 언더스코어 표기법을 카멜로 자동 변환
 
 ```java
 BeanPropertyRowMapper<Item> rowMapper = BeanPropertyRowMapper.newInstance(Item.class);
