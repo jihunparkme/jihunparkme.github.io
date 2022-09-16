@@ -19,7 +19,26 @@
     searchInput: document.getElementById('search-input'),
     resultsContainer: document.getElementById('search-results'),
     json: '{{ site.url }}{{ site.baseurl }}search.json',
-    searchResultTemplate: '<li><a href="{url}?query={query}" title="{desc}">{title}</a></li>',
+    searchResultTemplate: `
+      <li>
+        <div>
+          <i class="fas fa-tags fa-fw"></i>
+          <a href="{url}">{tags}</a>
+        </div>
+        <div>
+          <i class="fas fa-book fa-fw"></i>
+          <a href="{url}">{title}</a>
+        </div>
+        <div>
+          <i class="fas fa-calendar-alt fa-fw"></i>
+          <a href="{url}">{date}</a>
+        </div>
+        <div>
+          <i class="fas fa-link fa-fw"></i>
+          <a href="{url}" style="font-size: 1rem;">{urlString}</a>
+        </div>
+      </li>
+    `,
     noResultsText: 'No results found',
     limit: 10,
     fuzzy: false,
