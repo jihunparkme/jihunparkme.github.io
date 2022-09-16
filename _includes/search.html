@@ -1,7 +1,16 @@
-<div id="search-demo-container">
-  <input type="search" id="search-input" placeholder="search...">
-  <ul id="results-container"></ul>
+<div class="common-header search">
+  <div class="search">
+    <i class="fas fa-search fa-fw"></i>
+    <input id="search-input" 
+      type="search" 
+      tabindex="1" 
+      spellcheck="false" 
+      placeholder="Search"
+    >
+  </div>
 </div>
+
+<ul id="search-results"></ul>
 
 <script src="{{ site.url }}{{ site.baseurl }}assets/js/simple-jekyll-search.js"></script>
 
