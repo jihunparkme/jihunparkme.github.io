@@ -125,3 +125,35 @@ Item item = template.queryForObject(sql, param, itemRowMapper());
 ```java
 BeanPropertyRowMapper<Item> rowMapper = BeanPropertyRowMapper.newInstance(Item.class);
 ```
+
+## SimpleJdbcInsert
+
+**INSERT SQL을 직접 작성하지 않아도 되도록 편의기능 제공**
+
+생성 시점에 데이터베이스 테이블의 메타 데이터를 조회해서 테이블에 어떤 컬럼이 있는지 확인
+
+- `withTableName` : 데이터를 저장할 테이블명 지정
+- `usingGeneratedKeyColumns` : key를 생성하는 PK 컬럼명 지정
+- `usingColumns` : INSERT SQL에 사용할 컬럼 지정(생량 가능)
+  - 특정 컬럼만 지정해서 저장하고 싶을 경우 사용
+
+```java
+private final NamedParameterJdbcTemplate template;
+private final SimpleJdbcInsert jdbcInsert;
+
+public JdbcTemplateItemRepositoryV3(DataSource dataSource) {
+    this.template = new NamedParameterJdbcTemplate(dataSource);
+    this.jdbcInsert = new SimpleJdbcInsert(dataSource)
+            .withTableName("item")
+            .usingGeneratedKeyColumns("id");
+            .usingColumns("item_name", "price", "quantity");
+}
+
+@Override
+public Item save(Item item) {
+    SqlParameterSource param = new BeanPropertySqlParameterSource(item);
+    Number key = jdbcInsert.executeAndReturnKey(param);
+    item.setId(key.longValue());
+    return item;
+}
+```
