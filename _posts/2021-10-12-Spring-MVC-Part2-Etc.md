@@ -337,8 +337,8 @@ public String converterView(Model model) {
 ```
 
 - converter-view.html
-  - 변수 표현식 : ${...}
-  - 컨버전 서비스 적용 : ${{...}}
+  - 변수 표현식 : `${...}`
+  - 컨버전 서비스 적용 : `${{...}}`
 
 ```html
 <li>${ipPort}: <span th:text="${ipPort}"></span></li>
