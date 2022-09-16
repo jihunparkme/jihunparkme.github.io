@@ -1079,3 +1079,79 @@ code {
 img {
     border-radius: '10px'
 }
+/* search */
+.common-header {
+    margin: 3.5rem 0 .5rem;
+}
+.common-header-title {
+    color: #aaa;
+    font-family: "Noto Sans KR", "Noto Sans", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: .9rem;
+    text-align: left;
+}
+.common-header-title h1 {
+    font-size: 2.1rem;
+    margin: 0;
+}
+.common-header.search {
+    display: table;
+    border: 2px solid #555;
+    border-radius: 6px;
+    width: 100%;
+    height: 3.2rem;
+    padding: 0 .8rem;
+}
+.common-header.search .search {
+    display: table-cell;
+    vertical-align: middle;
+}
+.common-header.search .search i {
+    color: #555;
+    font-size: 1.5rem;
+}
+.common-header.search .search #search-input {
+    border: none;
+    text-overflow: ellipsis;
+    color: #555;
+    font-family: "Noto Sans KR", "Noto Sans", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    line-height: 3rem;
+    width: calc(100% - 2.2rem);
+    height: 3rem;
+    padding-left: .5rem;
+    -webkit-appearance: none;
+}
+.common-header.search .search #search-input:focus {
+    outline: none;
+}
+.common-header.search .search #search-input::placeholder {
+    color: #aaa;
+}
+.common-header.search .search #search-input::-ms-clear {
+    display: none;
+}
+.common-header.search .search #search-input::-webkit-search-decoration, .common-header.search .search #search-input::-webkit-search-cancel-button, .common-header.search .search #search-input::-webkit-search-results-button, .common-header.search .search #search-input::-webkit-search-results-decoration {
+    display: none;
+    -webkit-appearance: none;
+}
+#search-results {
+    list-style: none;
+    padding: .1rem .5rem;
+}
+#search-results li {
+    font-size: 1.2rem;
+    margin: 2rem 0;
+}
+#search-results li div {
+    display: flex;
+    align-items: baseline;
+}
+#search-results li a {
+    color: #555;
+    width: calc(100% - 2rem);
+    padding-left: .8rem;
+}
+#search-results li a b {
+    color: #2dc84d;
+}
