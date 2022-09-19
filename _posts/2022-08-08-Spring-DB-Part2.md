@@ -46,6 +46,8 @@ featured-img: spring-db-part-2
 
 # Spring JdbcTemplate
 
+간단하고 실용적인 방법
+
 **장점**
 - 설정이 편리
   - spring-boot-starter-jdbc 라이브러리만 추가하고 별도의 추가 설정은 불필요
@@ -252,3 +254,18 @@ jdbcTemplate.update(
 		"call SUPPORT.REFRESH_ACTORS_SUMMARY(?)",
 		Long.valueOf(unionId));
 ```
+
+## JDBC TEST
+
+`@SpringBootTest`는 `@SpringBootApplication`을 찾고 해당 설정을 사용
+
+**데이터베이스 분리**
+```text
+DB 생성: jdbc:h2:~/testcase 
+DB 접속: jdbc:h2:tcp://localhost/~/testcase
+```
+
+**테스트의 중요한 원칙**
+
+- 테스트는 다른 테스트와 격리해야 한다.
+- 테스트는 반복해서 실행할 수 있어야 한다
