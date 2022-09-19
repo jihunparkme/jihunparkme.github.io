@@ -59,9 +59,9 @@
         }, []);
 
       const lowerCaseValue = value.toLowerCase();
-      var ranges = [];
+      let ranges = [];
       for (const query of queries) {
-        var index = 0;
+        let index = 0;
         while ((index = lowerCaseValue.indexOf(query, index)) > -1) {
           ranges.push([index, index + query.length]);
           index += query.length;
@@ -72,7 +72,7 @@
         return value
       }
 
-      ranges.sort((a, b) => a[0] - b[0] || b[1] - a[1])
+      ranges.sort((a, b) => a[0] - b[0] || b[1] - a[1]);
       ranges = ranges.reduce((a, b) => {
         const last = a[a.length - 1];
         if (a.length == 0 || last[1] < b[0]) {
@@ -83,7 +83,7 @@
         return a;
       }, []);
 
-      for (var i = 0; i < ranges.length; i++) {
+      for (let i = 0; i < ranges.length; i++) {
         ranges[i][0] += i * 7;
         ranges[i][1] += i * 7 + 3;
       }
