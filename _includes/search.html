@@ -15,6 +15,10 @@
 <script src="{{ site.url }}{{ site.baseurl }}assets/js/simple-jekyll-search.js"></script>
 
 <script>
+  String.prototype.insert = function(string, index) {
+    return this.slice(0, index) + string + this.slice(index)
+  }
+
   window.simpleJekyllSearch = new SimpleJekyllSearch({
     searchInput: document.getElementById('search-input'),
     resultsContainer: document.getElementById('search-results'),
@@ -91,10 +95,4 @@
     fuzzy: false,
     exclude: ['Welcome']
   })
-
-  if (String.prototype.insert === undefined) {
-    String.prototype.insert = function(string, index) {
-      return this.slice(0, index) + string + this.slice(index)
-    };
-  }
 </script>
