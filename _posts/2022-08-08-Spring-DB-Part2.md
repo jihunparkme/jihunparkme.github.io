@@ -301,3 +301,5 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
   - [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/fbe9c0ec69ab5c3d7b1b135ebce304f4179c4f2f)
 
 > [Initialize a Database Using Basic SQL Scripts](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts)
+> 
+> [Embedded Database Support](https://docs.spring.io/spring-boot/docs/current/reference/html/data.html#data.sql.datasource.embedded)
