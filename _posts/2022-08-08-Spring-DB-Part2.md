@@ -269,3 +269,14 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 
 - 테스트는 다른 테스트와 격리해야 한다.
 - 테스트는 반복해서 실행할 수 있어야 한다
+
+**데이터 롤백**
+
+- 트랜잭션 관리자는 `PlatformTransactionManager`를 주입 받아서 사용
+  - 스프링 부트는 적절한 트랜잭션 매니저를 스프링 빈으로 자동 등록
+- `@BeforeEach`: 각의 테스트 케이스 실행 직전에 호출(트랜잭션 시작 위치)
+  - transactionManager.getTransaction(new DefaultTransactionDefinition())
+- `@AfterEach`: 각의 테스트 케이스 완료 직후에 호출(트랜잭션 롤백 위치)
+  - transactionManager.rollback(status)
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/3318aa0cb576182582ac97168b49933efa5bd5c0)
