@@ -288,3 +288,16 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 - 강제로 커밋을 하고 싶을 경우에는, `@Commit` 또는 `@Rollback(value = false)`를 같이 사용
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/ad3d94159de2b779016bca1141724df3ff7e45c3)
+
+**Embedded mode DB**
+
+- H2 데이터베이스 JVM 안에서 메모리 모드로 동작하는 기능 제공
+- DB를 애플리케이션에 내장해서 함께 실행
+- dataSource.setUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1");
+  - `jdbc:h2:mem:db`: 임베디드(메모리) 모드로 동작하는 H2 데이터베이스 사용
+  - `DB_CLOSE_DELAY=-1`: 임베디드 모드에서 데이터베이스 커넥션 연결이 모두 끊어지면
+데이터베이스도 종료되는 현상을 방지
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/fbe9c0ec69ab5c3d7b1b135ebce304f4179c4f2f)
+
+> [Initialize a Database Using Basic SQL Scripts](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts)
