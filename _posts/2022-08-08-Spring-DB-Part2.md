@@ -280,3 +280,11 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
   - transactionManager.rollback(status)
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/3318aa0cb576182582ac97168b49933efa5bd5c0)
+
+**@Transactionanl**
+
+- Spring @Transactional은 로직이 성공적으로 수행되면 커밋이 동작하지만
+- 테스트에서 사용하면 테스트를 트랜잭션 안에서 실행하고, 테스트가 끝나면 트랜잭션을 자동으로 롤백
+- 강제로 커밋을 하고 싶을 경우에는, `@Commit` 또는 `@Rollback(value = false)`를 같이 사용
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/ad3d94159de2b779016bca1141724df3ff7e45c3)
