@@ -255,7 +255,7 @@ jdbcTemplate.update(
 		Long.valueOf(unionId));
 ```
 
-## JDBC TEST
+## 🌞 JDBC TEST
 
 `@SpringBootTest`는 `@SpringBootApplication`을 찾고 해당 설정을 사용
 
@@ -281,7 +281,7 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/3318aa0cb576182582ac97168b49933efa5bd5c0)
 
-**@Transactionanl**
+🌞 **@Transactionanl**
 
 - Spring @Transactional은 로직이 성공적으로 수행되면 커밋이 동작하지만
 - 테스트에서 사용하면 테스트를 트랜잭션 안에서 실행하고, 테스트가 끝나면 트랜잭션을 자동으로 롤백
@@ -289,7 +289,7 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/ad3d94159de2b779016bca1141724df3ff7e45c3)
 
-**Embedded mode DB**
+🌞 **Embedded mode DB**
 
 - H2 데이터베이스는 JVM 안에서 메모리 모드로 동작하는 기능을 제공
   - DB를 애플리케이션에 내장해서 함께 실행
