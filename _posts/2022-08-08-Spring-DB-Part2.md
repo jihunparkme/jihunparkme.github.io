@@ -303,3 +303,5 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 > [Initialize a Database Using Basic SQL Scripts](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts)
 > 
 > [Embedded Database Support](https://docs.spring.io/spring-boot/docs/current/reference/html/data.html#data.sql.datasource.embedded)
+
+
