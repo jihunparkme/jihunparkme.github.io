@@ -2,7 +2,7 @@
 layout: post
 title: 데이터 접근 활용 기술
 summary: Spring DB Part 2. 데이터 접근 활용 기술
-categories: (Inflearn)Spring-DB-Part-2 Spring-DB
+categories: Spring-DB
 featured-img: spring-db-part-2
 # mathjax: true
 ---
@@ -305,3 +305,10 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 > [Embedded Database Support](https://docs.spring.io/spring-boot/docs/current/reference/html/data.html#data.sql.datasource.embedded)
 
 
+# MyBatis
+
+- 기본적으로 JdbcTemplate이 제공하는 대부분 기능 제공
+- SQL을 XML에 작성하고 동적 쿼리를 편리하게 작성할 수 있는 장점
+- 동적 쿼리와 복잡한 쿼리가 많다면 `MyBatis`, 단순한 쿼리가 많으면 `JdbcTemplate` 선택
+
+> [Mybatis](https://mybatis.org/mybatis-3/ko/index.html)
