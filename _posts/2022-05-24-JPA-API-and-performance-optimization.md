@@ -2,7 +2,7 @@
 layout: post
 title: JAP API and Performance Otimization
 summary: JPA Programming Part 3. API 개발과 성능 최적화
-categories: (Inflearn)JPA-Programming JPA
+categories: JPA
 featured-img: jpa-spring-uses-2
 # mathjax: true
 ---
