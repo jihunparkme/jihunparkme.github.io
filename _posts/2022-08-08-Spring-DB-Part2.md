@@ -312,3 +312,17 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 - 동적 쿼리와 복잡한 쿼리가 많다면 `MyBatis`, 단순한 쿼리가 많으면 `JdbcTemplate` 선택
 
 > [Mybatis](https://mybatis.org/mybatis-3/ko/index.html)
+
+## 설정
+
+`mybatis.type-aliases-package`
+- 타입 정보 사용 시 패키지 이름 생략을 위한 설정 (지정한 패키지와 그 하위 패키지가 자동으로 인식)
+  - 여러 위치 지정 시 `,`, `;` 로 구분
+
+`mybatis.configuration.map-underscore-to-camel-case`
+- JdbcTemplate#BeanPropertyRowMapper처럼 언더바를 카멜로 자동 변경해주는 기능 활성화
+
+`logging.level.hello.itemservice.repository.mybatis=trace`
+- MyBatis에서 실행되는 쿼리 로그 확인을 위한 설정
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/d99d40f4f091f0a6e0c60e96df6e60b8aa735d35)
