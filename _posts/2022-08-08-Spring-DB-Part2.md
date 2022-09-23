@@ -326,3 +326,36 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 - MyBatis에서 실행되는 쿼리 로그 확인을 위한 설정
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/d99d40f4f091f0a6e0c60e96df6e60b8aa735d35)
+
+## 적용
+
+- XML 파일 경로를 지정할 경우
+  - resources/mapper 를 포함한 그 하위 폴더에 있는 XML
+  - `application.properties`
+    ```gradle
+    mybatis.mapper-locations=classpath:mapper/**/*.xml
+    ```
+- INSERT `<insert>`
+  - `id`: Mapper Class에 설정한 메서드 이름 지정
+  - `파라미터`:  #{} 문법을 사용하고 매퍼에서 넘긴 객체의 프로퍼티 이름을 기입
+  - `#{}` : PreparedStatement 를 사용(like. JDBC ? 치환)
+  - `useGeneratedKeys`: 데이터베이스가 키를 생성해 주는 IDENTITY 전략일 때 사용
+  - `keyProperty`: 생성되는 키의 속성 이름 지정
+- UPDATE `<update>`
+  - 파라미터가 한 개만 있으면 `@Param`을 지정하지 않아도 되지만, 두 개 이상이면 `@Param`으로 이름을 지정해서 파라미터 구분
+- SELECT `<select>`
+  - `resultType`: 반환 타입 명시(결과를 객체에 매핑) -> 결과를 객체로 바로 변환
+  - 반환 객체가 하나이면 Item, Optional<Item> 사용, 하나 이상이면 컬렉션 사용
+- 동적 쿼리
+  - `<if>`: 해당 조건이 만족하면 구문을 추가
+  - `<where>`: 적절하게 where 문장 생성
+- 특수문자
+  ```xml
+  < : &lt;
+  > : &gt;
+  & : &amp;
+
+  and price <![CDATA[<=]]> #{maxPrice}  
+  ```
+  
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/f8d293fd5d6c099d2884f41ae6b4546bc1522e83)
