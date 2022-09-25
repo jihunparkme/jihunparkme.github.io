@@ -359,3 +359,7 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
   ```
   
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/f8d293fd5d6c099d2884f41ae6b4546bc1522e83)
+
+## 실행
+
+[commit]()
