@@ -362,4 +362,7 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 
 ## 실행
 
-[commit]()
+- ItemRepository 를 구현한 `MyBatisItemRepository` 생성
+  - 단순히 ItemMapper 에 기능을 위임
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/1f5f2d6ebd8e90508784d8f8d6b32004999382f6)
