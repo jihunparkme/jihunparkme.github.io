@@ -366,3 +366,18 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
   - 단순히 ItemMapper 에 기능을 위임
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/1f5f2d6ebd8e90508784d8f8d6b32004999382f6)
+
+**Mapper Interface 의 동작**
+
+1. 애플리케이션 로딩 시점에 MyBatis 스프링 연동 모듈은 **@Mapper가 붙은 인터페이스를 탐색**
+2. 해당 인터페이스가 발견되면 동적 프록시 기술을 사용해서 **Mapper Interface의 구현체 생성**(class `com.sun.proxy.$Proxy66`)
+3. 생성된 구현체를 **스프링 빈으로 등록**
+
+**MyBatis 스프링 연동 모듈**
+
+- 인터페이스만으로 XML 데이터를 찾아서 호출 (Mapper 구현체 사용)
+- Mapper 구현체는 스프링 예외 추상화도 함께 적용
+  - MyBatis에서 발생한 예외를 DataAccessException(스프링 예외 추상화)에 맞게 변환
+- JdbcTemplate의 기본적인 설정들은 모두 자동으로 설정 (데이터베이스 커넥션, 트랜잭션 관련 기능 등..)
+
+> MyBatis 스프링 연동 모듈이 자동으로 등록해주는 부분은 `MybatisAutoConfiguration` class 참고
