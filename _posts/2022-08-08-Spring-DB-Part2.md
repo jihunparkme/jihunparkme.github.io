@@ -381,3 +381,78 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 - JdbcTemplate의 기본적인 설정들은 모두 자동으로 설정 (데이터베이스 커넥션, 트랜잭션 관련 기능 등..)
 
 > MyBatis 스프링 연동 모듈이 자동으로 등록해주는 부분은 `MybatisAutoConfiguration` class 참고
+
+## 기능
+
+**if**
+
+```xml
+ <select id="findActiveBlogWithTitleLike" resultType="Blog">
+    SELECT * FROM BLOG
+    WHERE state = ‘ACTIVE’
+    <if test="title != null">
+        AND title like #{title}
+    </if>
+</select>
+```
+
+**choose (when, otherwise)**
+
+```xml
+<select id="findActiveBlogLike" resultType="Blog">
+    SELECT * FROM BLOG WHERE state = ‘ACTIVE’
+    <choose>
+        <when test="title != null">
+            AND title like #{title}
+        </when>
+        <when test="author != null and author.name != null">
+            AND author_name like #{author.name}
+        </when>
+        <otherwise>
+            AND featured = 1
+        </otherwise>
+    </choose>
+</select>
+```
+
+**trim (where, set)**
+
+```xml
+<select id="findActiveBlogLike" resultType="Blog">
+    SELECT * FROM BLOG
+    <where>
+        <if test="state != null">
+            state = #{state}
+        </if>
+        <if test="title != null">
+            AND title like #{title}
+        </if>
+        <if test="author != null and author.name != null">
+            AND author_name like #{author.name}
+        </if>
+    </where>
+</select>
+```
+
+- `<where>`는 문장이 있으면 `where`를 추가 (만약 and가 먼저 시작된다면 and를 제거)
+
+**foreach**
+
+```xml
+<select id="selectPostIn" resultType="domain.blog.Post">
+    SELECT *
+    FROM POST P
+    <where>
+        <foreach item="item" index="index" collection="list"
+                  open="ID in (" separator="," close=")" nullable="true">
+            #{item}
+        </foreach>
+    </where>
+</select>
+```
+
+> [MyBatis](https://mybatis.org/mybatis-3/ko/index.html)
+> 
+> [MyBatis-Spring](https://mybatis.org/spring/ko/index.html)
+> 
+> [MyBatis 동적 SQL](https://mybatis.org/mybatis-3/ko/dynamic-sql.html)
