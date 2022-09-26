@@ -384,6 +384,10 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 
 ## 기능
 
+> [MyBatis](https://mybatis.org/mybatis-3/ko/index.html)
+> 
+> [MyBatis-Spring](https://mybatis.org/spring/ko/index.html)
+
 **if**
 
 ```xml
@@ -451,8 +455,39 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 </select>
 ```
 
-> [MyBatis](https://mybatis.org/mybatis-3/ko/index.html)
-> 
-> [MyBatis-Spring](https://mybatis.org/spring/ko/index.html)
-> 
 > [MyBatis 동적 SQL](https://mybatis.org/mybatis-3/ko/dynamic-sql.html)
+> 
+> [MyBatis Annotation SQL](https://mybatis.org/mybatis-3/ko/java-api.html)
+
+**재사용을 위한 SQL 조각**
+
+```xml
+<sql id="userColumns"> ${alias}.id,${alias}.username,${alias}.password </sql>
+
+<select id="selectUsers" resultType="map">
+    select
+    <include refid="userColumns"><property name="alias" value="t1"/></include>,
+    <include refid="userColumns"><property name="alias" value="t2"/></include>
+    from some_table t1
+    cross join some_table t2
+</select>
+```
+
+**Result Maps**
+
+- 컬럼명과 객체 프로퍼티명이 다를 경우 유용
+
+```xml
+<resultMap id="userResultMap" type="User">
+    <id property="id" column="user_id" />
+    <result property="username" column="username"/>
+    <result property="password" column="password"/>
+</resultMap>
+<select id="selectUsers" resultMap="userResultMap">
+    select user_id, user_name, hashed_password
+    from some_table
+    where id = #{id}
+</select>
+```
+
+> [Result Maps](https://mybatis.org/mybatis-3/ko/sqlmap-xml.html#Result_Maps)
