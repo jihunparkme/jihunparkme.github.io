@@ -491,3 +491,4 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 ```
 
 > [Result Maps](https://mybatis.org/mybatis-3/ko/sqlmap-xml.html#Result_Maps)
+
