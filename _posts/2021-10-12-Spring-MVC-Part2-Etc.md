@@ -2,7 +2,7 @@
 layout: post
 title: ETC
 summary: Spring MVC Part 2. 메시지, 국제화, 스프링 타입 컨버터, 파일 업로드
-categories: (Inflearn)Spring-MVC-2
+categories: Spring-MVC Spring
 featured-img: spring_mvc_2
 # mathjax: true
 ---

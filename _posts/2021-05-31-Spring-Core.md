@@ -2,7 +2,7 @@
 layout: post
 title: Spring Core
 summary: Inflearn Spring Core Principles (스프링 핵심 원리 - 기본편)
-categories: (Inflearn)Spring-core
+categories: Spring
 featured-img: spring_core
 # mathjax: true
 ---
@@ -15,15 +15,19 @@ featured-img: spring_core
 
 # A table of contents
 
-- [Spring](#Spring)
-- [좋은 객체지향의 5가지 원칙 (SOLID)](<#좋은-객체지향의-5가지-원칙-(SOLID)>)
-- [스프링과 객체지향](#스프링과-객체지향)
-- [IoC, DI, Container](#IoC,-DI,-Container)
-- [도메인 설계](#도메인-설계)
-- [싱글톤 컨테이너](#싱글톤-컨테이너)
-- [Component Scan](#Component-Scan)
-- [의존관계 자동 주입](#의존관계-자동-주입)
-- [빈 생성주기 콜백](#빈-생성주기-콜백)
+- [Inflearn_Spring2_Core_Principles](#inflearn_spring2_core_principles)
+- [A table of contents](#a-table-of-contents)
+  - [Spring](#spring)
+  - [좋은 객체지향의 5가지 원칙 (SOLID)](#좋은-객체지향의-5가지-원칙-solid)
+  - [스프링과 객체지향](#스프링과-객체지향)
+  - [IoC, DI, Container](#ioc-di-container)
+  - [도메인 설계](#도메인-설계)
+  - [싱글톤 컨테이너](#싱글톤-컨테이너)
+  - [Component Scan](#component-scan)
+  - [의존관계 자동 주입](#의존관계-자동-주입)
+    - [조회 빈이 2개 이상일 경우 발생하는 문제](#조회-빈이-2개-이상일-경우-발생하는-문제)
+    - [조회한 빈이 모두 필요할 경우](#조회한-빈이-모두-필요할-경우)
+  - [빈 생성주기 콜백](#빈-생성주기-콜백)
 
 ## Spring
 
