@@ -504,3 +504,21 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 - 계층분할의 어려움
   - 처음 실행하는 SQL에 따라 탐색 범위 결정
   - 객체 그래프 탐색에서 엔티티 신뢰 문제
+
+**JPA(Java Persistence API)**
+
+- 자바 진영의 ORM(Object-relational mapping) 기술 표준
+- 애플리케이션과 JDBC 사이에서 동작
+- 장점
+  - 객체 중심 개발(생산성, 유지보수)
+    - 상속, 연관관계
+  - 패러다임의 불일치 해결
+    - 객체 그래프 탐색
+  - 성능 최적화 기능
+    - 1차 캐시와 동일성 보장
+    - 쓰기 지연(insert query 모으기)
+    - 지연 로딩(객체 실제 사용 시 로딩)
+  - 데이터 접근 추상화 독립성
+  - 표준
+
+[JPA INTRO](https://jihunparkme.github.io/JPA-Programming-base/)
