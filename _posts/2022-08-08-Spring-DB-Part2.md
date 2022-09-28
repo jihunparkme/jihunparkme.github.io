@@ -492,3 +492,15 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 
 > [Result Maps](https://mybatis.org/mybatis-3/ko/sqlmap-xml.html#Result_Maps)
 
+# JPA
+
+**SQL 중심적인 개발의 문제점**
+
+- SQL에 의존적인 개발
+  - CRUD 코드의 반복
+  - 필드 수정 시 많은 양의 SQL 수정이 필요 
+- 객체와 관계형 데이터베이스간의 패러다임 불일치
+  - 객체 <-> SQL 매핑 작업에 많은 노력이 필요
+- 계층분할의 어려움
+  - 처음 실행하는 SQL에 따라 탐색 범위 결정
+  - 객체 그래프 탐색에서 엔티티 신뢰 문제
