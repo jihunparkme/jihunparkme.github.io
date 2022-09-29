@@ -522,3 +522,12 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
   - 표준
 
 [JPA INTRO](https://jihunparkme.github.io/JPA-Programming-base/)
+
+## 설정
+
+**application.properties**
+
+- `org.hibernate.SQL=DEBUG` : hibernate가 생성하고 실행하는 SQL 확인
+- `org.hibernate.type.descriptor.sql.BasicBinder=TRACE` : SQL에 바인딩 되는 파라미터 확인
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/80892c5dd1b2a62ff2a2d564f3a46c626520d077)
