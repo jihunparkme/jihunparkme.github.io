@@ -531,3 +531,27 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 - `org.hibernate.type.descriptor.sql.BasicBinder=TRACE` : SQL에 바인딩 되는 파라미터 확인
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/80892c5dd1b2a62ff2a2d564f3a46c626520d077)
+
+## 개발
+
+- JPA에서 가장 중요한 부분은 객체와 테이블을 매핑하는 것
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/5c7c08ed7b01c462043d9949dc7391c2d8ecb58c)
+
+## 예외
+
+- EntityManager는 예외가 발생하면 JPA 관련 예외를 발생
+  - `@Repository`를 통해 스프링이 예외 변환을 처리하는 AOP 생성
+- JPA는 `PersistenceException` 과 그 하위 예외를 발생
+  - 추가로 `IllegalStateException` , `IllegalArgumentException` 발생
+
+**@Repository의 기능**
+
+- 컴포넌트 스캔의 대상 + 예외 변환 AOP 적용 대상
+- 스프링 + JPA 사용 시 스프링은 JPA 예외 변환기(PersistenceExceptionTranslator) 등록
+- 예외 변환 AOP Proxy는 JPA 관련 예외가 발생하면 JPA 예외 변환기를 통해 발생한 예외를 스프링
+데이터 접근 예외로 변환 (PersistenceException -> DataAccessException)
+- 실제 JPA 예외를 변환하는 코드: 
+`EntityManagerFactoryUtils#convertJpaAccessExceptionIfPossible()`
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/repository-annotation.png?raw=true 'Result')
