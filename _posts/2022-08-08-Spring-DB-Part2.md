@@ -555,3 +555,4 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 `EntityManagerFactoryUtils#convertJpaAccessExceptionIfPossible()`
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/repository-annotation.png?raw=true 'Result')
+
