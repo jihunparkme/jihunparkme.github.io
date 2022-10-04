@@ -556,5 +556,102 @@ DB 접속: jdbc:h2:tcp://localhost/~/testcase
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/repository-annotation.png?raw=true 'Result')
 
+# Spring Data JPA
+
+JPA를 편리하게 사용할 수 있도록 도와주는 라이브러리
+
+대표적인 기능
+- 공통 인터페이스 기능
+- 쿼리 메서드 기능
+  
+
+**Spring Data**
+
+- Repository interface
+
+```java
+@Indexed
+public interface Repository<T, ID> {
+}
+```
+
+- CrudRepository interface
+
+```java
+@NoRepositoryBean
+public interface CrudRepository<T, ID> extends Repository<T, ID> {
+	<S extends T> S save(S entity);
+	<S extends T> Iterable<S> saveAll(Iterable<S> entities);
+	Optional<T> findById(ID id);
+	boolean existsById(ID id);
+	Iterable<T> findAll();
+	Iterable<T> findAllById(Iterable<ID> ids);
+	long count();
+	void deleteById(ID id);
+	void delete(T entity);
+	void deleteAllById(Iterable<? extends ID> ids);
+	void deleteAll(Iterable<? extends T> entities);
+	void deleteAll();
+}
+```
+
+- PagingAndSortingRepository interface
+
+```java
+@NoRepositoryBean
+public interface PagingAndSortingRepository<T, ID> extends CrudRepository<T, ID> {
+	Iterable<T> findAll(Sort sort);
+	Page<T> findAll(Pageable pageable);
+}
+```
+**Spring Data JPA**
+
+- JpaRepository interface
+  - 기본적인 CRUD 기능 제공
+
+```java
+@NoRepositoryBean
+public interface JpaRepository<T, ID> extends PagingAndSortingRepository<T, ID>, QueryByExampleExecutor<T> {
+
+	@Override
+	List<T> findAll();
+
+	@Override
+	List<T> findAll(Sort sort);
+
+	@Override
+	List<T> findAllById(Iterable<ID> ids);
+
+	@Override
+	<S extends T> List<S> saveAll(Iterable<S> entities);
+  
+  void flush();
+
+	<S extends T> S saveAndFlush(S entity);
+
+	<S extends T> List<S> saveAllAndFlush(Iterable<S> entities);
+
+	void deleteAllInBatch(Iterable<T> entities);
+
+	void deleteAllByIdInBatch(Iterable<ID> ids);
+
+	void deleteAllInBatch();
+
+	T getOne(ID id);
+
+	T getById(ID id);
+
+	@Override
+	<S extends T> List<S> findAll(Example<S> example);
+
+	@Override
+	<S extends T> List<S> findAll(Example<S> example, Sort sort);
+}
+```
 
 
+> [Spring Data](https://spring.io/projects/spring-data)
+> 
+> [Query Creation](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation)
+> 
+> [Limiting Query Results](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.limit-query-result)
