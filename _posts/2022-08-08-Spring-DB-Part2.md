@@ -564,6 +564,13 @@ JPA를 편리하게 사용할 수 있도록 도와주는 라이브러리
 - 공통 인터페이스 기능
 - 쿼리 메서드 기능
   
+**적용**
+
+```gradle
+implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+```
+
+- JPA, hibernate, Spring Data JPA, Spring JDBC 기능이 모두 포함
 
 **Spring Data**
 
@@ -649,6 +656,23 @@ public interface JpaRepository<T, ID> extends PagingAndSortingRepository<T, ID>,
 }
 ```
 
+**Using JpaRepository example**
+
+```java
+public interface SpringDataJpaItemRepository extends JpaRepository<Item, Long> {
+
+    List<Item> findByItemNameLike(String itemName);
+
+    List<Item> findByPriceLessThanEqual(Integer price);
+
+    // Query Method (아래 메서드와 같은 기능 수행)
+    List<Item> findByItemNameLikeAndPriceLessThanEqual(String itemName, Integer price);
+
+    // JPQL
+    @Query("select i from Item i where i.itemName like :itemName and i.price <=:price")
+    List<Item> findItems(@Param("itemName") String itemName, @Param("price") Integer price);
+}
+```
 
 > [Spring Data](https://spring.io/projects/spring-data)
 > 
