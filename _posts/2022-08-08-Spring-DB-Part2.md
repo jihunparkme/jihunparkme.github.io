@@ -565,7 +565,7 @@ JPA를 편리하게 사용할 수 있도록 도와주는 라이브러리
 - 쿼리 메서드 기능
 
 참고
-- Spring Data JPA가 Repository Proxy를 만들고 스프링 빈으로 등록
+- Spring Data JPA가 Repository 구현 클래스(Proxy)를 자동으로 생성하고 스프링 빈으로 등록
 - 스프링 예외 추상화 지원 (Spring Data JPA가 만들어주는 Proxy에서 예외 변환을 처리)
   
 **적용**
@@ -683,5 +683,6 @@ public interface SpringDataJpaItemRepository extends JpaRepository<Item, Long> {
 > [Query Creation](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation)
 > 
 > [Limiting Query Results](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.limit-query-result)
+
 
 
