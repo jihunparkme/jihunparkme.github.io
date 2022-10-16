@@ -683,3 +683,5 @@ public interface SpringDataJpaItemRepository extends JpaRepository<Item, Long> {
 > [Query Creation](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation)
 > 
 > [Limiting Query Results](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.limit-query-result)
+
+
