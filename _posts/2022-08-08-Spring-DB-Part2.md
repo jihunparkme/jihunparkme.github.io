@@ -684,4 +684,8 @@ public interface SpringDataJpaItemRepository extends JpaRepository<Item, Long> {
 > 
 > [Limiting Query Results](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.limit-query-result)
 
+# Querydsl
 
+쿼리를 Java로 type-safe하게 개발할 수 있도록 지원하는 프레임워크(주로 JPQL에 사용)
+
+- 일반 쿼리는 문자이므로 Type-check가 불가능하고, 실행 전까지는 작동 여부 확인 불가
