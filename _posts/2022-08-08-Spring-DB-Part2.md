@@ -684,8 +684,17 @@ public interface SpringDataJpaItemRepository extends JpaRepository<Item, Long> {
 > 
 > [Limiting Query Results](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.limit-query-result)
 
-# Querydsl
+# QueryDSL
 
-쿼리를 Java로 type-safe하게 개발할 수 있도록 지원하는 프레임워크(주로 JPQL에 사용)
+**기존 방식의 문제점**
 
 - 일반 쿼리는 문자이므로 Type-check가 불가능하고, 실행 전까지는 작동 여부 확인 불가
+- 쿼리를 Java로 type-safe하게 개발할 수 있도록 지원하는 프레임워크가 QueryDSL -> 주로 JPQL에 사용
+
+**해결**
+
+- **DSL(DomainSpecificLanguage)** : 특정 도메인에 특화되어 제한적인 표현력을 가진 프로그래밍 언어
+- **QueryDSL(QueryDomainSpecificLanguage)** : 쿼리에 특화된 프로그래밍 언어
+  - JPA, MongoDB, SQL 같은 기술들을 위해 type-safe SQL을 만드는 프레임워크
+  - type-safe, 단순, 쉬운 장점
+  - Q코드 생성을 위한 APT(Annotation Processing Tool) 설정이 필요
