@@ -701,24 +701,6 @@ public interface SpringDataJpaItemRepository extends JpaRepository<Item, Long> {
 
 ## 설정
 
-```gradle
-
-dependencies {
-	...
-
-	implementation 'com.querydsl:querydsl-jpa'
-	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
-	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-  ...
-}
-
-// IntelliJ Build 에서 자동 생성된 QClass를 gradle clean으로 제거
-clean {
-	delete file('src/main/generated')
-}
-```
-
 Build Tool에 따른 QClass 생성 방법
 
 - Gradle : Gradle을 통해 빌드
@@ -731,3 +713,5 @@ Build Tool에 따른 QClass 생성 방법
 - IntelliJ IDEA : IntelliJ가 직접 자바를 실행해서 빌드
   - Build Project / Start
   - src/main/generated 하위에 생성
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/6bd2802887abe667304be95f03ced1333bf48766)
