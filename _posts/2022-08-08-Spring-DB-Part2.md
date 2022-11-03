@@ -698,3 +698,36 @@ public interface SpringDataJpaItemRepository extends JpaRepository<Item, Long> {
   - JPA, MongoDB, SQL 같은 기술들을 위해 type-safe SQL을 만드는 프레임워크
   - type-safe, 단순, 쉬운 장점
   - Q코드 생성을 위한 APT(Annotation Processing Tool) 설정이 필요
+
+## 설정
+
+```gradle
+
+dependencies {
+	...
+
+	implementation 'com.querydsl:querydsl-jpa'
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+  ...
+}
+
+// IntelliJ Build 에서 자동 생성된 QClass를 gradle clean으로 제거
+clean {
+	delete file('src/main/generated')
+}
+```
+
+Build Tool에 따른 QClass 생성 방법
+
+- Gradle : Gradle을 통해 빌드
+  - Gradle IntelliJ
+    - Gradle -> Tasks -> build -> clean
+    - Gradle -> Tasks -> other -> compileJava
+  - Gradle Console
+    - `./gradlew clean compileJava`
+  - build/generated/sources/annotationProcessor 하위에 생성
+- IntelliJ IDEA : IntelliJ가 직접 자바를 실행해서 빌드
+  - Build Project / Start
+  - src/main/generated 하위에 생성
