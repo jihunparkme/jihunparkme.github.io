@@ -715,3 +715,11 @@ Build Tool에 따른 QClass 생성 방법
   - src/main/generated 하위에 생성
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/6bd2802887abe667304be95f03ced1333bf48766)
+
+## 적용
+
+- Querydsl 사용을 위해 JPAQueryFactory 필요
+  - JPAQueryFactory 는 JPA 쿼리인 JPQL을 만들기 위해 EntityManager 필요
+- JdbcTemplate 설정과 유사
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/2c739a4b50e9b908d9291757a37109bd8d91a119)
