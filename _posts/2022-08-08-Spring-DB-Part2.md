@@ -738,6 +738,14 @@ Build Tool에 따른 QClass 생성 방법
 
 **실용적인 구조**
 
-SpringDataJPA와 QueryDSL Repository를 분리해서 기본 CRUD와 단순 조회는 SpringDataJPA 담당, 복잡한 조회 쿼리는 Querydsl 담당
+- SpringDataJPA와 QueryDSL Repository를 분리해서 기본 CRUD와 단순 조회는 SpringDataJPA 담당, 복잡한 조회 쿼리는 Querydsl 담당
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/a4f987a8f7e7f723ede6f6d9a1371bd0ce0cd72b)
+
+**데이터 접근 기술 조합**
+
+- JPA, SpringDataJPA, Querydsl 을 기본으로 사용하고, 복잡한 쿼리를 사용할 경우, 해당 부분에는 JdbcTemplate 이나 MyBatis 를 함께 사용
+- 트랜잭션 매너지의 경우 `JpaTransactionManager` 하나만 스프링 빈에 등록하면, JPA, JdbcTemplate, MyBatis 를 하나의 트랜잭션으로 묶어서 사용 가능
+- JPA, JdbcTemplate을 함께 사용할 경우 JPA의 플러시 타이밍이 다르다면 변경한 데이터를 읽지 못할 수 있음
+  - JPA는 기본적으로 트랜잭션이 커밋되는 시점에 변경 사항을 데이터베이스에 반영
+  - JPA 호출이 끝난 시점에 플러시를 사용하고, JdbcTemplate 를 호출하여 해결 가능
