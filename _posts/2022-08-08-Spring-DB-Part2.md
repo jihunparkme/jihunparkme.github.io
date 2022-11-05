@@ -726,7 +726,7 @@ Build Tool에 따른 QClass 생성 방법
 
 # 활용 방안
 
-구조의 안정성 vs 단순한 구조와 개발의 편리성
+**구조의 안정성 vs 단순한 구조와 개발의 편리성**
 
 - Trade Off
   - DI, OCP 를 지키기 위해 어댑터를 도입하고, 더 많은 코드를 유지
@@ -735,3 +735,9 @@ Build Tool에 따른 QClass 생성 방법
   - 추상화 비용을 넘어설 만큼 효과가 있을 경우 추상화 도입이 실용적
   - 상황에 맞는 선택이 중요
   - 먼저, 간단하고 빠르게 해결할 수 있는 방법을 선택하고, 이후 리펙토링을 추천
+
+**실용적인 구조**
+
+SpringDataJPA와 QueryDSL Repository를 분리해서 기본 CRUD와 단순 조회는 SpringDataJPA 담당, 복잡한 조회 쿼리는 Querydsl 담당
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/a4f987a8f7e7f723ede6f6d9a1371bd0ce0cd72b)
