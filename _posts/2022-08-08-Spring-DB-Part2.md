@@ -749,3 +749,28 @@ Build Tool에 따른 QClass 생성 방법
 - JPA, JdbcTemplate을 함께 사용할 경우 JPA의 플러시 타이밍이 다르다면 변경한 데이터를 읽지 못할 수 있음
   - JPA는 기본적으로 트랜잭션이 커밋되는 시점에 변경 사항을 데이터베이스에 반영
   - JPA 호출이 끝난 시점에 플러시를 사용하고, JdbcTemplate 를 호출하여 해결 가능
+
+# Spring Transaction
+
+- Spring Transaction 추상화
+  - `PlatformTransactionManager` 인터페이스를 통해 트랜잭션 추상화
+  - 데이터 접근 기술마다 모두 다른 트랜잭션 처리 방식을 추상화
+
+```java
+package org.springframework.transaction;
+
+public interface PlatformTransactionManager extends TransactionManager {
+
+	TransactionStatus getTransaction(@Nullable TransactionDefinition definition) throws TransactionException;
+
+	void commit(TransactionStatus status) throws TransactionException;
+
+	void rollback(TransactionStatus status) throws TransactionException;
+}
+```
+
+- Spring은 Transaction을 추상화해서 제공하고, 데이터 접근 기술에 대한 TransactionManager의 구현체도 제공
+  - 사용자는 필요한 구현체를 Spring Bean으로 등록하고, 주입 받아서 사용
+- Spring Boot는 어떤 데이터 접근 기술을 사용하는지를 자동으로 인식해서 적절한 TransactionManager 선택 및 스프링 빈으로 등록 (선택, 등록 과정 생략)
+  - JdbcTemplate, MyBatis 사용 시 `DataSourceTransactionManager(JdbcTransactionManager)`를 스프링 빈으로 등록
+  - JPA 사용 시 `JpaTransactionManager`을 스프링 빈으로 등록
