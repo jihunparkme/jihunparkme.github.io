@@ -777,15 +777,28 @@ public interface PlatformTransactionManager extends TransactionManager {
 
 ## 사용 방식
 
-**선언적 트랜잭션 관리 vs 프로그래밍 방식 트랜잭션 관리**
+선언적 트랜잭션 관리 vs 프로그래밍 방식 트랜잭션 관리
 
-- 선언적 트랜잭션 관리(Declarative Transaction Management)
-  - @Transactional Annotation 하나만 선언하여 편리하게 트랜잭션을 적용하는 것 (과거 XML에 설정하기도 했음)
-  - 이름 그대로 "해당 로직에 트랜잭션을 적용하겠다"라고 선언하면 트랜잭션이 적용되는 방식
-  - 기본적으로 프록시 방식의 AOP 적용
-  - 트랜잭션을 처리하는 객체와 비즈니스 로직을 처리하는 서비스 객체를 명확하게 분리
+**`선언적 트랜잭션 관리`(Declarative Transaction Management)**
 
-- 프로그래밍 방식의 트랜잭션 관리(programmatic transaction management)
-  - TransactionManager 또는 TransactionTemplate 등을 사용해서 트랜잭션 관련 코드를 직접 작성하는 것
-  - 프로그래밍 방식의 트랜잭션 관리를 사용하게 되면, 애플리케이션 코드가 트랜잭션이라는 기술 코드와 강하게 결합되는 단점
-  - 선언적 트랜잭션 관리가 훨씬 간편하고 실용적이기 때문에 실무에서는 대부분 선언적 트랜잭션 관리를 사용
+- `@Transactional` 하나만 선언하여 편리하게 트랜잭션을 적용(과거에는 XML에 설정)
+- 이름 그대로 "해당 로직에 트랜잭션을 적용하겠다."라고 선언하면 트랜잭션이 적용되는 방식
+- 기본적으로 프록시 방식의 AOP 적용
+- 트랜잭션을 처리하는 객체와 비즈니스 로직을 처리하는 서비스 객체를 명확하게 분리
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/transaction-aop.png?raw=true 'Result')
+
+- 트랜잭션은 커넥션에 `setAutocommit(false)` 지정으로 시작
+- 같은 데이터베이스 커넥션을 사용하여 같은 트랜잭션을 유지하기 위해 스프링 내부에서는 트랜잭션 동기화 매니저를 사용
+- JdbcTemplate을 포함한 대부분의 데이터 접근 기술들은 트랜잭션을 유지하기 위해 내부에서 트랜잭션 동기화 매니저를 통해 리소스(커넥션)를 동기화
+
+[참고](https://jihunparkme.github.io/Spring-DB-Part1/#%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-aop-%EB%8F%99%EC%9E%91-%ED%9D%90%EB%A6%84)
+
+**`프로그래밍 방식의 트랜잭션 관리`(programmatic transaction management)**
+
+- TransactionManager 또는 TransactionTemplate 등을 사용해서 트랜잭션 관련 코드를 직접 작성
+- 프로그래밍 방식의 트랜잭션 관리를 사용하게 되면, 애플리케이션 코드가 트랜잭션이라는 기술 코드와 강하게 결합되는 단점
+- 선언적 트랜잭션 관리가 훨씬 간편하고 실용적이기 때문에 실무에서는 대부분 선언적 트랜잭션 관리를 사용
+
+
+
