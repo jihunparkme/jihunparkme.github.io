@@ -780,9 +780,10 @@ public interface PlatformTransactionManager extends TransactionManager {
 **선언적 트랜잭션 관리 vs 프로그래밍 방식 트랜잭션 관리**
 
 - 선언적 트랜잭션 관리(Declarative Transaction Management)
-  - @Transactional Annotation 하나만 선언하여 편리하게 트랜잭션을 적용하는 것
-  - 과거 XML에 설정하기도 했음
+  - @Transactional Annotation 하나만 선언하여 편리하게 트랜잭션을 적용하는 것 (과거 XML에 설정하기도 했음)
   - 이름 그대로 "해당 로직에 트랜잭션을 적용하겠다"라고 선언하면 트랜잭션이 적용되는 방식
+  - 기본적으로 프록시 방식의 AOP 적용
+  - 트랜잭션을 처리하는 객체와 비즈니스 로직을 처리하는 서비스 객체를 명확하게 분리
 
 - 프로그래밍 방식의 트랜잭션 관리(programmatic transaction management)
   - TransactionManager 또는 TransactionTemplate 등을 사용해서 트랜잭션 관련 코드를 직접 작성하는 것
