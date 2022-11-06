@@ -774,3 +774,17 @@ public interface PlatformTransactionManager extends TransactionManager {
 - Spring Boot는 어떤 데이터 접근 기술을 사용하는지를 자동으로 인식해서 적절한 TransactionManager 선택 및 스프링 빈으로 등록 (선택, 등록 과정 생략)
   - JdbcTemplate, MyBatis 사용 시 `DataSourceTransactionManager(JdbcTransactionManager)`를 스프링 빈으로 등록
   - JPA 사용 시 `JpaTransactionManager`을 스프링 빈으로 등록
+
+## 사용 방식
+
+**선언적 트랜잭션 관리 vs 프로그래밍 방식 트랜잭션 관리**
+
+- 선언적 트랜잭션 관리(Declarative Transaction Management)
+  - @Transactional Annotation 하나만 선언하여 편리하게 트랜잭션을 적용하는 것
+  - 과거 XML에 설정하기도 했음
+  - 이름 그대로 "해당 로직에 트랜잭션을 적용하겠다"라고 선언하면 트랜잭션이 적용되는 방식
+
+- 프로그래밍 방식의 트랜잭션 관리(programmatic transaction management)
+  - TransactionManager 또는 TransactionTemplate 등을 사용해서 트랜잭션 관련 코드를 직접 작성하는 것
+  - 프로그래밍 방식의 트랜잭션 관리를 사용하게 되면, 애플리케이션 코드가 트랜잭션이라는 기술 코드와 강하게 결합되는 단점
+  - 선언적 트랜잭션 관리가 훨씬 간편하고 실용적이기 때문에 실무에서는 대부분 선언적 트랜잭션 관리를 사용
