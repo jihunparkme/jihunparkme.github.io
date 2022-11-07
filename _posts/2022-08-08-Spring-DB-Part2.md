@@ -830,7 +830,4 @@ Completing transaction for [hello.springtx.apply...BasicService.tx]
 - @Transactional 이 특정 클래스나 메서드에 있다면, Transaction AOP는 프록시를 만들어서 스프링 컨테이너에 등록 -> 실제 객체 대신 프록시를 스프링 빈에 등록되고 프록시는 내부에 실제 객체를 참조
 - 프록시는 객체를 상속해서 만들어지기 때문에 다형성을 활용
 
-
-
-
-
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/f6640a9085f7bd7349a036dce6c8a310a39c93ba)
