@@ -800,5 +800,15 @@ public interface PlatformTransactionManager extends TransactionManager {
 - 프로그래밍 방식의 트랜잭션 관리를 사용하게 되면, 애플리케이션 코드가 트랜잭션이라는 기술 코드와 강하게 결합되는 단점
 - 선언적 트랜잭션 관리가 훨씬 간편하고 실용적이기 때문에 실무에서는 대부분 선언적 트랜잭션 관리를 사용
 
+## 적용
 
+- Transaction 활성 확인
 
+```java
+TransactionSynchronizationManager.isActualTransactionActive();
+```
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-container-proxy.png 'Result')
+
+- @Transactional 이 특정 클래스나 메서드에 있다면, Transaction AOP는 프록시를 만들어서 스프링 컨테이너에 등록 -> 실제 객체 대신 프록시를 스프링 빈에 등록되고 프록시는 내부에 실제 객체를 참조
+- 프록시는 객체를 상속해서 만들어지기 때문에 다형성을 활용
