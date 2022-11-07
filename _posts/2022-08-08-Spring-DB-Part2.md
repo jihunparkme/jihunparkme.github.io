@@ -802,13 +802,35 @@ public interface PlatformTransactionManager extends TransactionManager {
 
 ## 적용
 
-- Transaction 활성 확인
+- Transaction 적용 확인
 
 ```java
 TransactionSynchronizationManager.isActualTransactionActive();
 ```
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-container-proxy.png 'Result')
+- 트랜잭션 프록시가 호출하는 트랜잭션 로그 확인을 위한 설정
+
+```properties
+logging.level.org.springframework.transaction.interceptor=TRACE
+```
+
+```console
+Getting transaction for [hello.springtx.apply...BasicService.tx]
+
+.. 실제 메서드 호출
+
+.. 트랜젝션 로직 커밋 또는 롤백
+
+Completing transaction for [hello.springtx.apply...BasicService.tx]
+ 
+```
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/8abd275c39be2090caf854ac3c82066fe8470b9d/post_img/spring/spring-container-proxy.png?raw=true 'Result')
 
 - @Transactional 이 특정 클래스나 메서드에 있다면, Transaction AOP는 프록시를 만들어서 스프링 컨테이너에 등록 -> 실제 객체 대신 프록시를 스프링 빈에 등록되고 프록시는 내부에 실제 객체를 참조
 - 프록시는 객체를 상속해서 만들어지기 때문에 다형성을 활용
+
+
+
+
+
