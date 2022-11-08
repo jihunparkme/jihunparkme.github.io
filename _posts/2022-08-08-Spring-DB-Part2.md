@@ -840,3 +840,5 @@ Completing transaction for [hello.springtx.apply...BasicService.tx]
 
 - 스프링에서 **우선순위**는 항상 더 구체적이고 자세한 것이 높은 우선순위를 가짐.
 - 클래스에 적용하면 메서드는 자동 적용
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/be15be175c0c2abb838762a7f14794d78700a7eb)
