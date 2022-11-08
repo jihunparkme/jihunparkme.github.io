@@ -842,3 +842,12 @@ Completing transaction for [hello.springtx.apply...BasicService.tx]
 - 클래스에 적용하면 메서드는 자동 적용
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/be15be175c0c2abb838762a7f14794d78700a7eb)
+
+## 주의사항
+
+- @Transactional을 선언하면 `스프링 트랜잭션 AOP` 적용
+  - 트랜잭션 AOP는 기본적으로 `프록시 방식의 AOP` 사용
+- 스프링은 대상 객체 대신 프록시를 스프링 빈으로 등록하므로 프록시 객체가 요청을 먼저 받고, 프록시 객체에서 트랜잭션 처리와 실제 객체 호출
+- 따라서, 트랜잭션을 적용하려면 항상 프록시를 통해서 대상 객체를 호출해야 함
+- ⭐️ **만약, 프록시를 거치지 않고 대상 객체를 직접 호출하게 되면 AOP가 적용되지 않고, 트랜잭션도 적용되지 않는다.**
+  - **대상 객체의 내부에서 메서드 호출이 발생하면 프록시를 거치지 않고 대상 객체를 직접 호출하는 문제가 발생**
