@@ -802,10 +802,14 @@ public interface PlatformTransactionManager extends TransactionManager {
 
 ## 적용
 
+AOP 적용 방식에 따라서 인터페이스에 @Transactional 선언 시 AOP가 적용이 되지 않는 경우도 있으므로, 가급적 구체 클래스에 @Transactional 사용 권장
+
 - Transaction 적용 확인
 
 ```java
 TransactionSynchronizationManager.isActualTransactionActive();
+
+TransactionSynchronizationManager.isCurrentTransactionReadOnly();
 ```
 
 - 트랜잭션 프록시가 호출하는 트랜잭션 로그 확인을 위한 설정
@@ -831,3 +835,8 @@ Completing transaction for [hello.springtx.apply...BasicService.tx]
 - 프록시는 객체를 상속해서 만들어지기 때문에 다형성을 활용
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/f6640a9085f7bd7349a036dce6c8a310a39c93ba)
+
+**적용 위치**
+
+- 스프링에서 **우선순위**는 항상 더 구체적이고 자세한 것이 높은 우선순위를 가짐.
+- 클래스에 적용하면 메서드는 자동 적용
