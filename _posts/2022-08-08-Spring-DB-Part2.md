@@ -870,6 +870,8 @@ public void internal() {
 4. 실제 service가 처리 완료되면 응답이 트랜잭션 프록시로 돌아오고, 트랜잭션 프록시는
 트랜잭션을 완료
 
+**대상 객체 직접 호출**
+
 ```java
 public void external() {
     log.info("call external");
@@ -891,6 +893,19 @@ public void internal() {
 4. 내부 호출은 프록시를 거치지 않으므로 트랜잭션 적용이 불가능
 
 **@Transactional을 사용하는 트랜잭션 AOP는 프록시를 사용하면서 메서드 내부 호출에 프록시를 적용할 수 없다.**
-- 가장 단순한 방법으로 내부 호출을 피하기 위해 internal()를 별도 클래스로 분리하기
+- 가장 단순한 방법으로 내부 호출을 외부 호출로 변경하기 위해 internal()를 별도 클래스로 분리하기
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/0c65a2c8df7e2e89d935dfe85489997adac0c72f)
+
+**대상 객체 외부 호출**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-external-class.png?raw=true 'Result')
+
+1. 클라이언트가 service.external()을 호출하면 실제 service 객체 인스턴스 호출
+2. service는 주입 받은 internalService.internal() 호출
+3. internalService는 트랜잭션 프록시이므로(@Transactional) 트랜잭션 적용
+4. 트랜잭션 적용 후 실제 internalService 객체 인스턴스의 internal() 호출
+
+> 참고
+> 
+> 스프링 트랜잭션 AOP 기능은 과도한 트랜잭션 적용을 막기 위해 public 메서드에만 적용되도록 기본 설정
