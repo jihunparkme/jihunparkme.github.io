@@ -892,3 +892,5 @@ public void internal() {
 
 **@Transactional을 사용하는 트랜잭션 AOP는 프록시를 사용하면서 메서드 내부 호출에 프록시를 적용할 수 없다.**
 - 가장 단순한 방법으로 내부 호출을 피하기 위해 internal()를 별도 클래스로 분리하기
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/0c65a2c8df7e2e89d935dfe85489997adac0c72f)
