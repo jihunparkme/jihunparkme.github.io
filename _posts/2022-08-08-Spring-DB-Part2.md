@@ -851,3 +851,44 @@ Completing transaction for [hello.springtx.apply...BasicService.tx]
 - 따라서, 트랜잭션을 적용하려면 항상 프록시를 통해서 대상 객체를 호출해야 함
 - ⭐️ **만약, 프록시를 거치지 않고 대상 객체를 직접 호출하게 되면 AOP가 적용되지 않고, 트랜잭션도 적용되지 않는다.**
   - **대상 객체의 내부에서 메서드 호출이 발생하면 프록시를 거치지 않고 대상 객체를 직접 호출하는 문제가 발생**
+
+
+**프록시 호출**
+
+```java
+@Transactional
+public void internal() {
+    log.info("call internal");
+}
+```
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-internal.png?raw=true 'Result')
+
+1. 클라이언트가 service.internal()을 호출하면 service의 트랜잭션 프록시 호출
+2. internal() 메서드에 @Transactional이 선언되어 있으므로 트랜잭션 프록시는 트랜잭션을 적용
+3. 트랜잭션 적용 후 실제 service 객체 인스턴스의 internal() 호출
+4. 실제 service가 처리 완료되면 응답이 트랜잭션 프록시로 돌아오고, 트랜잭션 프록시는
+트랜잭션을 완료
+
+```java
+public void external() {
+    log.info("call external");
+    internal();
+}
+
+@Transactional
+public void internal() {
+    log.info("call internal");
+}
+```
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-external.png?raw=true 'Result')
+
+
+1. 클라이언트가 service.external()을 호출하면 service의 트랜잭션 프록시 호출
+2. external() 메서드에는 @Transactional이 없으므로 트랜잭션 프록시는 트랜잭션을 적용하지 않고, 실제 service 객체 인스턴스의 external() 호출
+3. external()은 내부에서 (this.)internal() 직접 호출
+4. 내부 호출은 프록시를 거치지 않으므로 트랜잭션 적용이 불가능
+
+**@Transactional을 사용하는 트랜잭션 AOP는 프록시를 사용하면서 메서드 내부 호출에 프록시를 적용할 수 없다.**
+- 가장 단순한 방법으로 내부 호출을 피하기 위해 internal()를 별도 클래스로 분리하기
