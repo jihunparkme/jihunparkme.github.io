@@ -906,6 +906,10 @@ public void internal() {
 3. internalService는 트랜잭션 프록시이므로(@Transactional) 트랜잭션 적용
 4. 트랜잭션 적용 후 실제 internalService 객체 인스턴스의 internal() 호출
 
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/11cc4418af0d0b396e2ea0fdf43a0777d78cf50a)
+
 > 참고
 > 
 > 스프링 트랜잭션 AOP 기능은 과도한 트랜잭션 적용을 막기 위해 public 메서드에만 적용되도록 기본 설정
+> 
+> public 이 아닌곳에 @Transactional 이 붙으면 트랜잭션 적용 무시
