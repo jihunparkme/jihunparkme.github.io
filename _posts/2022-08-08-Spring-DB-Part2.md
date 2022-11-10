@@ -939,3 +939,5 @@ public void init2() {
     log.info("Hello init ApplicationReadyEvent tx active={}", isActive); // true
 }
 ```
+
+[comomit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/d9b2790c8eaa0e2fbd08b8f42a63942d57e8934e)
