@@ -913,3 +913,29 @@ public void internal() {
 > 스프링 트랜잭션 AOP 기능은 과도한 트랜잭션 적용을 막기 위해 public 메서드에만 적용되도록 기본 설정
 > 
 > public 이 아닌곳에 @Transactional 이 붙으면 트랜잭션 적용 무시
+
+**초기화 시점**
+
+- 초기화 코드(ex.@PostConstruct)와 @Transactional을 함께 사용하면 트랜잭션 적용 불가
+  - 초기화 코드가 먼저 호출되고 이후 트랜잭션 AOP가 적용되기 때문
+
+```java
+@PostConstruct
+@Transactional
+public void initV1() {
+    boolean isActive = TransactionSynchronizationManager.isActualTransactionActive();
+    log.info("Hello init @PostConstruct tx active={}", isActive); // false
+}
+```
+
+- 대안으로 `@ApplicationReadyEvent` 사용
+  - ApplicationReadyEvent는 트랜잭션 AOP를 포함한 스프링 컨테이너가 완전히 생성된 이후 이벤트가 선언된 메서드 호출
+
+```java
+@EventListener(value = ApplicationReadyEvent.class)
+@Transactional
+public void init2() {
+    boolean isActive = TransactionSynchronizationManager.isActualTransactionActive();
+    log.info("Hello init ApplicationReadyEvent tx active={}", isActive); // true
+}
+```
