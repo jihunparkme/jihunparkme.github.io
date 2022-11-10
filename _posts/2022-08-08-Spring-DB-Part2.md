@@ -941,3 +941,63 @@ public void init2() {
 ```
 
 [comomit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/d9b2790c8eaa0e2fbd08b8f42a63942d57e8934e)
+
+## 옵션
+
+- `String value()` default "";
+- `String transactionManager()` default "";
+  - @Transactional 에서 트랜잭션 프록시가 사용할 트랜잭션 매니저 지정
+  - 생략 시 기본으로 등록된 트랜잭션 매니저 사용
+  - 사용 트랜잭션 매니저가 둘 이상이라면, 트랜잭션 매니저 이름을 지정해서 구분
+```java
+@Transactional("memberTxManager")
+@Transactional("orderTxManager")
+```
+
+- `Class<? extends Throwable>[] rollbackFor()` default {};
+  - 특정 예외 발생 시 롤백을 하도록 지정
+  - Exception(체크 예외)이 발생해도 롤백하도록 설정 가능
+
+```java
+@Transactional(rollbackFor = Exception.class)
+```
+
+- `Class<? extends Throwable>[] noRollbackFor()` default {};
+  - rollbackFor 와 반대로 특정 예외 발생 시 롤백을 하지 않도록 지정
+
+- `Propagation propagation()` default Propagation.REQUIRED;
+  - 트랜잭션 전파 옵션
+
+- `Isolation isolation()` default Isolation.DEFAULT;
+  - 트랜잭션 격리 수준 지정
+  - 기본값은 데이터베이스 설정 기준(DEFAULT)
+  - 트랜잭션 격리 수준을 직접 지정하는 경우는 드묾 [(참고)](https://data-make.tistory.com/738#isolation)
+    - **DEFAULT** : 데이터베이스에서 설정한 격리 수준을 따른다.
+    - **READ_UNCOMMITTED** : 커밋되지 않은 읽기
+    - **READ_COMMITTED** : 커밋된 읽기
+    - **REPEATABLE_READ** : 반복 가능한 읽기
+    - **SERIALIZABLE** : 직렬화 가능
+
+- `int timeout()` default TransactionDefinition.TIMEOUT_DEFAULT;
+  - 트랜잭션 수행 시간에 대한 타임아웃을 초 단위로 지정
+  - 기본 값은 트랜잭션 시스템의 타임아웃
+
+- `String[] label()` default {};
+  - 트랜잭션 애노테이션에 있는 값을 읽어서 특정 동작을 할 경우 사용
+  - 일반적으로 사용하지 않음
+
+- `boolean readOnly()` default false;
+  - readOnly=true 옵션 사용 시 읽기 전용 트랜잭션 생성
+    - 드라이버나 데이터베이스에 따라 정상 동작하지 않는 경우도 있음.
+  - 읽기에서 다양한 성능 최적화
+  - 크게 세 곳에서 적용
+    - 프레임워크
+      - JdbcTemplate: 읽기 전용 트랜잭션 안에서 변경 기능을 실행하면 예외
+      - JPA: 읽기 전용 트랜잭션의 경우 커밋 시점에 플러시를 호출하지 않고, 변경이 불필요하니 변경 감지를 위한 스냅샷 객체도 생성하지 않음
+    - JDBC 드라이버
+      - 읽기 전용 트랜잭션에서 변경 쿼리가 발생하면 예외
+      - 읽기, 쓰기(master, slave) 데이터베이스를 구분해서 요청
+      - DB / 드라이버 버전에 따라 다르게 동작
+      - [참고](https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-source-replicareplication-connection.html)
+    - 데이터베이스
+      - 읽기 전용 트랜잭션의 경우 읽기만 하면 되므로, 내부에서 성능 최적화 발생
