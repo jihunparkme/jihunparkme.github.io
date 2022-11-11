@@ -1029,3 +1029,5 @@ logging.level.org.hibernate.resource.transaction=DEBUG
   - 비즈니스 예외는 반드시 처리해야 하는 경우가 많으므로 중요하고, 체크 예외를 고려할 수 있음.
   - rollbackFor 옵션을 사용해서 비즈니스 상황에 따라 롤백 선택 가능
 - 언체크 예외 / Rollback : 복구 불가능한 예외 (ex. DB 접근 오류, SQL 문법 오류 ..)
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/3270d88b3dd48afd5cf491e64f2262138f9428fa)
