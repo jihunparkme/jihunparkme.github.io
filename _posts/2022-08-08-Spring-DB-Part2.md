@@ -1023,3 +1023,9 @@ logging.level.org.hibernate.resource.transaction=DEBUG
 - 트랜잭션 생성 로그(Creating new transaction with name)와 트랜잭션 커밋/롤백 로그(Committing JPA transaction on EntityManager) 확인
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/63ec1863dfc6beb3eb16a817dcc4b2eee1a72e18)
+
+스프링 기본적으로 예외를 아래 정책에 따름
+- 체크 예외 / Commit : 비즈니스 예외 (ex. 잔고 부족 ..)
+  - 비즈니스 예외는 반드시 처리해야 하는 경우가 많으므로 중요하고, 체크 예외를 고려할 수 있음.
+  - rollbackFor 옵션을 사용해서 비즈니스 상황에 따라 롤백 선택 가능
+- 언체크 예외 / Rollback : 복구 불가능한 예외 (ex. DB 접근 오류, SQL 문법 오류 ..)
