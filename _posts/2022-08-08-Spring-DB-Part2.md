@@ -1001,3 +1001,23 @@ public void init2() {
       - [참고](https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-source-replicareplication-connection.html)
     - 데이터베이스
       - 읽기 전용 트랜잭션의 경우 읽기만 하면 되므로, 내부에서 성능 최적화 발생
+
+## 예외와 롤백
+
+내부에서 예외를 처리하지 못하고 트랜잭션 범위(@Transactional 적용 AOP) 밖으로 예외를 던질 경우 -> 스프링 트랜잭션 AOP는 예외의 종류에 따라 트랜잭션을 커밋하거나 롤백
+- 언체크 예외(RuntimeException, Error, 그 하위 예외) 발생 시 트랜잭션 `롤백`
+- 체크 예외(Exception, 그 하위 예외) 발생 시 트랜잭션 `커밋`
+- 정상 응답(리턴) 시 트랜잭션을 `커밋`
+
+**참고**
+
+트랜잭션 커밋/롤백 로그 확인을 위한 설정
+
+```gradle
+# 사용중인 TransactionManager
+logging.level.org.springframework.jdbc.datasource.DataSourceTransactionManager=DEBUG
+logging.level.org.springframework.orm.jpa.JpaTransactionManager=DEBUG #JPA log
+logging.level.org.hibernate.resource.transaction=DEBUG
+```
+
+- 트랜잭션 생성 로그(Creating new transaction with name)와 트랜잭션 커밋/롤백 로그(Committing JPA transaction on EntityManager) 확인
