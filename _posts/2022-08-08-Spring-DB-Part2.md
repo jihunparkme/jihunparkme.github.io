@@ -1021,3 +1021,5 @@ logging.level.org.hibernate.resource.transaction=DEBUG
 ```
 
 - 트랜잭션 생성 로그(Creating new transaction with name)와 트랜잭션 커밋/롤백 로그(Committing JPA transaction on EntityManager) 확인
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/63ec1863dfc6beb3eb16a817dcc4b2eee1a72e18)
