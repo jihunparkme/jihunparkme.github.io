@@ -1031,3 +1031,8 @@ logging.level.org.hibernate.resource.transaction=DEBUG
 - 언체크 예외 / Rollback : 복구 불가능한 예외 (ex. DB 접근 오류, SQL 문법 오류 ..)
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/3270d88b3dd48afd5cf491e64f2262138f9428fa)
+
+# 트랜잭션 전파
+
+Spring Transaction Propagation commit and rollback
+- [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/ba863a50af0d57adc837c3f485214d19b6a7afad)
