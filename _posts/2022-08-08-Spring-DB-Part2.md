@@ -1036,3 +1036,16 @@ logging.level.org.hibernate.resource.transaction=DEBUG
 
 Spring Transaction Propagation commit and rollback
 - [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/ba863a50af0d57adc837c3f485214d19b6a7afad)
+
+Spring Transaction Propagation Use transaction twice
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-connection.png?raw=true 'Result')
+
+- 로그를 보면 트랜잭션1,2가 같은 conn0 커넥션을 사용중인데, 이것은 커넥션 풀 때문에 그런 것
+- 트랜잭션1은 conn0을 모두 사용 후 커넥션 풀에 반납하고, 이후 트랜잭션2가 conn0을 커넥션 풀에서 획득
+- 히카리 커넥션 풀에서 커넥션을 획득하면 실제 커넥션을 그대로 반환하는 것이 아니라 내부 관리를 위해
+히카리 프록시 커넥션 객체를 생성해서 반환하는데, 이 객체의 주소를 확인하면 커넥션 풀에서 획득한 커넥션 구분이 가능
+  - HikariProxyConnection@2120431435 wrapping conn0: ...
+  - HikariProxyConnection@1567077043 wrapping conn0: ...
+  - 커넥션이 재사용 되었지만, 각각 커넥션 풀에서 커넥션을 조회
+- [commit]()
