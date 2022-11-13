@@ -1107,7 +1107,7 @@ Spring Transaction Propagation Use transaction twice
 
 **응답 흐름**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-response.pngㄴ?raw=true 'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-response.png?raw=true 'Result')
 
 `내부 트랜잭션`
 
