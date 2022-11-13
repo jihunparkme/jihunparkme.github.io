@@ -1049,3 +1049,25 @@ Spring Transaction Propagation Use transaction twice
   - HikariProxyConnection@1567077043 wrapping conn0: ...
   - 커넥션이 재사용 되었지만, 각각 커넥션 풀에서 커넥션을 조회
 - [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/b2c4067730a00a0d32b84932cd7e1ca4cb989789)
+
+## 기본
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-propagation.png?raw=true 'Result')
+
+- 트랜잭션이 진행중인 상태에서 내부에 추가로 트랜잭션을 사용하는 경우, 스프링은 외부/내부 트랜잭션을 묶어서 하나의 트랜잭션을 생성
+  - 트랜잭션 전파의 기본 옵션인 `REQUIRED` 기준
+  - 옵션을 통해 다른 동작방식 선택 가능
+- 논리 트랜잭션들은 하나의 물리 트랜잭션으로 묶임
+  - `물리 트랜잭션`: 실제 데이터베이스에 적용되는 트랜잭션(시작, 커밋, 롤백 단위)
+  - `논리 트랜잭션`: 트랜잭션 매니저를 통해 트랜잭션을 사용하는 단위
+- 모든 트랜잭션 매니저가 커밋되어야 물리 트랜잭션이 커밋
+  - 하나의 트랜잭션 매니저라도 롤백되면 물리 트랜잭션은 롤백
+
+원칙
+
+- 모든 `논리 트랜잭션`이 커밋되어야 `물리 트랜잭션`이 커밋
+- 하나의 `논리 트랜잭션`이라도 롤백되면 `물리 트랜잭션`은 롤백
+
+
+
+## 활용
