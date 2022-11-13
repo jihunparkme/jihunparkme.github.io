@@ -1073,9 +1073,9 @@ Spring Transaction Propagation Use transaction twice
 
 ## 흐름
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-request.png?raw=true 'Result')
-
 **요청 흐름**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-request.png?raw=true 'Result')
 
 `외부 트랜잭션`
 
@@ -1107,6 +1107,8 @@ Spring Transaction Propagation Use transaction twice
 
 **응답 흐름**
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-response.pngㄴ?raw=true 'Result')
+
 `내부 트랜잭션`
 
 \12. 로직2가 끝나고 트랜잭션 매니저를 통해 내부 트랜잭션 커밋
@@ -1125,3 +1127,10 @@ Spring Transaction Propagation Use transaction twice
 \16. 실제 데이터베이스에 커밋이 반영되고, 물리 트랜잭션도 끝.
 - 논리적인 커밋: 트랜잭션 매니저에 커밋하는 것이 논리적인 커밋이라면, 
 - 물리 커밋: 실제 커넥션에 커밋
+
+**흐름 핵심**
+
+- 트랜잭션 매니저에 커밋을 한다고 항상 실제 커넥션에 물리 커밋이 발생하지 않음
+- 신규 트랜잭션인 경우에만 실제 커넥션을 사용해서 물리 커밋/롤백 수행
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/5ba85ccc8cf8eb5d4f65511730eb4fd7880c22b2)
