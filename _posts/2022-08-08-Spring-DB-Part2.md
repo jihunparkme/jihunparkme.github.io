@@ -1071,4 +1071,26 @@ Spring Transaction Propagation Use transaction twice
 - 모든 `논리 트랜잭션`이 커밋되어야 `물리 트랜잭션`이 커밋
 - 하나의 `논리 트랜잭션`이라도 롤백되면 `물리 트랜잭션`은 롤백
 
-## 활용
+## 흐름
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-request.png?raw=true 'Result')
+
+**요청 흐름**
+
+`외부 트랜잭션`
+
+1. txManager.getTransaction() 호출로 외부 트랜잭션 시작
+2. 트랜잭션 매니저는 데이터소스를 통해 커넥션 생성
+3. 생성 커넥션을 수동 커밋 모드로 설정(물리 트랜잭션 시작)
+4. 트랜잭션 매니저는 트랜잭션 동기화 매니저에 커넥션을 보관
+5. 트랜잭션 매니저는 트랜잭션을 생성한 결과를 TransactionStatus에 담아서 반환 (isNewTransaction로 신규 트랜잭션 여부 확인, true)
+6. 로직1이 실행되고 커넥션이 필요한 경우 트랜잭션 동기화 매니저를 통해 트랜잭션이 적용된 커넥션 획득 후 사용
+
+`내부 트랜잭션`
+
+1. txManager.getTransaction() 호출로 내부 트랜잭션 시작
+2. 트랜잭션 매너저는 트랜잭션 동기화 매니저를 통해 기존 트랜잭션 존재 확인
+3. 기존 트랜잭션이 존재하므로 기존 트랜잭션에 참여 (물리적으로 아무 행동을 하지 않고, 트랜잭션 동기화 매니저에 보관된 기존 커넥션 사용)
+4. isNewTransaction = false
+5. 로직2가 실행되고, 커넥션이 필요한 경우 트랜잭션 동기화 매니저를 통해 외부 트랜잭션이 보관한
+기존 커넥션을 획득 후 사용
