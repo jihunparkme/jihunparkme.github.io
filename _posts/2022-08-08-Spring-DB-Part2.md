@@ -1073,11 +1073,11 @@ Spring Transaction Propagation Use transaction twice
 
 ## 흐름
 
-**요청 흐름**
+`요청 흐름`
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-request.png?raw=true 'Result')
 
-`외부 트랜잭션`
+**외부 트랜잭션**
 
 \1. txManager.getTransaction() 호출로 외부 트랜잭션 시작
 
@@ -1092,7 +1092,7 @@ Spring Transaction Propagation Use transaction twice
 
 \6. 로직1이 실행되고 커넥션이 필요한 경우 트랜잭션 동기화 매니저를 통해 트랜잭션이 적용된 커넥션 획득 후 사용
 
-`내부 트랜잭션`
+**내부 트랜잭션**
 
 \7. txManager.getTransaction() 호출로 내부 트랜잭션 시작
 
@@ -1105,11 +1105,11 @@ Spring Transaction Propagation Use transaction twice
 
 \11. 로직2가 실행되고, 커넥션이 필요한 경우 트랜잭션 동기화 매니저를 통해 외부 트랜잭션이 보관한 기존 커넥션 획득 후 사용
 
-**응답 흐름**
+`응답 흐름`
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-response.png?raw=true 'Result')
 
-`내부 트랜잭션`
+**내부 트랜잭션**
 
 \12. 로직2가 끝나고 트랜잭션 매니저를 통해 내부 트랜잭션 커밋
 
@@ -1117,7 +1117,7 @@ Spring Transaction Propagation Use transaction twice
    - 여기서는 신규 트랜잭션이 아니므로 실제 물리 커밋 호출을 하지 않음
    - 아직 물리 트랜잭션이 끝나지 않음
 
-`외부 트랜잭션`
+**외부 트랜잭션**
 
 \14. 로직1이 끝나고 트랜잭션 매니저를 통해 외부 트랜잭션 커밋
 
@@ -1128,14 +1128,30 @@ Spring Transaction Propagation Use transaction twice
 - 논리적인 커밋: 트랜잭션 매니저에 커밋하는 것이 논리적인 커밋이라면, 
 - 물리 커밋: 실제 커넥션에 커밋
 
-**흐름 핵심**
+`흐름 핵심`
 
 - 트랜잭션 매니저에 커밋을 한다고 항상 실제 커넥션에 물리 커밋이 발생하지 않음
 - 신규 트랜잭션인 경우에만 실제 커넥션을 사용해서 물리 커밋/롤백 수행
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/5ba85ccc8cf8eb5d4f65511730eb4fd7880c22b2)
 
+`외/내부 트랜잭션 롤백`
+
 **외부 롤백**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-outer-rollback.png?raw=true 'Result')
+
 - 외부 트랜잭션에서 시작한 물리 트랜잭션의 범위가 내부 트랜잭션까지 사용
 - 이후 외부 트랜잭션이 롤백되면서 전체 내용은 모두 롤백
 - [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/a6c3f612dabb5186eed01df128f653f0508bd308)
+
+**내부 롤백**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-inner-rollback.png?raw=true 'Result')
+
+- 내부 트랜잭션을 롤백하면 실제 물리 트랜잭션이 롤백되지는 않고, 기존 트랜잭션에 롤백
+전용 마크 표시
+  - `Participating transaction failed - marking existing transaction as rollbackonly`
+- 이후 외부 트랜잭션이 커밋을 호출했지만, 전체 트랜잭션이 롤백 전용으로 표시되어 물리 트랜잭션 롤백 -> UnexpectedRollbackException
+  - `Global transaction is marked as rollback-only`
+- [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/d020250574754937b772641fa9b18795bf655dc8)
