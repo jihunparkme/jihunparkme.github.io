@@ -1169,3 +1169,46 @@ Spring Transaction Propagation Use transaction twice
   ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-requires-new-response.png?raw=true 'Result')
   
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/d80d6f0ebcc168670333c451d914bbbadc29afbf)
+
+## 전파 옵션
+
+실무에서 대부분 `REQUIRED` 옵션 사용, 아주 가끔 `REQUIRES_NEW` 사용
+- 나머지는 거의 사용하지 않으니 참고만..
+
+**REQUIRED**
+- 가장 많이 사용하는 기본 설정(트랜잭션 필수)
+- 기존 트랜잭션 X: 새로운 트랜잭션 생성
+- 기존 트랜잭션 O: 기존 트랜잭션에 참여
+
+**REQUIRES_NEW**
+- 항상 새로운 트랜잭션 생성
+- 기존 트랜잭션 X: 새로운 트랜잭션 생성
+- 기존 트랜잭션 O: 새로운 트랜잭션 생성
+
+**SUPPORT**
+- 트랜잭션 지원
+- 기존 트랜잭션 X: 트랜잭션 없이 진행
+- 기존 트랜잭션 O: 기존 트랜잭션 참여
+
+**NOT_SUPPORT**
+- 트랜잭션 지원을 하지 않음
+- 기존 트랜잭션 X: 트랜잭션 없이 진행
+- 기존 트랜잭션 O: 트랜잭션 없이 진행(기존 트랜잭션은 보류)
+
+**MANDATORY**
+- 트랜잭션이 반드시 있어야 함
+- 기존 트랜잭션 X: IllegalTransactionStateException 예외 발생
+- 기존 트랜잭션 O: 기존 트랜잭션 참여
+
+**NEVER**
+- 트랜잭션을 사용하지 않음
+- 기존 트랜잭션 X: 트랜잭션 없이 진행
+- 기존 트랜잭션 O: IllegalTransactionStateException 예외 발생
+
+**NESTED**
+- 기존 트랜잭션 X: 새로운 트랜잭션 생성
+- 기존 트랜잭션 O: 중첩 트랜잭션 생성
+- 중첩 트랜잭션은 외부 트랜잭션의 영향을 받지만, 중첩 트랜잭션은 외부에 영향을 주지 않음
+
+`isolation`, `timeout`, `readOnly` 는 트랜잭션 처음 시작 시에만 적용(참여하는
+경우에는 적용되지 않음)
