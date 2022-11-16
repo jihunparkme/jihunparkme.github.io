@@ -1212,3 +1212,8 @@ Spring Transaction Propagation Use transaction twice
 
 `isolation`, `timeout`, `readOnly` 는 트랜잭션 처음 시작 시에만 적용(참여하는
 경우에는 적용되지 않음)
+
+## 활용
+
+- 예제 프로젝트
+  - [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/2f765e3ff2122aba19fdf2fcb4ef15d6f145e6bc)
