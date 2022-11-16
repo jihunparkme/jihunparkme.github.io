@@ -1215,5 +1215,5 @@ Spring Transaction Propagation Use transaction twice
 
 ## 활용
 
-- 예제 프로젝트
-  - [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/2f765e3ff2122aba19fdf2fcb4ef15d6f145e6bc)
+- 예제 프로젝트 : [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/2f765e3ff2122aba19fdf2fcb4ef15d6f145e6bc)
+- 커밋과 롤백 : [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/804ca810caa5fd486ef5251f98af3bab3e2ba95a)
