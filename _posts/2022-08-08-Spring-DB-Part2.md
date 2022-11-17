@@ -1219,3 +1219,4 @@ Spring Transaction Propagation Use transaction twice
 - 커밋과 롤백 : [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/804ca810caa5fd486ef5251f98af3bab3e2ba95a)
 - 단일 트랜잭션 : [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/66de1557d7422312d8214392b1ce4dd9b0c13093)
 - 전파 커밋(default REQUIRED) : [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/8d1c113a339d62e3c5f0d5cde82fee87e9f82138)
+- ㅇㅇ : [commit]()
