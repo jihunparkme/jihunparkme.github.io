@@ -1220,3 +1220,24 @@ Spring Transaction Propagation Use transaction twice
 - 단일 트랜잭션 : [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/66de1557d7422312d8214392b1ce4dd9b0c13093)
 - 전파 커밋(default REQUIRED) : [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/8d1c113a339d62e3c5f0d5cde82fee87e9f82138)
 - 전파 롤백 : [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/738255822bfeb8b09e8586335f96c670e02b3a4b)
+
+⭐️ 복구
+
+`REQUIRED`와 `UnexpectedRollbackException`
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-requires-recover-fail.png?raw=true 'Result')
+
+  - LogRepository 에서 예외 발생
+  - 예외를 토스하면 LogRepository 의 트랜잭션 AOP가 해당 예외 전달받음
+  - 신규 트랜잭션이 아니므로 물리 트랜잭션을 롤백하지 않고, 트랜잭션 동기화 매니저에 rollbackOnly=true 표시
+  - 이후 트랜잭션 AOP는 전달 받은 예외를 밖으로 토스
+  - 예외가 MemberService 에 토스되고, MemberService 는 해당 예외 복구 및 정상 리턴
+  - 정상 흐름이 되었으므로 MemberService 의 트랜잭션 AOP는 커밋 호출
+  - 커밋 호출 시 신규 트랜잭션이므로 실제 물리 트랜잭션 커밋. 이때!! rollbackOnly 체크
+  - **rollbackOnly=true 상태이므로 물리 트랜잭션 롤백**
+  - 트랜잭션 매니저는 UnexpectedRollbackException 예외 토스
+  - 트랜잭션 AOP도 전달받은 UnexpectedRollbackException 을 클라이언트에게 토스
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/3c1b9743fded58ffc137eb2dfce1b8d826ca1c83)
+
+spring-transaction-requires-recover-success
