@@ -1240,4 +1240,22 @@ Spring Transaction Propagation Use transaction twice
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/3c1b9743fded58ffc137eb2dfce1b8d826ca1c83)
 
-spring-transaction-requires-recover-success
+`REQUIRES_NEW`
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-transaction-requires-recover-success.png?raw=true 'Result')
+
+- LogRepository 에서 예외 발생
+- 예외를 토스하면 LogRepository 의 트랜잭션 AOP가 해당 예외 전달받음
+- REQUIRES_NEW 를 사용한 신규 트랜잭션이므로 물리 트랜잭션 롤백 및 반환(rollbackOnly 표시 X)
+- 이후 트랜잭션 AOP는 전달 받은 예외를 밖으로 토스
+- 예외가 MemberService 에 토스되고, MemberService 는 해당 예외 복구 및 정상 리턴
+- 정상 흐름이 되었으므로 MemberService 의 트랜잭션 AOP는 커밋 호출
+- 커밋 호출 시 신규 트랜잭션이므로 실제 물리 트랜잭션 커밋. rollbackOnly가 체크되어 있지 않으므로 물리 트랜잭션 커밋 및 정상 흐름 반환
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-DB/commit/019754641a54dfc5b99fc8d3a44c8a23025632d7)
+
+`REQUIRED` 적용 시 논리 트랜잭션이 하나라도 롤백되면 관련 물리 트랜잭션 모두 롤백 
+
+-> `REQUIRES_NEW`를 통한 트랜잭션 분리로 해결 (단, 하나의 HTTP 요청에 2개의 데이터베이스 커넥션을 사용하는 단점)
+
+-> 성능이 중요하다면 트랜잭션을 순차적으로 사용하는 구조를 선택하는 것이 좋을 수도 있음
