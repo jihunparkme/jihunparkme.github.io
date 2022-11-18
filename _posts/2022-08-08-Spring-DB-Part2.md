@@ -1259,4 +1259,3 @@ Spring Transaction Propagation Use transaction twice
 -> `REQUIRES_NEW`를 통한 트랜잭션 분리로 해결 (단, 하나의 HTTP 요청에 2개의 데이터베이스 커넥션을 사용하는 단점)
 
 -> 성능이 중요하다면 트랜잭션을 순차적으로 사용하는 구조를 선택하는 것이 좋을 수도 있음
-
