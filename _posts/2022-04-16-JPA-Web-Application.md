@@ -2,7 +2,7 @@
 layout: post
 title: JPA Web Application
 summary: JPA Programming Part 2. 웹 애플리케이션 개발
-categories: JPA
+categories: JPA 도메인 변경-감지 병합
 featured-img: jpa-spring-uses
 # mathjax: true
 ---
