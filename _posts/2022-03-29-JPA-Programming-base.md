@@ -1220,3 +1220,13 @@ List<Member> resultList =
 - 컬렉션 페치 조인을 하면 페이징 API 사용 불가
   - 단일 값 연관 필드(1:1/N:1)는 페치 조인을 해도 페이징 가능
   - 컬렉션 페치 조인으로 컬렉션 데이터가 잘리는 현상 발생
+
+---
+
+**스프링 부트/JPA 로드맵**
+
+- [자바 ORM 표준 JPA 프로그래밍](https://jihunparkme.github.io/JPA-Programming-base/)
+- [스프링 부트와 JPA 활용1 - 웹 애플리케이션 개발](https://jihunparkme.github.io/JPA-Web-Application/)
+- [스프링 부트와 JPA 활용2 - API 개발과 성능 최적화](https://jihunparkme.github.io/JPA-API-and-performance-optimization/)
+- 스프링 데이터 JPA
+- Querydsl

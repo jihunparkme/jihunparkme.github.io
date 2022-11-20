@@ -666,3 +666,13 @@ CQS([Command–query separation](https://en.wikipedia.org/wiki/Command%E2%80%93q
 > Querydsl은 JPA로 애플리케이션을 개발 할 때 선택이 아닌 필수!
 
 [commit](https://github.com/jihunparkme/inflearn-spring-jpa-roadmap/commit/38ab8087edd167b8add79f1b5bd43bc76de8a923)
+
+---
+
+**스프링 부트/JPA 로드맵**
+
+- [자바 ORM 표준 JPA 프로그래밍](https://jihunparkme.github.io/JPA-Programming-base/)
+- [스프링 부트와 JPA 활용1 - 웹 애플리케이션 개발](https://jihunparkme.github.io/JPA-Web-Application/)
+- [스프링 부트와 JPA 활용2 - API 개발과 성능 최적화](https://jihunparkme.github.io/JPA-API-and-performance-optimization/)
+- 스프링 데이터 JPA
+- Querydsl
