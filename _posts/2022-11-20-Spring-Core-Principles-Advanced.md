@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Spring Core Principles Advanced
-summary: Inflearn Spring Core Principles Advanced (스프링 핵심 원리 - 고급편)
+summary: 스프링 핵심 원리 고급편
 categories: Spring-core-advanced
 featured-img: spring-core-advanced
 # mathjax: true
@@ -12,3 +12,27 @@ featured-img: spring-core-advanced
 영한님의 [스프링 핵심 원리 - 고급편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B3%A0%EA%B8%89%ED%8E%B8/dashboard) 강의 노트
 
 [Project](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced)
+
+
+---
+
+**스프링 완전 정복 로드맵**
+
+- 스프링 입문 > 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술
+- [스프링 핵심 원리 > 기본편](https://jihunparkme.github.io/Spring-Core/)
+- 모든 개발자를 위한 HTTP 웹 기본 지식
+  - [Basic](https://jihunparkme.github.io/Http-Web-Network_basic/)
+  - [Method](https://jihunparkme.github.io/Http-Web-Network_method/)
+  - [Header](https://jihunparkme.github.io/Http-Web-Network_header/)
+- 스프링 웹 MVC 1편
+  - [Servlet](https://jihunparkme.github.io/Spring-MVC-Part1-Servlet/)
+  - [MVC](https://jihunparkme.github.io/Spring-MVC-Part1-MVC/)
+- 스프링 웹 MVC 2편
+  - [Thymeleaf](https://jihunparkme.github.io/Spring-MVC-Part2-Thymeleaf/)
+  - [etc](https://jihunparkme.github.io/Spring-MVC-Part2-Etc/)
+  - [Validation](https://jihunparkme.github.io/Spring-MVC-Part2-Validation/)
+  - [Login](https://jihunparkme.github.io/Spring-MVC-Part2-Login/)
+  - [Exception](https://jihunparkme.github.io/Spring-MVC-Part2-Exception/)
+- [스프링 DB 1편 > 데이터 접근 핵심 원리](https://jihunparkme.github.io/Spring-DB-Part1/)
+- [스프링 DB 2편 > 데이터 접근 활용 기술](https://jihunparkme.github.io/Spring-DB-Part2/)
+- [스프링 핵심 원리 > 고급편](https://jihunparkme.github.io/Spring-Core-Principles-Advanced/)

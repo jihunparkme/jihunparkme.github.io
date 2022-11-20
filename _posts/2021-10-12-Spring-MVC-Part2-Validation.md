@@ -561,3 +561,27 @@ public class ValidationItemApiController {
   - 특정 필드가 바인딩 되지 않아도 나머지 필드는 정상 바인딩되고, Validator를 사용한 검증도 적용 가능
 - `@RequestBody` 는 HttpMessageConverter 단계에서 JSON 데이터를 객체로 변경
   - 객체로 변경하지 못하면 이후 단계 자체가 진행되지 않고 예외 발생. 컨트롤러도 호출되지 않고, Validator도 적용 불가능
+
+
+---
+
+**스프링 완전 정복 로드맵**
+
+- 스프링 입문 > 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술
+- [스프링 핵심 원리 > 기본편](https://jihunparkme.github.io/Spring-Core/)
+- 모든 개발자를 위한 HTTP 웹 기본 지식
+  - [Basic](https://jihunparkme.github.io/Http-Web-Network_basic/)
+  - [Method](https://jihunparkme.github.io/Http-Web-Network_method/)
+  - [Header](https://jihunparkme.github.io/Http-Web-Network_header/)
+- 스프링 웹 MVC 1편
+  - [Servlet](https://jihunparkme.github.io/Spring-MVC-Part1-Servlet/)
+  - [MVC](https://jihunparkme.github.io/Spring-MVC-Part1-MVC/)
+- 스프링 웹 MVC 2편
+  - [Thymeleaf](https://jihunparkme.github.io/Spring-MVC-Part2-Thymeleaf/)
+  - [etc](https://jihunparkme.github.io/Spring-MVC-Part2-Etc/)
+  - [Validation](https://jihunparkme.github.io/Spring-MVC-Part2-Validation/)
+  - [Login](https://jihunparkme.github.io/Spring-MVC-Part2-Login/)
+  - [Exception](https://jihunparkme.github.io/Spring-MVC-Part2-Exception/)
+- [스프링 DB 1편 > 데이터 접근 핵심 원리](https://jihunparkme.github.io/Spring-DB-Part1/)
+- [스프링 DB 2편 > 데이터 접근 활용 기술](https://jihunparkme.github.io/Spring-DB-Part2/)
+- [스프링 핵심 원리 > 고급편](https://jihunparkme.github.io/Spring-Core-Principles-Advanced/)
