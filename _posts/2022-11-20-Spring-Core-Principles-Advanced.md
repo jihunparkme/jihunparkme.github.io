@@ -13,6 +13,12 @@ featured-img: spring-core-advanced
 
 [Project](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced)
 
+## ThreadLocal
+
+### 동시성 문제
+
+- 다수의 쓰레드가 동시에 같은 인스턴스 필드 값을 변경하면서 발생하는 문제
+- 스프링 빈처럼 싱글톤 객체의 필드를 변경하며 사용할 때 주의
 
 ---
 
