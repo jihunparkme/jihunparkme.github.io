@@ -24,8 +24,9 @@ featured-img: spring-core-advanced
 
 - **특정 스레드만 접근**할 수 있는 특별한 저장소
 - 각 스레드마다 별도의 내부 저장소 제공
-- 특정 스레드가 스레드 로컬을 모두 사용면 ThreadLocal.remove() 호출로 저장된 값 제거 필요
-  - 메모리 누수 방지
+- 특정 스레드 로컬을 모두 사용면 메모리 누수 방지를 위해 ThreadLocal.remove() 호출로 저장된 값 제거
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/994962186e720e6c0248f48bf843a0538fc3ba7f)
 
 ---
 
