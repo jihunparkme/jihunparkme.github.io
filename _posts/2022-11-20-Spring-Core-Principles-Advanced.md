@@ -30,6 +30,10 @@ featured-img: spring-core-advanced
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/994962186e720e6c0248f48bf843a0538fc3ba7f)
 
+## Template Method Pattern 
+
+변하는 것(핵심 기능)과 변하지 않는 것(로그 추적기, 트랜잭션)을 분리해서 모듈화
+
 ---
 
 **스프링 완전 정복 로드맵**
