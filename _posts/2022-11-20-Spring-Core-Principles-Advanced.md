@@ -28,11 +28,18 @@ featured-img: spring-core-advanced
   - 스레드 풀을 사용할 경우(ex. WAS) 스레드 로컬 값을 제거하지 않으면, 사용자B가 사용자A 데이터를 조회하게 되는 문제 발생
   - 스레드는 스레드 풀을 통해 재사용되지 때문에 스레드 로컬에서 제거되지 않고 남아있는 데이터를 다른 사용자가 조회할 수 있게 된다.
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/template-method-pattern.png?raw=true 'Result')
+
 [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/994962186e720e6c0248f48bf843a0538fc3ba7f)
 
 ## Template Method Pattern 
 
-변하는 것(핵심 기능)과 변하지 않는 것(로그 추적기, 트랜잭션)을 분리해서 모듈화
+다형성(상속과 오버라이딩)을 활용해서 변하는 부분(핵심 기능)과 변하지 않는 부분(로그 추적기, 트랜잭션..)을 분리하는 디자인 패턴
+
+- 템플릿 틀(부모 클래스)에 변하지 않는 부분을 두고, 변하는 부분(자식 클래스에서 상속과 오버라이딩으로 처리)은 별도로 호출
+- 클래스는 단 한 개의 책임을 가져야 한다는 `단일 책임 원칙`(**S**ingle **R**esponsibility **P**rinciple)을 잘 지키는 패턴
+
+[commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/54de44c4807c50838552fa6d95d023336ce3ec70)
 
 ---
 
