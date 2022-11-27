@@ -41,6 +41,22 @@ featured-img: spring-core-advanced
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/54de44c4807c50838552fa6d95d023336ce3ec70)
 
+**익명 내부 클래스**
+
+- 지정 이름이 없고 클래스 내부에 선언되는 클래스
+- 객체 인스턴스 생성과 동시에 생성할 클래스를 상속 받은 자식 클래스 정의
+
+```java
+AbstractTemplate template1 = new AbstractTemplate() {
+    @Override
+    protected void call() {
+        log.info("비즈니스 로직1 실행");
+    }
+};
+log.info("클래스 이름1={}", template1.getClass()); // class hello.advanced.trace.template.TemplateMethodTest$1
+template1.execute();
+```
+
 ---
 
 **스프링 완전 정복 로드맵**
