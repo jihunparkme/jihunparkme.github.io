@@ -39,8 +39,6 @@ featured-img: spring-core-advanced
 - 템플릿 틀(부모 클래스)에 변하지 않는 부분을 두고, 변하는 부분(자식 클래스에서 상속과 오버라이딩으로 처리)은 별도로 호출
 - 클래스는 단 한 개의 책임을 가져야 한다는 `단일 책임 원칙`(**S**ingle **R**esponsibility **P**rinciple)을 잘 지키는 패턴
 
-[commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/54de44c4807c50838552fa6d95d023336ce3ec70)
-
 **익명 내부 클래스**
 
 - 지정 이름이 없고 클래스 내부에 선언되는 클래스
@@ -53,9 +51,43 @@ AbstractTemplate template1 = new AbstractTemplate() {
         log.info("비즈니스 로직1 실행");
     }
 };
-log.info("클래스 이름1={}", template1.getClass()); // class hello.advanced.trace.template.TemplateMethodTest$1
+log.info("클래스 이름1={}", template1.getClass()); // class hello...TemplateMethodTest$1
 template1.execute();
 ```
+
+**Template Example**
+
+```java
+public abstract class AbstractTemplate<T> {
+
+    private final LogTrace trace;
+
+    public AbstractTemplate(LogTrace trace) {
+        this.trace = trace;
+    }
+
+    public T execute(String message) {
+        TraceStatus status = null;
+        try {
+            status = trace.begin(message);
+
+            //로직 호출
+            T result = call();
+            
+            trace.end(status);
+            return result;
+        } catch (Exception e) {
+            trace.exception(status, e);
+            throw e;
+        }
+    }
+
+    protected abstract T call();
+}
+```
+
+
+[commit]()
 
 ---
 
