@@ -34,10 +34,16 @@ featured-img: spring-core-advanced
 
 ## Template Method Pattern 
 
-다형성(상속과 오버라이딩)을 활용해서 변하는 부분(핵심 기능)과 변하지 않는 부분(로그 추적기, 트랜잭션..)을 분리하는 디자인 패턴
+**다형성(상속과 오버라이딩)을 활용해서 변하는 부분(핵심 기능)과 변하지 않는 부분(로그 추적기, 트랜잭션..)을 분리하는 디자인 패턴**
 
-- 템플릿 틀(부모 클래스)에 변하지 않는 부분을 두고, 변하는 부분(자식 클래스에서 상속과 오버라이딩으로 처리)은 별도로 호출
+- 부모 클래스에 템플릿(변하지 않는 부분)을 정의하고, 일부 변경되는 로직은 자식 클래스에 정의
+- 자식 클래스가 전체 구조를 변경하지 않고, 특정 부분만 재정의
+- 결국 상속과 오버라이딩을 통한 다형성으로 문제 해결
 - 클래스는 단 한 개의 책임을 가져야 한다는 `단일 책임 원칙`(**S**ingle **R**esponsibility **P**rinciple)을 잘 지키는 패턴
+- 단, 상속에서 오는 단점들이 존재
+  - 강한 의존성으로 부모 클래스의 기능을 사용하지 않더라도 부모 클래스를 알아야 하고
+  - 부모 클래스를 수정하면 자식 클래스에 영향을 줄 수 있음
+  - 상속 구조로 인해 생성되는 클래스나 익명 내부 클래스의 복잡성
 
 **익명 내부 클래스**
 
@@ -87,6 +93,10 @@ public abstract class AbstractTemplate<T> {
 ```
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/bd55a6ea7ad39baae4761b33edec77da75728961)
+
+## Strategy Pattern
+
+**Template Method Pattern 의 상속으로 인한 단점을 해결한 디자인 패턴**
 
 ---
 
