@@ -107,6 +107,15 @@ public abstract class AbstractTemplate<T> {
   - Context 로직 중간에 strategy.call() 호출로 주입 받은 Strategy 로직 실행
   - Context는 나머지 로직 실행
 
+[commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b31151eb57adfc7780f0aa860a0f4a7c3d0c4262)
+
+
+
+
+
+
+
+
 ---
 
 **스프링 완전 정복 로드맵**
