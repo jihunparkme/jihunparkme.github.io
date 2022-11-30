@@ -96,7 +96,16 @@ public abstract class AbstractTemplate<T> {
 
 ## Strategy Pattern
 
-**Template Method Pattern 의 상속으로 인한 단점을 해결한 디자인 패턴**
+**Template Method Pattern 의 상속으로 인한 단점을 위임으로 해결한 디자인 패턴**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/strategy-pattern.png?raw=true 'Result')
+
+- 변하지 않는 부분을 Context(변하지 않는 템플릿)에, 변하는 부분을 Strategy(변하는 알고리즘) 인터페이스에 두고, 해당 구현체를 통해 문제를 해결
+  - Context에 원하는 Strategy 구현체 주입
+  - 클라이언트는 Context 실행
+  - Context는 Context 로직 시작
+  - Context 로직 중간에 strategy.call() 호출로 주입 받은 Strategy 로직 실행
+  - Context는 나머지 로직 실행
 
 ---
 
