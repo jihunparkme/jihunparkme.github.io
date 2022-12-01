@@ -109,7 +109,9 @@ public abstract class AbstractTemplate<T> {
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b31151eb57adfc7780f0aa860a0f4a7c3d0c4262)
 
+**익명 클래스 사용**
 
+[commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/ae539d6986872b6e47fad0d6a6741fb101a35a17)
 
 
 
