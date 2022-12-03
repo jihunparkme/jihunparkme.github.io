@@ -111,15 +111,19 @@ public abstract class AbstractTemplate<T> {
 
 **익명 클래스 사용**
 
-- Context/Strategy 선 조립, 후 실행 방식에 유용
+- Context/Strategy 선 조립, 후 실행 방식에 적합
+  - 필드에 Strategy 저장 방식의 전략 패턴
 - 한 번 조립 이후 Context 실행만 하면 끝
   - 스프링 로딩 시점에 의존관계 주입을 통해 조립 후 요청을 처리하는 것과 유사
 - 단점은, 조립 이후에 전략 변경이 번거로움 (싱글톤 사용 시 동시성 이슈 등 고려 사항이 존재)
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/ae539d6986872b6e47fad0d6a6741fb101a35a17)
 
+**전략을 필드로 가지지 않고 파라미터로 전달**
 
-
+- 파라미터에 Strategy 전달 방식의 전략 패턴
+- 실행할 때마다 전략을 유연하게 변경
+- 단점은, 실행할 때마다 전략을 계속 지정해 주어야 하는 번거로움
 
 ---
 
