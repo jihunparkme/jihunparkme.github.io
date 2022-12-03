@@ -125,6 +125,8 @@ public abstract class AbstractTemplate<T> {
 - 실행할 때마다 전략을 유연하게 변경
 - 단점은, 실행할 때마다 전략을 계속 지정해 주어야 하는 번거로움
 
+[commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/2c4c1bc0b4059acb4e864cc3d3d11cee56007706)
+
 ---
 
 **스프링 완전 정복 로드맵**
