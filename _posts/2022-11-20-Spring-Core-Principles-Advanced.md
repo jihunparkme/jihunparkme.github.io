@@ -28,13 +28,13 @@ featured-img: spring-core-advanced
   - 스레드 풀을 사용할 경우(ex. WAS) 스레드 로컬 값을 제거하지 않으면, 사용자B가 사용자A 데이터를 조회하게 되는 문제 발생
   - 스레드는 스레드 풀을 통해 재사용되지 때문에 스레드 로컬에서 제거되지 않고 남아있는 데이터를 다른 사용자가 조회할 수 있게 된다.
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/template-method-pattern.png?raw=true 'Result')
-
 [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/994962186e720e6c0248f48bf843a0538fc3ba7f)
 
 ## Template Method Pattern 
 
 **다형성(상속과 오버라이딩)을 활용해서 변하는 부분(핵심 기능)과 변하지 않는 부분(로그 추적기, 트랜잭션..)을 분리하는 디자인 패턴**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/template-method-pattern.png?raw=true 'Result')
 
 - 부모 클래스에 템플릿(변하지 않는 부분)을 정의하고, 일부 변경되는 로직은 자식 클래스에 정의
 - 자식 클래스가 전체 구조를 변경하지 않고, 특정 부분만 재정의
@@ -126,6 +126,10 @@ public abstract class AbstractTemplate<T> {
 - 단점은, 실행할 때마다 전략을 계속 지정해 주어야 하는 번거로움
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/2c4c1bc0b4059acb4e864cc3d3d11cee56007706)
+
+## Template Callback Pattern
+
+
 
 ---
 
