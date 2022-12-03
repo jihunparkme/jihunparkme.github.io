@@ -36,6 +36,10 @@ featured-img: spring-core-advanced
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/template-method-pattern.png?raw=true 'Result')
 
+**인스턴스 호출 과정**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/template-method-pattern-instance-call.png?raw=true 'Result')
+
 - 부모 클래스에 템플릿(변하지 않는 부분)을 정의하고, 일부 변경되는 로직은 자식 클래스에 정의
 - 자식 클래스가 전체 구조를 변경하지 않고, 특정 부분만 재정의
 - 결국 상속과 오버라이딩을 통한 다형성으로 문제 해결
@@ -97,6 +101,10 @@ public abstract class AbstractTemplate<T> {
 ## Strategy Pattern
 
 **Template Method Pattern 의 상속으로 인한 단점을 위임으로 해결한 디자인 패턴**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/strategy-pattern-1.png?raw=true 'Result')
+
+**전략 패턴 실행 과정**
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/strategy-pattern.png?raw=true 'Result')
 
