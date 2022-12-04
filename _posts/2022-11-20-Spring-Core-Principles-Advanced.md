@@ -131,7 +131,7 @@ public abstract class AbstractTemplate<T> {
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/ae539d6986872b6e47fad0d6a6741fb101a35a17)
 
-**템플릿 콜백 패턴**
+**Template Callback Pattern**
 
 전략을 필드로 가지지 않고 파라미터로 전달
 - 전략 패턴에서 템플릿과 콜백 부분이 강조된 패턴(GOF 패턴은 아니고 스프링 내부에서 불리움)
@@ -146,8 +146,14 @@ public abstract class AbstractTemplate<T> {
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/2c4c1bc0b4059acb4e864cc3d3d11cee56007706)
 
-## Template Callback Pattern
+콜백을 사용할 경우 익명 내부 클래스나 람다를 사용하는 것이 편리
 
+단, 여러 곳에서 함께 사용될 경우 재사용을 위해 콜백을 별도의 클래스로 만드는게 좋음
+
+- Context -> Template
+- Strategy -> Callback
+
+[commit]()
 
 
 ---
