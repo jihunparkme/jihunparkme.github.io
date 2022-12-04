@@ -153,8 +153,7 @@ public abstract class AbstractTemplate<T> {
 - Context -> Template
 - Strategy -> Callback
 
-[commit]()
-
+[commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/aa3dc38e1ebbefc28e10b05020d6e65e5d1fc95b)
 
 ---
 
