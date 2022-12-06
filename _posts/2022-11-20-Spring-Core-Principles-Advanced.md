@@ -32,7 +32,7 @@ featured-img: spring-core-advanced
 
 ## Template Method Pattern 
 
-**다형성(상속과 오버라이딩)을 활용해서 변하는 부분(핵심 기능)과 변하지 않는 부분(로그 추적기, 트랜잭션..)을 분리하는 디자인 패턴**
+**다형성(상속과 오버라이딩)을 활용해서 `변하는 부분`(핵심 기능)과 `변하지 않는 부분`(로그 추적기, 트랜잭션..)을 `분리`하는 디자인 패턴**
 
 **구조**
 
@@ -102,7 +102,7 @@ public abstract class AbstractTemplate<T> {
 
 ## Strategy Pattern
 
-**Template Method Pattern 의 상속으로 인한 단점을 위임으로 해결한 디자인 패턴**
+**Template Method Pattern 의 상속으로 인한 `단점을 위임으로` 해결한 디자인 패턴**
 
 **구조**
 
@@ -131,9 +131,9 @@ public abstract class AbstractTemplate<T> {
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/ae539d6986872b6e47fad0d6a6741fb101a35a17)
 
-**Template Callback Pattern**
+### Template Callback Pattern
 
-전략을 필드로 가지지 않고 파라미터로 전달
+**전략을 필드로 가지지 않고 파라미터로 전달**
 - 전략 패턴에서 템플릿과 콜백 부분이 강조된 패턴(GOF 패턴은 아니고 스프링 내부에서 불리움)
 - 코드가 Call 이후 코드를 넘겨준 곳의 Back 에서 실행(CallBack..)
 - 스프링에서 XxxTemplate(JdbcTemplate, RestTemplate, TransactionTemplate, RedisTemplate) 형태는 템플릿 콜백 패턴이 사용되어 만들어진 클래스
