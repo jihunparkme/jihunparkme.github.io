@@ -36,7 +36,7 @@ featured-img: spring-core-advanced
 
 **구조**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/template-method-pattern-3.png?raw=true 'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/template-method-pattern.png?raw=true 'Result')
 
 **인스턴스 호출 과정**
 
@@ -158,6 +158,36 @@ Example
 
 적용
 - [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/205afaf5f93c7702a377484af3345ad4c5880db8)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 
