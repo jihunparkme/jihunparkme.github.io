@@ -161,11 +161,12 @@ Example
 
 ## Proxy
 
-### 인터페이스와 구현 클래스(스프링 빈 수동 등록)
+- 인터페이스와 구현 클래스(스프링 빈 수동 등록)
+  - [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/919994e2dde6469c8dc25e7b842d7fafca5e54b9)
 
-### 인터페이스 없는 구체 클래스(스프링 빈 수동 등록)
+- 인터페이스 없는 구체 클래스(스프링 빈 수동 등록)
 
-### 컴포넌트 스캔 스프링 빈 자동 등록
+- 컴포넌트 스캔 스프링 빈 자동 등록
 
 
 
