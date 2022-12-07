@@ -168,6 +168,7 @@ Example
   - [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/f6df360609144e82f90cb6242c05bc375fd7d131)
 
 - 컴포넌트 스캔 스프링 빈 자동 등록
+  - [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b139e5df727f4ac39d1819815c0def0acbc21e61)
 
 
 
