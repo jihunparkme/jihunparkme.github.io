@@ -161,17 +161,31 @@ Example
 
 ## Proxy
 
-- 인터페이스와 구현 클래스(스프링 빈 수동 등록)
-  - [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/919994e2dde6469c8dc25e7b842d7fafca5e54b9)
+**프록시의 주요 기능**
+- 접근 제어
+  - 권한에 따른 접근 차단
+  - 캐싱
+  - 지연 로딩
+- 부가 기능 추가
+  - 기존 제공 기능에 부가 기능 수행
+  - ex. 요청/응답 값 변형, 추가 로그
 
-- 인터페이스 없는 구체 클래스(스프링 빈 수동 등록)
-  - [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/f6df360609144e82f90cb6242c05bc375fd7d131)
+인터페이스와 구현 클래스(스프링 빈 수동 등록)
+- [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/919994e2dde6469c8dc25e7b842d7fafca5e54b9)
 
-- 컴포넌트 스캔 스프링 빈 자동 등록
-  - [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b139e5df727f4ac39d1819815c0def0acbc21e61)
+인터페이스 없는 구체 클래스(스프링 빈 수동 등록)
+- [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/f6df360609144e82f90cb6242c05bc375fd7d131)
 
+컴포넌트 스캔 스프링 빈 자동 등록
+- [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b139e5df727f4ac39d1819815c0def0acbc21e61)
 
+### Proxy Pattern
 
+접근 제어 목적
+
+### Decorator Pattern
+
+새로운 기능 추가 목적
 
 
 
