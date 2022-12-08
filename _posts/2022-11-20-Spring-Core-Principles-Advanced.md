@@ -181,7 +181,38 @@ Example
 
 ### Proxy Pattern
 
-접근 제어 목적
+프록시를 적용하여 접근을 제어하는 패턴
+
+- 실제 객체와 클라이언트의 코드를 변경하지 않고, 프록시 도입으로 접근을 제어
+- 실제 클라이언트 입장에서 프록시 객체가 주입되었는지, 실제 객체가 주입되었는지 알 수 없음
+
+```java
+@Slf4j
+public class CacheProxy implements Subject {
+
+    private Subject target; // 프록시가 호출하는 대상
+    private String cacheValue;
+
+    public CacheProxy(Subject target) {
+        this.target = target;
+    }
+
+    /**
+     * 프록시도 실제 객체와 모양이 같아야 하므로 인터페이스 구현
+     */
+    @Override
+    public String operation() {
+        log.info("프록시 호출");
+        if (cacheValue == null) {
+            // 클라이언트가 프록시를 호출하면 프록시가 최종적으로 실제 객체 호출
+            cacheValue = target.operation();
+        }
+        return cacheValue;
+    }
+}
+```
+
+[commit]()
 
 ### Decorator Pattern
 
