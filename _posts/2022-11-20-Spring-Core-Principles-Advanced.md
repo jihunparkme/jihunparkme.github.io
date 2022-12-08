@@ -186,6 +186,8 @@ Example
 - 실제 객체와 클라이언트의 코드를 변경하지 않고, 프록시 도입으로 접근을 제어
 - 실제 클라이언트 입장에서 프록시 객체가 주입되었는지, 실제 객체가 주입되었는지 알 수 없음
 
+프록시 객체
+
 ```java
 @Slf4j
 public class CacheProxy implements Subject {
@@ -210,6 +212,17 @@ public class CacheProxy implements Subject {
         return cacheValue;
     }
 }
+```
+
+프록시 객체 적용
+
+```java
+Subject realSubject = new RealSubject(); // 실제 객체
+Subject cacheProxy = new CacheProxy(realSubject); // 실제 객체 참조를 전달
+ProxyPatternClient client = new ProxyPatternClient(cacheProxy); // 프록시 객체 주입
+client.execute(); // 이후에는 캐시 데이터 반환
+client.execute(); 
+client.execute();
 ```
 
 [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/3ecddfb00fa3efd73b2470fd52e41ea1bc73ed45)
