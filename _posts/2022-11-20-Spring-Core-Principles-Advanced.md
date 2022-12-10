@@ -162,11 +162,11 @@ Example
 ## Proxy
 
 **프록시의 주요 기능**
-- 접근 제어
+- `접근 제어`
   - 권한에 따른 접근 차단
   - 캐싱
   - 지연 로딩
-- 부가 기능 추가
+- `부가 기능 추가`
   - 기존 제공 기능에 부가 기능 수행
   - ex. 요청/응답 값 변형, 추가 로그
 
@@ -182,6 +182,8 @@ Example
 ### Proxy Pattern
 
 **프록시를 적용하여 접근을 제어하는 패턴**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/proxy-pattern.png?raw=true 'Result')
 
 - 실제 객체와 클라이언트의 코드를 변경하지 않고, 프록시 도입으로 접근을 제어
 - 실제 클라이언트 입장에서 프록시 객체가 주입되었는지, 실제 객체가 주입되었는지 알 수 없음
@@ -231,9 +233,10 @@ client.execute();
 
 **프록시를 적용하여 부가 기능을 추가하는 패턴**
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/decorator-pattern.png?raw=true 'Result')
 
-
-
+- client -> messageDecorator -> realComponent 객체 의존 관계
+  - [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/e4b4259f939424fded208fa43272534683f6c559)
 
 
 
