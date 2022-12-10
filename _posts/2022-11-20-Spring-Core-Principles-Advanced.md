@@ -235,9 +235,10 @@ client.execute();
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/decorator-pattern.png?raw=true 'Result')
 
-- client -> messageDecorator -> realComponent 객체 의존 관계
+- client -> messageDecorator(proxy) -> realComponent 객체 의존
   - [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/e4b4259f939424fded208fa43272534683f6c559)
-
+- client -> timeDecorator(proxy) -> messageDecorator(proxy) -> realComponent 객체 의존
+  - [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/24d4e14af5948368a1341d12d7974ccb5fa8c5f0)
 
 
 
