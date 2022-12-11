@@ -251,9 +251,35 @@ client.execute();
 
 인터페이스 없는 구체 클래스(스프링 빈 수동 등록)
 - [init](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/f6df360609144e82f90cb6242c05bc375fd7d131)
+- [프록시 도입 전](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d7f881f63b2666bd49ee5e6932e8908c9d11d6ea)
 
 컴포넌트 스캔 스프링 빈 자동 등록
 - [init](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b139e5df727f4ac39d1819815c0def0acbc21e61)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 
