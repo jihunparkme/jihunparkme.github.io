@@ -235,33 +235,14 @@ client.execute();
 - client -> timeDecorator(proxy) -> messageDecorator(proxy) -> realComponent 객체 의존
   - [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/24d4e14af5948368a1341d12d7974ccb5fa8c5f0)
 
+### 적용
 
+프록시를 사용해 **기존 코드를 수정하지 않고 새로운 기능을 도입**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```
-인터페이스와 구현 클래스(스프링 빈 수동 등록)
-- [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/919994e2dde6469c8dc25e7b842d7fafca5e54b9)
-
-인터페이스 없는 구체 클래스(스프링 빈 수동 등록)
-- [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/f6df360609144e82f90cb6242c05bc375fd7d131)
-
-컴포넌트 스캔 스프링 빈 자동 등록
-- [commit](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b139e5df727f4ac39d1819815c0def0acbc21e61)
-```
+- 실제 객체 대신 프록시 객체를 스프링 빈으로 등록(프록시 내부에서 실제 객체 참조)
+  - `프록시 객체`는 스프링 컨테이너가 스프링 빈으로 관리하고 자바 힙 메모리에 올라가는 반면
+  - `실제 객체`는 자바 힙 메모리에는 올라가지만 스프링 컨테이너가 관리하지 않음
+    - 프록시 객체를 통해서 참조되는 존재
 
 ---
 
