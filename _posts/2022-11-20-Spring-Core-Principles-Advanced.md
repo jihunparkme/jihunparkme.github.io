@@ -244,6 +244,17 @@ client.execute();
   - `실제 객체`는 자바 힙 메모리에는 올라가지만 스프링 컨테이너가 관리하지 않음
     - 프록시 객체를 통해서 참조되는 존재
 
+인터페이스와 구현 클래스(스프링 빈 수동 등록)
+- [init](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/919994e2dde6469c8dc25e7b842d7fafca5e54b9)
+- [프록시 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/4ad297c74f25cf9697d0896078c5a21ffbda4f5d)
+  - 프록시 클래스를 다수 생성해야 하는 단점 존재
+
+인터페이스 없는 구체 클래스(스프링 빈 수동 등록)
+- [init](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/f6df360609144e82f90cb6242c05bc375fd7d131)
+
+컴포넌트 스캔 스프링 빈 자동 등록
+- [init](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b139e5df727f4ac39d1819815c0def0acbc21e61)
+
 ---
 
 **스프링 완전 정복 로드맵**
