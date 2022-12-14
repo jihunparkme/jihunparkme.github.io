@@ -169,6 +169,9 @@ Example
 - `부가 기능 추가`
   - 기존 제공 기능에 부가 기능 수행
   - ex. 요청/응답 값 변형, 추가 로그
+- 단점
+  - 대상 클래스만 다를뿐 로직은 유사하고, 대상 클래스 개수만큼 프록시 클래스 생성 필요
+  - `동적 프록시 기술`을 통해 프록시 클래스를 하나만 만들어서 모든 곳에 적용 가능
 
 ### Proxy Pattern
 
@@ -255,7 +258,10 @@ client.execute();
 
 - 클래스 기반 프록시 도입
   - 인터페이스가 없더라도 다형성으로 클래스를 상속받아서 프록시를 적용
-  - 자식 클래스 생성 시 super()로 부모 클래스의 생성자를 호출해야 하는 단점 존재
+  - 인터페이스 기반 프록시에 비해 여러 단점이 존재
+    - 부모 클래스의 생성자 호출 필요
+    - final 클래스 상속 불가
+    - final 메서드 오버라이딩 불가
 - [init](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/f6df360609144e82f90cb6242c05bc375fd7d131)
 - [프록시 도입 전](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d7f881f63b2666bd49ee5e6932e8908c9d11d6ea)
 - [프록시 도입](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/6945eaea9f2ff1ea1cd4666b1873e8004abb3027)
