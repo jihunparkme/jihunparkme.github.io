@@ -255,9 +255,11 @@ client.execute();
 
 - 클래스 기반 프록시 도입
   - 인터페이스가 없더라도 다형성으로 클래스를 상속받아서 프록시를 적용
+  - 자식 클래스 생성 시 super()로 부모 클래스의 생성자를 호출해야 하는 단점 존재
 - [init](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/f6df360609144e82f90cb6242c05bc375fd7d131)
 - [프록시 도입 전](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d7f881f63b2666bd49ee5e6932e8908c9d11d6ea)
 - [프록시 도입](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/6945eaea9f2ff1ea1cd4666b1873e8004abb3027)
+- [적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/2b4b6d5ada1fd29bb87ce7a8fc3145bbeac675a8)
 
 **컴포넌트 스캔 스프링 빈 자동 등록**
 
