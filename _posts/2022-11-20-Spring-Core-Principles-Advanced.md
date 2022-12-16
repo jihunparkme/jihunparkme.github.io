@@ -302,9 +302,71 @@ private void dynamicCall(Method method, Object target) throws Exception {
 
 개발자가 직접 프록시 클래스를 만들지 않고, 런타임에 동적으로 생성
 
-- 인터페이스 기반으로 동적으로 프록시 생성
+- 인터페이스 기반 동적 프록시 생성
+  - 동적 프록시에 적용할 핸들러 로직만 생성
+  - 동적 프록시는 핸들러 로직만 호출하고 메서드와 인수를 가지고 실행
+- InvocationHandler 인터페이스 구현
+  - Object proxy : 프록시 자신
+  - Method method : 호출한 메서드
+  - Object[] args : 메서드를 호출할 때 전달한 인수
 
+InvocationHandler.java
 
+```java
+package java.lang.reflect;
+
+public interface InvocationHandler {
+    public Object invoke(Object proxy, Method method, Object[] args)
+        throws Throwable;
+}
+```
+
+TimeInvocationHandler.java (InvocationHandler 인터페이스 구현체)
+
+```java
+@Slf4j
+public class TimeInvocationHandler implements InvocationHandler {
+    private final Object target;
+
+    public TimeInvocationHandler(Object target) {
+        this.target = target;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        log.info("TimeProxy 실행");
+        long startTime = System.currentTimeMillis();
+
+        Object result = method.invoke(target, args);
+
+        long endTime = System.currentTimeMillis();
+        long resultTime = endTime - startTime;
+        log.info("TimeProxy 종료 resultTime={}", resultTime);
+        return result;
+    }
+}
+```
+
+```java
+AInterface target = new AImpl();
+TimeInvocationHandler handler = new TimeInvocationHandler(target);
+
+/**
+  * Proxy.newProxyInstance (동적 프록시 생성)
+  *
+  * ClassLoader loader, Class<?>[] interfaces, InvocationHandler h
+  * 클래스 로더 정보, 인터페이스, 핸들러 로직
+  *
+  * 해당 인터페이스 기반으로 동적 프록시 생성 및 핸들러 로직의 결과 반환
+  */
+AInterface proxy = (AInterface) Proxy.newProxyInstance(AInterface.class.getClassLoader(), new Class[]{AInterface.class}, handler);
+
+proxy.call();
+log.info("targetClass={}", target.getClass()); // targetClass=class hello.proxy.jdkdynamic.code.AImpl
+log.info("proxyClass={}", proxy.getClass()); // proxyClass=class com.sun.proxy.$Proxy12
+```
+
+[example]()
 
 
 
