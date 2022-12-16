@@ -298,7 +298,11 @@ private void dynamicCall(Method method, Object target) throws Exception {
 }
 ```
 
+### JDK 동적 프록시
 
+개발자가 직접 프록시 클래스를 만들지 않고, 런타임에 동적으로 생성
+
+- 인터페이스 기반으로 동적으로 프록시 생성
 
 
 
