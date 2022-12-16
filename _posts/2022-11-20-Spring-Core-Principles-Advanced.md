@@ -271,18 +271,32 @@ client.execute();
 
 - [init](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b139e5df727f4ac39d1819815c0def0acbc21e61)
 
+## 동적 프록시
 
+참고. 리플렉션
 
+- 클래스/메서드 메타정보를 동적으로 획득하고, 코드를 동적으로 호출
+- 런타임에 동작하므로 컴파일 시점에 오류를 잡을 수 없는 단점
+  - 일반적으로 사용하지 않는 것이 좋고, 프레임워크 개발이나 일반적인 공통 처리가 필요할 경우 부분적으로 주의해서 사용
 
+```java
+@Test
+void reflectionTest() throws Exception {
+    Class classHello = Class.forName("hello.proxy.jdkdynamic.ReflectionTest$Hello"); // 클래스 메타 정보 획득
 
+    Hello target = new Hello();
 
+    Method methodCallA = classHello.getMethod("callMethodA"); // 메서드 메타 정보 획득
+    dynamicCall(methodCallA, target);
 
+    Method methodCallB = classHello.getMethod("callMethodB");
+    dynamicCall(methodCallB, target);
+}
 
-
-
-
-
-
+private void dynamicCall(Method method, Object target) throws Exception {
+    Object result = method.invoke(target); // 획득한 메서드 메타 정보로 실제 인스턴스의 메서드 호출
+}
+```
 
 
 
