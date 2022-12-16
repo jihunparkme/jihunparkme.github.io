@@ -300,15 +300,11 @@ private void dynamicCall(Method method, Object target) throws Exception {
 
 ### JDK 동적 프록시
 
-개발자가 직접 프록시 클래스를 만들지 않고, 런타임에 동적으로 생성
+프록시 클래스를 런타임에 동적으로 생성
 
 - 인터페이스 기반 동적 프록시 생성
-  - 동적 프록시에 적용할 핸들러 로직만 생성
+  - 각각의 대상 객체 프록시를 직접 만들지 않고, 프록시 동적 생성(JDK 동적 프록시) 후 `InvocationHandler` 인터페이스 구현체(프록시 로직 정의) 하나를 공통 사용
   - 동적 프록시는 핸들러 로직만 호출하고 메서드와 인수를 가지고 실행
-- InvocationHandler 인터페이스 구현
-  - Object proxy : 프록시 자신
-  - Method method : 호출한 메서드
-  - Object[] args : 메서드를 호출할 때 전달한 인수
 
 InvocationHandler.java
 
@@ -322,6 +318,9 @@ public interface InvocationHandler {
 ```
 
 TimeInvocationHandler.java (InvocationHandler 인터페이스 구현체)
+  - Object proxy : 프록시 자신
+  - Method method : 호출한 메서드
+  - Object[] args : 메서드를 호출할 때 전달한 인수
 
 ```java
 @Slf4j
@@ -347,26 +346,39 @@ public class TimeInvocationHandler implements InvocationHandler {
 }
 ```
 
+**적용**
+
 ```java
-AInterface target = new AImpl();
-TimeInvocationHandler handler = new TimeInvocationHandler(target);
+@Test
+void dynamic() {
+    AInterface target = new AImpl();
+    TimeInvocationHandler handler = new TimeInvocationHandler(target);
 
-/**
-  * Proxy.newProxyInstance (동적 프록시 생성)
-  *
-  * ClassLoader loader, Class<?>[] interfaces, InvocationHandler h
-  * 클래스 로더 정보, 인터페이스, 핸들러 로직
-  *
-  * 해당 인터페이스 기반으로 동적 프록시 생성 및 핸들러 로직의 결과 반환
-  */
-AInterface proxy = (AInterface) Proxy.newProxyInstance(AInterface.class.getClassLoader(), new Class[]{AInterface.class}, handler);
+    /**
+      * Proxy.newProxyInstance (동적 프록시 생성)
+      *
+      * ClassLoader loader, Class<?>[] interfaces, InvocationHandler h
+      * 클래스 로더 정보, 인터페이스, 핸들러 로직
+      *
+      * 해당 인터페이스 기반으로 동적 프록시 생성 및 핸들러 로직의 결과 반환
+      */
+    AInterface proxy = (AInterface) Proxy.newProxyInstance(AInterface.class.getClassLoader(), new Class[]{AInterface.class}, handler);
 
-proxy.call();
-log.info("targetClass={}", target.getClass()); // targetClass=class hello.proxy.jdkdynamic.code.AImpl
-log.info("proxyClass={}", proxy.getClass()); // proxyClass=class com.sun.proxy.$Proxy12
+    proxy.call();
+    log.info("targetClass={}", target.getClass()); // targetClass=class hello.proxy.jdkdynamic.code.AImpl
+    log.info("proxyClass={}", proxy.getClass()); // proxyClass=class com.sun.proxy.$Proxy12
+}
 ```
 
-[example]()
+**실행 순서**
+
+1. JDK 동적 프록시의 call() 실행 `proxy.call();`
+2. JDK 동적 프록시는 `InvocationHandler.invoke()` 호출
+3. TimeInvocationHandler 내부 로직 수행 및 `method.invoke(target, args)` 호출.
+4. target의 실제 객체 AImpl 인스턴스의 `call()` 실행
+5. AImpl 인스턴스의 call() 실행이 끝나면 TimeInvocationHandler 응답
+
+[example](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/4da1abe77926fc50e45e378e988899ac981e41b4)
 
 
 
