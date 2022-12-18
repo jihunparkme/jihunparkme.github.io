@@ -305,6 +305,7 @@ private void dynamicCall(Method method, Object target) throws Exception {
 - 인터페이스 기반 동적 프록시 생성
   - 각각의 대상 객체 프록시를 직접 만들지 않고, 프록시 동적 생성(JDK 동적 프록시) 후 `InvocationHandler` 인터페이스 구현체(프록시 로직 정의) 하나를 공통 사용
   - 동적 프록시는 핸들러 로직만 호출하고 메서드와 인수를 가지고 실행
+  - **객체의 인터페이스가 반드시 필요**해서, 클래스만 있는 경우에는 적용할 수 없는 한계
 
 InvocationHandler.java
 
@@ -384,7 +385,8 @@ void dynamic() {
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/jdk-dynamic-proxy.png?raw=true 'Result')
 
-[JDK 동적 프록시 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/1ec3675562a30563c79d0cab4d8ce82d3088f1e3)
+- [JDK 동적 프록시 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/1ec3675562a30563c79d0cab4d8ce82d3088f1e3)
+- [메서드 이름 필터 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b51f05662a1bdb74922c23e2d925182cbae1b22c)
 
 
 
