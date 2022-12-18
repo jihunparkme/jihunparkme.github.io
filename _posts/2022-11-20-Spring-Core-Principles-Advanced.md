@@ -346,7 +346,7 @@ public class TimeInvocationHandler implements InvocationHandler {
 }
 ```
 
-**적용**
+**적용 예제**
 
 ```java
 @Test
@@ -380,7 +380,7 @@ void dynamic() {
 
 [example](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/4da1abe77926fc50e45e378e988899ac981e41b4)
 
-
+**적용**
 
 
 
