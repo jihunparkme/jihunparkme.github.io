@@ -382,7 +382,9 @@ void dynamic() {
 
 **적용**
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/jdk-dynamic-proxy.png?raw=true 'Result')
 
+[JDK 동적 프록시 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/1ec3675562a30563c79d0cab4d8ce82d3088f1e3)
 
 
 
