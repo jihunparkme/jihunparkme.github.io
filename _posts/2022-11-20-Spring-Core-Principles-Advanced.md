@@ -2,7 +2,7 @@
 layout: post
 title: Spring Core Principles Advanced
 summary: 스프링 핵심 원리 고급편
-categories: Spring-core-advanced
+categories: Spring-core-advanced Pattern ThreadLocal Proxy
 featured-img: spring-core-advanced
 # mathjax: true
 ---
