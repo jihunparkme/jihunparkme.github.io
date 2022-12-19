@@ -388,6 +388,15 @@ void dynamic() {
 - [JDK 동적 프록시 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/1ec3675562a30563c79d0cab4d8ce82d3088f1e3)
 - [메서드 이름 필터 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b51f05662a1bdb74922c23e2d925182cbae1b22c)
 
+### CGLIB
+
+- 바이트코드 조작을 통한 클래스 동적 생성 기술 제공 라이브러리
+- 인터페이스 없이 구체 클래스만으로 동적 프록시 생성
+
+
+
+
+
 
 
 
