@@ -392,8 +392,21 @@ void dynamic() {
 
 - 바이트코드 조작을 통한 클래스 동적 생성 기술 제공 라이브러리
 - 인터페이스 없이 구체 클래스만으로 동적 프록시 생성
+- JDK 동적 프록시 실행 로직에 InvocationHandler를 제공하듯, MethodInterceptor 제공
 
+```java
+package org.springframework.cglib.proxy;
 
+/**
+ * obj : CGLIB 적용 객체
+ * method : 호출된 메서드
+ * args : 메서드 호출에 전달된 인수
+ * proxy : 메서드 호출에 사용
+ */
+public interface MethodInterceptor extends Callback {
+    Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable;
+}
+```
 
 
 
