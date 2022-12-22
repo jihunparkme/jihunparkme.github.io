@@ -273,9 +273,9 @@ client.execute();
 
 ## 동적 프록시
 
-참고. 리플렉션
+**리플렉션**
 
-- 클래스/메서드 메타정보를 동적으로 획득하고, 코드를 동적으로 호출
+- 클래스/메서드 `메타정보`를 `동적으로 획득`하고, 코드를 `동적으로 호출`
 - 런타임에 동작하므로 컴파일 시점에 오류를 잡을 수 없는 단점
   - 일반적으로 사용하지 않는 것이 좋고, 프레임워크 개발이나 일반적인 공통 처리가 필요할 경우 부분적으로 주의해서 사용
 
@@ -300,9 +300,7 @@ private void dynamicCall(Method method, Object target) throws Exception {
 
 ### JDK 동적 프록시
 
-프록시 클래스를 런타임에 동적으로 생성
-
-- 인터페이스 기반 동적 프록시 생성
+- `인터페이스 기반` 동적 프록시 생성(런타임)
   - 각각의 대상 객체 프록시를 직접 만들지 않고, 프록시 동적 생성(JDK 동적 프록시) 후 `InvocationHandler` 인터페이스 구현체(프록시 로직 정의) 하나를 공통 사용
   - 동적 프록시는 핸들러 로직만 호출하고 메서드와 인수를 가지고 실행
   - **객체의 인터페이스가 반드시 필요**해서, 클래스만 있는 경우에는 적용할 수 없는 한계
@@ -390,13 +388,12 @@ void dynamic() {
 
 ### CGLIB
 
-- 바이트코드 조작을 통한 클래스 동적 생성 기술 제공 라이브러리
-- 인터페이스 없이 구체 클래스(상속)만으로 동적 프록시 생성
+- 인터페이스 없이 `구체 클래스 기반`(상속) 동적 프록시 생성
   - 상속 사용으로 인한 제약
     - 부모 클래스의 기본 생성자 필요
     - final 클래스는 상속 불가
     - final 메서드는 오버라이딩 불가
-- JDK 동적 프록시 실행 로직에 InvocationHandler를 제공하듯, MethodInterceptor 제공
+- JDK 동적 프록시 실행 로직에 InvocationHandler를 제공하듯, `MethodInterceptor` 제공
 
 MethodInterceptor.java
 
@@ -423,6 +420,18 @@ public Object intercept(Object obj, Method method, Object[] args, MethodProxy pr
 ```
 
 [CGLIB 예제](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b5f3e1b8da984c1e91fc29365fcf606861340238)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
