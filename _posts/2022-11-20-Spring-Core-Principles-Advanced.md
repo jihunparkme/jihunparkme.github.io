@@ -422,7 +422,7 @@ public Object intercept(Object obj, Method method, Object[] args, MethodProxy pr
 }
 ```
 
-
+[CGLIB 예제](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b5f3e1b8da984c1e91fc29365fcf606861340238)
 
 
 
