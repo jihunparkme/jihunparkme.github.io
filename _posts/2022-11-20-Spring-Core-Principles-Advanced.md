@@ -391,8 +391,14 @@ void dynamic() {
 ### CGLIB
 
 - 바이트코드 조작을 통한 클래스 동적 생성 기술 제공 라이브러리
-- 인터페이스 없이 구체 클래스만으로 동적 프록시 생성
+- 인터페이스 없이 구체 클래스(상속)만으로 동적 프록시 생성
+  - 상속 사용으로 인한 제약
+    - 부모 클래스의 기본 생성자 필요
+    - final 클래스는 상속 불가
+    - final 메서드는 오버라이딩 불가
 - JDK 동적 프록시 실행 로직에 InvocationHandler를 제공하듯, MethodInterceptor 제공
+
+MethodInterceptor.java
 
 ```java
 package org.springframework.cglib.proxy;
@@ -408,7 +414,13 @@ public interface MethodInterceptor extends Callback {
 }
 ```
 
-
+```java
+@Override
+public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+    Object result = proxy.invoke(target, args); // 실제 대상 동적 호출(CGLIB는 성능상 Method 대신 MethodProxy 사용)
+    return result;
+}
+```
 
 
 
