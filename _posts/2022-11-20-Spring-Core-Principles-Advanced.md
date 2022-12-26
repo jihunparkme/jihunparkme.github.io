@@ -431,13 +431,14 @@ public Object intercept(Object obj, Method method, Object[] args, MethodProxy pr
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-factory.png?raw=true 'Result')
 
-ㅇ JDK 동적 프록시, CGLIB 를 함께 사용할 경우 부가 기능 적용
+ㅇ JDK 동적 프록시, CGLIB 를 함께 사용할 경우 **부가 기능 적용**
 
 - InvocationHandler,MethodInterceptor 를 신경쓰지 않고, `Advice` 만 생성
+- org.aopalliance.intercept.`MethodInterceptor` 구현으로 Advice 생성
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-factory-advice.png?raw=true 'Result')
 
-ㅇ 특정 조건에 프록시 로직을 적용하는 공통 기능
+ㅇ **특정 조건**에 프록시 로직을 적용하는 공통 기능
 - `Pointcut` 개념 도입으로 일관성있게 해결
 
 
