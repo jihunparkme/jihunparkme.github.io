@@ -459,7 +459,7 @@ proxyFactory.addAdvice(new TimeAdvice());
 ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 ```
 
-[MethodInterceptor 구현으로 Advice 생성]()
+[MethodInterceptor 구현으로 Advice 생성 예제](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/57f8131041985a547e82d22d6724f4059f72717b)
 
 
 
