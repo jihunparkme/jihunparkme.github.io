@@ -441,7 +441,25 @@ public Object intercept(Object obj, Method method, Object[] args, MethodProxy pr
 ㅇ **특정 조건**에 프록시 로직을 적용하는 공통 기능
 - `Pointcut` 개념 도입으로 일관성있게 해결
 
+```java
+/** new ProxyFactory(target)
+  * 프록시 호출 대상을 함께 전달
+  * target 인스턴스에 인터페이스가 있다면, JDK 동적 프록시를 기본으로 사용
+  * 인터페이스가 없고 구체 클래스만 있다면, CGLIB를 통해서 동적 프록시를 생성
+  */
+ProxyFactory proxyFactory = new ProxyFactory(target);
+/** .addAdvice(new TimeAdvice())
+  * 프록시 팩토리를 통해서 만든 프록시가 사용할 부가 기능 로직을 설정
+  * JDK 동적 프록시가 제공하는 InvocationHandler 와 CGLIB가 제공하는 MethodInterceptor 의 개념과 유사
+  */
+proxyFactory.addAdvice(new TimeAdvice());
+/** proxyFactory.getProxy()
+  *  프록시 객체를 생성하고 그 결과 반환
+  */
+ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
+```
 
+[MethodInterceptor 구현으로 Advice 생성]()
 
 
 
