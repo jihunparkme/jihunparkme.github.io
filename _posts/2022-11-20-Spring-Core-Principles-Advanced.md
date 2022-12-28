@@ -472,7 +472,7 @@ ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 
 [MethodInterceptor 구현으로 Advice 생성 예제](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/57f8131041985a547e82d22d6724f4059f72717b)
 
-
+[Spring Proxy Factory 사용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/554b72d8cade3842305382d7eea85a064a67df56)
 
 
 
