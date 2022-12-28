@@ -300,6 +300,8 @@ private void dynamicCall(Method method, Object target) throws Exception {
 
 ### JDK 동적 프록시
 
+대상 클래스에 인터페이스가 있을 경우(인터페이스 기반 프록시)
+
 - `인터페이스 기반` 동적 프록시 생성(런타임)
   - 각각의 대상 객체 프록시를 직접 만들지 않고, 프록시 동적 생성(JDK 동적 프록시) 후 `InvocationHandler` 인터페이스 구현체(프록시 로직 정의) 하나를 공통 사용
   - 동적 프록시는 핸들러 로직만 호출하고 메서드와 인수를 가지고 실행
@@ -388,6 +390,8 @@ void dynamic() {
 
 ### CGLIB
 
+대상 클래스에 인터페이스가 없을 경우(구체 클래스 기반 프록시)
+
 - 인터페이스 없이 `구체 클래스 기반`(상속) 동적 프록시 생성
   - 상속 사용으로 인한 제약
     - 부모 클래스의 기본 생성자 필요
@@ -448,11 +452,18 @@ public Object intercept(Object obj, Method method, Object[] args, MethodProxy pr
   * 인터페이스가 없고 구체 클래스만 있다면, CGLIB를 통해서 동적 프록시를 생성
   */
 ProxyFactory proxyFactory = new ProxyFactory(target);
+
+/** setProxyTargetClass(true)
+ * 인터페이스가 있어도 CGLIB 사용 및 타겟 클래스 기반 프록시(CGLIB) 사용
+ */
+proxyFactory.setProxyTargetClass(true);
+
 /** .addAdvice(new TimeAdvice())
   * 프록시 팩토리를 통해서 만든 프록시가 사용할 부가 기능 로직을 설정
   * JDK 동적 프록시가 제공하는 InvocationHandler 와 CGLIB가 제공하는 MethodInterceptor 의 개념과 유사
   */
 proxyFactory.addAdvice(new TimeAdvice());
+
 /** proxyFactory.getProxy()
   *  프록시 객체를 생성하고 그 결과 반환
   */
