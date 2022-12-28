@@ -472,7 +472,19 @@ ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 
 [MethodInterceptor 구현으로 Advice 생성 예제](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/57f8131041985a547e82d22d6724f4059f72717b)
 
-[Spring Proxy Factory 사용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/554b72d8cade3842305382d7eea85a064a67df56)
+[Spring Proxy Factory 사용 예제](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/554b72d8cade3842305382d7eea85a064a67df56)
+
+### Pointcut, Advice, Advisor
+
+- `Pointcut` : 대상 여부를 확인하는 필터 역할 
+  - 부가 기능을 어느 곳에 적용/미적용할지 판단하는 필터링 로직
+  - 주로 클래스와 메서드 이름으로 필터링
+- `Advice` : 부가 기능 로직 담당
+  - 프록시가 호출하는 부가 기능(=프록시 로직)
+- `Advisor` : 하나의 Pointcut, 하나의 Advice를 갖는 것
+  - 조언(`Advice`)을 어디(`Pointcut`)에 할 것인가? 
+  - 조언자(`Advisor`)는 어디(`Pointcut`)에 조언(`Advice`)을 해야할지 알고 있다.
+
 
 
 
