@@ -476,6 +476,9 @@ ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 
 ### Pointcut, Advice, Advisor
 
+핵심. **하나의 Target 에 여러 AOP가 동시에 적용되어도, 스프링의 AOP는 Target 마다 하나의
+프록시만 생성**
+
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-proxy-factory-advisor.png?raw=true 'Result')
 
 `Pointcut` : 대상 여부를 확인하는 필터 역할 
@@ -496,6 +499,7 @@ ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 `Advisor` : 하나의 Pointcut, 하나의 Advice를 갖는 것
 - 조언(`Advice`)을 어디(`Pointcut`)에 할 것인가? 
 - 조언자(`Advisor`)는 어디(`Pointcut`)에 조언(`Advice`)을 해야할지 알고 있다.
+- [프록시에 여러 Advisor 함께 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b7193eacc32a91b7bf730023558587c7d7d92531)
 
 ```java
 ServiceInterface target = new ServiceImpl();
@@ -506,7 +510,6 @@ DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor(Pointcut.TRUE, new T
 proxyFactory.addAdvisor(advisor);
 ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 ```
-
 
 
 
