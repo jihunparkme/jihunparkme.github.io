@@ -481,8 +481,8 @@ ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 `Pointcut` : 대상 여부를 확인하는 필터 역할 
 - 부가 기능을 어느 곳에 적용/미적용할지 판단하는 필터링 로직
 - 주로 클래스와 메서드 이름으로 필터링
-- [Pointcut 만들기]()
-- [스프링 제공 Pointcut]()
+- [Pointcut 만들기](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/a7583c7cd317d3fbc131109f0f3d228860a4f92f)
+- [스프링 제공 Pointcut](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/efe15544a0439467a7705444700ecb2106d0d1c4)
   - 스프링이 제공하는 대표적인 Pointcut
     - `AspectJExpressionPointcut` : aspectJ 표현식 매칭 (실무에서 주로 많이 사용)
     - `NameMatchMethodPointcut` : 메서드 이름 기반 매칭한다
