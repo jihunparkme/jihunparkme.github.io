@@ -432,6 +432,7 @@ public Object intercept(Object obj, Method method, Object[] args, MethodProxy pr
 ㅇ 인터페이스가 있는 경우 JDK 동적 프록시, 그렇지 않은 경우에는 CGLIB 적용
 - 동적 프록시를 통합해서 만들어주는 `ProxyFactory` 제공
 - 인터페이스가 있으면 JDK 동적 프록시 사용, 구체 클래스만 있다면 CGLIB 사용(default)
+- [Proxy Factory 적용]()
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-factory.png?raw=true 'Result')
 
@@ -439,6 +440,7 @@ public Object intercept(Object obj, Method method, Object[] args, MethodProxy pr
 
 - InvocationHandler,MethodInterceptor 를 신경쓰지 않고, `Advice` 만 생성
 - org.aopalliance.intercept.`MethodInterceptor` 구현으로 Advice 생성
+- [Proxy Factory 적용]()
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-factory-advice.png?raw=true 'Result')
 
