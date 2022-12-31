@@ -532,7 +532,22 @@ ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 4. `등록`: 빈 후처리기는 빈 반환. 전달 된 빈을 그대로 반환하면 해당 빈이 등록되고, 바꿔치기 하면
 다른 객체가 빈 저장소에 등록
 
+**BeanPostProcessor** interface
 
+- 빈 후처리기를 사용하기 위해 `BeanPostProcessor` 인터페이스 구현 후 스프링 빈 등록
+- `postProcessBeforeInitialization` : 객체 생성 이후 @PostConstruct 같은 **초기화 발생 전** 호출되는 포스트 프로세서
+- `postProcessAfterInitialization` : 객체 생성 이후 @PostConstruct 같은 **초기화 발생
+후** 호출되는 포스트 프로세서
+
+```java
+public interface BeanPostProcessor {
+  Object postProcessBeforeInitialization(Object bean, String beanName) throws
+BeansException
+ Object postProcessAfterInitialization(Object bean, String beanName) throws
+BeansException
+}
+```
+- [빈 후처리기로 객체 바꿔치기](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/8d08c11e6ac146c321dc8256363add26f4449a8c)
 
 
 
