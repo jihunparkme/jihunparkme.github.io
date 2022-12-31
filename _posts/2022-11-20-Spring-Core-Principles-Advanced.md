@@ -2,7 +2,7 @@
 layout: post
 title: Spring Core Principles Advanced
 summary: 스프링 핵심 원리 고급편
-categories: Spring-core-advanced Pattern ThreadLocal Proxy
+categories: Spring-core-advanced Pattern ThreadLocal Proxy AOP
 featured-img: spring-core-advanced
 # mathjax: true
 ---
@@ -425,9 +425,16 @@ public Object intercept(Object obj, Method method, Object[] args, MethodProxy pr
 
 [CGLIB 예제](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b5f3e1b8da984c1e91fc29365fcf606861340238)
 
-## ⭐️Spring Proxy Factory
+## Spring Proxy Factory
 
 프록시 생성은 `ProxyFactory` 로직은 `Advice`
+
+남은 문제점.. -> 빈 후처리기로 처리 가능
+
+- 너무 많은 설정이 필요
+  - 스프링 빈이 100개 있다면, 프록시 부가 기능 적용을 위해 100개의 동적 프록시 생성 필요
+- 컴포넌트 스캔을 사용하는 경우 Proxy Factory 적용 불가능
+  - 실제 객체가 스프링 컨테이너 스프링 빈으로 등록된 상태이므로
 
 ㅇ 인터페이스가 있는 경우 JDK 동적 프록시, 그렇지 않은 경우에는 CGLIB 적용
 - 동적 프록시를 통합해서 만들어주는 `ProxyFactory` 제공
