@@ -520,8 +520,17 @@ proxyFactory.addAdvisor(advisor);
 ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 ```
 
+## BeanPostProcessor
 
+빈 저장소에 객체를 등록하기 직전 조작을 하고 싶을 경우 빈 후처리기(BeanPostProcessor)를 사용(빈 생성 후 처리 용도)
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/bean-post-processor.png?raw=true 'Result')
+
+1. `생성`: 스프링 빈 대상 객체 생성(@Bean, @ComponentScan..)
+2. `전달`: 생성된 객체를 빈 저장소에 등록하기 직전에 빈 후처리기에 전달
+3. `후 처리 작업`: 빈 후처리기는 전달된 스프링 빈 객체를 조작하거나 다른 객체로 바뀌치기 가능
+4. `등록`: 빈 후처리기는 빈 반환. 전달 된 빈을 그대로 반환하면 해당 빈이 등록되고, 바꿔치기 하면
+다른 객체가 빈 저장소에 등록
 
 
 
