@@ -551,7 +551,7 @@ BeansException
 ```
 - [빈 후처리기로 객체 바꿔치기](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/8d08c11e6ac146c321dc8256363add26f4449a8c)
 
-### 적용
+**적용**
 
 - BeanPostProcessor 를 사용해서 **실제 객체 대신 프록시를** 스프링 빈으로 등록 가능
   - 수동 등록 빈을 포함하여 컴포넌트 스캔을 사용하는 빈까지 모두 프록시 적용이 가능
@@ -560,6 +560,12 @@ BeansException
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/apply-bean-post-processor.png?raw=true 'Result')
 
 [빈 후처리기 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/ac7d18374be2e755cec90c3d1ee3e4e8a85ce092)
+
+### 스프링 제공 빈 후처리기
+
+스프링 AOP 는 Pointcut 을 사용해서 프록시 적용 대상 여부 체크
+  - 프록시가 필요한 곳에만 프록시 적용
+  - 프록시 내부 특정 메서드가 호출 되었을 때 어드바이스 적용
 
 ---
 
