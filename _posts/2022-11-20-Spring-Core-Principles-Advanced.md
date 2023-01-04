@@ -524,6 +524,8 @@ ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 
 빈 저장소에 객체를 등록하기 직전 조작을 하고 싶을 경우 빈 후처리기(BeanPostProcessor)를 사용(빈 생성 후 처리 용도)
 
+- Spring Proxy Factory 의 단점(많은 설정, 컴포넌트 스캔 대상 객체 적용의 어려움)을 해결
+
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/bean-post-processor.png?raw=true 'Result')
 
 1. `생성`: 스프링 빈 대상 객체 생성(@Bean, @ComponentScan..)
@@ -551,7 +553,7 @@ BeansException
 
 ### 적용
 
-- BeanPostProcessor 를 사용해서 실제 객체 대신 프록시를 스프링 빈으로 등록 가능
+- BeanPostProcessor 를 사용해서 **실제 객체 대신 프록시를** 스프링 빈으로 등록 가능
   - 수동 등록 빈을 포함하여 컴포넌트 스캔을 사용하는 빈까지 모두 프록시 적용이 가능
   - 설정 파일에서 프록시를 생성하는 코드가 불필요
 
