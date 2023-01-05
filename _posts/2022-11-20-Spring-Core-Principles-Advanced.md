@@ -588,6 +588,7 @@ AOP 관련 클래스를 자동으로 스프링 빈에 등록
 - 스프링 빈으로 등록된 Advisor 들을 자동으로 찾아서 프록시가 필요한 곳에 자동으로
 프록시 적용
 - 프록시를 모든 곳에 생성하는 것은 비용 낭비이므로 포인트컷으로 필터링 후 필요한 곳에 최소한의 프록시 적용
+- Advisor1, Advisor2, 3, 4.. 가 제공하는 포인트컷의 조건을 모두 만족하더라도 프록시를 한 개만 생성하고 프록시는 조건에 만족하는 여러 Advisor를 소유
 
 [스프링이 제공하는 빈 후처리기 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/217425d52a8c7feb4391a55ff50ade13b846c6f4)
 
