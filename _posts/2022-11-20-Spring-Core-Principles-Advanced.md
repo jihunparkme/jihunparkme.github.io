@@ -501,6 +501,9 @@ ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
     - `JdkRegexpMethodPointcut` : JDK 정규 표현식 기반 매칭
     - `TruePointcut` : 항상 참 반환
     - `AnnotationMatchingPointcut` : 애노테이션 매칭
+- **Pointcut 의 두 가지 역할 ‼️**
+  - `생성 단계` -> 프록시 적용 여부 판단 (클래스, 메서드 조건 모두 비교)
+  - `사용 단계` -> advice(부가 기능) 적용 여부 판단
 
 `Advice` : 부가 기능 로직 담당
 - 프록시가 호출하는 부가 기능(=프록시 로직)
@@ -566,6 +569,27 @@ BeansException
 스프링 AOP 는 Pointcut 을 사용해서 프록시 적용 대상 여부 체크
   - 프록시가 필요한 곳에만 프록시 적용
   - 프록시 내부 특정 메서드가 호출 되었을 때 어드바이스 적용
+
+의존성 추가록
+
+```groovy
+implementation 'org.springframework.boot:spring-boot-starter-aop'
+```
+
+- `aspectjweaver`: aspectJ 관련 라이브러리 등록 및 스프링 부트가
+AOP 관련 클래스를 자동으로 스프링 빈에 등록
+  - `AnnotationAwareAspectJAutoProxyCreator` 빈 후처리기가 스프링 빈에 자동으로 등록
+
+**AutoProxyCreator**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/auto-proxy-creator.png?raw=true 'Result')
+
+- 자동으로 프록시를 생성해주는 빈 후처리기
+- 스프링 빈으로 등록된 Advisor 들을 자동으로 찾아서 프록시가 필요한 곳에 자동으로
+프록시 적용
+- 프록시를 모든 곳에 생성하는 것은 비용 낭비이므로 포인트컷으로 필터링 후 필요한 곳에 최소한의 프록시 적용
+
+[스프링이 제공하는 빈 후처리기 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/217425d52a8c7feb4391a55ff50ade13b846c6f4)
 
 ---
 
