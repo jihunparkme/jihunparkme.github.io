@@ -564,7 +564,7 @@ BeansException
 
 [빈 후처리기 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/ac7d18374be2e755cec90c3d1ee3e4e8a85ce092)
 
-### 스프링 제공 빈 후처리기
+### ⭐️ 스프링 제공 빈 후처리기
 
 스프링 AOP 는 Pointcut 을 사용해서 프록시 적용 대상 여부 체크
   - 프록시가 필요한 곳에만 프록시 적용
@@ -580,7 +580,7 @@ implementation 'org.springframework.boot:spring-boot-starter-aop'
 AOP 관련 클래스를 자동으로 스프링 빈에 등록
   - `AnnotationAwareAspectJAutoProxyCreator` 빈 후처리기가 스프링 빈에 자동으로 등록
 
-**AutoProxyCreator**
+**`AutoProxyCreator`**
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/auto-proxy-creator.png?raw=true 'Result')
 
@@ -590,6 +590,43 @@ AOP 관련 클래스를 자동으로 스프링 빈에 등록
 - 프록시를 모든 곳에 생성하는 것은 비용 낭비이므로 포인트컷으로 필터링 후 필요한 곳에 최소한의 프록시 적용
 
 [스프링이 제공하는 빈 후처리기 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/217425d52a8c7feb4391a55ff50ade13b846c6f4)
+
+**`AspectJExpressionPointcut`**
+
+- AOP에 특화된 정밀한 포인트컷 표현식(AspectJ) 적용
+
+```java
+/** package 기준 포인트컷 적용
+  * AspectJExpressionPointcut : AspectJ 포인트컷 표현식 적용
+  * execution(* hello.proxy.app..*(..)) : AspectJ가 제공하는 포인트컷 표현식
+  *      * : 모든 반환 타입
+  *      hello.proxy.app.. : 해당 패키지와 그 하위 패키지
+  *      *(..) : * 모든 메서드 이름, (..) 파라미터는 상관 없음
+  * -> hello.proxy.app 패키지와 그 하위 패키지의 모든 메서드는 포인트컷의 매칭 대상
+  */
+@Bean
+public Advisor advisor2(LogTrace logTrace) {
+    AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+    pointcut.setExpression("execution(* hello.proxy.app..*(..))");
+    LogTraceAdvice advice = new LogTraceAdvice(logTrace);
+    //advisor = pointcut + advice
+    return new DefaultPointcutAdvisor(pointcut, advice);
+}
+
+/** method 기준 포인트컷 적용
+  * hello.proxy.app 패키지와 하위 패키지의 모든 메서드는 포인트컷의 매칭하되,
+  * noLog() 메서드는 제외
+  */
+@Bean
+public Advisor advisor3(LogTrace logTrace) {
+    AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+    pointcut.setExpression("execution(* hello.proxy.app..*(..)) && !execution(* hello.proxy.app..noLog(..))");
+    LogTraceAdvice advice = new LogTraceAdvice(logTrace);
+    //advisor = pointcut + advice
+    return new DefaultPointcutAdvisor(pointcut, advice);
+}
+```
+
 
 ---
 
