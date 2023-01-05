@@ -628,6 +628,7 @@ public Advisor advisor3(LogTrace logTrace) {
 }
 ```
 
+`@Aspect` 애노테이션을 사용해서 더 편리하게 포인트컷과 어드바이스를 만들고 프록시에 적용할 수 있다.
 
 ---
 
