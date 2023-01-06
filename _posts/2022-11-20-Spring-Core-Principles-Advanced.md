@@ -773,6 +773,44 @@ Programming)
   - 스프링 컨테이너가 관리할 수 있는 `스프링 빈에만 AOP 적용` 가능
 - AspectJ는 더 섬세하고 다양한 기능을 제공하지만, 알아야 할 내용이 많고, 자바 관련 복잡한 설정이 많으므로, 실무에서는 별도 설정 없이 사용할 수 있는 스프링 제공 AOP 기능만 사용해도 대부분의 문제를 해결 가능
 
+### AOP 용어
+
+`Join point`
+- AOP를 적용할 수 있는 모든 지점(위치, 메소드 실행, 생성자 호출, 필드 값 접근, static 메서드 접근)
+- 프록시를 사용하는 스프링 AOP는 항상 메서드 실행 지점으로 제한
+
+`Pointcut`
+- Pointcut 중에서 Advice가 적용될 위치 선별(주로 AspectJ 표현식을 사용해서 지정)
+- 프록시를 사용하는 스프링 AOP는 메서드 실행 지점만 Pointcut으로 선별 가능
+
+`Target`
+- Advice(부가 기능)를 받는 객체, Pointcut으로 결정
+
+`Advice`
+- 부가 기능
+- Around, Before, After 같은 다양한 종류의 Advic 존재
+
+`Aspect`
+- Advice + Pointcut을 모듈화 한 것(@Aspect)
+- 여러 Advice와 Pointcut 함께 존재 가능
+
+`Advisor`
+- 하나의 Advice와 하나의 Pointcut으로 구성
+- 스프링 AOP에서만 사용되는 특별한 용어
+
+`Weaving`
+- Pointcut으로 결정한 타켓의 Join point에 Advice를 적용하는 것
+- 핵심 기능 코드에 영향을 주지 않고 부가 기능을 추가 가능
+- AOP 적용을 위해 애스펙트를 객체에 연결한 상태
+  - 컴파일 타임(AspectJ compiler)
+  - 로드 타임
+  - 런타임, 스프링 AOP는 런타임, 프록시 방식
+
+`AOP Proxy`
+- AOP 기능을 구현하기 위해 만든 프록시 객체
+- 스프링에서 AOP 프록시는 JDK 동적 프록시 또는 CGLIB 프록시
+
+
 
 
 
