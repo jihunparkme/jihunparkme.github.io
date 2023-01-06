@@ -627,8 +627,62 @@ public Advisor advisor3(LogTrace logTrace) {
     return new DefaultPointcutAdvisor(pointcut, advice);
 }
 ```
+  - 스프링에 프록시를 적용하려면 Advisor(pointcut, advice 로 구성)를 만들어서 스프링 빈으로 등록하면 자동 프록시 생성기가 자동으로 처리
+  - 자동 프록시 생성기는 스프링 빈으로 등록된 Advisor 들을 찾고, 스프링 빈들에 자동으로 포인트컷이 매칭되는 경우 프록시를 적용
 
-`@Aspect` 애노테이션을 사용해서 더 편리하게 포인트컷과 어드바이스를 만들고 프록시에 적용할 수 있다.
+`@Aspect` 애노테이션을 사용해서 더 편리하게 pointcut 과 advice 를 만들고 프록시에 적용할 수 있다.
+
+## @Aspect Proxy
+
+- `@Aspect` 애노테이션으로 pointcut 과 advice 로 구성되어 있는 Advisor 의 편리한 생성 지원
+
+**Aspect 적용 클래스**
+
+```java
+@Slf4j
+@Aspect // 애노테이션 기반 프록시 적용 시 필요
+public class LogTraceAspect {
+
+    private final LogTrace logTrace;
+
+    public LogTraceAspect(LogTrace logTrace) {
+        this.logTrace = logTrace;
+    }
+
+    /**
+     * Pointcut + Advice = Advisor
+     *
+     * Pointcut : @Around 값에 포인트컷 표현식 삽입 (표현식은 AspectJ 표현식 사용)
+     * Advice : @Around 메서드 = Advice
+     * ProceedingJoinPoint : 실제 호출 대상, 전달 인자, 어떤 객체와 메서드가 호출되었는지 정보 포함(MethodInvocation invocation 과 유사)
+     */
+    @Around("execution(* hello.proxy.app..*(..))") //=> Pointcut path
+    public Object execute(ProceedingJoinPoint joinPoint) throws Throwable { //=> Advice Logic
+
+        TraceStatus status = null;
+
+        // log.info("target={}", joinPoint.getTarget()); //실제 호출 대상
+        // log.info("getArgs={}", joinPoint.getArgs()); //전달인자
+        // log.info("getSignature={}", joinPoint.getSignature()); //join point시그니처
+
+        try {
+            String message = joinPoint.getSignature().toShortString();
+            status = logTrace.begin(message);
+
+            // 실제 호출 대상(target) 호출
+            Object result = joinPoint.proceed();
+
+            logTrace.end(status);
+            return result;
+        } catch (Exception e) {
+            logTrace.exception(status, e);
+            throw e;
+        }
+    }
+}
+```
+
+[@Aspect 프록시 - 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/9258f3b402316bc3446693c00b28d7b915c697a5)
 
 ---
 
