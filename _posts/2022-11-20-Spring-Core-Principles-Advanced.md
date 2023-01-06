@@ -702,7 +702,7 @@ public class LogTraceAspect {
 
 [@Aspect 프록시 - 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/9258f3b402316bc3446693c00b28d7b915c697a5)
 
-## Spring AOP
+## ⭐️ Spring AOP
 
 애플리케이션 로직은 크게 핵심 기능과 부가 기능으로 나눌 수 있음
 
@@ -712,12 +712,24 @@ public class LogTraceAspect {
 - 변경 시 중복으로 많은 수정 필요
 - 적용 대상 변경 시 많은 수정 필요
 
+**`Aspect`**
 
+- 부가 기능과 부가 기능을 어디에 적용할지 선택하는 기능을 하나로 합하여 만들어진 모듈
+  - Advisor(Pointcut + Advice) 도 개념상 하나의 Aspect
+- 애플리케이션을 바라보는 관점을 하나의 기능에서 횡단 관심사(cross-cutting concerns) 관점으로 보는 것
+- Aspect 를 사용한 프로그래밍 방식을 관점 지향 프로그래밍 AOP(Aspect-Oriented
+Programming)
+- OOP 를 대체하기 위한 것이 아닌 횡단 관심사를 효율적으로 처리하기 어려운 OOP의 부족한 부분 보조 목적으로 개발
 
+**`AspectJ Framework`**
 
-
-
-
+- 스프링 AOP는 대부분 [AspectJ](https://www.eclipse.org/aspectj/) 문법을 차용하고, AspectJ 제공 기능 일부만 제공
+  - 자바 프로그래밍 언어에 대한 완벽한 관점 지향 확장
+  - 횡단 관심사의 깔끔한 모듈화
+  - 오류 검사 및 처리
+  - 동기화
+  - 성능 최적화(캐싱)
+  - 모니터링 및 로깅
 
 
 
