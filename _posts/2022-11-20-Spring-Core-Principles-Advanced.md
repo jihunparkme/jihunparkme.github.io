@@ -740,8 +740,13 @@ Programming)
 - .java 소스 코드를 컴파일러(AspectJ가 제공하는 특별한 컴파일러)를 사용해서 .class 를 만드는 시점에 부가 기능 로직 추가 (=Weaving / aspect 와 실제 코드를 연결)
 - 단점, 컴파일 시점에 부가 기능을 적용하려면 특별한 컴파일러가 필요하고 복잡
 
-
 **클래스 로딩 시점**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/aspect-class-road.png?raw=true 'Result')
+
+- 자바를 실행하면 자바는 .class 파일을 JVM 내부의 클래스 로더에 보관. 이때 중간에서 .class 파일을 조작한 다음 JVM에 로드
+  -  대부분 모니터링 툴들이 java Instrumentation 방식 사용
+- 단점, 로드 타임 위빙은 자바를 실행할 때 특별한 옵션(java -javaagent)을 통해 클래스 로더 조작기를 지정해야 하는데, 이 부분이 번거롭고 운영이 어려움
 
 **런타임 시점(프록시)**
 
