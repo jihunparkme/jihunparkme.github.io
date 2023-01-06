@@ -632,9 +632,27 @@ public Advisor advisor3(LogTrace logTrace) {
 
 `@Aspect` 애노테이션을 사용해서 더 편리하게 pointcut 과 advice 를 만들고 프록시에 적용할 수 있다.
 
-## @Aspect Proxy
+## ⭐️ @Aspect Proxy
 
 - `@Aspect` 애노테이션으로 pointcut 과 advice 로 구성되어 있는 Advisor 의 편리한 생성 지원
+- 자동 프록시 생성기(AnnotationAwareAspectJAutoProxyCreator)를 통해 @Aspect 를 찾아서 Advisor 로 변환/저장, Advisor 기반으로 필요한 곳에 프록시를 생성
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/aspect-annotation.png?raw=true 'Result')
+
+**@Aspect -> Advisor 변환 과정**
+
+1. 실행: 스프링 애플리케이션 로딩 시점에 자동 프록시 생성기 호출
+2. 모든 @Aspect 빈 조회: 자동 프록시 생성기는 스프링 컨테이너에서 @Aspect 이 붙은
+스프링 빈을 모두 조회
+3. 어드바이저 생성: @Aspect 어드바이저 빌더(BeanFactoryAspectJAdvisorsBuilder)를 통해 @Aspect 애노테이션 정보를 기반으로 어드바이저 생성
+4. @Aspect 기반 어드바이저 저장: 생성한 어드바이저를 @Aspect 어드바이저 빌더 내부에 저장
+
+@Aspect 어드바이저 빌더(BeanFactoryAspectJAdvisorsBuilder)
+- @Aspect 정보를 기반으로 포인트컷, 어드바이스, 어드바이저 생성 및 보관(캐싱)
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/BeanFactoryAspectJAdvisorsBuilder.png?raw=true 'Result')
+
+- 자동 프록시를 생성기의 동작과 동일한데, @Aspect Advisor 조회 부분이 추가
 
 **Aspect 적용 클래스**
 
