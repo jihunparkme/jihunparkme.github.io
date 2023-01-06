@@ -812,12 +812,21 @@ Programming)
 
 ### AOP 구현
 
-- AOP 기능 사용을 위해 spring-boot-starter-aop dependency 추가
-- @Aspect 사용을 위해 @EnableAspectJAutoProxy 설정이 필요하지만, 스프링 부트가 자동으로 추가
-
 ```groovy
 implementation 'org.springframework.boot:spring-boot-starter-aop'
 ```
+
+- AOP 기능 사용을 위해 spring-boot-starter-aop dependency 추가
+- @Aspect 사용을 위해 @EnableAspectJAutoProxy 설정이 필요하지만, 스프링 부트가 자동으로 추가
+
+**@Aspect 클래스를 스프링 빈으로 등록하는 방법**
+- @Bean 을 사용해서 직접 등록
+- @Component 컴포넌트 스캔을 사용해서 자동 등록
+- @Import 주로 설정 파일을 추가할 때 사용(@Configuration)
+
+[스프링 AOP 구현 기본](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/7aab61b3305ba068546c56200574dce46d9bd113)
+
+
 
 
 
