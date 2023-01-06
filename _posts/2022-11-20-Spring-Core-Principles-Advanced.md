@@ -810,7 +810,14 @@ Programming)
 - AOP 기능을 구현하기 위해 만든 프록시 객체
 - 스프링에서 AOP 프록시는 JDK 동적 프록시 또는 CGLIB 프록시
 
+### AOP 구현
 
+- AOP 기능 사용을 위해 spring-boot-starter-aop dependency 추가
+- @Aspect 사용을 위해 @EnableAspectJAutoProxy 설정이 필요하지만, 스프링 부트가 자동으로 추가
+
+```groovy
+implementation 'org.springframework.boot:spring-boot-starter-aop'
+```
 
 
 
