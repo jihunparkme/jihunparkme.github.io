@@ -523,7 +523,7 @@ proxyFactory.addAdvisor(advisor);
 ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 ```
 
-## BeanPostProcessor
+## ⭐️ BeanPostProcessor
 
 빈 저장소에 객체를 등록하기 직전 조작을 하고 싶을 경우 빈 후처리기(BeanPostProcessor)를 사용(빈 생성 후 처리 용도)
 
@@ -564,7 +564,7 @@ BeansException
 
 [빈 후처리기 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/ac7d18374be2e755cec90c3d1ee3e4e8a85ce092)
 
-### ⭐️ 스프링 제공 빈 후처리기
+### 스프링 제공 빈 후처리기
 
 스프링 AOP 는 Pointcut 을 사용해서 프록시 적용 대상 여부 체크
   - 프록시가 필요한 곳에만 프록시 적용
@@ -701,6 +701,40 @@ public class LogTraceAspect {
 ```
 
 [@Aspect 프록시 - 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/9258f3b402316bc3446693c00b28d7b915c697a5)
+
+## Spring AOP
+
+애플리케이션 로직은 크게 핵심 기능과 부가 기능으로 나눌 수 있음
+
+여기서, 부가 기능 적용의 문제
+- 적용 시 많은 반복 필요
+- 여러 곳에 중복 코드 발생
+- 변경 시 중복으로 많은 수정 필요
+- 적용 대상 변경 시 많은 수정 필요
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 
