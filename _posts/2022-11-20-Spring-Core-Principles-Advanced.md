@@ -731,7 +731,19 @@ Programming)
   - 성능 최적화(캐싱)
   - 모니터링 및 로깅
 
+### AOP 적용
 
+**컴파일 시점**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/aspect-compile.png?raw=true 'Result')
+
+- .java 소스 코드를 컴파일러(AspectJ가 제공하는 특별한 컴파일러)를 사용해서 .class 를 만드는 시점에 부가 기능 로직 추가 (=Weaving / aspect 와 실제 코드를 연결)
+- 단점, 컴파일 시점에 부가 기능을 적용하려면 특별한 컴파일러가 필요하고 복잡
+
+
+**클래스 로딩 시점**
+
+**런타임 시점(프록시)**
 
 
 
