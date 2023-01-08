@@ -820,15 +820,54 @@ implementation 'org.springframework.boot:spring-boot-starter-aop'
 - @Aspect 사용을 위해 @EnableAspectJAutoProxy 설정이 필요하지만, 스프링 부트가 자동으로 추가
 
 **@Aspect 클래스를 스프링 빈으로 등록하는 방법**
+
 - @Bean 을 사용해서 직접 등록
 - @Component 컴포넌트 스캔을 사용해서 자동 등록
 - @Import 주로 설정 파일을 추가할 때 사용(@Configuration)
 
 [스프링 AOP 구현 기본](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/7aab61b3305ba068546c56200574dce46d9bd113)
 
+```java
+@Aspect
+@Component
+public class AspectV1 {
 
+    /**
+     * @Around 애노테이션의 값은 Pointcut
+     * @Around 애노테이션의 메서드는 Advice
+     * execution(* hello.aop.order..*(..)) -> hello.aop.order 패키지와 그 하위 패키지( .. )를 지정하는 AspectJ 포인트컷 표현식
+     */
+    @Around("execution(* hello.aop.order..*(..))")
+    public Object doLog(ProceedingJoinPoint joinPoint) throws Throwable {
+        log.info("[log] {}", joinPoint.getSignature()); // join point 시그니처
+        return joinPoint.proceed();
+    }
+}
+```
 
+**`@Pointcut`**
 
+- 포인트컷 시그니처: 메서드 이름 + 파라미터
+- 메서드의 반환 타입은 void
+
+```java
+@Aspect
+public class AspectV2 {
+    
+    /** pointcut signature
+     *  pointcut expression : hello.aop.order 패키지와 하위 패키지
+     */
+    @Pointcut("execution(* hello.aop.order..*(..))")
+    private void allOrder() {
+    }
+
+    @Around("allOrder()")
+    public Object doLog(ProceedingJoinPoint joinPoint) throws Throwable {
+        log.info("[log] {}", joinPoint.getSignature());
+        return joinPoint.proceed();
+    }
+}
+```
 
 
 
