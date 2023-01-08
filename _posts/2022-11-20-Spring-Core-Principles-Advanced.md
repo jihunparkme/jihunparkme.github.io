@@ -827,10 +827,15 @@ implementation 'org.springframework.boot:spring-boot-starter-aop'
 
 [스프링 AOP 구현 기본](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/7aab61b3305ba068546c56200574dce46d9bd113)
 
+**`@Pointcut`**
+
+- 포인트컷 시그니처: 메서드 이름 + 파라미터
+- 메서드의 반환 타입은 void
+
 ```java
 @Aspect
 @Component
-public class AspectV1 {
+public class Aspect {
 
     /**
      * @Around 애노테이션의 값은 Pointcut
@@ -842,18 +847,9 @@ public class AspectV1 {
         log.info("[log] {}", joinPoint.getSignature()); // join point 시그니처
         return joinPoint.proceed();
     }
-}
-```
 
-**`@Pointcut`**
+    //------------------------------------------------------
 
-- 포인트컷 시그니처: 메서드 이름 + 파라미터
-- 메서드의 반환 타입은 void
-
-```java
-@Aspect
-public class AspectV2 {
-    
     /** pointcut signature
      *  pointcut expression : hello.aop.order 패키지와 하위 패키지
      */
@@ -862,13 +858,39 @@ public class AspectV2 {
     }
 
     @Around("allOrder()")
-    public Object doLog(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object doLog2(ProceedingJoinPoint joinPoint) throws Throwable {
         log.info("[log] {}", joinPoint.getSignature());
         return joinPoint.proceed();
     }
+
+    //------------------------------------------------------
+
+    // 클래스 이름 패턴이 *Service
+    @Pointcut("execution(* *..*Service.*(..))")
+    private void allService() {
+    }
+
+    /**
+     * hello.aop.order 패키지와 하위 패키지 이면서,
+     * 클래스 이름 패턴이 *Service
+     */
+    @Around("allOrder() && allService()")
+    public Object doTransaction(ProceedingJoinPoint joinPoint) throws Throwable {
+
+        try {
+            log.info("[트랜잭션 시작] {}", joinPoint.getSignature());
+            Object result = joinPoint.proceed();
+            log.info("[트랜잭션 커밋] {}", joinPoint.getSignature());
+            return result;
+        } catch (Exception e) {
+            log.info("[트랜잭션 롤백] {}", joinPoint.getSignature());
+            throw e;
+        } finally {
+            log.info("[리소스 릴리즈] {}", joinPoint.getSignature());
+        }
+    }
 }
 ```
-
 
 
 
