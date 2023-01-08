@@ -893,7 +893,11 @@ public class Aspect {
 }
 ```
 
+**`Advice 순서`**
 
+- 어드바이스는 기본적으로 순서를 보장하지 않음
+- @Order 를 사용할 수 있지만, 어드바이스 단위가 아니라 **클래스 단위로 적용** 필요
+- [어드바이스 순서 지정](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/4f1815e105cdadfe0bfa83d46c21bba321b91bad)
 
 
 
