@@ -831,6 +831,7 @@ implementation 'org.springframework.boot:spring-boot-starter-aop'
 
 - 포인트컷 시그니처: 메서드 이름 + 파라미터
 - 메서드의 반환 타입은 void
+- [포인트컷 참조](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d67add4a15b14f2eea0c12b05b518e82c1f5739f)
 
 ```java
 @Aspect
