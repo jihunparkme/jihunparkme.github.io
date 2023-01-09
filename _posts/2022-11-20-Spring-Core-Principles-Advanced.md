@@ -899,12 +899,60 @@ public class Aspect {
 - @Order 를 사용할 수 있지만, 어드바이스 단위가 아니라 **클래스 단위로 적용** 필요
 - [어드바이스 순서 지정](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/4f1815e105cdadfe0bfa83d46c21bba321b91bad)
 
+**`Advice 종류`**
 
+- `@Around` : 메서드 호출 전/후에 수행
+  - 다른 어드바이스 기능 모두 처리(조인 포인트 실행 여부 선택, 반환 값 변환, 예외 변환 등)
+  - 다음 어드바이스나 타켓 호출을 위해 ProceedingJoinPoint 사용하고, 나머지 어드바이스는 JoinPoint 사용
+- `@Before` : 조인 포인트 실행 전에 실행
+  - 작업 흐름 변경 불가
+  - 메서드 종료 시 다음 타켓(proceed()) 자동 호출
+- `@After` : 조인 포인트가 정상 또는 예외에 관계없이 실행
+  - 메서드 실행이 종료되면 실행(=finally)
+  - 정상 및 예외 반환 조건을 모두 처리
+  - 일반적으로 리소스 해제에 사용
+- `@AfterReturning` : 조인 포인트 정상 완료 후 실행
+  - returning 속성 이름은 어드바이스 메서드 매개변수 이름 일치
+  - returning 절에 지정된 타입의 값(Obejct)을 반환하는 메서드만 대상
+  - 반환되는 객체 변경 불가
+- `@AfterThrowing` : 메서드가 예외를 던지는 경우 실행
+  - @AfterReturning 특징과 동일
 
+참고. 
 
+- JoinPoint Interface 주요 기능
+  - getArgs() : 메서드 인수 반환
+  - getThis() : 프록시 객체 반환
+  - getTarget() : 대상 객체 반환
+  - getSignature() : 조언되는 메서드에 대한 설명 반환
+  - toString() : 조언되는 방법에 대한 유용한 설명 반환
 
+- ProceedingJoinPoint Interface 주요 기능
+  - proceed() : 다음 어드바이스나 타켓 호출
 
+```java
+@Before("hello.aop.order.aop.Pointcuts.orderAndService()")
+public void doBefore(JoinPoint joinPoint) {
+    log.info("[before] {}", joinPoint.getSignature());
+}
 
+@AfterReturning(value = "hello.aop.order.aop.Pointcuts.orderAndService()", returning = "result")
+public void doReturn(JoinPoint joinPoint, Object result) {
+    log.info("[return] {} return={}", joinPoint.getSignature(), result);
+}
+
+@AfterThrowing(value = "hello.aop.order.aop.Pointcuts.orderAndService()", throwing = "ex")
+public void doThrowing(JoinPoint joinPoint, Exception ex) {
+    log.info("[ex] {} message={}", joinPoint.getSignature(), ex.getMessage());
+}
+
+@After(value = "hello.aop.order.aop.Pointcuts.orderAndService()")
+public void doAfter(JoinPoint joinPoint) {
+    log.info("[after] {}", joinPoint.getSignature());
+}
+```
+
+[어드바이스 종류]()
 
 
 
