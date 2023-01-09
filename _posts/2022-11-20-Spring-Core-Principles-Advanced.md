@@ -901,9 +901,24 @@ public class Aspect {
 
 **`Advice 종류`**
 
+참고. 
+
+- JoinPoint Interface 주요 기능
+  - getArgs() : 메서드 인수 반환
+  - getThis() : 프록시 객체 반환
+  - getTarget() : 대상 객체 반환
+  - getSignature() : 조언되는 메서드에 대한 설명 반환
+  - toString() : 조언되는 방법에 대한 유용한 설명 반환
+
+- ProceedingJoinPoint Interface 주요 기능
+  - proceed() : 다음 어드바이스나 타켓 호출
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/aop-around.png?raw=true 'Result')
+
 - `@Around` : 메서드 호출 전/후에 수행
   - 다른 어드바이스 기능 모두 처리(조인 포인트 실행 여부 선택, 반환 값 변환, 예외 변환 등)
   - 다음 어드바이스나 타켓 호출을 위해 ProceedingJoinPoint 사용하고, 나머지 어드바이스는 JoinPoint 사용
+  - 항상 joinPoint.proceed() 호출
 - `@Before` : 조인 포인트 실행 전에 실행
   - 작업 흐름 변경 불가
   - 메서드 종료 시 다음 타켓(proceed()) 자동 호출
@@ -917,18 +932,6 @@ public class Aspect {
   - 반환되는 객체 변경 불가
 - `@AfterThrowing` : 메서드가 예외를 던지는 경우 실행
   - @AfterReturning 특징과 동일
-
-참고. 
-
-- JoinPoint Interface 주요 기능
-  - getArgs() : 메서드 인수 반환
-  - getThis() : 프록시 객체 반환
-  - getTarget() : 대상 객체 반환
-  - getSignature() : 조언되는 메서드에 대한 설명 반환
-  - toString() : 조언되는 방법에 대한 유용한 설명 반환
-
-- ProceedingJoinPoint Interface 주요 기능
-  - proceed() : 다음 어드바이스나 타켓 호출
 
 ```java
 @Before("hello.aop.order.aop.Pointcuts.orderAndService()")
