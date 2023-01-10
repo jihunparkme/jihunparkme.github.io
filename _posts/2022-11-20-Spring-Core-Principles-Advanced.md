@@ -810,7 +810,7 @@ Programming)
 - AOP 기능을 구현하기 위해 만든 프록시 객체
 - 스프링에서 AOP 프록시는 JDK 동적 프록시 또는 CGLIB 프록시
 
-### AOP 구현
+### ⭐️ AOP 구현
 
 ```groovy
 implementation 'org.springframework.boot:spring-boot-starter-aop'
@@ -958,6 +958,25 @@ public void doAfter(JoinPoint joinPoint) {
 - @Around 가 가장 넓은 기능을 제공하지만, @Before, @After 와 같이 제약이 있는 어드바이스를 사용해서 명확하게 설계를 해보자.
 
 [어드바이스 종류](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/5f4853ddf55dc2a64459739517be7f6955907998)
+
+## 포인트컷
+
+**포인트컷 지시자**
+
+- 포인트컷 표현식(AspectJ pointcut expression)은 execution 같은 포인트컷 지시자(PCD, Pointcut Designator)로 시작
+- 포인트컷 지시자 종류
+  - execution : 메소드 실행 조인 포인트 매칭(가장 많이 사용하고, 기능도 복잡)
+  - within : 특정 타입 내의 조인 포인트 매칭
+  - args : 인자가 주어진 타입의 인스턴스인 조인 포인트
+  - this : 스프링 빈 객체(스프링 AOP 프록시)를 대상으로 하는 조인 포인트
+  - target : Target 객체(스프링 AOP 프록시가 가르키는 실제 대상)를 대상으로 하는 조인 포인트
+  - @target : 실행 객체의 클래스에 주어진 타입의 애노테이션이 있는 조인 포인트
+  - @within : 주어진 애노테이션이 있는 타입 내 조인 포인트
+  - @annotation : 메서드가 주어진 애노테이션을 가지고 있는 조인 포인트를 매칭
+  - @args : 전달된 실제 인수의 런타임 타입이 주어진 타입의 애노테이션을 갖는 조인 포인트
+  - bean : 스프링 전용 포인트컷 지시자, 빈 이름으로 포인트컷 지정
+
+
 
 
 
