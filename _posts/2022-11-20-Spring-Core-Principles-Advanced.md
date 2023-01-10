@@ -918,7 +918,7 @@ public class Aspect {
 - `@Around` : 메서드 호출 전/후에 수행
   - 다른 어드바이스 기능 모두 처리(조인 포인트 실행 여부 선택, 반환 값 변환, 예외 변환 등)
   - 다음 어드바이스나 타켓 호출을 위해 ProceedingJoinPoint 사용하고, 나머지 어드바이스는 JoinPoint 사용
-  - 항상 joinPoint.proceed() 호출
+  - 항상 joinPoint.proceed() 호출 해야 하는 부분을 주의
 - `@Before` : 조인 포인트 실행 전에 실행
   - 작업 흐름 변경 불가
   - 메서드 종료 시 다음 타켓(proceed()) 자동 호출
@@ -955,7 +955,9 @@ public void doAfter(JoinPoint joinPoint) {
 }
 ```
 
-[어드바이스 종류]()
+- @Around 가 가장 넓은 기능을 제공하지만, @Before, @After 와 같이 제약이 있는 어드바이스를 사용해서 명확하게 설계를 해보자.
+
+[어드바이스 종류](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/5f4853ddf55dc2a64459739517be7f6955907998)
 
 
 
