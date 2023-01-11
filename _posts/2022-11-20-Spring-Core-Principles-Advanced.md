@@ -976,8 +976,7 @@ public void doAfter(JoinPoint joinPoint) {
   - @args : 전달된 실제 인수의 런타임 타입이 주어진 타입의 애노테이션을 갖는 조인 포인트
   - bean : 스프링 전용 포인트컷 지시자, 빈 이름으로 포인트컷 지정
 
-
-
+- [예제](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d70423e1c8db917158a6561975e035f8ead6141d)
 
 
 
