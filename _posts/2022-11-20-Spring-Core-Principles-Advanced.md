@@ -978,11 +978,21 @@ public void doAfter(JoinPoint joinPoint) {
 
 - [예제](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d70423e1c8db917158a6561975e035f8ead6141d)
 
+**execution 문법**
 
+- execution(modifiers-pattern? ret-type-pattern declaring-type-pattern namepattern(param-pattern) throws-pattern?)
+  - execution(접근제어자패턴? 반환타입패턴 선언타입패턴? 메서드이름패턴(파라미터) 예외패턴?)
+    - 메소드 실행 조인 포인트 매칭
+    - `?`는 생략 가능한 패턴
+    - `*` 패턴 지정 가능
+- 패키지 패턴
+  - hello.aop.member.*(1).*(2)
+    - (1): 타입
+    - (2): 메서드 이름
+  - . : 정확하게 해당 위치의 패키지
+  - .. : 해당 위치의 패키지와 그 하위 패키지도 포함
 
-
-
-
+[메서드/패키지 이름 매칭 관련 포인트컷](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/702beca0fe7a14c5ce4874fd823a1ab7c1faa724)
 
 ---
 
