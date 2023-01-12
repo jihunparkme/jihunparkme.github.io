@@ -961,7 +961,7 @@ public void doAfter(JoinPoint joinPoint) {
 
 ## 포인트컷
 
-**포인트컷 지시자**
+**`포인트컷 지시자`**
 
 - 포인트컷 표현식(AspectJ pointcut expression)은 execution 같은 포인트컷 지시자(PCD, Pointcut Designator)로 시작
 - 포인트컷 지시자 종류
@@ -978,21 +978,35 @@ public void doAfter(JoinPoint joinPoint) {
 
 - [예제](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d70423e1c8db917158a6561975e035f8ead6141d)
 
-**execution 문법**
+**`execution 문법`**
 
 - execution(modifiers-pattern? ret-type-pattern declaring-type-pattern namepattern(param-pattern) throws-pattern?)
   - execution(접근제어자패턴? 반환타입패턴 선언타입패턴? 메서드이름패턴(파라미터) 예외패턴?)
     - 메소드 실행 조인 포인트 매칭
     - `?`는 생략 가능한 패턴
     - `*` 패턴 지정 가능
-- 패키지 패턴
+
+패키지 패칭 규칙
+
   - hello.aop.member.*(1).*(2)
     - (1): 타입
     - (2): 메서드 이름
   - . : 정확하게 해당 위치의 패키지
   - .. : 해당 위치의 패키지와 그 하위 패키지도 포함
 
-[메서드/패키지 이름 매칭 관련 포인트컷](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/702beca0fe7a14c5ce4874fd823a1ab7c1faa724)
+[메서드/패키지 이름 매칭](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/702beca0fe7a14c5ce4874fd823a1ab7c1faa724)
+
+파라미터 매칭 규칙
+
+- (String) : 정확하게 String 타입 파라미터
+- () : 파라미터 없음
+- (*) : 정확히 하나의 파라미터, 단 모든 타입 허용
+- (*, *) : 정확히 두 개의 파라미터, 단 모든 타입 허용
+- (..) : 숫자와 무관하게 모든 파라미터, 모든 타입 허용. 파라미터가 없어도 허용 (= 0..*)
+- (String, ..) : String 타입으로 시작. 숫자와 무관하게 모든 파라미터, 모든 타입 허용
+  - ex. (String) , (String, Xxx) , (String, Xxx, Xxx) 허용
+
+[타입/파라미터 매칭](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/c8a41c5bcec924a1d36aa225f808d4c6ef8734f2)
 
 ---
 
