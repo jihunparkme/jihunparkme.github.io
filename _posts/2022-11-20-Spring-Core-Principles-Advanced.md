@@ -961,7 +961,7 @@ public void doAfter(JoinPoint joinPoint) {
 
 ## 포인트컷
 
-**`포인트컷 지시자`**
+**`Pointcut 지시자`**
 
 - 포인트컷 표현식(AspectJ pointcut expression)은 execution 같은 포인트컷 지시자(PCD, Pointcut Designator)로 시작
 - 포인트컷 지시자 종류
@@ -1007,6 +1007,32 @@ public void doAfter(JoinPoint joinPoint) {
   - ex. (String) , (String, Xxx) , (String, Xxx, Xxx) 허용
 
 [타입/파라미터 매칭](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/c8a41c5bcec924a1d36aa225f808d4c6ef8734f2)
+
+**`within 지시자`**
+
+- 특정 타입 내 조인 포인트에 대한 매칭 제한
+  - 해당 타입이 매칭되면 그 안의 메서드(조인 포인트)들이 자동으로 매칭
+  - execution 타입 부분만 사용
+  - 부모 타입 지정 불가
+  - 거의 사용하지 않고, 보통 execution 사용
+
+[within 지시자](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/34bb387bd278b741e1d8c0571b057f0a971a20e9)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 
