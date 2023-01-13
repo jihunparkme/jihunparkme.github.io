@@ -1018,7 +1018,7 @@ public void doAfter(JoinPoint joinPoint) {
 
 [within 지시자](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/34bb387bd278b741e1d8c0571b057f0a971a20e9)
 
-**`args`**
+**`args 지시자`**
 
 - 인자가 주어진 타입의 인스턴스인 조인 포인트로 매칭
 - executionr vs args
@@ -1032,7 +1032,29 @@ public void doAfter(JoinPoint joinPoint) {
 
 [args](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/51b07aad489b3ad8253aff22e0b1f4bf003a6a51)
 
+**`@target, @within 지시자`**
 
+파라미터 바인딩에 함께 사용
+
+- @target : 인스턴스 기준으로 모든 메서드의 조인 포인트를 선정
+  - 부모 타입의 메서드도 적용
+- @within : 선택된 클래스 내부에 있는 메서드만 조인 포인트로 선정
+  - 부모 타입의 메서드는 적용되지 않음
+
+[@target, @within](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/7c9bb26d95f1985b207eceaaeee35fe7b0e87518)
+
+
+
+
+
+
+
+
+참고. args, @args, @target 지시자는 단독으로 사용하지 않기.
+- 실제 객체 인스턴스가 생성되고 실행될 때 어드바이스 적용 여부를 확인할 수 있으므로 프록시가 있어야 실행 시점에 판단이 가능
+- 단, 스프링 컨테이너가 프록시를 생성하는 시점은 스프링 컨테이너가 만들어지는 애플리케이션 로딩 시점에 적용할 수 있으므로 args , @args , @target 포인트컷 지시자가 있으면 스프링은 모든 스프링 빈에 AOP를 적용하려고 시도
+- 스프링이 내부에서 사용하는 빈 중에는 final 로 지정된 빈들도 있기 때문에 오류가 발생
+- 최대한 프록시 적용 대상을 축소하는 표현식(execution)과 함께 사용
 
 
 
