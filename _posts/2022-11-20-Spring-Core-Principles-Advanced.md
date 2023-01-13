@@ -1018,13 +1018,19 @@ public void doAfter(JoinPoint joinPoint) {
 
 [within 지시자](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/34bb387bd278b741e1d8c0571b057f0a971a20e9)
 
+**`args`**
 
+- 인자가 주어진 타입의 인스턴스인 조인 포인트로 매칭
+- executionr vs args
+  - executionr
+    - 파라미터 타입의 정확한 매칭
+    - 클래스에 선언된 정보(메서드 시그니처) 기반 판단 / 정적
+  - args
+    - 부모 타입 허용
+    - 실제 넘어온 파라미터 객체 인스턴스(런타임에 전달된 인수) 기반 판단 / 동적
+    - 단독으로 사용되기 보다 파라미터 바인딩에 주로 사용
 
-
-
-
-
-
+[args](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/51b07aad489b3ad8253aff22e0b1f4bf003a6a51)
 
 
 
