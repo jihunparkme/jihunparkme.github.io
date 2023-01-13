@@ -1043,18 +1043,17 @@ public void doAfter(JoinPoint joinPoint) {
 
 [@target, @within](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/7c9bb26d95f1985b207eceaaeee35fe7b0e87518)
 
+**참고.** args, @args, @target 지시자는 단독으로 사용하지 않기 !!!
+
+- <u>**실제 객체 인스턴스가 생성, 실행될 때** 어드바이스 적용 여부를 확인 가능</u>하므로 프록시가 있어야만(실행 시점) 판단 가능
+- 단, <u>프록시를 생성하는 시점은 스프링 컨테이너가 만들어지는 **애플리케이션 로딩 시점**</u>이므로 args, @args, @target 지시자는 스프링의 모든 빈에 AOP를 적용하려고 시도 -> 스프링 내부에서 사용하는 빈 중에는 final 지정 빈들도 있기 때문에 오류 발생
+- 최대한 프록시 적용 대상을 축소하는 표현식(execution)과 함께 사용하기
+
+**`@annotation, @args`**
 
 
 
 
-
-
-
-참고. args, @args, @target 지시자는 단독으로 사용하지 않기.
-- 실제 객체 인스턴스가 생성되고 실행될 때 어드바이스 적용 여부를 확인할 수 있으므로 프록시가 있어야 실행 시점에 판단이 가능
-- 단, 스프링 컨테이너가 프록시를 생성하는 시점은 스프링 컨테이너가 만들어지는 애플리케이션 로딩 시점에 적용할 수 있으므로 args , @args , @target 포인트컷 지시자가 있으면 스프링은 모든 스프링 빈에 AOP를 적용하려고 시도
-- 스프링이 내부에서 사용하는 빈 중에는 final 로 지정된 빈들도 있기 때문에 오류가 발생
-- 최대한 프록시 적용 대상을 축소하는 표현식(execution)과 함께 사용
 
 
 
