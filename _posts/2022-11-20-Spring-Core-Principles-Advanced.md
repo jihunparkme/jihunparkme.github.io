@@ -1049,12 +1049,19 @@ public void doAfter(JoinPoint joinPoint) {
 - 단, <u>프록시를 생성하는 시점은 스프링 컨테이너가 만들어지는 **애플리케이션 로딩 시점**</u>이므로 args, @args, @target 지시자는 스프링의 모든 빈에 AOP를 적용하려고 시도 -> 스프링 내부에서 사용하는 빈 중에는 final 지정 빈들도 있기 때문에 오류 발생
 - 최대한 프록시 적용 대상을 축소하는 표현식(execution)과 함께 사용하기
 
-**`@annotation, @args`**
+**`@annotation, @args 지시자`**
 
 - @annotation : 주어진 애노테이션(@MethodAop)을 가지고 있는 메서드를 조인 포인트 매칭
 - @args : 런타임 타입에 전달된 인수가 주어진 타입의(@Check) 애노테이션이 있는 경우에 매칭
 
 [@annotation, @args](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d21728239f7da375e01fafe498bbc6be54f47ca2)
+
+**`bean 지시자`**
+
+- 빈 이름으로 AOP 적용 여부 지정(스프링 전용 포인트컷 지시자)
+
+[bean](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/1e511e71f2ea7db7bf40f3731920396624cfb480)
+
 
 
 
