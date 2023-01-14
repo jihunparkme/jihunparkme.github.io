@@ -1051,6 +1051,18 @@ public void doAfter(JoinPoint joinPoint) {
 
 **`@annotation, @args`**
 
+- @annotation : 주어진 애노테이션(@MethodAop)을 가지고 있는 메서드를 조인 포인트 매칭
+- @args : 런타임 타입에 전달된 인수가 주어진 타입의(@Check) 애노테이션이 있는 경우에 매칭
+
+[@annotation, @args](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d21728239f7da375e01fafe498bbc6be54f47ca2)
+
+
+
+
+
+
+
+
 
 
 
