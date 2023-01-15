@@ -1062,6 +1062,16 @@ public void doAfter(JoinPoint joinPoint) {
 
 [bean](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/1e511e71f2ea7db7bf40f3731920396624cfb480)
 
+**`this, target 지시자`**
+
+- this : 스프링 빈으로 등록되어 있는 **프록시 객체**를 대상으로 포인트컷 매칭
+- target : 스프링 AOP 프록시 객체가 가르키는 **실제 target 객체**를 대상으로 포인트컷 매칭
+  - 프록시 대상인 this 는 구체 클래스 지정 시 프록시 생성 전략에 따라 다른 결과가 나올 수 있음
+    - * 와 같은 패턴 사용 불가
+    - 부모 타입 허용
+
+[this vs target]()
+
 **`매개변수 전달`**
 
 - 포인트컷 표현식을 사용해서 어드바이스에 매개변수 전달 가능
