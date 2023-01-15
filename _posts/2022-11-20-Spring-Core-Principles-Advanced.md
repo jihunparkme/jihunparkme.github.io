@@ -1062,10 +1062,13 @@ public void doAfter(JoinPoint joinPoint) {
 
 [bean](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/1e511e71f2ea7db7bf40f3731920396624cfb480)
 
+**`매개변수 전달`**
 
+- 포인트컷 표현식을 사용해서 어드바이스에 매개변수 전달 가능
+  - this, target, args,@target, @within, @annotation, @args
+  - 메서드에 지정한 타입으로 제한
 
-
-
+[매개변수 전달](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/e9492d66db3a4ca8cce749f43a6f7a0fae70fbb8)
 
 
 
