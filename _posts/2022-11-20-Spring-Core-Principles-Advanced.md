@@ -1081,7 +1081,9 @@ public void doAfter(JoinPoint joinPoint) {
 
 [매개변수 전달](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/e9492d66db3a4ca8cce749f43a6f7a0fae70fbb8)
 
+## AOP 실전예제
 
+- [상황 설정](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d82bd97dc0a3f7bedb848de4eef24705e1eb5521)
 
 
 
