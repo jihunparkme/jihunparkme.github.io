@@ -1084,6 +1084,14 @@ public void doAfter(JoinPoint joinPoint) {
 ## AOP 실전예제
 
 - [상황 설정](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d82bd97dc0a3f7bedb848de4eef24705e1eb5521)
+- [로그 출력 AOP](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/75efa570f2a14e8273ab769e3d384ae5775fc0a8)
+
+
+
+
+
+
+
 
 
 
