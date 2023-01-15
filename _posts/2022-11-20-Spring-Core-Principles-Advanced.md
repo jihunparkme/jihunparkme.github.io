@@ -1069,8 +1069,9 @@ public void doAfter(JoinPoint joinPoint) {
   - 프록시 대상인 this 는 구체 클래스 지정 시 프록시 생성 전략에 따라 다른 결과가 나올 수 있음
     - * 와 같은 패턴 사용 불가
     - 부모 타입 허용
+  - 단독으로 사용되기 보다는 파라미터 바인딩에 주로 사용
 
-[this vs target]()
+[this vs target](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d63f17c69dab0d34e0125ad86902b7bfba641d5c)
 
 **`매개변수 전달`**
 
