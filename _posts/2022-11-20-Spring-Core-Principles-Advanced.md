@@ -1103,6 +1103,15 @@ public void doAfter(JoinPoint joinPoint) {
 [프록시 방식의 AOP 한계 - 프록시 방식의 AOP의 내부 호출 문제](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b21a0c1e92f5931f32cf9e9eedea8d1e29c44a53)
 
 
+**프록시 방식의 AOP 한계. 대안 I. 자기 자신 주입**
+
+- 자신의 인스턴스 메서드를 호출하는 것이 아니라, 프록시 인스턴스를 통해서 호출
+
+[대안1. 자기 자신 주입](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/410c8474e98f5fd4f5cd69378f196bee5bbf5581)
+
+
+
+
 
 
 
