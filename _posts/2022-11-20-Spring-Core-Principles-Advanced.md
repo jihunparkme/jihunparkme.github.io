@@ -1091,7 +1091,7 @@ public void doAfter(JoinPoint joinPoint) {
 
 ## ⭐️ 주의사항
 
-**대상 객체를 직접 호출하는 문제**
+**`프록시 방식의 AOP 한계 - 대상 객체를 직접 호출`**
 
 - 의존관계 주입 시 프록시 객체가 주입되므로 대상 객체를 직접 호출하는 문제는 일반적으로 발생하지 않지만, 대상 객체의 내부에서 메서드 호출(자신의 인스턴스 내부 메서드 호출)이 발생하면 프록시를 거치지 않고 대상 객체를 직접 호출하는 문제 발생
 - 스프링은 프록시 방식의 AOP를 사용하는데, 메서드 내부 호출에 프록시를 적용할 수 없음
@@ -1123,6 +1123,27 @@ public void doAfter(JoinPoint joinPoint) {
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-aop-alternative-class.png?raw=true 'Result')
 
 [대안 III. 구조 변경](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/564551693131205a1faf4e8a899e84f0dbdb63d3)
+
+**`프록시 기술의 한계`**
+
+**타입 캐스팅**
+
+프록시 캐스팅 문제는 의존관계 주입 시 발생
+
+- JDK 동적 프록시 : 인터페이스 기반 프록시 생성
+  - 프록시를 인터페이스로 캐스팅 가능하지만, 구체 클래스로 타입 캐스팅이 불가능(인터페이스를 구현한 프록시이므로..)
+- CGLIB : 구체 클래스 기반 프록시 생성
+  - 구체 클래스 기반으로 프록시가 생성되므로, 구체 클래스로 타입 캐스팅 가능
+
+[프록시 기술의 한계 - 타입 캐스팅](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/3efd8821579d30fa299af8a2bfd898113e237139)
+
+
+
+
+
+
+
+
 
 
 
