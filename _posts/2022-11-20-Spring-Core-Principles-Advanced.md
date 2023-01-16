@@ -1116,11 +1116,13 @@ public void doAfter(JoinPoint joinPoint) {
 
 [대안 II. 지연 조회](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d6a072aed795c64156aaea14a6c35109c2384773)
 
+**프록시 방식의 AOP 한계. 대안 III. 구조 변경**
 
+- 내부 호출을 별도 클래스로 분리
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-aop-alternative-class.png?raw=true 'Result')
 
-
-
+[대안 III. 구조 변경](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/564551693131205a1faf4e8a899e84f0dbdb63d3)
 
 
 
