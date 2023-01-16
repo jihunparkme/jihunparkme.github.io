@@ -1081,7 +1081,7 @@ public void doAfter(JoinPoint joinPoint) {
 
 [매개변수 전달](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/e9492d66db3a4ca8cce749f43a6f7a0fae70fbb8)
 
-## AOP 실전예제
+## ⭐️ AOP 실전예제
 
 - [상황 설정](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/d82bd97dc0a3f7bedb848de4eef24705e1eb5521)
 - [로그 출력 AOP 적용](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/75efa570f2a14e8273ab769e3d384ae5775fc0a8)
@@ -1089,11 +1089,18 @@ public void doAfter(JoinPoint joinPoint) {
 
 참고. 스프링의 가장 대표적인 AOP는 @Transactional
 
+## ⭐️ 주의사항
 
+**대상 객체를 직접 호출하는 문제**
 
+- 의존관계 주입 시 프록시 객체가 주입되므로 대상 객체를 직접 호출하는 문제는 일반적으로 발생하지 않지만, 대상 객체의 내부에서 메서드 호출(자신의 인스턴스 내부 메서드 호출)이 발생하면 프록시를 거치지 않고 대상 객체를 직접 호출하는 문제 발생
+- 스프링은 프록시 방식의 AOP를 사용하는데, 메서드 내부 호출에 프록시를 적용할 수 없음
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-aop-external.png?raw=true 'Result')
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/spring-aop-internal.png?raw=true 'Result')
 
+[프록시 방식의 AOP 한계 - 프록시 방식의 AOP의 내부 호출 문제](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/b21a0c1e92f5931f32cf9e9eedea8d1e29c44a53)
 
 
 
