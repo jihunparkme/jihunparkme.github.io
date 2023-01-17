@@ -1137,11 +1137,27 @@ public void doAfter(JoinPoint joinPoint) {
 
 [프록시 기술의 한계 - 타입 캐스팅](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/3efd8821579d30fa299af8a2bfd898113e237139)
 
+**의존관계 주입**
+
+JDK 동적 프록시
+
+- 인터페이스 기반으로 프록시를 생성해서 대상 객체 Impl 타입에 의존관계 주입 불가
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/jdk-proxy-autowired.png?raw=true 'Result')
+
+CGLIB
+
+- 구체 클래스 기반으로 프록시를 생성해서 대상 객체 Impl 타입에 의존관계 주입 가능
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/cglib-proxy-autowired.png?raw=true 'Result')
 
 
+```java
+@Autowired MemberService memberService; // 의존관계 주입 : JDK 동적 프록시 O, CGLIB O
+@Autowire MemberServiceImpl memberServiceImpl; // 의존관계 주입 : JDK 동적 프록시 X, CGLIB O
+```
 
-
-
+[프록시 기술과 한계 - 의존관계 주입](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/72d7ba346533024b4494a3b24344ade864ecdffd)
 
 
 
