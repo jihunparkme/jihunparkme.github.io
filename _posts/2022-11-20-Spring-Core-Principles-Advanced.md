@@ -1159,7 +1159,13 @@ CGLIB
 
 [프록시 기술과 한계 - 의존관계 주입](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced/commit/72d7ba346533024b4494a3b24344ade864ecdffd)
 
+**CGLIB 프록시 문제점**
 
+- 대상 클래스에 기본 생성자 필수
+- 생성자를 2번 호출
+  - 실제 target 객체 생성
+  - 프록시 객체 생성 시 부모 클래스 생성자 호출
+- final 키워드 클래스, 메서드 사용 불가
 
 
 
