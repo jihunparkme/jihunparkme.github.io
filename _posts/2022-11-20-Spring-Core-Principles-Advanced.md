@@ -13,7 +13,7 @@ featured-img: spring-core-advanced
 
 [Project](https://github.com/jihunparkme/Inflearn-Spring-Core-Principles-Advanced)
 
-## ThreadLocal
+## ⭐️ ThreadLocal
 
 **동시성 문제**
 
