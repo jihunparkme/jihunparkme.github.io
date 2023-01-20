@@ -53,3 +53,33 @@ featured-img: spring-batch
   - 스프링 부트 배치의 자동 설정 클래스가 실행됨으로 빈으로 등록된 모든 Job을 검색해서 초기화와 동시에 Job을 수행하도록 구성
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/enable-batch-processing.png?raw=true 'Result')
+
+**기본 코드**
+
+```java
+@Configuration //=> 하나의 배치 잡을 정의하고 빈 설정
+@RequiredArgsConstructor
+public class HelloJobConfiguration {
+
+    private final JobBuilderFactory jobBuilderFactory; //=> Job을 생성
+    private final StepBuilderFactory stepBuilderFactory; //=> Step을 생성
+
+    @Bean
+    public Job helloJob() {
+        return this.jobBuilderFactory.get("helloJob") //=> Job 생성 (일, 일감)
+                .start(helloStep())
+                .build();
+    }
+
+    public Step helloStep() {
+        return stepBuilderFactory.get("helloStep2") //=> Step 생성 (일의 항목, 단계)
+                .tasklet((contribution, chunkContext) -> { //=> Step 안에서 단일 Task로 수행되는 로직 구현 (작업 내용)
+                    System.out.println(" ============================");
+                    System.out.println(" >> Step2 has executed");
+                    System.out.println(" ============================");
+                    return RepeatStatus.FINISHED;
+                })
+                .build();
+    }
+}
+```
