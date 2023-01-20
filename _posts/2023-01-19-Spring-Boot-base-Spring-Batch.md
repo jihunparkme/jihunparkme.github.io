@@ -124,3 +124,26 @@ public class HelloJobConfiguration {
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/batch-schema.png?raw=true 'Result')
 
 [Meta-Data Schema](https://docs.spring.io/spring-batch/docs/3.0.x/reference/html/metaDataSchema.html)
+
+**관련 테이블**
+
+Job 관련 테이블
+
+- `BATCH_JOB_INSTANCE`
+  - Job 이 실행될 때 JobInstance 정보가 저장되며 job_name과 job_key를 키로 하여 하나의 데이터가 저장
+  - 동일한 job_name 과 job_key 로 중복 저장될 수 없다
+- `BATCH_JOB_EXECUTION`
+  - job 의 실행정보가 저장되며 Job 생성, 시작, 종료 시간, 실행상태, 메시지 등을 관리
+- `BATCH_JOB_EXECUTION_PARAMS`
+  - Job과 함께 실행되는 JobParameter 정보를 저장
+- `BATCH_JOB_EXECUTION_CONTEXT`
+  - Job 의 실행동안 여러가지 상태정보, 공유 데이터를 직렬화 (Json 형식) 해서 저장
+  - Step 간 서로 공유 가능함
+
+Step 관련 테이블
+
+- `BATCH_STEP_EXECUTION`
+  - Step 의 실행정보가 저장되며 생성, 시작, 종료 시간, 실행상태, 메시지 등을 관리
+- `BATCH_STEP_EXECUTION_CONTEXT`
+  - Step 의 실행동안 여러가지 상태정보, 공유 데이터를 직렬화 (Json 형식) 해서 저장
+  - Step 별로 저장되며 Step 간 서로 공유할 수 없음
