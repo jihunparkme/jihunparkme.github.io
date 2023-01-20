@@ -13,8 +13,31 @@ featured-img: spring-batch
 
 [Project](https://github.com/jihunparkme/Inflearn-Spring-Batch)
 
-docker mysql 실행 : `docker run -p 5432:5432 --name pg -e POSTGRES_PASSWORD=pass -e POSTGRES_USER=postgres -e POSTGRES_DB=springboot -d postgres`
+참고.
 
+docker mysql
+```shell
+# download mysql image
+docker pull --platform linux/amd64 mysql:8.0.28
+
+# check images
+docker images
+
+# create conatiner
+docker run --platform linux/amd64 --name mysql -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 mysql:8.0.28
+
+# execute mysql
+docker exec -it mysql bash
+
+# root login
+mysql -uroot -p1234
+
+# checker process
+docker ps
+
+# stop conatiner
+docker stop mysql
+```
 ## 개요
 
 **핵심 패턴**
