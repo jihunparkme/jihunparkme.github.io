@@ -132,18 +132,88 @@ Job 관련 테이블
 - `BATCH_JOB_INSTANCE`
   - Job 이 실행될 때 JobInstance 정보가 저장되며 job_name과 job_key를 키로 하여 하나의 데이터가 저장
   - 동일한 job_name 과 job_key 로 중복 저장될 수 없다
+    ```sql
+    CREATE TABLE BATCH_JOB_INSTANCE  (
+      JOB_INSTANCE_ID BIGINT  NOT NULL PRIMARY KEY, -- 고유하게 식별할 수 있는 기본 키
+      VERSION BIGINT, -- 업데이트 될 때 마다 1씩 증가
+      JOB_NAME VARCHAR(100) NOT NULL, -- Job 을 구성할 때 부여하는 Job 의 이름
+      JOB_KEY VARCHAR(32) NOT NULL, -- job_name과 jobParameter 를 합쳐 해싱한 값을 저장
+    );
+    ```
 - `BATCH_JOB_EXECUTION`
   - job 의 실행정보가 저장되며 Job 생성, 시작, 종료 시간, 실행상태, 메시지 등을 관리
+    ```sql
+    CREATE TABLE BATCH_JOB_EXECUTION  (
+      JOB_EXECUTION_ID BIGINT  NOT NULL PRIMARY KEY, -- JobExecution 을 고유하게 식별할 수 있는 기본 키, JOB_INSTANCE 와 일대 다 관계
+      VERSION BIGINT, -- 업데이트 될 때마다 1씩 증가
+      JOB_INSTANCE_ID BIGINT NOT NULL, -- JOB_INSTANCE 의 키 저장
+      CREATE_TIME DATETIME(6) NOT NULL, -- 실행(Execution)이 생성된 시점을 TimeStamp 형식으로 기록
+      START_TIME DATETIME(6) DEFAULT NULL, -- 실행(Execution)이 시작된 시점을 TimeStamp 형식으로 기록
+      END_TIME DATETIME(6) DEFAULT NULL, -- 실행이 종료된 시점을 TimeStamp으로 기록하며 Job 실행 도중 오류가 발생해서 Job 이 중단된 경우 값이 저장되지 않을 수 있음
+      STATUS VARCHAR(10), -- 실행 상태 (BatchStatus)를 저장 (COMPLETED, FAILED, STOPPED…)
+      EXIT_CODE VARCHAR(2500), -- 실행 종료코드(ExitStatus) 를 저장 (COMPLETED, FAILED…)
+      EXIT_MESSAGE VARCHAR(2500), -- Status가 실패일 경우 실패 원인 등의 내용을 저장
+      LAST_UPDATED DATETIME(6), -- 마지막 실행(Execution) 시점을 TimeStamp 형식으로 기록
+    );
+    ```
 - `BATCH_JOB_EXECUTION_PARAMS`
   - Job과 함께 실행되는 JobParameter 정보를 저장
+    ```sql
+    CREATE TABLE BATCH_JOB_EXECUTION_PARAMS  (
+      JOB_EXECUTION_ID BIGINT NOT NULL , -- JobExecution 식별 키, JOB_EXECUTION 과는 일대다 관계
+      TYPE_CD VARCHAR(6) NOT NULL , -- STRING, LONG, DATE, DUBLE 타입정보
+      KEY_NAME VARCHAR(100) NOT NULL , -- 파라미터 키 값
+      STRING_VAL VARCHAR(250) , -- 파라미터 문자 값
+      DATE_VAL DATETIME(6) DEFAULT NULL , -- 파라미터 날짜 값
+      LONG_VAL BIGINT , -- 파라미터 LONG 값
+      DOUBLE_VAL DOUBLE PRECISION , -- 파라미터 DOUBLE 값
+      IDENTIFYING CHAR(1) NOT NULL , -- 식별여부 (TRUE, FALSE)
+    );
+    ``` 
 - `BATCH_JOB_EXECUTION_CONTEXT`
   - Job 의 실행동안 여러가지 상태정보, 공유 데이터를 직렬화 (Json 형식) 해서 저장
   - Step 간 서로 공유 가능함
+    ```sql
+    CREATE TABLE BATCH_JOB_EXECUTION_CONTEXT  (
+      JOB_EXECUTION_ID BIGINT NOT NULL PRIMARY KEY, -- JobExecution 식별 키, JOB_EXECUTION 마다 각 생성
+      SHORT_CONTEXT VARCHAR(2500) NOT NULL, -- JOB 의 실행 상태정보, 공유데이터 등의 정보를 문자열로 저장
+      SERIALIZED_CONTEXT TEXT , -- 직렬화(serialized)된 전체 컨텍스트
+    );
+    ```
 
 Step 관련 테이블
 
 - `BATCH_STEP_EXECUTION`
   - Step 의 실행정보가 저장되며 생성, 시작, 종료 시간, 실행상태, 메시지 등을 관리
+    ```sql
+    CREATE TABLE BATCH_STEP_EXECUTION  (
+      STEP_EXECUTION_ID BIGINT  NOT NULL PRIMARY KEY , -- Step 의 실행정보를 고유하게 식별할 수 있는 기본 키
+      VERSION BIGINT NOT NULL, -- 업데이트 될 때마다 1씩 증가
+      STEP_NAME VARCHAR(100) NOT NULL, -- Step 을 구성할 때 부여하는 Step 이름
+      JOB_EXECUTION_ID BIGINT NOT NULL, -- JobExecution 기본키, JobExecution 과는 일대 다 관계
+      START_TIME DATETIME(6) NOT NULL , -- 실행(Execution)이 시작된 시점을 TimeStamp 형식으로 기록
+      END_TIME DATETIME(6) DEFAULT NULL , -- 실행이 종료된 시점을 TimeStamp 으로 기록하며 Job 실행 도중 오류가 발생해서 Job 이 중단된 경우 값이 저장되지 않을 수 있음
+      STATUS VARCHAR(10) , -- 실행 상태 (BatchStatus)를 저장 (COMPLETED, FAILED, STOPPED…)
+      COMMIT_COUNT BIGINT , -- 트랜잭션 당 커밋되는 수를 기록
+      READ_COUNT BIGINT , -- 실행시점에 Read한 Item 수를 기록
+      FILTER_COUNT BIGINT , -- 실행도중 필터링된 Item 수를 기록
+      WRITE_COUNT BIGINT , -- 실행도중 저장되고 커밋된 Item 수를 기록
+      READ_SKIP_COUNT BIGINT , -- 실행도중 Read가 Skip 된 Item 수를 기록
+      WRITE_SKIP_COUNT BIGINT , -- 실행도중 write가 Skip된 Item 수를 기록
+      PROCESS_SKIP_COUNT BIGINT , -- 실행도중 Process가 Skip 된 Item 수를 기록
+      ROLLBACK_COUNT BIGINT , -- 실행도중 rollback이 일어난 수를 기록
+      EXIT_CODE VARCHAR(2500) , -- 실행 종료코드(ExitStatus) 를 저장 (COMPLETED, FAILED…)
+      EXIT_MESSAGE VARCHAR(2500) , -- Status가 실패일 경우 실패 원인 등의 내용을 저장
+      LAST_UPDATED DATETIME(6), -- 마지막 실행(Execution) 시점을 TimeStamp 형식으로 기록
+    );
+    ```
 - `BATCH_STEP_EXECUTION_CONTEXT`
   - Step 의 실행동안 여러가지 상태정보, 공유 데이터를 직렬화 (Json 형식) 해서 저장
   - Step 별로 저장되며 Step 간 서로 공유할 수 없음
+    ```sql
+    CREATE TABLE BATCH_STEP_EXECUTION_CONTEXT  (
+      STEP_EXECUTION_ID BIGINT NOT NULL PRIMARY KEY, -- StepExecution 식별 키, STEP_EXECUTION 마다 각 생성
+      SHORT_CONTEXT VARCHAR(2500) NOT NULL, -- STEP 의 실행 상태정보, 공유데이터 등의 정보를 문자열로 저장
+      SERIALIZED_CONTEXT TEXT , -- 직렬화(serialized)된 전체 컨텍스트
+    );
+    ```
