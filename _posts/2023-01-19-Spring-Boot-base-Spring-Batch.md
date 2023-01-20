@@ -217,3 +217,32 @@ Step 관련 테이블
       SERIALIZED_CONTEXT TEXT , -- 직렬화(serialized)된 전체 컨텍스트
     );
     ```
+
+## 스프링 배치 도메인
+
+### Job
+
+**`Job`**
+
+-
+
+**`JobInstance`**
+
+-
+
+**`JobParameters`**
+
+-
+
+**`JobExecution`**
+
+-
+
+
+### Step
+
+### ExecutionContext
+
+### JobRepository
+
+### JobLauncher
