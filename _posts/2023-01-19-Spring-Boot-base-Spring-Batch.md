@@ -231,10 +231,10 @@ Step 관련 테이블
 
 **기본 구현체**
 
-- SimpleJob
+- **SimpleJob**
   - 순차적으로 **Step** 을 실행시키는 Job
   - 모든 Job에서 유용하게 사용할 수 있는 표준 기능을 갖음
-- FlowJob
+- **FlowJob**
   - 특정한 조건과 흐름에 따라 Step 을 구성하여 실행시키는 Job
   - **Flow** 객체를 실행시켜서 작업을 진행
 
