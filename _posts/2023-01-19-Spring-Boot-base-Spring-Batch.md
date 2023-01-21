@@ -240,14 +240,17 @@ Step 관련 테이블
 
 **`JobInstance`**
 
-- Job 실행 시 생성되는 Job 의 논리적 실행 단위 객체 (고유하게 식별 가능한 작업 실행을 나타냄)
-- Job 설정과 구성은 동일하지만 Job 실행 시점에 처리하는 내용은 다르기 때문에 Job 실행 구분이 필요
-  - 하루에 한 번씩 배치 Job이 실행된다면 매일 실행되는 각각의 Job 을 JobInstance 로 표현
+- Job 실행 시(SimpleJob) 생성되는 Job 의 논리적 실행 단위 객체 (고유하게 식별 가능한 작업 실행을 나타냄)
+- Job 과 설정/구성은 동일하지만, Job 실행 시점에 처리하는 내용은 다르므로 Job 실행 구분이 필요
+  - ex. 하루 한 번씩 배치 Job이 실행된다면, 매일 실행되는 각각의 Job 을 JobInstance 로 표현
 - JobInstance 생성 및 실행
-  - 처음 시작 : Job + JobParameter 의 새로운 JobInstance 생성
-  - 이전과 동일한 Job + JobParameter 으로 실행 : 이미 존재하는 JobInstance 리턴
-    - 내부적으로 JobName + jobKey(jobParametes 의 해시값)를 가지고 JobInstance 객체 획득
-- Job 과 1:M 관계
+  - 처음 시작 : [Job + JobParameter] 의 새로운 JobInstance 생성
+  - 이전과 동일한 [Job + JobParameter] 으로 실행 : 이미 존재하는 JobInstance 리턴 -> 예외 발생 및 배치 실패
+    - JobName + jobKey(jobParametes 의 해시값) 가 동일한 데이터는 중복 저장 불가
+- Job : 1 - JobInstance : N
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/JobInstance.png?raw=true 'Result')
+
 
 **`JobParameters`**
 
