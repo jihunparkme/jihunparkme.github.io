@@ -254,7 +254,17 @@ Step 관련 테이블
 
 **`JobParameters`**
 
--
+- job 실행 시 함께 포함되어 사용되는 파라미터를 가진 도메인 객체
+- 하나의 Job에 존재할 수 있는 여러개의 JobInstance 구분
+- JobParameters : 1 - JobInstance : 1
+- 생성 및 바인딩
+  - 어플리케이션 실행 시 주입
+    - Java -jar LogBatch.jar requestDate=20210101
+  - 코드로 생성
+    - JobParameterBuilder, DefaultJobParametersConverter
+  - SpEL 이용
+    - @Value(“#{jobParameter[requestDate]}”), @JobScope, @StepScope 선언 필수
+  - JOB_EXECUTION : 1 - BATCH_JOB_EXECUTION_PARAM : N
 
 **`JobExecution`**
 
