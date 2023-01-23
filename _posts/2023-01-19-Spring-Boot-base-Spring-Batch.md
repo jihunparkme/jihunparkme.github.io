@@ -274,7 +274,7 @@ Step 관련 테이블
 - JobParameters : 1 - JobInstance : 1
 - 생성 및 바인딩
   - 어플리케이션 실행 시 주입
-    - Java -jar LogBatch.jar requestDate=20210101
+    - `Java -jar LogBatch.jar requestDate(date)=2021/01/01 name=user seq(long)=2L age(double)=29.5`
   - 코드로 생성
     - JobParameterBuilder, DefaultJobParametersConverter
   - SpEL 이용
@@ -296,6 +296,8 @@ DATE,
 LONG,
 DOUBLE;
 ```
+
+실행 시 Arguments : job.name=JobParameter date(date)=2021/01/01 name=user seq(long)=2L age(double)=29.5
 
 **`JobExecution`**
 
