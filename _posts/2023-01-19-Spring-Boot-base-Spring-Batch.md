@@ -140,6 +140,8 @@ Job 관련 테이블
       JOB_KEY VARCHAR(32) NOT NULL, -- job_name + jobParameter 해싱 값
     );
     ```
+    - 1,0,Job,0c5cf62846f98c894b8dce3de3433509
+    
 - `BATCH_JOB_EXECUTION`
   - job 의 실행정보가 저장되며 Job 생성, 시작, 종료 시간, 실행상태, 메시지 등을 관리
     ```sql
@@ -156,6 +158,8 @@ Job 관련 테이블
       LAST_UPDATED DATETIME(6), -- 마지막 실행(Execution) 시점을 TimeStamp 형식으로 기록
     );
     ```
+    - 1,2,1,2023-01-23 00:16:14.365000,2023-01-23 00:16:14.452000,2023-01-23 00:16:14.645000,COMPLETED,COMPLETED,"",2023-01-23 00:16:14.646000,
+
 - `BATCH_JOB_EXECUTION_PARAMS`
   - Job과 함께 실행되는 JobParameter 정보를 저장
     ```sql
@@ -170,6 +174,12 @@ Job 관련 테이블
       IDENTIFYING CHAR(1) NOT NULL , -- 식별여부 (TRUE, FALSE)
     );
     ``` 
+    - 2,STRING,name,user1,1970-01-01 09:00:00,0,0,Y
+    - 2,LONG,seq,"",1970-01-01 09:00:00,1,0,Y
+    - 2,DATE,date,"",2023-01-23 00:16:14.666000,0,0,Y
+    - 2,DOUBLE,age,"",1970-01-01 09:00:00,0,29.5,Y
+
+    
 - `BATCH_JOB_EXECUTION_CONTEXT`
   - Job 의 실행동안 여러가지 상태정보, 공유 데이터를 직렬화 (Json 형식) 해서 저장
   - Step 간 서로 공유 가능함
@@ -180,6 +190,7 @@ Job 관련 테이블
       SERIALIZED_CONTEXT TEXT , -- 직렬화(serialized)된 전체 컨텍스트
     );
     ```
+    - 1,"{""@class"":""java.util.HashMap""}",
 
 Step 관련 테이블
 
@@ -207,6 +218,8 @@ Step 관련 테이블
       LAST_UPDATED DATETIME(6), -- 마지막 실행(Execution) 시점을 TimeStamp 형식으로 기록
     );
     ```
+    - 1,3,step1,1,2023-01-23 00:16:14.507000,2023-01-23 00:16:14.551000,COMPLETED,1,0,0,0,0,0,0,0,COMPLETED,"",2023-01-23 00:16:14.552000
+
 - `BATCH_STEP_EXECUTION_CONTEXT`
   - Step 의 실행동안 여러가지 상태정보, 공유 데이터를 직렬화 (Json 형식) 해서 저장
   - Step 별로 저장되며 Step 간 서로 공유할 수 없음
@@ -217,6 +230,8 @@ Step 관련 테이블
       SERIALIZED_CONTEXT TEXT , -- 직렬화(serialized)된 전체 컨텍스트
     );
     ```
+    - 1,"{""@class"":""java.util.HashMap"",""batch.taskletType"":""io.springbatch.springbatchlecture.job.JobConfiguration$1"",""batch.stepType"":""org.springframework.batch.core.step.tasklet.TaskletStep""}",
+
 
 ## 스프링 배치 도메인
 
@@ -265,6 +280,22 @@ Step 관련 테이블
   - SpEL 이용
     - @Value(“#{jobParameter[requestDate]}”), @JobScope, @StepScope 선언 필수
   - JOB_EXECUTION : 1 - BATCH_JOB_EXECUTION_PARAM : N
+
+```java
+// JobParameters.java
+private final Map<String, JobParameter> parameters;
+
+// JobParameter.java
+private final Object parameter;
+private final JobParameter.ParameterType parameterType;
+private final boolean identifying;
+
+// ParameterType enum
+STRING,
+DATE,
+LONG,
+DOUBLE;
+```
 
 **`JobExecution`**
 
