@@ -244,6 +244,8 @@ Step 관련 테이블
 - 배치 Job 구성을 위한 최상위 인터페이스, 스프링 배치가 기본 구현체 제공
 - 여러 Step 을 포함하는 컨테이너, 반드시 한 개 이상의 Step으로 구성
 
+[Job](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/f2294c22aadf1a0a001051fc2c4a15d40a04e841)
+
 **기본 구현체**
 
 - **SimpleJob**
@@ -266,6 +268,7 @@ Step 관련 테이블
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/JobInstance.png?raw=true 'Result')
 
+[JobInstance](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/01d89b9ac786bc1b6f8922e76569fabc13e28057)
 
 **`JobParameters`**
 
@@ -299,6 +302,8 @@ DOUBLE;
 
 실행 시 Arguments : job.name=JobParameter date(date)=2021/01/01 name=user seq(long)=2L age(double)=29.5
 
+[JobParameters](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/5f29d25c7af1f58333dbe3181dea516a3d565a85)
+
 **`JobExecution`**
 
 - JobIstance(동일한 JobParameter)에 대한 한번의 시도를 의미하는 객체
@@ -324,6 +329,8 @@ volatile Date createTime; // JobExecution이 처음 저장될 때의 시스템 �
 volatile Date endTime; // 성공 여부와 상관없이 실행이 종료되는 시간
 volatile Date lastUpdated; // JobExecution이 마지막 저장될 때의 시스템 시간
 ```
+
+[JobExecution]()
 
 ### Step
 
