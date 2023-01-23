@@ -301,8 +301,29 @@ DOUBLE;
 
 **`JobExecution`**
 
--
+- JobIstance(동일한 JobParameter)에 대한 한번의 시도를 의미하는 객체
+  - Job 실행 중 발생한 정보들을 저장 -> 시작시간, 종료시간, 상태(시작/완료/실패), 종료상태
+- JobExecution 은 'FAILED' 또는 'COMPLETED‘ 등의 Job 실행 결과 상태를 가지고 있음
+  - 실행 상태 결과가 'COMPLETED’ 일 경우, JobInstance 실행이 완료된 것으로 간주해서 재 실행 불가
+  - 실행 상태 결과가 'FAILED’ 일 경우, JobInstance 실행이 완료되지 않은 것으로 간주해서 재실행 가능
+  - 실행 상태 결과가 'COMPLETED’ 될 때까지 하나의 JobInstance 내에서 여러 번의 시도 발생 가능
+- BATCH_JOB_INSTANCE : 1 - BATCH_JOB_EXECUTION : N관계로서 
+  - JobInstance 에 대한 성공/실패의 내역을 보유
 
+JobExecution.java
+
+```java
+final JobParameters jobParameters; // JobParameters 객체 저장
+JobInstance jobInstance; // JobInstance 객체 저장
+volatile ExecutionContext executionContext; // 실행하는 동안 유지해야 하는 데이터를 담고 있음
+volatile BatchStatus status; // 실행 상태를 나타내는 Eum 클래스 (COMPLETED, STARTING, STARTED, STOPPING, STOPPED, FAILED, ABANDONED, UNKNOWN)
+volatile ExitStatus exitStatus; // 실행 결과를 나타내는 클래스로서 종료코드를 포함(UNKNOWN, EXECUTING, COMPLETED, NOOP, FAILED, STOPPED)
+transient volatile List<Throwable> failureExceptions; // Job 실행 중 발생한 예외 리스트
+volatile Date startTime; // Job을 실행할 때의 시스템 시간
+volatile Date createTime; // JobExecution이 처음 저장될 때의 시스템 시간
+volatile Date endTime; // 성공 여부와 상관없이 실행이 종료되는 시간
+volatile Date lastUpdated; // JobExecution이 마지막 저장될 때의 시스템 시간
+```
 
 ### Step
 
