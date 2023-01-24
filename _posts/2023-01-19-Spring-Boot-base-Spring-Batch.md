@@ -330,7 +330,7 @@ volatile Date endTime; // 성공 여부와 상관없이 실행이 종료되는 �
 volatile Date lastUpdated; // JobExecution이 마지막 저장될 때의 시스템 시간
 ```
 
-[JobExecution]()
+[JobExecution](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/72b128c667373bb18e030dfe2fea8eee7f2ac01c)
 
 ### Step
 
@@ -387,6 +387,9 @@ volatile Date lastUpdated; // JobExecution이 마지막 저장될 때의 시스�
 					.build();
 		}
 		```
+
+[Step](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/7af9856601f52742923c4aa9e79955b4eabb3b71)
+
 **`StepExecution`**
 
 - Step에 대한 한 번의 시도를 의미하는 객체 (Step 실행 중 발생한 정보들을 저장)
