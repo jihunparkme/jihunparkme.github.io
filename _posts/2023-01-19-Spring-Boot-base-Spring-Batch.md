@@ -402,7 +402,7 @@ volatile Date lastUpdated; // JobExecution이 마지막 저장될 때의 시스�
 
 **`StepExecution`**
 
-- Step에 대한 한 번의 시도를 의미하는 객체 (Step 실행 중 발생한 정보들을 저장)
+- Step에 대한 <u>한 번의 시도를 의미하는 객체</u> (Step 실행 중 발생한 정보들을 저장)
 	- 시작시간, 종료시간, 상태(시작,완료,실패), commit count, rollback count 등의 속성을 가짐
 - Step이 매번 시도될 때마다 생성되며 각 Step 별로 생성
 - Job이 재시작 하더라도 이미 완료된 Step은 재실행되지 않고 실패한 Step만 실행
@@ -411,6 +411,31 @@ volatile Date lastUpdated; // JobExecution이 마지막 저장될 때의 시스�
 	- Step의 StepExecution 이 모두 정상적으로 완료되어야 JobExecution 정상 완료
 	- Step의 StepExecution 중 하나라도 실패하면 JobExecution 실패
 - BATCH_JOB_EXECUTION : 1 - BATCH_STEP_EXECUTION : N
+
+StepExecution.java
+
+```java
+private final JobExecution jobExecution; // JobExecution 객체 저장
+private final String stepName; // Step 이름
+private volatile BatchStatus status; // 실행 상태를 나타내는 Eum 클래스 (COMPLETED, STARTING, STARTED, STOPPING, STOPPED, FAILED, ABANDONED, UNKNOWN)
+private volatile int readCount; // 성공적으로 read한 아이템 수
+private volatile int writeCount; // 성공적으로 write한 아이템 수
+private volatile int commitCount; // 실행 중에 커밋된 트랜잭션 수
+private volatile int rollbackCount; // 트랜잭션 중 롤백된 횟수
+private volatile int readSkipCount; // read에 실패해서 스킵된 횟수
+private volatile int processSkipCount; // process에 실패해서 스킵된 횟수
+private volatile int writeSkipCount; // write에 실패해서 스킵된 횟수
+private volatile int filterCount; // ItemProcessor 에 의해 필터링된 아이템 수
+private volatile Date startTime; // Job을 실행할 때의 시스템 시간
+private volatile Date endTime; // 성공 여부와 상관없이 실행이 종료되는 시간
+private volatile Date lastUpdated; // JobExecution이 마지막 저장될 때의 시스템 시간
+private volatile ExecutionContext executionContext; // 실행하는 동안 유지해야 하는 데이터를 담고 있음
+private volatile ExitStatus exitStatus; // 실행결과를 나타내는 클래스로서 종료코드를 포함(UNKNOWN, EXECUTING, COMPLETED, NOOP, FAILED, STOPPED)
+private transient volatile List<Throwable> failureExceptions; // Job 실행 중 발생한 예외 리스트
+```
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/step-execution.png?raw=true 'Result')
+
 
 **`StepContribution`**
 
