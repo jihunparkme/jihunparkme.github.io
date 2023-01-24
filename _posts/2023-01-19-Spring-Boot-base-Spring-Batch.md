@@ -387,6 +387,17 @@ volatile Date lastUpdated; // JobExecution이 마지막 저장될 때의 시스�
 					.build();
 		}
 		```
+**`StepExecution`**
+
+- Step에 대한 한 번의 시도를 의미하는 객체 (Step 실행 중 발생한 정보들을 저장)
+	- 시작시간, 종료시간, 상태(시작,완료,실패), commit count, rollback count 등의 속성을 가짐
+- Step이 매번 시도될 때마다 생성되며 각 Step 별로 생성
+- Job이 재시작 하더라도 이미 완료된 Step은 재실행되지 않고 실패한 Step만 실행
+- 이전 단계 Step이 실패해서 현재 Step을 실행하지 않았다면 StepExecution을 생성하지 않고, 시작되었을 때만 StepExecution 생성
+- JobExecution
+	- Step의 StepExecution 이 모두 정상적으로 완료되어야 JobExecution 정상 완료
+	- Step의 StepExecution 중 하나라도 실패하면 JobExecution 실패
+- BATCH_JOB_EXECUTION : 1 - BATCH_STEP_EXECUTION : N
 
 ### ExecutionContext
 
