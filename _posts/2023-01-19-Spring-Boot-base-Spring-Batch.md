@@ -13,6 +13,8 @@ featured-img: spring-batch
 
 [Project](https://github.com/jihunparkme/Inflearn-Spring-Batch)
 
+[Reference Source](https://github.com/onjsdnjs/spring-batch-lecture)
+
 참고.
 
 docker mysql
@@ -244,8 +246,6 @@ Step 관련 테이블
 - 배치 Job 구성을 위한 최상위 인터페이스, 스프링 배치가 기본 구현체 제공
 - 여러 Step 을 포함하는 컨테이너, 반드시 한 개 이상의 Step으로 구성
 
-[Job](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/f2294c22aadf1a0a001051fc2c4a15d40a04e841)
-
 **기본 구현체**
 
 - **SimpleJob**
@@ -254,6 +254,10 @@ Step 관련 테이블
 - **FlowJob**
   - 특정한 조건과 흐름에 따라 Step 을 구성하여 실행시키는 Job
   - **Flow** 객체를 실행시켜서 작업을 진행
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/job.png?raw=true 'Result')
+
+[Job](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/f2294c22aadf1a0a001051fc2c4a15d40a04e841)
 
 **`JobInstance`**
 
@@ -302,6 +306,8 @@ DOUBLE;
 
 실행 시 Arguments : job.name=JobParameter date(date)=2021/01/01 name=user seq(long)=2L age(double)=29.5
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/job-parameters.png?raw=true 'Result')
+
 [JobParameters](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/5f29d25c7af1f58333dbe3181dea516a3d565a85)
 
 **`JobExecution`**
@@ -329,6 +335,8 @@ volatile Date createTime; // JobExecution이 처음 저장될 때의 시스템 �
 volatile Date endTime; // 성공 여부와 상관없이 실행이 종료되는 시간
 volatile Date lastUpdated; // JobExecution이 마지막 저장될 때의 시스템 시간
 ```
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/job-execution.png?raw=true 'Result')
 
 [JobExecution](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/72b128c667373bb18e030dfe2fea8eee7f2ac01c)
 
@@ -387,6 +395,8 @@ volatile Date lastUpdated; // JobExecution이 마지막 저장될 때의 시스�
 					.build();
 		}
 		```
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/step.png?raw=true 'Result')
 
 [Step](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/7af9856601f52742923c4aa9e79955b4eabb3b71)
 
