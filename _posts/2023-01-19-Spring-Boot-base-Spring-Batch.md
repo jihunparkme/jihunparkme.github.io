@@ -334,6 +334,60 @@ volatile Date lastUpdated; // JobExecution이 마지막 저장될 때의 시스�
 
 ### Step
 
+**`Step`**
+
+- Batch job을 구성하는 <u>독립적인 하나의 단계</u>
+- 실제 배치 처리를 정의하고 컨트롤하는데 필요한 모든 정보를 가지고 있는 도메인 객체
+- 단순한 단일 태스크 뿐 아니라, 입력, 처리, 출력 관련 복잡한 비즈니스 로직을 포함하는 모든 설정들을 담음
+- 배치작업을 어떻게 구성하고 실행할 것인지 Job의 세부 작업을 Task 기반으로 설정하고 명세
+- 모든 Job은 하나 이상의 step으로 구성
+
+**기본 구현체**
+
+- TaskletStep
+	- 가장 기본이 되는 클래스. Tasklet 타입 구현체들을 제어
+	- 직접 생성한 Tasklet 실행
+		```java
+		public Step taskletStep() {
+			return this.stepBuilderFactory.get("step")
+						.tasklet(myTasklet())
+						.build();
+		}
+		```
+	- ChunkOrientedTasklet 을 실행
+		```java
+		public Step taskletStep() {
+			return this.stepBuilderFactory.get("step")
+					.<Member,Member>chunk(100)
+					.reader(reader())
+					.writer(writer())
+					.build();
+		}
+		```
+
+- PartitionStep
+	- 멀티 스레드 방식으로 Step을 여러 개로 분리해서 실행
+- JobStep
+	- Step 내에서 Job 실행
+		```java
+		public Step jobStep() {
+			return this.stepBuilderFactory.get("step")
+					.job(job())
+					.launcher(jobLauncher)
+					.parametersExtractor(jobParametersExtractor())
+					.build();		
+		}
+		```
+- FlowStep
+	- Step 내에서 Flow 실행
+		```java
+		public Step flowStep() {
+			return this.stepBuilderFactory.get("step")
+					.flow(myFlow())
+					.build();
+		}
+		```
+
 ### ExecutionContext
 
 ### JobRepository
