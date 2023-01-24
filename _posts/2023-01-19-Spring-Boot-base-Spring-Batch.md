@@ -408,8 +408,8 @@ volatile Date lastUpdated; // JobExecution이 마지막 저장될 때의 시스�
 - Job이 재시작 하더라도 이미 완료된 Step은 재실행되지 않고 실패한 Step만 실행
 - 이전 단계 Step이 실패해서 현재 Step을 실행하지 않았다면 StepExecution을 생성하지 않고, 시작되었을 때만 StepExecution 생성
 - JobExecution
-	- Step의 StepExecution 이 모두 정상적으로 완료되어야 JobExecution 정상 완료
-	- Step의 StepExecution 중 하나라도 실패하면 JobExecution 실패
+	- Step의 StepExecution 이 모두 정상적으로 완료되어야 JobExecution 정상 완료(COMPLETED)
+	- Step의 StepExecution 중 하나라도 실패하면 JobExecution 실패(FAILED)
 - BATCH_JOB_EXECUTION : 1 - BATCH_STEP_EXECUTION : N
 
 StepExecution.java
@@ -434,8 +434,7 @@ private volatile ExitStatus exitStatus; // 실행결과를 나타내는 클래�
 private transient volatile List<Throwable> failureExceptions; // Job 실행 중 발생한 예외 리스트
 ```
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/step-execution.png?raw=true 'Result')
-
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/job-jobInstance-JobExecution-StepExecution.png?raw=true 'Result')
 
 **`StepContribution`**
 
