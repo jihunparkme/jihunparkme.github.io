@@ -555,5 +555,6 @@ StepExecution getLastStepExecution(JobInstance var1, String var2); // 해당 Job
 int getStepExecutionCount(JobInstance var1, String var2);
 JobExecution getLastJobExecution(String var1, JobParameters var2); // 해당 Step의 실행 이력 중 가장 최근의 StepExecution 반환
 ```
+[JobRepository](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/afb11e8e85a6df5058b898007d1c8f1d151c1b5c)
 
 ### JobLauncher
