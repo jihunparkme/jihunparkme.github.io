@@ -558,3 +558,20 @@ JobExecution getLastJobExecution(String var1, JobParameters var2); // 해당 Ste
 [JobRepository](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/afb11e8e85a6df5058b898007d1c8f1d151c1b5c)
 
 ### JobLauncher
+
+- 배치 Job을 실행시키는 역할
+- Job, Job Parameters를 인자로 받아 요청된 배치 작업 수행 후 최종 client 에게 JobExecution 반환
+- 스프링 부트 배치가 구동되면 JobLauncher Bean 자동 생성
+
+**Job 실행**
+
+- *JobLanucher.run(Job, JobParameters)*
+- 스프링 부트 배치에서 JobLauncherApplicationRunner가 자동으로 JobLauncher 실행
+- 동기적 실행
+  - taskExecutor를 SyncTaskExecutor로 설정 시(default. SyncTaskExecutor)
+  - JobExecution 획득 후, 배치 처리를 최종 완료한 이후 Client에게 JobExecution 반환
+  - 배치 처리 시간이 길어도 상관없거나, 스케줄러에 의한 배치처리에 적합
+- 비동기적 실행
+  - taskExecutor가 SimpleAsyncTaskExecutor로 설정할 경우
+  - JobExecution 획득 후, Client에게 바로 JobExecution 반환 및 배치처리 완료
+  - 배치처리 시간이 길 경우 응답이 늦어지지 않도록 하고, HTTP 요청에 의한 배치처리에 적합
