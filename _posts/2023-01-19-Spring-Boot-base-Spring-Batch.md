@@ -261,6 +261,8 @@ Step 관련 테이블
 
 **`JobInstance`**
 
+BATCH_JOB_INSTANCE
+
 - Job 실행 시(SimpleJob) 생성되는 Job 의 논리적 실행 단위 객체 (고유하게 식별 가능한 작업 실행을 나타냄)
 - Job 과 설정/구성은 동일하지만, Job 실행 시점에 처리하는 내용은 다르므로 Job 실행 구분이 필요
   - ex. 하루 한 번씩 배치 Job이 실행된다면, 매일 실행되는 각각의 Job 을 JobInstance 로 표현
@@ -275,6 +277,8 @@ Step 관련 테이블
 [JobInstance](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/01d89b9ac786bc1b6f8922e76569fabc13e28057)
 
 **`JobParameters`**
+
+BATCH_JOB_EXECUTION_PARAMS
 
 - job 실행 시 함께 포함되어 사용되는 파라미터를 가진 도메인 객체
 - 하나의 Job에 존재할 수 있는 여러개의 JobInstance 구분
@@ -311,6 +315,8 @@ DOUBLE;
 [JobParameters](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/5f29d25c7af1f58333dbe3181dea516a3d565a85)
 
 **`JobExecution`**
+
+BATCH_JOB_EXECUTION
 
 - JobIstance(동일한 JobParameter)에 대한 한번의 시도를 의미하는 객체
   - Job 실행 중 발생한 정보들을 저장 -> 시작시간, 종료시간, 상태(시작/완료/실패), 종료상태
@@ -402,6 +408,8 @@ volatile Date lastUpdated; // JobExecution이 마지막 저장될 때의 시스�
 
 **`StepExecution`**
 
+BATCH_STEP_EXECUTION
+
 - Step에 대한 <u>한 번의 시도를 의미하는 객체</u> (Step 실행 중 발생한 정보들을 저장)
 	- 시작시간, 종료시간, 상태(시작,완료,실패), commit count, rollback count 등의 속성을 가짐
 - Step이 매번 시도될 때마다 생성되며 각 Step 별로 생성
@@ -464,6 +472,36 @@ private volatile StepExecution stepExecution; // StepExecution 객체 저장
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/step-contribution.png?raw=true 'Result')
 
 ### ExecutionContext
+
+BATCH_STEP_EXECUTION_CONTEXT, BATCH_STEP_EXECUTION_CONTEXT
+
+- 프레임워크에서 유지/관리하는 키/값 컬렉션
+- StepExecution 또는 JobExecution 객체의 상태 저장 공유 객체
+- DB에 직렬화된 값으로 저장 (ex. { “key” : “value”})
+- 공유 범위
+  - Step: 각 Step의 StepExecution에 저장되며 Step 간 서로 공유 불가
+  - Job: 각 Job의 JobExecution에 저장되며 Job 간 서로 공유 불가하지만, 해당 Job의 Step 간 서로 공유 가능
+- Job 재시작 시 이미 처리한 Row 데이터는 건너뛰고, 이후 수행 시 상태 정보 활용
+
+ExecutionContext.java
+
+```java
+private final Map<String, Object> map; // 유지, 관리에 필요한 키값 설정
+```
+
+ExecutionContext 와 Job, Step 정보 조회
+
+```java
+ExecutionContext jobExecutionContext = chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
+ExecutionContext stepExecutionContext = chunkContext.getStepContext().getStepExecution().getExecutionContext();
+
+String jobName = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getJobName();
+String stepName = chunkContext.getStepContext().getStepExecution().getStepName();
+```
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/execution-context.png?raw=true 'Result')
+
+[ExecutionContext]()
 
 ### JobRepository
 
