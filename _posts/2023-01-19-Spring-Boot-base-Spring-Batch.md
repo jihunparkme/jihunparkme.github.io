@@ -436,11 +436,32 @@ private transient volatile List<Throwable> failureExceptions; // Job 실행 중 
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/job-jobInstance-JobExecution-StepExecution.png?raw=true 'Result')
 
+- Job: 하나의 배치작업 자체 (두 개의 Step으로 구성)
+- JobInstance: Job 실행 시 생성되는 Job 의 논리적 실행 단위 객체
+- JobExecution: JobIstance 에 대한 한번의 시도를 의미하는 객체
+- StepExecution: Step에 대한 한 번의 시도를 의미하는 객체
+
 **`StepContribution`**
 
 - 청크 프로세스의 변경 사항을 버퍼링 한 후 StepExecution 상태를 업데이트하는 도메인 객체
-- 청크 커밋 직전에 StepExecution 의 apply 메서드를 호출하여 상태를 업데이트 함
-- ExitStatus 의 기본 종료코드 외 사용자 정의 종료코드를 생성해서 적용 할 수 있음
+- 청크 커밋 직전에 StepExecution apply 메서드를 호출하여 상태를 업데이트
+- ExitStatus 기본 종료코드 외 사용자 정의 종료코드를 생성해서 적용 가능
+
+StepContribution.java
+
+```java
+private volatile int readCount = 0; // 성공적으로 read한 아이템 수
+private volatile int writeCount = 0; // 성공적으로 write한 아이템 수
+private volatile int filterCount = 0; // ItemProcessor 에 의해 필터링된 아이템 수
+private final int parentSkipCount; // 부모 클래스인 StepExecution 의 총 skip 횟수
+private volatile int readSkipCount; // read에 실패해서 스킵된 횟수
+private volatile int writeSkipCount; // write에 실패해서 스킵된 횟수
+private volatile int processSkipCount; // process에 실패해서 스킵된 횟수
+private ExitStatus exitStatus; // 실행결과를 나타내는 클래스로서 종료코드를 포함(UNKNOWN, EXECUTING, COMPLETED, NOOP, FAILED, STOPPED)
+private volatile StepExecution stepExecution; // StepExecution 객체 저장
+```
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/step-contribution.png?raw=true 'Result')
 
 ### ExecutionContext
 
