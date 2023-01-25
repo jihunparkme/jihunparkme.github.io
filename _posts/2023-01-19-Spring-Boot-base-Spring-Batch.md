@@ -505,4 +505,55 @@ String stepName = chunkContext.getStepContext().getStepExecution().getStepName()
 
 ### JobRepository
 
+- <u>배치 작업 정보를 저장</u>하는 저장소
+- Job의 수행, 종료, 실행 횟수, 결과 등 배치 작업의 수행과 관련된 모든 meta data 저장
+  - JobLauncher, Job, Step 구현체 내부에서 CRUD 기능 처리
+- @EnableBatchProcessing 선언 시 자동으로 빈 생성
+- BatchConfigurer 인터페이스 구현, BasicBatchConfigurer 상속으로 JobRepository 설정 커스터마이징 가능
+  - JDBC 방식 설정: JobRepositoryFactoryBean
+    - 내부적으로 AOP 기술을 통해 트랜잭션 처리
+    - 트랜잭션 isolation 기본값은 최고 수준인 SERIALIZEBLE (다른 레벨로 지정 가능)
+    - 메타테이블의 Table Prefix 변경 가능 (기본 값은 "BATCH_")
+      ```java
+      @Override
+      protected JobRepository createJobRepository() throws Exception {
+        JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
+        factory.setDataSource(dataSource);
+        factory.setTransactionManager(transactionManager);
+        factory.setIsolationLevelForCreate("ISOLATION_SERIALIZABLE"); // default. "ISOLATION_SERIALIZABLE"
+        factory.setTablePrefix("SYSTEM_"); // default. BATCH_, BATCH_JOB_EXECUTION -> SYSTEM_JOB_EXECUTION 으로 변경
+        factory.setMaxVarCharLength(1000); // varchar 최대 길이(default. 2500)
+        return factory.getObject(); // Proxy 객체 생성(트랜잭션 Advice 적용 등을 위해 AOP 기술 적용)
+      }
+      ```
+  - In Memory 방식 설정 – MapJobRepositoryFactoryBean
+    - 성능 등 이유로 도메인 오브젝트를 데이터베이스에 저장하고 싶지 않을 경우
+    - 보통 Test, 프로토타입 빠른 개발 시 사용
+      ```java
+      @Override
+      protected JobRepository createJobRepository() throws Exception {
+        MapJobRepositoryFactoryBean factory = new MapJobRepositoryFactoryBean();
+        factory.setTransactionManager(transactionManager); // ResourcelessTransactionManager 사용
+        return factory.getObject();
+      }
+      ```
+
+JobRepository interface
+
+```java
+boolean isJobInstanceExists(String var1, JobParameters var2); // JobInstance 존재 여부
+JobInstance createJobInstance(String var1, JobParameters var2); // Job 실행 시 JobInstance 생성
+JobExecution createJobExecution(JobInstance var1, JobParameters var2, String var3); // Job 실행 시 JobExecution 생성
+JobExecution createJobExecution(String var1, JobParameters var2);
+void update(JobExecution var1); // Job 실행 정보 업데이트
+void add(StepExecution var1); // 실행 중인 해당 Step의 새로운 stepExecution 저장
+void addAll(Collection<StepExecution> var1);
+void update(StepExecution var1); // Step 실행 정보 업데이트
+void updateExecutionContext(StepExecution var1); // Step의 공유 데이터 및 상태정보를 담고 있는 Execution 업데이트
+void updateExecutionContext(JobExecution var1); // Job의 공유 데이터 및 상태정보를 담고 있는 Execution 업데이트
+StepExecution getLastStepExecution(JobInstance var1, String var2); // 해당 Job의 실행 이력 중 가장 최근의 JobExecution 반환
+int getStepExecutionCount(JobInstance var1, String var2);
+JobExecution getLastJobExecution(String var1, JobParameters var2); // 해당 Step의 실행 이력 중 가장 최근의 StepExecution 반환
+```
+
 ### JobLauncher
