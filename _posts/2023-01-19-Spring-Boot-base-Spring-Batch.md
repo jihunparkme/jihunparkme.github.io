@@ -571,7 +571,27 @@ JobExecution getLastJobExecution(String var1, JobParameters var2); // 해당 Ste
   - taskExecutor를 SyncTaskExecutor로 설정 시(default. SyncTaskExecutor)
   - JobExecution 획득 후, 배치 처리를 최종 완료한 이후 Client에게 JobExecution 반환
   - 배치 처리 시간이 길어도 상관없거나, 스케줄러에 의한 배치처리에 적합
+    ```java
+    JobParameters jobParameters = new JobParametersBuilder()
+                .addString("id", member.getId())
+                .addDate("date", new Date())
+                .toJobParameters();
+
+    jobLauncher.run(job, jobParameters);
+    ```
 - 비동기적 실행
   - taskExecutor가 SimpleAsyncTaskExecutor로 설정할 경우
   - JobExecution 획득 후, Client에게 바로 JobExecution 반환 및 배치처리 완료
   - 배치처리 시간이 길 경우 응답이 늦어지지 않도록 하고, HTTP 요청에 의한 배치처리에 적합
+    ```java
+    JobParameters jobParameters = new JobParametersBuilder()
+                .addString("id", member.getId())
+                .addDate("date", new Date())
+                .toJobParameters();
+
+    SimpleJobLauncher jobLauncher = (SimpleJobLauncher) basicBatchConfigurer.getJobLauncher();
+    jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
+    jobLauncher.run(job, jobParameters);
+    ```
+
+[JobLauncher](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/5f1e94e55343440f4a8df2026dfef298f640837b)
