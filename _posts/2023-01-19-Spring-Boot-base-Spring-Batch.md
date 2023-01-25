@@ -501,7 +501,7 @@ String stepName = chunkContext.getStepContext().getStepExecution().getStepName()
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/execution-context.png?raw=true 'Result')
 
-[ExecutionContext]()
+[ExecutionContext](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/9c640a763150f9345127fa9884562055e0cc0ce4)
 
 ### JobRepository
 
