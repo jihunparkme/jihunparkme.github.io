@@ -615,9 +615,11 @@ JobExecution getLastJobExecution(String var1, JobParameters var2); // 해당 Ste
   ```yml
   batch:
     job:
-      names: ${job.name:NONE}
-      initialize-schema: NEVER
-      tablePrefix: SYSTEM
+      names: ${job.name:NONE} # 실행 시점에 arguments 값을 바인딩
+      enable: false # 배치 잡 자동실행 여부(default. true)
+    jdbc:
+      initialize-schema: always # 스키마 생성 여부
+      tablePrefix: SYSTEM_
   ```
 
 **`Job 실행 옵션`**
