@@ -595,3 +595,32 @@ JobExecution getLastJobExecution(String var1, JobParameters var2); // 해당 Ste
     ```
 
 [JobLauncher](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/5f1e94e55343440f4a8df2026dfef298f640837b)
+
+
+## 스프링 배치 실행
+
+### Job
+
+### Step
+
+### Flow
+
+## 스프링 배치 청크 프로세스
+
+### ItemReader
+
+### ItemWriter
+
+### ItemProcessor
+
+## 기타
+
+### 반복 및 오류 제어
+
+### Multi Thread Processing
+
+### Event Listener
+
+### Test
+
+## Application
