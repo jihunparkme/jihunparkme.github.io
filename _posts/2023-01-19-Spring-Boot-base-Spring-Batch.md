@@ -601,6 +601,36 @@ JobExecution getLastJobExecution(String var1, JobParameters var2); // 해당 Ste
 
 ### Job
 
+**배치 초기화 설정**
+
+**`JobLauncherApplicationRunner`**
+- Spring Batch 작업을 시작하는 ApplicationRunner(BatchAutoConfiguration에서 생성)
+- 스프링 부트 제공 ApplicationRunner 구현체로 어플리케이션 정상 구동 후 실행
+- 기본적으로 빈으로 등록된 모든 job 실행
+
+**`BatchProperties`**
+- Spring Batch 환경 설정 클래스
+- Job name, 스키마 초기화 설정, 테이블 Prefix 등을 설정
+- application.yml
+  ```yml
+  batch:
+    job:
+      names: ${job.name:NONE}
+      initialize-schema: NEVER
+      tablePrefix: SYSTEM
+  ```
+
+**`Job 실행 옵션`**
+- 지정한 Batch Job만 실행하도록 설정 가능
+- spring.batch.job.names: ${job.name:NONE}
+- Program arguments 사용 시
+  ```shell
+  --job.name=helloJob
+  --job.name=helloJob,simpleJob
+  ```
+
+#### SimpleJob
+
 ### Step
 
 ### Flow
