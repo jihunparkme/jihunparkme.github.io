@@ -654,7 +654,7 @@ JobExecution getLastJobExecution(String var1, JobParameters var2); // 해당 Ste
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/jobBuilderFactory-structure.png?raw=true 'Result')
 
-[JobBuilderFactory]()
+[JobBuilderFactory](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/baa8b5448fc88c2f1b744429f62f3e84dfd45828a)
 
 #### SimpleJob
 
