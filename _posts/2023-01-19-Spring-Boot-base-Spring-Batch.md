@@ -631,6 +631,31 @@ JobExecution getLastJobExecution(String var1, JobParameters var2); // 해당 Ste
   --job.name=helloJob,simpleJob
   ```
 
+---
+
+**`JobBuilderFactory`**
+
+- JobBuilder 를 생성하는 팩토리 클래스
+- jobBuilderFactory.get("jobName") : 스프링 배치가 Job 실행 시 참조하는 Job 이름
+
+**`JobBuilder`**
+
+- Job 구성 설정 조건에 따라 두 개의 하위 빌더 클래스를 생성하고 실제 Job 생성 위임
+- **SimpleJobBuilder**
+  - SimpleJob 을 생성하는 Builder 클래스
+  - Job 실행 관련 여러 설정 API 제공
+- **FlowJobBuilder**
+  - FlowJob 을 생성하는 Builder 클래스
+  - 내부적으로 FlowBuilder 를 반환하며 Flow 실행 관련 여러 설정 API 제공
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/jobBuilderFactory.png?raw=true 'Result')
+
+*JobBuilderFactory 클래스 상속 구조*
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/jobBuilderFactory-structure.png?raw=true 'Result')
+
+[JobBuilderFactory]()
+
 #### SimpleJob
 
 ### Step
