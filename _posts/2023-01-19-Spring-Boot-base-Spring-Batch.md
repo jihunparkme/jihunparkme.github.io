@@ -658,6 +658,26 @@ JobExecution getLastJobExecution(String var1, JobParameters var2); // 해당 Ste
 
 #### SimpleJob
 
+JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
+
+- Step 을 실행시키는 Job 구현체(SimpleJobBuilder 에 의해 생성)
+- 여러 단계의 Step 으로 구성할 수 있으며 Step 을 순차적으로 실행
+- 모든 Step 실행이 성공적으로 완료되어야 Job 이 성공적으로 완료
+- 맨 마지막 실행 Step 의 BatchStatus 가 Job 의 최종 BatchStatus
+
+SimpleJob API
+
+```java
+jobBuilderFactory.get("batchJob") // JobBuilder 생성 팩토리, Job 이름을 매개변수로
+  .start(Step) // 처음 실행 할 Step 설정, 최초 한번 설정, 실행 시 SimpleJobBuilder 반환
+  .next(Step) // 다음 실행 할 Step 설정, 횟수는 제한 없으며 모든 next()의 Step이 종료 되면 Job 종료
+  .incrementer(JobParametersIncrementer) // Job 실행마다 JobParameter 값 자동 증가 설정
+  .preventRestart(true) // Job 재시작 가능 여부 설정 (default. true)
+  .validator(JobParameterValidator) // 실행 전 JobParameter 검증 설정
+  .listener(JobExecutionListener) // Job 라이프 사이클의 특정 시점에 콜백을 제공받도록 설정
+  .build(); // SimpleJob 생성
+```
+
 ### Step
 
 ### Flow
