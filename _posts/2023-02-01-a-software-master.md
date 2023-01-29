@@ -3,7 +3,7 @@ layout: post
 title: A Software Master
 summary: 소프트웨어 장인
 categories: (Book)소프트웨어-장인
-featured-img: a-software-master
+featured-img: a-software-master book
 # mathjax: true
 ---
 
@@ -14,3 +14,6 @@ featured-img: a-software-master
 일을 어떻게 했느냐는 일을 해낸것만큼이나 중요하다.
 
 [LSCC, London Software Craftsmanship Community](https://www.meetup.com/ko-KR/london-software-craftsmanship/)
+
+## 애자일
+
