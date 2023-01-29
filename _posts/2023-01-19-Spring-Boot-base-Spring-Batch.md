@@ -674,6 +674,7 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 - .`preventRestart`(true) // Job 재시작 가능 여부 설정 (default. true)
 - .`validator`(JobParameterValidator) // 실행 전 JobParameter 검증 설정
   - DefaultJobParametersValidator 구현체 지원. 인터페이스 직접 구현 가능
+  - Job Repository 생성 전(SimpleJobLauncher), Job 수행 전(AbstractJob) 검증
 - .`listener`(JobExecutionListener) // Job 라이프 사이클의 특정 시점에 콜백을 - 제공받도록 설정
 - .build(); // SimpleJob 생성
 
