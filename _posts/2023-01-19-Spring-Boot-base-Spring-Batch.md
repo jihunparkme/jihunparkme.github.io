@@ -678,6 +678,8 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 - .`listener`(JobExecutionListener) // Job 라이프 사이클의 특정 시점에 콜백을 - 제공받도록 설정
 - .build(); // SimpleJob 생성
 
+[SimpleJob.validator()](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/ab1d2ba672dbf5b893b34400a28d37e27c294efa)
+
 ### Step
 
 ### Flow
