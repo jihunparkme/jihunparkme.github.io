@@ -22,6 +22,8 @@ featured-img: a-software-master book
 - 애자일은 개발팀과 기업들이 변화에 적응할 수 있도록 변화와 관련도니 위험들을 줄여준다.
 - 더 빨리, 더 짧게 피드백 루프를 만들수록 더 애자일해진다.
 
+[애자일 매니페스토의 원칙들](https://medium.com/hgmin/agile-principles-%EC%95%A0%EC%9E%90%EC%9D%BC-12%EA%B0%80%EC%A7%80-%EC%9B%90%EC%B9%99-d3f386bd9839)
+
 **절차적인 관점**
 
 팀에 정말로 중요한 것, 비즈니스에 가치가 있는 것에 집중하여 올바른 목표를 향해 진행 중인지 확인
@@ -42,3 +44,4 @@ featured-img: a-software-master book
   - TDD
   - 페어프로그래밍
   - 지속적인 통합
+
