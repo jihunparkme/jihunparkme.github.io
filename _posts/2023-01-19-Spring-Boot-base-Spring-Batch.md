@@ -672,6 +672,8 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 - .`next`(Step) // 다음 실행 할 Step 설정, 횟수는 제한 없으며 모든 next()의 Step이 종료되면 Job 종료
 - .`incrementer`(JobParametersIncrementer) // Job 실행마다 JobParameter 값 자동 증가 설정
 - .`preventRestart`(true) // Job 재시작 가능 여부 설정 (default. true)
+  - Job 재시작 여부 설정
+  - Job 실행이 처음이 아닌 경우 Job 성공/실패와 상관없이 preventRestart 설정에 따라 실행 여부 판단
 - .`validator`(JobParameterValidator) // 실행 전 JobParameter 검증 설정
   - DefaultJobParametersValidator 구현체 지원. 인터페이스 직접 구현 가능
   - Job Repository 생성 전(SimpleJobLauncher), Job 수행 전(AbstractJob) 검증
