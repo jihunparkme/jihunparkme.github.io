@@ -682,6 +682,8 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 
 [SimpleJob.validator()](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/ab1d2ba672dbf5b893b34400a28d37e27c294efa)
 
+[SimpleJob.preventRestart()](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/2e1cd2567dfb82cb33da0a9f3b154c5f67a34df0)
+
 ### Step
 
 ### Flow
