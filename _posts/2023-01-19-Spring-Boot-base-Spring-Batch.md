@@ -715,6 +715,8 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/step-builder-factory-class.png?raw=true 'Result')
 
+[StepBuilderFactory](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/c7fac86eaa3cf7076356d4b5dcdf856ce708189a)
+
 ### Flow
 
 ## 스프링 배치 청크 프로세스
