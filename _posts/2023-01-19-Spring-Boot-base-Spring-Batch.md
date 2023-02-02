@@ -689,6 +689,7 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 
 [SimpleJob.incrementer()](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/6ab7c4fefa984e264c88d1980099364b53d1343f)
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/simpleJob.png?raw=true 'Result')
 
 ### Step
 
