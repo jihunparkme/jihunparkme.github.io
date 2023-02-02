@@ -693,6 +693,28 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 
 ### Step
 
+**`StepBuilderFactory`**
+
+- StepBuilder 를 생성하는 팩토리 클래스
+
+**`StepBuilder`**
+
+- Step 을 구성하는 설정 조건에 따라 다섯 개의 하위 빌더 클래스 생성 및 실제 Step 생성 위임
+  - TaskletStepBuilder
+    - TaskletStep 을 생성하는 기본 빌더 클래스
+  - SimpleStepBuilder
+    - TaskletStep 을 생성하며 내부적으로 청크기반의 작업을 처리하는 ChunkOrientedTasklet 클래스 생성
+  - PartitionStepBuilder
+    - PartitionStep 을 생성하며 멀티 스레드 방식으로 Job 실행
+  - JobStepBuilder
+    - JobStep 을 생성하여 Step 안에서 Job 실행
+  - FlowStepBuilder
+    - FlowStep 을 생성하여 Step 안에서 Flow 실행
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/step-builder-factory.png?raw=true 'Result')
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/step-builder-factory-class.png?raw=true 'Result')
+
 ### Flow
 
 ## 스프링 배치 청크 프로세스
