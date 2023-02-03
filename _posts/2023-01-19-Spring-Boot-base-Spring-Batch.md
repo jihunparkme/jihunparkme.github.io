@@ -709,13 +709,27 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
   - JobStepBuilder
     - JobStep 을 생성하여 Step 안에서 Job 실행
   - FlowStepBuilder
-    - FlowStep 을 생성하여 Step 안에서 Flow 실행
+    - FlowStep 을 생성하여 StTaskletStepep 안에서 Flow 실행
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/step-builder-factory.png?raw=true 'Result')
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/step-builder-factory-class.png?raw=true 'Result')
 
 [StepBuilderFactory](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/c7fac86eaa3cf7076356d4b5dcdf856ce708189a)
+
+**`TaskletStep`**
+
+- Step 구현체. Tasklet 을 실행시키는 도메인 객체
+- RepeatTemplate 을 사용해서 Tasklet 구문을 트랜잭션 경계 내에서 반복 실행
+- Step 의 실행 단위로 Task 기반과 Chunk 기반으로 나누어서 Tasklet 실행
+  - **chunk 기반**
+    - 하나의 큰 덩어리를 N개씩 나눠서 실행. 대량 처리에 효과적
+    - ItemReader, ItemProcessor, ItemWriter 를 사용하며 청크 기반 전용 Tasklet 인 ChunkOrientedTasklet 구현체 제공
+  - **Task 기반**
+    - 청크 기반 작업 보다 단일 작업 기반 처리에 효율적
+    - 주로 Tasklet 구현체를 만들어 사용
+    - 대량 처리 시 chunk 기반에 비해 더 복잡한 구현 필요
+
 
 ### Flow
 
