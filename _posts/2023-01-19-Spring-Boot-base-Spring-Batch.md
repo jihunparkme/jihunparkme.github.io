@@ -740,6 +740,8 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 - .`listener`(StepExecutionListener) : Step 라이프 사이클 특정 시점에 콜백 설정
 - .`build`(); : TaskletStep 생성
 
+[TaskletStep](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/22e6aa9269ad793c3c2adcdaca757a075545fab5)
+
 ### Flow
 
 ## 스프링 배치 청크 프로세스
