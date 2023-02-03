@@ -730,6 +730,15 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
     - 주로 Tasklet 구현체를 만들어 사용
     - 대량 처리 시 chunk 기반에 비해 더 복잡한 구현 필요
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/taskletStep.png?raw=true 'Result')
+
+- stepBuilderFactory.`get`(“batchStep") : StepBuilder 생성 팩토리
+- .`tasklet`(Tasklet) : Tasklet 클래스 설정(Task 기반), TaskletStepBuilder 반환
+  - .<String, String>`chunk`(100) : Chunk 기반
+- .`startLimit`(10) : Step 실행 횟수 설정, 설정한 만큼 실행되고 초과시 오류 발생 (default. INTEGER.MAX_VALUE)
+- .`allowStartIfComplete`(true) : Step 성공, 실패 상관없이 항상 Step 실행을 위한 설정
+- .`listener`(StepExecutionListener) : Step 라이프 사이클 특정 시점에 콜백 설정
+- .`build`(); : TaskletStep 생성
 
 ### Flow
 
