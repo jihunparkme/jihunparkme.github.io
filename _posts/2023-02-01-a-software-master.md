@@ -2,8 +2,8 @@
 layout: post
 title: A Software Master
 summary: 소프트웨어 장인
-categories: (Book)소프트웨어-장인
-featured-img: a-software-master book
+categories: (Book)소프트웨어-장인 Book
+featured-img: a-software-master
 # mathjax: true
 ---
 
