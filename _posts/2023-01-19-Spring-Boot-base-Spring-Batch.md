@@ -738,8 +738,11 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
   - TaskletStep 에 의해 반복적으로 수행되며 반환값(RepeatStatus)에 따라 반복 혹은 종료
   - Step 에 오직 하나의 Tasklet 설정 가능
 - .<String, String>`chunk`(100) : Chunk 기반
-- .`startLimit`(10) : Step 실행 횟수 설정, 설정한 만큼 실행되고 초과시 오류 발생 (default. INTEGER.MAX_VALUE)
-- .`allowStartIfComplete`(true) : Step 성공, 실패 상관없이 항상 Step 실행을 위한 설정
+- .`startLimit`(10) (default. INTEGER.MAX_VALUE)
+  - Step 실행 횟수 설정, 설정한 만큼 실행되고 초과시 오류(StartLimitExceededException) 발생 
+- .`allowStartIfComplete`(true)
+  - Step 성공, 실패 상관없이 항상 Step 실행을 위한 설정
+  - 실행 마다 유효성을 검증하거나, 사전 작업이 꼭 필요한 Step 등 적용
 - .`listener`(StepExecutionListener) : Step 라이프 사이클 특정 시점에 콜백 설정
 - .`build`(); : TaskletStep 생성
 
