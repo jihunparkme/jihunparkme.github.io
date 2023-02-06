@@ -748,6 +748,8 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 
 [TaskletStep](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/22e6aa9269ad793c3c2adcdaca757a075545fab5)
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/tasklet-step-structure.png?raw=true 'Result')
+
 ### Flow
 
 ## 스프링 배치 청크 프로세스
