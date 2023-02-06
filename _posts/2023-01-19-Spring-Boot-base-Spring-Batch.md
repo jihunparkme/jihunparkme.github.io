@@ -765,6 +765,8 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 - `.parametersExtractor`(JobParametersExtractor) : Step의 ExecutionContext를 Job이 실행되는 데 필요한 JobParameters로 변환
 - `.build`() : JobStep 을 생성
 
+[JobStep](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/b6f1cfa4f3c5f2c503d3dd9310f52c45ae004468)
+
 ### Flow
 
 ## 스프링 배치 청크 프로세스
