@@ -750,6 +750,21 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/tasklet-step-structure.png?raw=true 'Result')
 
+**`JobStep`**
+
+- Job 에 속하는 Step 중 외부의 Job 을 포함하고 있는 Step
+- 외부 Job 실패 시 해당 Step 이 실패하므로 결국 최종 기본 Job 도 실패
+- 메타데이터는 기본 Job, 외부 Job 별로 각각 저장
+- 커다란 시스템을 작은 모듈로 분리하고 job 흐름을 관리할 경우 사용
+
+.
+
+- stepBuilderFactory`.get`("jobStep") : StepBuilder 생성 팩토리
+- `.job`(Job) : JobStep 내에서 실행 될 Job 설정(JobStepBuilder 반환)
+- `.launcher`(JobLauncher) : Job 을 실행할 JobLauncher 설정
+- `.parametersExtractor`(JobParametersExtractor) : Step의 ExecutionContext를 Job이 실행되는 데 필요한 JobParameters로 변환
+- `.build`() : JobStep 을 생성
+
 ### Flow
 
 ## 스프링 배치 청크 프로세스
