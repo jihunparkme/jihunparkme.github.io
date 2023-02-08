@@ -790,6 +790,10 @@ Flow(start, from, next)는 흐름을 정의하는 역할을 하고, 나머지 Tr
 - `.end`() : build() 앞에 위치하면 FlowBuilder 종료 및 SimpleFlow 객체 생성
 - `.build`() : FlowJob 생성 및 flow 필드에 SimpleFlow 저장
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/flowBuilder-on.png?raw=true 'Result')
+
+[FlowJob](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/a39a5882e236b57af5d5e279081b7d062c54a4d0)
+
 **`SimpleFlow`**
 
 **`FlowStep`**
