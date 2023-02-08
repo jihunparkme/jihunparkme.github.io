@@ -769,6 +769,19 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 
 ### Flow
 
+**`FlowJob`**
+
+- Step 순차적 구성이 아닌 특정 상태에 따라 흐름을 전환하도록 구성 (FlowJobBuilder에 의한 생성)
+  - Step이 실패 하더라도 Job 은 실패로 끝나지 않도록 해야 하는 경우
+  - Step이 성공 했을 때 다음에 실행해야 할 Step 을 구분해서 실행 해야 하는 경우
+  - 특정 Step은 전혀 실행되지 않도록 구성 해야 하는 경우
+- Flow, Job 흐름을 구성하는데만 관여하고 실제 비즈니스 로직은 Step 에서 수행
+- 내부적으로 SimpleFlow 객체를 포함하고 있으며 Job 실행 시 호출
+
+**`SimpleFlow`**
+
+**`FlowStep`**
+
 ## 스프링 배치 청크 프로세스
 
 ### ItemReader
