@@ -778,7 +778,7 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 - Flow, Job 흐름을 구성하는데만 관여하고 실제 비즈니스 로직은 Step 에서 수행
 - 내부적으로 SimpleFlow 객체를 포함하고 있으며 Job 실행 시 호출
 
-Transition(start, from, next)는 조건에 따라 흐름을 전환시키는 역할을 하고, 나머지는 흐름을 정의
+Flow(start, from, next)는 흐름을 정의하는 역할을 하고, 나머지 Transition는 조건에 따라 흐름을 전환시키는 역할
 
 - jobBuilderFactory`.get`(“batchJob")
 - `.start`(Step) : Flow 시작 Step 설정
