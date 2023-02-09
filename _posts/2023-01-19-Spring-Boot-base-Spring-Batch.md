@@ -784,10 +784,16 @@ Flow(start, from, next)는 흐름을 정의하는 역할을 하고, 나머지 Tr
 - `.start`(Step) : 처음 실행 Step or Flow 설정
   - flow 설정 시 JobFlowBuilder 반환
   - step 설정 시 SimpleJobBuilder 반환
-- `.on`(String pattern) : Step 실행 결과로 돌려받는 종료상태를 캐치하여 매칭(TransitionBuilder 반환)
-- `.to`(Step) : 다음으로 이동할 Step
-- `.stop()` / `.fail()` / `.end()` / `.stopAndRestart()` : Flow 중지/실패/종료 수행
-- `.from`(Step) : 이전 단계에서 정의한 Step Flow를 추가 정의
+- `.on`(String pattern)
+  - Step 실행 결과로 돌려받는 종료상태(ExitStatus)를 매칭(TransitionBuilder 반환)
+  - ExitStatus 매칭이 되면 다음으로 실행할 Step 지정 가능
+  - 특수문자는 두 가지만 허용(*, ?)
+- `.to`(Step)
+  - 다음으로 실행할 Step
+- `.from`(Step)
+  - 이전 단계에서 정의한 Step Flow 추가 정의
+- `.stop()` / `.fail()` / `.end()` / `.stopAndRestart()`
+  - Flow 중지/실패/종료 수행
 - `.next`(Step) : 다음으로 이동할 Step
   - Step or Flow or JobExecutionDecider
 - `.end`() : build() 앞에 위치하면 FlowBuilder 종료 및 SimpleFlow 객체 생성
@@ -797,30 +803,52 @@ Flow(start, from, next)는 흐름을 정의하는 역할을 하고, 나머지 Tr
 
 [FlowJob](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/a39a5882e236b57af5d5e279081b7d062c54a4d0)
 
-Transition
+**Transition**
 
-- 배치 상태 유형
-  - **BatchStatus**
-    - JobExecution, StepExecution 속성으로 Job, Step 종료 후 최종 결과 상태 정의
-    - SimpleJob
-      - 마지막 Step의 BatchStatus 값을 Job 최종 BatchStatus 값으로 반영
-      - Step 실패 시 해당 Step이 마지막 Step
-    - FlowJob
-      - Flow 내 Step의 ExitStatus 값을 FlowExecutionStatus 값으로 저장
-      - 마지막 Flow의 FlowExecutionStatus 값을 Job의 최종 BatchStatus 값으로 반영
-  - **ExitStatus**
-    - JobExecution, StepExecution의 속성으로 Job, Step 실행 후 종료 상태 정의
-    - 기본적으로 ExitStatus는 BatchStatus와 동일한 값으로 설정
-    - SimpleJob
-      - 마지막 Step의 ExitStatus 값을 Job 최종 ExitStatus 값으로 반영
-    - FlowJob
-      - Flow 내 Step 의 ExitStatus 값을 FlowExecutionStatus 값으로 저장
-      - 마지막 Flow의 FlowExecutionStatus 값을 Job의 최종 ExitStatus 값으로 반영
-  - **FlowExecutionStatus**
-    - FlowExecution 속성으로 Flow 실행 후 최종 결과 상태 정의
-    - Flow 내 Step 이 실행되고 ExitStatus 값을 FlowExecutionStatus 값으로 저장
-    - FlowJob 배치 결과 상태에 관여
-- on() / to() / stop() , fail() , end(), stopAndRestart()
+- Flow 내 Step 조건부 전환 정의
+- on(String pattern) 메소드 호출 시 TransitionBuilder를 반환하여 Transition Flow  구성
+- Step 종료상태(ExitStatus)가 pattern과 매칭되지 않으면 스프링 배치에서 예외 발생 및 Job 실패
+- 구체적인 것부터 그렇지 않은 순서로 적용
+
+on(), to(), stop()/fail()/end()/stopAndRestart()
+
+- stop()
+  - FlowExecutionStatus STOPPED 상태로 종료
+  - Job의 BatchStatus, ExitStatus STOPPED으로 종료
+- fail()
+  - FlowExecutionStatus FAILED 상태로 종료
+  - Job의 BatchStatus, ExitStatus FAILED으로 종료
+- end()
+  - FlowExecutionStatus COMPLETED 상태로 종료
+  - Job의 BatchStatus, ExitStatus COMPLETED으로 종료
+  - Step의 ExitStatus가 FAILED 이더라도 Job의 BatchStatus가 COMPLETED로 종료하도록 가능지만 Job 재시작은 불가능
+- stopAndRestart(Step or Flow or JobExecutionDecider)
+  - stop() transition과 기본 흐름은 동일
+  - 특정 step에서 작업을 중단하도록 설정하면 중단 이전의 Step만 COMPLETED 저장되고 이후의 step은 실행되지 않고 STOPPED 상태로 Job 종료
+  - Job 재실행 시 실행해야 할 step을 restart 인자로 넘기면 이전에 COMPLETED로 저장된 step은 건너뛰고 중단 이후 step부터 시작
+
+배치 상태 유형
+
+- **BatchStatus**
+  - JobExecution, StepExecution 속성으로 Job, Step 종료 후 최종 결과 상태 정의
+  - SimpleJob
+    - 마지막 Step의 BatchStatus 값을 Job 최종 BatchStatus 값으로 반영
+    - Step 실패 시 해당 Step이 마지막 Step
+  - FlowJob
+    - Flow 내 Step의 ExitStatus 값을 FlowExecutionStatus 값으로 저장
+    - 마지막 Flow의 FlowExecutionStatus 값을 Job의 최종 BatchStatus 값으로 반영
+- **ExitStatus**
+  - JobExecution, StepExecution의 속성으로 Job, Step 실행 후 종료 상태 정의
+  - 기본적으로 ExitStatus는 BatchStatus와 동일한 값으로 설정
+  - SimpleJob
+    - 마지막 Step의 ExitStatus 값을 Job 최종 ExitStatus 값으로 반영
+  - FlowJob
+    - Flow 내 Step 의 ExitStatus 값을 FlowExecutionStatus 값으로 저장
+    - 마지막 Flow의 FlowExecutionStatus 값을 Job의 최종 ExitStatus 값으로 반영
+- **FlowExecutionStatus**
+  - FlowExecution 속성으로 Flow 실행 후 최종 결과 상태 정의
+  - Flow 내 Step 이 실행되고 ExitStatus 값을 FlowExecutionStatus 값으로 저장
+  - FlowJob 배치 결과 상태에 관여
 
 **`SimpleFlow`**
 
