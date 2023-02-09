@@ -781,12 +781,15 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 Flow(start, from, next)는 흐름을 정의하는 역할을 하고, 나머지 Transition는 조건에 따라 흐름을 전환시키는 역할
 
 - jobBuilderFactory`.get`(“batchJob")
-- `.start`(Step) : Flow 시작 Step 설정
+- `.start`(Step) : 처음 실행 Step or Flow 설정
+  - flow 설정 시 JobFlowBuilder 반환
+  - step 설정 시 SimpleJobBuilder 반환
 - `.on`(String pattern) : Step 실행 결과로 돌려받는 종료상태를 캐치하여 매칭(TransitionBuilder 반환)
 - `.to`(Step) : 다음으로 이동할 Step
 - `.stop()` / `.fail()` / `.end()` / `.stopAndRestart()` : Flow 중지/실패/종료 수행
 - `.from`(Step) : 이전 단계에서 정의한 Step Flow를 추가 정의
 - `.next`(Step) : 다음으로 이동할 Step
+  - Step or Flow or JobExecutionDecider
 - `.end`() : build() 앞에 위치하면 FlowBuilder 종료 및 SimpleFlow 객체 생성
 - `.build`() : FlowJob 생성 및 flow 필드에 SimpleFlow 저장
 
