@@ -797,6 +797,31 @@ Flow(start, from, next)는 흐름을 정의하는 역할을 하고, 나머지 Tr
 
 [FlowJob](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/a39a5882e236b57af5d5e279081b7d062c54a4d0)
 
+Transition
+
+- 배치 상태 유형
+  - **BatchStatus**
+    - JobExecution, StepExecution 속성으로 Job, Step 종료 후 최종 결과 상태 정의
+    - SimpleJob
+      - 마지막 Step의 BatchStatus 값을 Job 최종 BatchStatus 값으로 반영
+      - Step 실패 시 해당 Step이 마지막 Step
+    - FlowJob
+      - Flow 내 Step의 ExitStatus 값을 FlowExecutionStatus 값으로 저장
+      - 마지막 Flow의 FlowExecutionStatus 값을 Job의 최종 BatchStatus 값으로 반영
+  - **ExitStatus**
+    - JobExecution, StepExecution의 속성으로 Job, Step 실행 후 종료 상태 정의
+    - 기본적으로 ExitStatus는 BatchStatus와 동일한 값으로 설정
+    - SimpleJob
+      - 마지막 Step의 ExitStatus 값을 Job 최종 ExitStatus 값으로 반영
+    - FlowJob
+      - Flow 내 Step 의 ExitStatus 값을 FlowExecutionStatus 값으로 저장
+      - 마지막 Flow의 FlowExecutionStatus 값을 Job의 최종 ExitStatus 값으로 반영
+  - **FlowExecutionStatus**
+    - FlowExecution 속성으로 Flow 실행 후 최종 결과 상태 정의
+    - Flow 내 Step 이 실행되고 ExitStatus 값을 FlowExecutionStatus 값으로 저장
+    - FlowJob 배치 결과 상태에 관여
+- on() / to() / stop() , fail() , end(), stopAndRestart()
+
 **`SimpleFlow`**
 
 **`FlowStep`**
