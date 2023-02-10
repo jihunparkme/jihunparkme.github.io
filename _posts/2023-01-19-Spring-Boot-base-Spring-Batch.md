@@ -870,6 +870,10 @@ on(), to(), stop()/fail()/end()/stopAndRestart()
 
 [JobExecutionDecider 구현](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/4640f98914c6bace30f6f2de90f05d10a11d51cd)
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/flow-job-architecture.png?raw=true 'Result')
+
+[FlowJob Architecture](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/af93fad73a4b1bb8fc0c0de8bba13434bedbc207)
+
 ---
 
 **`SimpleFlow`**
