@@ -860,6 +860,12 @@ on(), to(), stop()/fail()/end()/stopAndRestart()
 
 [StepExecutionListener 구현](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/c537b6e771f772a2e9a927bfe089561250c8471d)
 
+**JobExecutionDecider**
+
+- ExitStatus를 조작하거나 StepExecutionListener를 등록할 필요 없이 Transition 처리를 위한 전용 클래스
+- Step, Transiton 역할을 명확히 분리
+- Step의 ExitStatus가 아닌 JobExecutionDecider의 FlowExecutionStatus 상태값을 새롭게 설정해서 반환
+
 **`SimpleFlow`**
 
 **`FlowStep`**
