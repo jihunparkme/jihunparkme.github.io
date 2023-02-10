@@ -858,6 +858,8 @@ on(), to(), stop()/fail()/end()/stopAndRestart()
 - StepExecutionListener의 afterStep() 메서드에서 Custom exitCode 생성 후 새로운 ExitStatus 반환
 - Step 실행 후 완료 시점에서 현재 exitCode를 사용자 정의 exitCode로 수정 가능
 
+[StepExecutionListener 구현](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/c537b6e771f772a2e9a927bfe089561250c8471d)
+
 **`SimpleFlow`**
 
 **`FlowStep`**
