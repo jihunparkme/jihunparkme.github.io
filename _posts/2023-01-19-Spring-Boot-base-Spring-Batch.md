@@ -850,6 +850,8 @@ on(), to(), stop()/fail()/end()/stopAndRestart()
   - Flow 내 Step 이 실행되고 ExitStatus 값을 FlowExecutionStatus 값으로 저장
   - FlowJob 배치 결과 상태에 관여
 
+[Transition](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/0bc24e4903aacc42cd9023f9dac7d1c71fb2321f)
+
 **`SimpleFlow`**
 
 **`FlowStep`**
