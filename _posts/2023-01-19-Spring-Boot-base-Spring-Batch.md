@@ -866,6 +866,8 @@ on(), to(), stop()/fail()/end()/stopAndRestart()
 - Step, Transiton 역할을 명확히 분리
 - Step의 ExitStatus가 아닌 JobExecutionDecider의 FlowExecutionStatus 상태값을 새롭게 설정해서 반환
 
+[JobExecutionDecider 구현](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/4640f98914c6bace30f6f2de90f05d10a11d51cd)
+
 **`SimpleFlow`**
 
 **`FlowStep`**
