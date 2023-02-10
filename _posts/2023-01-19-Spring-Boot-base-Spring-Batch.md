@@ -852,6 +852,12 @@ on(), to(), stop()/fail()/end()/stopAndRestart()
 
 [Transition](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/0bc24e4903aacc42cd9023f9dac7d1c71fb2321f)
 
+**사용자 정의 ExitStatus**
+
+- ExitStatus에 존재하지 않는 exitCode를 새롭게 정의
+- StepExecutionListener의 afterStep() 메서드에서 Custom exitCode 생성 후 새로운 ExitStatus 반환
+- Step 실행 후 완료 시점에서 현재 exitCode를 사용자 정의 exitCode로 수정 가능
+
 **`SimpleFlow`**
 
 **`FlowStep`**
