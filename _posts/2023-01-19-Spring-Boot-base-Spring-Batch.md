@@ -878,6 +878,15 @@ on(), to(), stop()/fail()/end()/stopAndRestart()
 
 **`SimpleFlow`**
 
+- Flow 구현체로서 각 요소(Step, Flow, JobExecutionDecider)들을 담고 있는 State를 실행시키는 도메인 객체
+- FlowBuilder로 생성하며 Transition과 조합하여 여러 개의 Flow 및 중첩 Flow를 만들어 Job 구성 가능
+
+- jobBuilderFactory`.get`("flowJob")
+- `.start`(flow1()) : Flow 정의
+- `.on`("COMPLETED")`.to`(flow2()) : Flow를 transition과 함께 구성
+- `.end()` : SimpleFlow 객체 생성
+- `.build()`: FlowJob 객체 생성
+
 ---
 
 **`FlowStep`**
