@@ -656,7 +656,9 @@ JobExecution getLastJobExecution(String var1, JobParameters var2); // 해당 Ste
 
 [JobBuilderFactory](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/baa8b5448fc88c2f1b744429f62f3e84dfd45828a)
 
-#### SimpleJob
+---
+
+**SimpleJob**
 
 JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 
@@ -769,7 +771,7 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 
 ### Flow
 
-**`FlowJob`**
+**FlowJob**
 
 - Step 순차적 구성이 아닌 특정 상태에 따라 흐름을 전환하도록 구성 (FlowJobBuilder에 의한 생성)
   - Step이 실패 하더라도 Job 은 실패로 끝나지 않도록 해야 하는 경우
@@ -868,7 +870,11 @@ on(), to(), stop()/fail()/end()/stopAndRestart()
 
 [JobExecutionDecider 구현](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/4640f98914c6bace30f6f2de90f05d10a11d51cd)
 
+---
+
 **`SimpleFlow`**
+
+---
 
 **`FlowStep`**
 
