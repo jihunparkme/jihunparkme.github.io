@@ -660,7 +660,7 @@ JobExecution getLastJobExecution(String var1, JobParameters var2); // 해당 Ste
 
 **SimpleJob**
 
-JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
+> JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 
 - Step 을 실행시키는 Job 구현체(SimpleJobBuilder 에 의해 생성)
 - 여러 단계의 Step 으로 구성할 수 있으며 Step 을 순차적으로 실행
@@ -721,6 +721,8 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 
 **`TaskletStep`**
 
+> StepBuilderFactory > StepBuilder > TaskletStepBuilder > TaskletStep
+
 - Step 구현체. Tasklet 을 실행시키는 도메인 객체
 - RepeatTemplate 을 사용해서 Tasklet 구문을 트랜잭션 경계 내에서 반복 실행
 - Step 의 실행 단위로 Task 기반과 Chunk 기반으로 나누어서 Tasklet 실행
@@ -772,6 +774,8 @@ JobBuilderFactory > JobBuilder > SimpleJobBuilder > SimpleJob
 ### Flow
 
 **FlowJob**
+
+> JobBuilderFactory > JobBuilder > JobFlowBuilder > FlowBuilder > FlowJob
 
 - Step 순차적 구성이 아닌 특정 상태에 따라 흐름을 전환하도록 구성 (FlowJobBuilder에 의한 생성)
   - Step이 실패 하더라도 Job 은 실패로 끝나지 않도록 해야 하는 경우
@@ -878,6 +882,8 @@ on(), to(), stop()/fail()/end()/stopAndRestart()
 
 **`SimpleFlow`**
 
+> JobBuilderFactory > FlowJobBuilder > FlowBuilder > SimpleFlow
+
 - Flow 구현체로서 각 요소(Step, Flow, JobExecutionDecider)들을 담고 있는 State를 실행시키는 도메인 객체
 - FlowBuilder로 생성하며 Transition과 조합하여 여러 개의 Flow 및 중첩 Flow를 만들어 Job 구성 가능
 
@@ -886,6 +892,16 @@ on(), to(), stop()/fail()/end()/stopAndRestart()
 - `.on`("COMPLETED")`.to`(flow2()) : Flow를 transition과 함께 구성
 - `.end()` : SimpleFlow 객체 생성
 - `.build()`: FlowJob 객체 생성
+
+```java
+public Job job() { // FlowJob 구성
+    return jobBuilderFactory.get("job")
+              .start(flow()) // SimpleFlow 안에 또 하나의 SimpleFlow 객체
+              .next(step3())
+              .end() // SimpleFlow 객체 생성
+            .build();
+}
+```
 
 ---
 
