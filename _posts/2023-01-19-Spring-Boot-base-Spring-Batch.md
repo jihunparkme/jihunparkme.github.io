@@ -903,6 +903,10 @@ public Job job() { // FlowJob 구성
 }
 ```
 
+[SimpleFlowConfiguration](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/4d91215773f40db5bd975cafc1a89bd7acfeee49)
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/simpleflow-example.png?raw=true 'Result')
+
 ---
 
 **`FlowStep`**
