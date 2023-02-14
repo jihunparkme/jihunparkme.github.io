@@ -907,6 +907,15 @@ public Job job() { // FlowJob 구성
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/simpleflow-example.png?raw=true 'Result')
 
+SimpleFlow Architecture
+
+- StateMap에 저장되어 있는 모든 State들의 handle 메서드를 호출해서 모든 Step 들이 실행되도록 함
+- 현재 호출되는 State가 어떤 타입인지 관심 없고, handle 메소드를 실행하고 상태값을 얻어온다.(상태 패턴)
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/simpleflow-architecture.png?raw=true 'Result')
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/simpleflow-architecture-2.png?raw=true 'Result')
+
 ---
 
 **`FlowStep`**
