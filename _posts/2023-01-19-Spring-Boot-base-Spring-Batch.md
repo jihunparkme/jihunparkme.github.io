@@ -920,6 +920,17 @@ SimpleFlow Architecture
 
 **`FlowStep`**
 
+- Step 내에 Flow를 할당하여 실행시키는 도메인 객체
+- flowStep의 BatchStatus와 ExitStatus는 Flow 최종 상태값에 따라 결정
+  
+> StepBuilderFactory > StepBuilder > FlowStepBuilder > FlowStep
+
+- stepBuilderFactory`.get`(“flowStep")
+- `.flow`(flow()) : Step 내에서 실행 될 flow 설정(FlowStepBuilder 반환)
+- `.build`(); : FlowStep 객체 생성
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/flow-step.png?raw=true 'Result')
+
 ## 스프링 배치 청크 프로세스
 
 ### ItemReader
