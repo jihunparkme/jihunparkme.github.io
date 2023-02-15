@@ -931,6 +931,8 @@ SimpleFlow Architecture
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/flow-step.png?raw=true 'Result')
 
+
+
 ## 스프링 배치 청크 프로세스
 
 ### ItemReader
