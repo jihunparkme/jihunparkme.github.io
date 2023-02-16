@@ -960,6 +960,8 @@ Spring Batch Scope
 - Tasklet, ItemReader, ItemWriter, ItemProcessor 선언문에 정의
 - @Value : jobParameter, jobExecutionContext, stepExecutionContext 사용 가능
 
+[@JobScope / @StepScope](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/37dab6610a98a8540c4b68317d44a94669018055)
+
 ---
 
 ## 스프링 배치 청크 프로세스
