@@ -931,10 +931,36 @@ SimpleFlow Architecture
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/flow-step.png?raw=true 'Result')
 
+---
 
+**`Scope`**
 
+- 스프링 컨테이너에서 빈이 관리되는 범위
+- singleton, prototype, request, session, application (default. singleton)
 
+Spring Batch Scope
 
+- @JobScope, @StepScope
+- Job, Step 의 빈 생성과 실행에 관여
+- 프록시 모드가 기본값. @Scope(value = "job", proxyMode = ScopedProxyMode.TARGET_CLASS)
+- 해당 스코프가 선언되면 <u>빈 생성이 어플리케이션 구동시점이 아닌 빈 실행시점에</u>
+  - @Values 주입으로 빈 실행 시점에 값을 참조할 수 있으며, Lazy Binding 가능
+  - @Value("#{jobParameters[파라미터명]}"), @Value("#{jobExecutionContext[파라미터명]”}), @Value("#{stepExecutionContext[파라미터명]”})
+  - @Values 사용 시 빈 선언문에 @JobScope, @StepScope 를 정의하지 않으면 오류 발생
+- 프록시 모드로 빈이 선언되므로 어플리케이션 구동 시점에는 빈의 프록시 객체가 생성되어 실행 시점에 실제 빈을 호출(AOP)
+- 병렬처리 시 각 스레드 마다 생성된 스코프 빈이 할당되기 때문에 스레드에 안전하게 실행 가능
+
+**@JobScope**
+
+- Step 선언문에 정의
+- @Value : jobParameter, jobExecutionContext 만 사용 가능
+
+**@StepScope**
+
+- Tasklet, ItemReader, ItemWriter, ItemProcessor 선언문에 정의
+- @Value : jobParameter, jobExecutionContext, stepExecutionContext 사용 가능
+
+---
 
 ## 스프링 배치 청크 프로세스
 
