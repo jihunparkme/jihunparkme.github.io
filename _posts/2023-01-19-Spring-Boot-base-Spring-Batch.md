@@ -933,6 +933,9 @@ SimpleFlow Architecture
 
 
 
+
+
+
 ## 스프링 배치 청크 프로세스
 
 ### ItemReader
