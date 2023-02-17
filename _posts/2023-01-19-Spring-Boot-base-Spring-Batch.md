@@ -941,13 +941,20 @@ SimpleFlow Architecture
 Spring Batch Scope
 
 - @JobScope, @StepScope
-- Job, Step 의 빈 생성과 실행에 관여
-- 프록시 모드가 기본값. @Scope(value = "job", proxyMode = ScopedProxyMode.TARGET_CLASS)
+  - Job, Step 의 빈 생성과 실행에 관여
+  - Proxy 객체의 실제 대상이 되는 Bean 등록/해제 역할
+  - 실제 빈을 저장하고 있는 JobContext, StepContext 소유
+- 내부적으로 빈 Proxy 객체 생성
+  - @Scope(value = "job", proxyMode = ScopedProxyMode.TARGET_CLASS)
+  - @Scope(value = "step", proxyMode = ScopedProxyMode.TARGET_CLASS)
+  - 어플리케이션 구동 시점에는 빈의 프록시 객체가 생성되어 실행 시점에 실제 빈을 호출(AOP)
+- JobContext, StepContext
+  - 스프링 컨테이너에서 생성된 빈을 저장하는 컨텍스트 역할
+  - Job 실행 시점에서 프록시 객체가 실제 빈 참조에 사용
 - 해당 스코프가 선언되면 <u>빈 생성이 어플리케이션 구동시점이 아닌 빈 실행시점에</u>
   - @Values 주입으로 빈 실행 시점에 값을 참조할 수 있으며, Lazy Binding 가능
   - @Value("#{jobParameters[파라미터명]}"), @Value("#{jobExecutionContext[파라미터명]”}), @Value("#{stepExecutionContext[파라미터명]”})
   - @Values 사용 시 빈 선언문에 @JobScope, @StepScope 를 정의하지 않으면 오류 발생
-- 프록시 모드로 빈이 선언되므로 어플리케이션 구동 시점에는 빈의 프록시 객체가 생성되어 실행 시점에 실제 빈을 호출(AOP)
 - 병렬처리 시 각 스레드 마다 생성된 스코프 빈이 할당되기 때문에 스레드에 안전하게 실행 가능
 
 **@JobScope**
