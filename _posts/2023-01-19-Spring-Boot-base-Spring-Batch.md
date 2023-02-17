@@ -969,6 +969,8 @@ Spring Batch Scope
 
 [@JobScope / @StepScope](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/37dab6610a98a8540c4b68317d44a94669018055)
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/scope-architect.png?raw=true 'Result')
+
 ---
 
 ## 스프링 배치 청크 프로세스
