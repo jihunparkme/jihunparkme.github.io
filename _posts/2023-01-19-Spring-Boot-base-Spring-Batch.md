@@ -971,9 +971,19 @@ Spring Batch Scope
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/scope-architect.png?raw=true 'Result')
 
----
-
 ## 스프링 배치 청크 프로세스
+
+**`Chunk`**
+
+- 여러 개의 아이템을 묶은 하나의 덩어리(블록)
+- 한번에 하나씩 아이템을 입력 받아 Chunk 단위의 덩어리로 만든 후 Chunk 단위로 트랜잭션 처리
+  - Chunk 단위의 Commit / Rollback 수행
+- 일반적으로 대용량 데이터를 한 번에 처리하는 것이 아닌 청크 단위로 쪼개어서 처리할 경우 사용
+
+`Chunk<I> vs Chunk<O>`
+- `Chunk<I>` : ItemReader로 읽은 하나의 아이템을 Chunk에서 정한 개수만큼 반복해서 저장
+- `Chunk<O>` : ItemReader로부터 전달받은 `Chunk<I>`를 참조해서 ItemProcessor에서 적절하게 가공/필터링한 후 ItemWriter에 전달
+
 
 ### ItemReader
 
