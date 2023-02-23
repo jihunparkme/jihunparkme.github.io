@@ -984,6 +984,7 @@ Spring Batch Scope
 - `Chunk<I>` : ItemReader로 읽은 하나의 아이템을 Chunk에서 정한 개수만큼 반복해서 저장
 - `Chunk<O>` : ItemReader로부터 전달받은 `Chunk<I>`를 참조해서 ItemProcessor에서 적절하게 가공/필터링한 후 ItemWriter에 전달
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/chunk-process.png?raw=true 'Result')
 
 ### ItemReader
 
