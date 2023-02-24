@@ -986,6 +986,8 @@ Spring Batch Scope
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/chunk-process.png?raw=true 'Result')
 
+[Chunk Process](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/17e406d7540fd7df9a0f15a23272ae7f7cc3dc0f)
+
 ### ItemReader
 
 ### ItemWriter
