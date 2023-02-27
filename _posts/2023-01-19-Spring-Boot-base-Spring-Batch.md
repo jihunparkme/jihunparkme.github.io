@@ -1010,6 +1010,34 @@ Spring Batch Scope
 - readerIsTransactionalQueue() : Item이 JMS, Message Queue Server와 같은 트랜잭션 외부에서 읽혀지고 캐시할 것인지 여부(default. false)
 - listener(ChunkListener) : Chunk 프로세스가 진행되는 특정 시점에 콜백 제공받도록 ChunkListener 설정
 
+```java
+@Nullable
+public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+    Chunk<I> inputs = (Chunk)chunkContext.getAttribute("INPUTS");
+    if (inputs == null) {
+        inputs = this.chunkProvider.provide(contribution);
+        if (this.buffering) {
+            chunkContext.setAttribute("INPUTS", inputs);
+        }
+    }
+
+    this.chunkProcessor.process(contribution, inputs);
+    this.chunkProvider.postProcess(contribution, inputs);
+    if (inputs.isBusy()) {
+        logger.debug("Inputs still busy");
+        return RepeatStatus.CONTINUABLE;
+    } else {
+        chunkContext.removeAttribute("INPUTS");
+        chunkContext.setComplete();
+        if (logger.isDebugEnabled()) {
+            logger.debug("Inputs not busy, ended: " + inputs.isEnd());
+        }
+
+        return RepeatStatus.continueIf(!inputs.isEnd());
+    }
+}
+```
+
 [ChunkOrientedTasklet](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/8304ad83991db3d0860e9142fe5110f6d5c7b1da)
 
 **`ChunkProvider`**
@@ -1022,6 +1050,44 @@ Spring Batch Scope
   - ItemReader 가 읽은 item 이 null 일 경우 반복문 종료 및 해당 Step 반복문까지 종료
 - 기본 구현체로서 SimpleChunkProvider, FaultTolerantChunkProvider 존재
 
+```java
+public Chunk<I> provide(final StepContribution contribution) throws Exception {
+    final Chunk<I> inputs = new Chunk();
+    this.repeatOperations.iterate(new RepeatCallback() {
+        public RepeatStatus doInIteration(RepeatContext context) throws Exception {
+            I item = null;
+            Sample sample = Timer.start(Metrics.globalRegistry);
+            String status = "SUCCESS";
+
+            label45: {
+                RepeatStatus var6;
+                try {
+                    item = SimpleChunkProvider.this.read(contribution, inputs);
+                    break label45;
+                } catch (SkipOverflowException var10) {
+                    status = "FAILURE";
+                    var6 = RepeatStatus.FINISHED;
+                } finally {
+                    SimpleChunkProvider.this.stopTimer(sample, contribution.getStepExecution(), status);
+                }
+
+                return var6;
+            }
+
+            if (item == null) {
+                inputs.setEnd();
+                return RepeatStatus.FINISHED;
+            } else {
+                inputs.add(item);
+                contribution.incrementReadCount();
+                return RepeatStatus.CONTINUABLE;
+            }
+        }
+    });
+    return inputs;
+}
+```
+
 **`ChunkProcessor`**
 
 - ItemProcessor 로 Item 변형/가공/필터링하고 ItemWriter 로 Chunk 데이터 저장/출력
@@ -1032,6 +1098,17 @@ Spring Batch Scope
 - ItemWriter 처리가 완료되면 Chunk 트랜잭션이 종료되고 Step 반복문에서 ChunkOrientedTasklet 가 새롭게 실행
 - ItemWriter 는 Chunk size 만큼 데이터를 Commit 처리하므로 Chunk size 는 곧 Commit Interval
 - 기본 구현체로서 SimpleChunkProcessor, FaultTolerantChunkProcessor 존재
+
+```java
+public final void process(StepContribution contribution, Chunk<I> inputs) throws Exception {
+    this.initializeUserData(inputs);
+    if (!this.isComplete(inputs)) {
+        Chunk<O> outputs = this.transform(contribution, inputs);
+        contribution.incrementFilterCount(this.getFilterCount(inputs, outputs));
+        this.write(contribution, inputs, this.getAdjustedOutputs(inputs, outputs));
+    }
+}
+```
 
 ### ItemReader
 
