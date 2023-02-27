@@ -998,6 +998,19 @@ Spring Batch Scope
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/chunkOrientedTasklet.png?raw=true 'Result')
 
+> StepBuilderFactory > StepBuilder > SimpletepBuilder > TaskletStep
+
+- stepBuilderFactory.get("chunkStep") 
+- <I, O>chunk(10) : chunk size(commit interval) 설정
+- <I, O>chunk(CompletionPolicy) : chunk 프로세스를 완료하기 위한 정책 설정 클래스
+- reader(itemReader()) : 소스로 부터 item을 읽거나 가져오는 ItemReader 구현체
+- writer(itemWriter()) : item을 목적지에 쓰거나 보내기 위한 ItemWriter 구현체
+- processor(itemProcessor()) : item 변형/가공/필터링을 위한 ItemProcessor 구현체
+- stream(ItemStream()) : 재시작 데이터를 관리하는 콜백에 대한 스트림
+- readerIsTransactionalQueue() : Item이 JMS, Message Queue Server와 같은 트랜잭션 외부에서 읽혀지고 캐시할 것인지 여부(default. false)
+- listener(ChunkListener) : Chunk 프로세스가 진행되는 특정 시점에 콜백 제공받도록 ChunkListener 설정
+
+[ChunkOrientedTasklet](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/8304ad83991db3d0860e9142fe5110f6d5c7b1da)
 
 ### ItemReader
 
