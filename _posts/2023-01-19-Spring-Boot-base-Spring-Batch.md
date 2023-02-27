@@ -988,7 +988,15 @@ Spring Batch Scope
 
 [Chunk Process](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/17e406d7540fd7df9a0f15a23272ae7f7cc3dc0f)
 
+**`ChunkOrientedTasklet`**
 
+- Tasklet 구현체로 Chunk 지향 프로세싱 담당
+- ItemReader, ItemWriter, ItemProcessor 를 사용해 Chunk 기반 데이터 입출력 처리
+- TaskletStep 에 의해 반복적으로 실행되며 ChunkOrientedTasklet 이 실행 될 때마다 매번 새로운 트랜잭션이 생성되어 처리가 이루어짐
+- exception 발생 시, 해당 Chunk는 롤백 되며 이전에 커밋한 Chunk 는 완료 상태 유지
+- 내부적으로 ItemReader 를 핸들링 하는 `ChunkProvider`, ItemProcessor, ItemWriter 를 핸들링하는 `ChunkProcessor` 타입 구현체를 가짐
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/chunkOrientedTasklet.png?raw=true 'Result')
 
 
 ### ItemReader
