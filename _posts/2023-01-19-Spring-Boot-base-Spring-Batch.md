@@ -1110,6 +1110,28 @@ public final void process(StepContribution contribution, Chunk<I> inputs) throws
 }
 ```
 
+**`ItemReader`**
+
+- 다양한 입력으로부터 데이터를 읽어서 제공
+  - csv, txt, xml, json, database, MQ, Custom Reader
+- ChunkOrientedTasklet 실행 시 필수 요소
+- T read()
+  - 입력 데이터를 읽고 다음 데이터로 이동
+  - 아이템 하나를 리턴하며 더 이상 아이템이 없는 경우 null 리턴
+  - 더 이상 처리해야 할 Item 이 없어도 예외가 발생하지 않고 ItemProcessor 와 같은 다음 단계로 이동
+- 다수의 구현체들이 ItemReader, ItemStream 인터페이스를 동시에 구현
+  - 파일의 스트림, DB 커넥션을 열거나 종료, 입력 장치 초기화 등의 작업
+  - ExecutionContext 에 read 와 관련된 여러가지 상태 정보를 저장해서 재시작 시 다시 참조 하도록 지원
+- 일부를 제외하고 하위 클래스들은 기본적으로 스레드에 안전하지 않기 때문에 병렬 처리시 데이터 정합성을 위한 동기화 처리 필요(JdbcPagingItemRedaer, JpaPagingItemReader 는 스레스 안전)
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/item-reader.png?raw=true 'Result')
+
+**`ItemWriter`**
+
+
+**`ItemProcessor`**
+
+
 ### ItemReader
 
 ### ItemWriter
