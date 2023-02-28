@@ -1148,6 +1148,21 @@ public final void process(StepContribution contribution, Chunk<I> inputs) throws
 
 **`ItemProcessor`**
 
+- 데이터 출력 전에 데이터 가공/변형/필터링
+- ItemReader, ItemWriter 와 분리되어 비즈니스 로직 구현
+- ItemReader 로 받은 아이템을 변환해서 ItemWriter 에 전달
+- ItemReader 로 받은 아이템들 중 필터 과정을 거쳐 원하는 아이템들만 ItemWriter 에 전달 가능
+  - ItemProcessor 에서 process() 실행결과 null을 반환하면 Chunk\<O\> 에 저장되지 않기 때문에 ItemWriter에 전달되지 않음
+- ChunkOrientedTasklet 실행 시 선택 요소
+- O process
+  - 아이템 하나씩 가공하며 null 리턴 시 해당 아이템은 Chunk\<O\> 에 저장되지 않음
+
+.
+
+- ItemStream 을 구현하지 않음
+- 대부분 Customizing 하여 사용하므로 기본적으로 제공되는 구현체가 적음
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/item-processor.png?raw=true 'Result')
 
 ### ItemReader
 
