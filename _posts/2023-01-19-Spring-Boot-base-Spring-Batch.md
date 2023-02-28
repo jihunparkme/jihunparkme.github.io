@@ -1119,6 +1119,9 @@ public final void process(StepContribution contribution, Chunk<I> inputs) throws
   - 입력 데이터를 읽고 다음 데이터로 이동
   - 아이템 하나를 리턴하며 더 이상 아이템이 없는 경우 null 리턴
   - 더 이상 처리해야 할 Item 이 없어도 예외가 발생하지 않고 ItemProcessor 와 같은 다음 단계로 이동
+
+.
+
 - 다수의 구현체들이 ItemReader, ItemStream 인터페이스를 동시에 구현
   - 파일의 스트림, DB 커넥션을 열거나 종료, 입력 장치 초기화 등의 작업
   - ExecutionContext 에 read 와 관련된 여러가지 상태 정보를 저장해서 재시작 시 다시 참조 하도록 지원
@@ -1128,6 +1131,20 @@ public final void process(StepContribution contribution, Chunk<I> inputs) throws
 
 **`ItemWriter`**
 
+- Chunk 단위로 데이터를 받아 일괄 출력 작압
+  - csv, txt, xml, json, database, MQ, Custom Reader
+- ChunkOrientedTasklet 실행 시 필수 요소
+- void write(List<? extends T> items)
+  - 출력 데이터를 아이템 리스트로 받아 처리
+  - 출력이 완료되고 트랜잭션이 종료되면 새로운 Chunk 단위 프로세스로 이동
+
+.
+
+- 다수의 구현체들이 ItemWriter, ItemStream 동시 구현
+  - 파일의 스트림을, DB 커넥션을 열거나 종료, 출력 장치 초기화 등의 작업
+- 보통 ItemReader 구현체와 1:1 대응 관계인 구현체들로 구성
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/item-writer.png?raw=true 'Result')
 
 **`ItemProcessor`**
 
