@@ -1166,6 +1166,15 @@ public final void process(StepContribution contribution, Chunk<I> inputs) throws
 
 [ItemReader, ItemProcessor, ItemWriter](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/9a20bacb397925c7d1202ff8fb519334b470967e)
 
+**`ItemStream`**
+
+- ItemReader, ItemWriter 처리 과정 중 상태를 저장하고 오류가 발생하면 해당 상태를 참조하여 실패한 곳에서 재시작 하도록 지원
+- 리소스를 open/close 를 통해 입출력 장치 초기화 등의 작업
+  - open : 리소스 열고 초기화, 최초 1회  
+  - update : 현재 상태정보 저장, Chunk size 만큼 반복
+  - cloas : 모든 리소스 닫음
+- ExecutionContext 를 매개변수로 받아 상태 정보를 업데이트
+- ItemReader, ItemWriter 는 ItemStream 구현 필요
 
 ### ItemReader
 
