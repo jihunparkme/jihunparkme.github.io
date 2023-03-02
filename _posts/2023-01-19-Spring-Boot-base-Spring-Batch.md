@@ -1176,6 +1176,8 @@ public final void process(StepContribution contribution, Chunk<I> inputs) throws
 - ExecutionContext 를 매개변수로 받아 상태 정보를 업데이트
 - ItemReader, ItemWriter 는 ItemStream 구현 필요
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/batch-chunk-process-architecture.png?raw=true 'Result')
+
 [ItemStream]()
 
 ### ItemReader
