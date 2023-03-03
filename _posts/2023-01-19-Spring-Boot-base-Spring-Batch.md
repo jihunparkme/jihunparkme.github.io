@@ -1180,6 +1180,10 @@ public final void process(StepContribution contribution, Chunk<I> inputs) throws
 
 [ItemStream](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/20b7108abca708341b480e2cb354463dc973a755)
 
+ItemReader vs ItemProcessor
+
+- ItemReader 에서 Chunk size 만큼 Item 을 한 개씩 모두 읽은 다음 ItemProcessor 에게 전달하면 읽은 Item 개수 만큼 반복 처리
+
 ### ItemReader
 
 ### ItemWriter
