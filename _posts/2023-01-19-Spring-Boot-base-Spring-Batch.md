@@ -1178,7 +1178,7 @@ public final void process(StepContribution contribution, Chunk<I> inputs) throws
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/batch-chunk-process-architecture.png?raw=true 'Result')
 
-[ItemStream]()
+[ItemStream](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/20b7108abca708341b480e2cb354463dc973a755)
 
 ### ItemReader
 
