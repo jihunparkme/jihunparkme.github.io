@@ -1188,6 +1188,11 @@ ItemReader vs ItemProcessor
 
 **`Repeat`**
 
+- 스프링 배치는 작업을 얼마나 반복해야 하는지 알려 줄 수 있는 기능 제공
+- 특정 조건이 충족 될 때까지(또는 특정 조건이 아직 충족되지 않을 때까지) Job 또는 Step 을 반복하도록 구성 가능
+- 스프링 배치에서는 Step, Chunk 반복을 RepeatOperation 을 사용해서 처리
+- 기본 구현체로 RepeatTemplate 제공
+
 **`FaultTolerant`**
 
 **`Skip`**
