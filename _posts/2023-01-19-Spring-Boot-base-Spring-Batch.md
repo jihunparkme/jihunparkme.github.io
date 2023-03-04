@@ -1110,7 +1110,7 @@ public final void process(StepContribution contribution, Chunk<I> inputs) throws
 }
 ```
 
-**`ItemReader`**
+### ItemReader
 
 - 다양한 입력으로부터 데이터를 읽어서 제공
   - csv, txt, xml, json, database, MQ, Custom Reader
@@ -1129,7 +1129,7 @@ public final void process(StepContribution contribution, Chunk<I> inputs) throws
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/item-reader.png?raw=true 'Result')
 
-**`ItemWriter`**
+### ItemWriter
 
 - Chunk 단위로 데이터를 받아 일괄 출력 작압
   - csv, txt, xml, json, database, MQ, Custom Reader
@@ -1146,7 +1146,7 @@ public final void process(StepContribution contribution, Chunk<I> inputs) throws
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/item-writer.png?raw=true 'Result')
 
-**`ItemProcessor`**
+### ItemProcessor
 
 - 데이터 출력 전에 데이터 가공/변형/필터링
 - ItemReader, ItemWriter 와 분리되어 비즈니스 로직 구현
@@ -1166,7 +1166,7 @@ public final void process(StepContribution contribution, Chunk<I> inputs) throws
 
 [ItemReader, ItemProcessor, ItemWriter](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/9a20bacb397925c7d1202ff8fb519334b470967e)
 
-**`ItemStream`**
+### ItemStream
 
 - ItemReader, ItemWriter 처리 과정 중 상태를 저장하고 오류가 발생하면 해당 상태를 참조하여 실패한 곳에서 재시작 하도록 지원
 - 리소스를 open/close 를 통해 입출력 장치 초기화 등의 작업
@@ -1184,20 +1184,26 @@ ItemReader vs ItemProcessor
 
 - ItemReader 에서 Chunk size 만큼 Item 을 한 개씩 모두 읽은 다음 ItemProcessor 에게 전달하면 읽은 Item 개수 만큼 반복 처리
 
-### ItemReader
+## 반복 및 오류 제어
 
-### ItemWriter
+**`Repeat`**
 
-### ItemProcessor
+**`FaultTolerant`**
 
-## 기타
+**`Skip`**
 
-### 반복 및 오류 제어
+**`Retry`**
 
-### Multi Thread Processing
+## Multi Thread Processing
 
-### Event Listener
+## Event Listener
 
-### Test
+## Test
 
 ## Application
+
+---
+
+필요 시 수강
+
+- 스프링 배치 청크 프로세스 활용 ItemReader / ItemWriter / ItemProcessor
