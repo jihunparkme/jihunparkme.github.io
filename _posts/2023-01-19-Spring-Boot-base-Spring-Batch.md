@@ -1218,6 +1218,39 @@ ExceptionHandler
 
 **`FaultTolerant`**
 
+- Job 실행 중 오류 발생 시 장애 처리를 위한 기능을 제공 -> 이를 통해 복원력 향상
+- 오류가 발생해도 Step 이 즉시 종료되지 않고, Retry 혹은 Skip 기능을 활성화 함으로써 내결함성 서비스 가능
+- 내결함성을 위해 Skip, Retry 기능 제공
+  - Skip : ItemReader / ItemProcessor / ItemWriter 에 적용 가능
+  - Retry : ItemProcessor / ItemWriter 에 적용 가능
+- FaultTolerant 구조는 청크 기반의 프로세스 기반위에 Skip, Retry 기능이 추가되어 재정의
+
+> StepBuilderFactory > StepBuilder > FaultTolerantStepBuilder > TaskletStep
+
+```java
+public Step batchStep() {
+ return new stepBuilderFactory.get("batchStep")
+  .<I, O>chunk(10)
+  .reader(ItemReader)
+  .writer(ItemWriter)
+  .falutTolerant() // 내결함성 기능 활성화
+    .skip(Class<? extends Throwable> type) // 예외 발생 시 Skip 할 예외 타입 설정
+    .skipLimit(int skipLimit) // Skip 제한 횟수 설정
+    .skipPolicy(SkipPolicy skipPolicy) // Skip 을 어떤 조건과 기준으로 적용 할 것인지 정책 설정
+    .noSkip(Class<? extends Throwable> type) // 예외 발생 시 Skip 하지 않을 예외 타입 설정
+    .retry(Class<? extends Throwable> type) // 예외 발생 시 Retry 할 예외 타입 설정
+    .retryLimit(int retryLimit) // Retry 제한 횟수 설정
+    .retryPolicy(RetryPolicy retryPolicy) // Retry 를 어떤 조건/기준으로 적용 할 것인지 정책 설정
+    .backOffPolicy(BackOffPolicy backOffPolicy) // 다시 Retry 하기 까지의 지연시간 (단위:ms)을 설정
+    .noRetry(Class<? extends Throwable> type) // 예외 발생 시 Retry 하지 않을 예외 타입 설정
+    .noRollback(Class<? extends Throwable> type) // 예외 발생 시 Rollback 하지 않을 예외 타입 설정
+  .build();
+```
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/faultTolerant.png?raw=true 'Result')
+
+[FaultTolerant](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/03d6914e1aca6451685abb2ab4a6aa1e3db727e5)
+
 **`Skip`**
 
 **`Retry`**
