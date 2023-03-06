@@ -1216,7 +1216,7 @@ ExceptionHandler
 
 [Repeat](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/885690a19406cd7e623518f26d4386684f0f0b60)
 
-**`FaultTolerant`**
+### FaultTolerant
 
 - Job 실행 중 오류 발생 시 장애 처리를 위한 기능을 제공 -> 이를 통해 복원력 향상
 - 오류가 발생해도 Step 이 즉시 종료되지 않고, Retry 혹은 Skip 기능을 활성화 함으로써 내결함성 서비스 가능
@@ -1253,7 +1253,25 @@ public Step batchStep() {
 
 **`Skip`**
 
+- 데이터를 처리하는 동안 설정된 Exception 발생 시, 해당 데이터 처리를 건너뛰는 기능
+- 데이터의 사소한 오류에 대해 Step 실패처리 대신 Skip을 통해 배치수행의 빈번한 실패 감소
+- 오류 발생 시 스킵 설정에 의해서 Exception 발생 건은 건너뛰고 다음 건부터 다시 처리
+  - ItemReader는 예외 발생 시 해당 아이템만 스킵하고 계속 진행
+  - ItemProcessor, ItemWriter는 예외 발생 시 Chunk 처음으로 돌아가서 스킵된 아이템을 제외한 나머지 아이템들을 가지고 처리
+- 스킵 정책에 따라 아이템의 skip 여부를 판단한하는 클래스(SkipPolicy 구현체)
+  - AlwaysSkipItemSkipPolicy : 항상 Skip
+  - ExceptionClassifierSkipPolicy : 예외대상을 분류하여 skip 여부를 결정
+  - CompositeSkipPolicy : 여러 SkipPolicy 탐색하면서 skip 여부를 결정
+  - LimitCheckingItemSkipPolicy : Skip 카운터 및 예외 등록 결과에 따라 skip 여부를 결정(default)
+  - NeverSkipItemSkipPolicy : skip 하지 않음
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/skip.png?raw=true 'Result')
+
+[Skip](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/64b7ec26df22f1538a8c763874710fb51731a602)
+
 **`Retry`**
+
+
 
 ## Multi Thread Processing
 
