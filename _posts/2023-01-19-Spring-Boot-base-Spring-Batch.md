@@ -1271,7 +1271,20 @@ public Step batchStep() {
 
 **`Retry`**
 
+- ItemProcess, ItemWriter 에서 설정된 Exception 발생 시 지정한 정책에 따라 데이터 처리를 재시도하는 기능
+- Skip과 마찬가지로 Retry를 통해 배치수행의 빈번한 실패 감소
+- 오류 발생 시 재시도 설정에 의해서 Chunk 단계 처음부터 다시 시작
+  - 아이템은 ItemReader에서 캐시로 저장한 값 사용
+- 재시도 정책에 따라 아이템의 retry 여부를 판단한하는 클래스(RetryPolicy 구현체)
+  - AlwaysRetryPolicy : 항상 재시도를 허용
+  - ExceptionClassifierRetryPolicy : 예외대상을 분류하여 재시도 여부를 결정
+  - CompositeRetryPolicy : 여러 RetryPolicy 를 탐색하면서 재시도 여부를 결정
+  - SimpleRetryPolicy : 재시도 횟수 및 예외 등록 결과에 따라 재시도 여부를 결정(default)
+  - MaxAttemptsRetryPolicy : 재시도 횟수에 따라 재시도 여부를 결정
+  - TimeoutRetryPolicy : 주어진 시간동안 재시도를 허용
+  - NeverRetryPolicy : • 최초 한번만 허용하고 그 이후로는 허용하지 않음
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/retry.png?raw=true 'Result')
 
 ## Multi Thread Processing
 
