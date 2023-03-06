@@ -1193,6 +1193,29 @@ ItemReader vs ItemProcessor
 - 스프링 배치에서는 Step, Chunk 반복을 RepeatOperation 을 사용해서 처리
 - 기본 구현체로 RepeatTemplate 제공
 
+반복 종료 여부 항목
+
+RepeatStatus
+
+- 스프링 배치의 처리가 끝났는지 판별하기 위한 enum
+- CONTINUABLE(남은 작업 존재), FINISHED(더 이상 반복 없음)
+
+CompletionPolicy
+
+- RepeatTemplate iterate 메소드 안에서 반복 중단결정
+- 실행 횟수 또는 완료시기, 오류 발생 시 수행 할 작업에 대한 반복여부 결정
+- 정상 종료를 알리는데 사용
+
+ExceptionHandler
+
+- RepeatCallback 안에서 예외가 발생하면 RepeatTemplate 가 ExceptionHandler 를 참조해서 예외를 다시 던질지 여부 결정
+- 예외를 받아서 다시 던지게 되면 반복 종료
+- 비정상 종료를 알리는데 사용
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/repeat.png?raw=true 'Result')
+
+[Repeat](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/885690a19406cd7e623518f26d4386684f0f0b60)
+
 **`FaultTolerant`**
 
 **`Skip`**
