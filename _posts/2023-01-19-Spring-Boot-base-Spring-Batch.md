@@ -1286,6 +1286,8 @@ public Step batchStep() {
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/retry.png?raw=true 'Result')
 
+[Retry 1](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/1986905ad156b8b7941960928b8600cb80938d02)
+
 ## Multi Thread Processing
 
 ## Event Listener
