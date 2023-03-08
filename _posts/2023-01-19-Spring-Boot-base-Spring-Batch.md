@@ -1286,7 +1286,9 @@ public Step batchStep() {
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/retry.png?raw=true 'Result')
 
-[Retry 1](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/1986905ad156b8b7941960928b8600cb80938d02)
+[Retry api](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/1986905ad156b8b7941960928b8600cb80938d02)
+
+[Retry Template](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/8e19bfef38d36b4e3d309acce3d4d442e682660f)
 
 ## Multi Thread Processing
 
