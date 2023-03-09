@@ -1290,6 +1290,21 @@ public Step batchStep() {
 
 [Retry Template](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/8e19bfef38d36b4e3d309acce3d4d442e682660f)
 
+### Skip & Retry Architecture
+
+**ItemReader**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/skip-retry-architecture-itemReader.png?raw=true 'Result')
+
+**ItemProcessor**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/skip-retry-architecture-itemProcessor.png?raw=true 'Result')
+
+**ItemWriter**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/skip-retry-architecture-itemWriter.png?raw=true 'Result')
+
+
 ## Multi Thread Processing
 
 ## Event Listener
