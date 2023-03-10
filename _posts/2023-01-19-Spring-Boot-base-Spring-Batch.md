@@ -1304,8 +1304,29 @@ public Step batchStep() {
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/skip-retry-architecture-itemWriter.png?raw=true 'Result')
 
-
 ## Multi Thread Processing
+
+- 작업 처리에 있어서 단일 스레드, 멀티 스레드의 선택 기준은 어떤 방식이 자원을 효율적으로 사용하고 성능처리에 유리한가의 차이
+- 일반적으로 복잡한 처리나 대용량 데이터를 다루는 작업일 경우 전체 소요 시간 및 성능상의 이점을 가져오기 위해 멀티 스레드 방식을 선택 (비동기 처리 및 Scale out 기능 제공)
+- 멀티 스레드 처리 방식은 데이터 동기화 이슈가 존재 하기 때문에 최대한 고려해서 결정 필요
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/multi-thread-processing.png?raw=true 'Result')
+
+**`AsyncItemProcessor` / `AsyncItemWriter`**
+- ItemProcessor 에게 별도의 스레드가 할당되어 작업을 처리하는 방식
+
+**`Multi-threaded Step`**
+- Step 내 Chunk 구조인 ItemReader, ItemProcessor, ItemWriter 마다 여러 스레드가 할당되어 실행 하는 방법
+
+**`Remote Chunking`**
+- 분산환경처럼 Step 처리가 여러 프로세스로 분할되어 외부의 다른 서버로 전송되어 처리하는 방식
+
+**`Parallel Steps`**
+- Step 마다 스레드가 할당되어 여러개의 Step을 병렬로 실행하는 방법
+
+**`Partitioning`**
+- Master/Slave 방식으로서 Master 가 데이터를 파티셔닝 한 다음 각 파티션에게 스레드를 할당하여 Slave 가 독립적으로 작동하는 방식
+
 
 ## Event Listener
 
