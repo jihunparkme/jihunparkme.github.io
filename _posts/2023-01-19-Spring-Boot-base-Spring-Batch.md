@@ -1312,20 +1312,27 @@ public Step batchStep() {
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/multi-thread-processing.png?raw=true 'Result')
 
-**`AsyncItemProcessor` / `AsyncItemWriter`**
-- ItemProcessor 에게 별도의 스레드가 할당되어 작업을 처리하는 방식
+### AsyncItemProcessor / AsyncItemWriter
+- ItemProcessor 에게 별도의 스레드가 할당되어 작업을 처리(Step 안에서 ItemProcessor 가 비동기적으로 동작)
+- AsyncItemProcessor, AsyncItemWriter 가 함께 구성 필요
+- AsyncItemProcessor 로부터 AsyncItemWriter 가 받는 최종 결과값은 `List<Future<T>>` 타입이며 비동기 실행이 완료될 때까지 대기
+- spring-batch-integration 의존성 필요
 
-**`Multi-threaded Step`**
-- Step 내 Chunk 구조인 ItemReader, ItemProcessor, ItemWriter 마다 여러 스레드가 할당되어 실행 하는 방법
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/AsyncItemProcessor-AsyncItemWriter.png?raw=true 'Result')
 
-**`Remote Chunking`**
-- 분산환경처럼 Step 처리가 여러 프로세스로 분할되어 외부의 다른 서버로 전송되어 처리하는 방식
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/AsyncItemProcessor-AsyncItemWriter-process.png?raw=true 'Result')
 
-**`Parallel Steps`**
-- Step 마다 스레드가 할당되어 여러개의 Step을 병렬로 실행하는 방법
+### Multi-threaded Step
+- Step 내 Chunk 구조인 ItemReader, ItemProcessor, ItemWriter 마다 여러 스레드가 할당되어 실행
 
-**`Partitioning`**
-- Master/Slave 방식으로서 Master 가 데이터를 파티셔닝 한 다음 각 파티션에게 스레드를 할당하여 Slave 가 독립적으로 작동하는 방식
+### Remote Chunking
+- 분산환경처럼 Step 처리가 여러 프로세스로 분할되어 외부의 다른 서버로 전송되어 처리
+
+### Parallel Steps
+- Step 마다 스레드가 할당되어 여러개의 Step을 병렬로 실행
+
+### Partitioning
+- Master/Slave 방식으로서 Master 가 데이터를 파티셔닝 한 다음 각 파티션에게 스레드를 할당하여 Slave 가 독립적으로 작동
 
 
 ## Event Listener
