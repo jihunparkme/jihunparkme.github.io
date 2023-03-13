@@ -1322,6 +1322,8 @@ public Step batchStep() {
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/AsyncItemProcessor-AsyncItemWriter-process.png?raw=true 'Result')
 
+[AsyncItemProcessor / AsyncItemWriter](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/9db7cb2dc5327be7d35c555bed9231aee359dff8)
+
 ### Multi-threaded Step
 - Step 내 Chunk 구조인 ItemReader, ItemProcessor, ItemWriter 마다 여러 스레드가 할당되어 실행
 
@@ -1333,7 +1335,6 @@ public Step batchStep() {
 
 ### Partitioning
 - Master/Slave 방식으로서 Master 가 데이터를 파티셔닝 한 다음 각 파티션에게 스레드를 할당하여 Slave 가 독립적으로 작동
-
 
 ## Event Listener
 
