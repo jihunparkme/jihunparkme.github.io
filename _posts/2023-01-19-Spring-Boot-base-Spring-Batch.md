@@ -1313,6 +1313,7 @@ public Step batchStep() {
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/multi-thread-processing.png?raw=true 'Result')
 
 ### AsyncItemProcessor / AsyncItemWriter
+
 - ItemProcessor 에게 별도의 스레드가 할당되어 작업을 처리(Step 안에서 ItemProcessor 가 비동기적으로 동작)
 - AsyncItemProcessor, AsyncItemWriter 가 함께 구성 필요
 - AsyncItemProcessor 로부터 AsyncItemWriter 가 받는 최종 결과값은 `List<Future<T>>` 타입이며 비동기 실행이 완료될 때까지 대기
@@ -1325,7 +1326,14 @@ public Step batchStep() {
 [AsyncItemProcessor / AsyncItemWriter](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/9db7cb2dc5327be7d35c555bed9231aee359dff8)
 
 ### Multi-threaded Step
-- Step 내 Chunk 구조인 ItemReader, ItemProcessor, ItemWriter 마다 여러 스레드가 할당되어 실행
+
+- Step 내에서 멀티 스레드로 Chunk 기반 처리(ItemReader, ItemProcessor, ItemWriter)가 이루어지는 구조
+- TaskExecutorRepeatTemplate 이 반복자로 사용되며 설정한 개수(throttleLimit) 만큼의 스레드를 생성하여 수행
+- Thread-safe ItemReader 로 JdbcPagingItemReader 또는 JpaPagingItemReader 활용
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/multi-thread-processing-process.png?raw=true 'Result')
+
+[Multi-threaded Step](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/5807985974588c458b3e9938b2a6955dfabb1400)
 
 ### Remote Chunking
 - 분산환경처럼 Step 처리가 여러 프로세스로 분할되어 외부의 다른 서버로 전송되어 처리
