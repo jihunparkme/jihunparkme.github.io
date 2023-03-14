@@ -1340,6 +1340,10 @@ public Step batchStep() {
 
 ### Parallel Steps
 - Step 마다 스레드가 할당되어 여러개의 Step을 병렬로 실행
+- SplitState 를 사용해서 여러 개의 Flow 들을 병렬적으로 실행하는 구조
+- 실행 완료 후 FlowExecutionStatus 결과들을 취합해서 다음 단계 결정
+
+[Parallel Steps](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/5db4fda3e16ddca65940b3798bf3a5ba52833d0d)
 
 ### Partitioning
 - Master/Slave 방식으로서 Master 가 데이터를 파티셔닝 한 다음 각 파티션에게 스레드를 할당하여 Slave 가 독립적으로 작동
