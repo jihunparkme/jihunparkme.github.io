@@ -1357,6 +1357,8 @@ public Step batchStep() {
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/partitioning-2.png?raw=true 'Result')
 
+[Partitioning](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/9ea3fc99c56cb75acaf42ec7972f72336ed638ec)
+
 ## Event Listener
 
 ## Test
