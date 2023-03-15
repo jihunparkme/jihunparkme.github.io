@@ -1346,7 +1346,16 @@ public Step batchStep() {
 [Parallel Steps](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/5db4fda3e16ddca65940b3798bf3a5ba52833d0d)
 
 ### Partitioning
-- Master/Slave 방식으로서 Master 가 데이터를 파티셔닝 한 다음 각 파티션에게 스레드를 할당하여 Slave 가 독립적으로 작동
+
+- MasterStep이 SlaveStep 을 실행시키는 구조
+- SlaveStep은 각 스레드에 의해 독립적으로 실행
+- SlaveStep은 독립적인 StepExecution 파라미터 환경을 구성
+- SlaveStep은 ItemReader/ItemProcessor/ItemWriter 등을 가지고 동작하며 작업을 독립적으로 병렬 처리
+- MasterStep은 PartitionStep이며 SlaveStep은 TaskletStep, FlowStep 등이 올 수 있음
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/partitioning.png?raw=true 'Result')
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/partitioning-2.png?raw=true 'Result')
 
 ## Event Listener
 
