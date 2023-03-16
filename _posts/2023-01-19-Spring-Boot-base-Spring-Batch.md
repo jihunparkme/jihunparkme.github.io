@@ -1367,6 +1367,26 @@ public Step batchStep() {
 
 ## Event Listener
 
+- 배치 흐름 중 Job/Step/Chunk 단계의 실행 전후에 발생하는 이벤트를 받아 용도에 맞게 활용할 수 있도록 제공
+- 각 단계별로 로그를 남기거나 소요된 시간을 계산하거나 실행상태 정보들을 참조 및 조회 가능
+- 이벤트를 받기 위해 Listener 등록이 필요하며 등록은 API 설정에서 각 단계별로 지정 가능
+- 어노테이션 방식과 인터페이스 구현 방법 존재
+
+.
+
+- Job
+  - JobExecutionListener : Job 실행 전/후
+- Step
+  - StepExecutionListener : Step 실행 전/후
+  - ChunkListener : Chunk(Tasklet) 실행 전/후, 오류 시점
+  - ItemReadListener : ItemReader 실행 전/후, 오류 시점, item null 일 경우 호출 안됨
+  - ItemProcessListener : ItemProcessor 실행 전/후, 오류 시점, item  null 일 경우 호출 안됨
+  - ItemWriteListener : ItemWriter 실행 전/후, 오류 시점, item  null 일 경우 호출 안됨
+- SkipListener : 읽기, 쓰기, 처리 Skip 실행 시점, Item 처리가 Skip 될 경우 Skip 된 item 추적
+- RetryListener : Retry 시작, 종료, 에러 시점
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/listener.png?raw=true 'Result')
+
 ## Test
 
 ## Application
