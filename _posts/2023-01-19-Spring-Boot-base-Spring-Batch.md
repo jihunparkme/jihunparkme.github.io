@@ -1392,13 +1392,15 @@ public Step batchStep() {
 
 [JobExecutionListener / StepExecutionListener](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/190b8733c06b6af464d8f0001eb734d67107cce2)
 
-**SkipListener**
+[ChunkListener/ItemReadListener/ItemProcessListener/ItemWriteListener](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/c54078b251f9cf2812e32de4044aee49a06d108f)
 
-- 읽기, 쓰기, 처리 Skip 실행 시점, Item 처리가 Skip 될 경우 Skip 된 item 추적
+**Skip**
 
-**RetryListener**
+- SkipListener : 읽기, 쓰기, 처리 Skip 실행 시점, Item 처리가 Skip 될 경우 Skip 된 item 추적
 
-- Retry 시작, 종료, 에러 시점
+**Retry**
+
+- RetryListener : Retry 시작, 종료, 에러 시점
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/listener.png?raw=true 'Result')
 
