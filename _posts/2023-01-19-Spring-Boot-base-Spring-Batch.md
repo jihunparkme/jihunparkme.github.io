@@ -1374,16 +1374,31 @@ public Step batchStep() {
 
 .
 
-- Job
-  - JobExecutionListener : Job 실행 전/후
-- Step
-  - StepExecutionListener : Step 실행 전/후
-  - ChunkListener : Chunk(Tasklet) 실행 전/후, 오류 시점
-  - ItemReadListener : ItemReader 실행 전/후, 오류 시점, item null 일 경우 호출 안됨
-  - ItemProcessListener : ItemProcessor 실행 전/후, 오류 시점, item  null 일 경우 호출 안됨
-  - ItemWriteListener : ItemWriter 실행 전/후, 오류 시점, item  null 일 경우 호출 안됨
-- SkipListener : 읽기, 쓰기, 처리 Skip 실행 시점, Item 처리가 Skip 될 경우 Skip 된 item 추적
-- RetryListener : Retry 시작, 종료, 에러 시점
+**Job**
+
+- JobExecutionListener : Job 실행 전/후
+  - Job 성공여부와 상관없이 호출
+  - JobExecution를 통해 성공/실패 여부 확인 가능
+
+**Step**
+
+- StepExecutionListener : Step 실행 전/후
+  - Step 성공여부와 상관없이 호출
+  - StepExecution를 통해 성공/실패 여부 확인 가능
+- ChunkListener : Chunk(Tasklet) 실행 전/후, 오류 시점
+- ItemReadListener : ItemReader 실행 전/후, 오류 시점, item null 일 경우 호출 안됨
+- ItemProcessListener : ItemProcessor 실행 전/후, 오류 시점, item  null 일 경우 호출 안됨
+- ItemWriteListener : ItemWriter 실행 전/후, 오류 시점, item  null 일 경우 호출 안됨
+
+[JobExecutionListener / StepExecutionListener](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/190b8733c06b6af464d8f0001eb734d67107cce2)
+
+**SkipListener**
+
+- 읽기, 쓰기, 처리 Skip 실행 시점, Item 처리가 Skip 될 경우 Skip 된 item 추적
+
+**RetryListener**
+
+- Retry 시작, 종료, 에러 시점
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/listener.png?raw=true 'Result')
 
