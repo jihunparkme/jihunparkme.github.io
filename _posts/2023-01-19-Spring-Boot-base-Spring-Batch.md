@@ -1359,6 +1359,10 @@ public Step batchStep() {
 
 [Partitioning](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/9ea3fc99c56cb75acaf42ec7972f72336ed638ec)
 
+### SynchronizedItemStreamReader
+
+- Thread-safe 하지 않은 ItemReader를 Thread-safe하게 처리하도록 지원(Spring Batch 4.0 부터)
+
 ## Event Listener
 
 ## Test
