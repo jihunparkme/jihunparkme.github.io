@@ -1363,6 +1363,8 @@ public Step batchStep() {
 
 - Thread-safe 하지 않은 ItemReader를 Thread-safe하게 처리하도록 지원(Spring Batch 4.0 부터)
 
+[SynchronizedItemStreamReader](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/4fe58e6e188649db7871a2beebd300806993d378)
+
 ## Event Listener
 
 ## Test
