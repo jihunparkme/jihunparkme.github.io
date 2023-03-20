@@ -1404,6 +1404,13 @@ public Step batchStep() {
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/listener.png?raw=true 'Result')
 
+**SkipListener**
+
+[RetryListener](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/18bb9c8678d22230eb2c255ca06b089da7de0835)
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-batch/skip-listener.png?raw=true 'Result')
+
+
 ## Test
 
 ## Application
