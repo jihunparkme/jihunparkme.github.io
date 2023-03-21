@@ -1454,6 +1454,8 @@ public Step batchStep() {
 - JobExplorer, JobRepository, JobRegistry, JobLauncher 을 포함하며, 배치의 중단, 재시작, job 요약 등의 모니터링 가능
 - 기본 구현체로 SimpleJobOprerator 클래스 제공
 
+[Operation example](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/043ac6de86ed6197d684be44d75a8debd1f941eb)
+
 ## Application
 
 ---
