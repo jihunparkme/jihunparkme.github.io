@@ -1418,6 +1418,22 @@ public Step batchStep() {
 
 ## Test
 
+**@SpringBatchTest**
+
+> dependency: spring-batch-test
+
+- ApplicatonContext에 테스트에 필요한 여러 유틸 Bean을 자동으로 등록
+- JobLauncherTestUtils
+  - launchJob(), launchStep()과 같은 스프링 배치 테스트에 필요한 유틸성 메서드 지원
+- JobRepositoryTestUtils
+  - JobRepository를 사용해서 JobExecution 생성/삭제 메서드 지원
+- StepScopeTestExecutionListener
+  - @StepScope 컨텍스트를 생성. 해당 컨텍스트를 통해 JobParameter 등을 단위 테스트에서 DI 받을 수 있도록 지원
+- JobScopeTestExecutionListener
+  - @JobScope 컨텍스트를 생성. 해당 컨텍스트를 통해 JobParameter 등을 단위 테스트에서 DI 받을 수 있도록 지원
+
+[Spring Batch Test](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/fc80675ad66eeaacd4eab66ff9ccbc081696d818)
+
 ## Application
 
 ---
@@ -1425,3 +1441,16 @@ public Step batchStep() {
 필요 시 수강
 
 - 스프링 배치 청크 프로세스 활용 ItemReader / ItemWriter / ItemProcessor
+
+--- 
+
+- Spring Batch Test 4:26
+- JobExplorer / JobRegistry / JobOperator
+- 어플리케이션 예제 (1)
+- 어플리케이션 예제 (2)
+- 어플리케이션 예제 (3)
+- 어플리케이션 예제 (4)
+- 어플리케이션 예제 (5)
+- 어플리케이션 예제 (6)
+- 어플리케이션 예제 (7)
+- 정리
