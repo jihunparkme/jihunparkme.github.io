@@ -1434,6 +1434,26 @@ public Step batchStep() {
 
 [Spring Batch Test](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/fc80675ad66eeaacd4eab66ff9ccbc081696d818)
 
+## Operation
+
+**JobExplorer**
+
+- JobRepository readonly 버전
+- 실행중인 Job 실행 정보인 JobExecution 또는 Step 실행 정보인 StepExecution 조회 가능
+
+**JobRegistry**
+
+- 생성된 Job 자동 등록, 추적, 관리하며 여러 곳에서 job을 생성한 경우 ApplicationContext에서 job을 수집해서 사용 가능
+- 기본 구현체로 map 기반의 MapJobRegistry 클래스 제공
+  - jobName을 Key로, job을 value로 매핑
+- Job 등록
+  - JobRegistryBeanPostProcessor – BeanPostProcessor 단계에서 bean 초기화 시 자동으로 JobRegistry에 Job 등록
+
+**JobOperator**
+
+- JobExplorer, JobRepository, JobRegistry, JobLauncher 을 포함하며, 배치의 중단, 재시작, job 요약 등의 모니터링 가능
+- 기본 구현체로 SimpleJobOprerator 클래스 제공
+
 ## Application
 
 ---
@@ -1444,7 +1464,6 @@ public Step batchStep() {
 
 --- 
 
-- Spring Batch Test 4:26
 - JobExplorer / JobRegistry / JobOperator
 - 어플리케이션 예제 (1)
 - 어플리케이션 예제 (2)
