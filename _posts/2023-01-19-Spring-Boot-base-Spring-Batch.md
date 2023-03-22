@@ -1458,6 +1458,8 @@ public Step batchStep() {
 
 ## Application
 
+[Job 1](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/615c17a2d1f4348560010517b0612c06636aaabd)
+
 ---
 
 필요 시 수강
@@ -1466,7 +1468,6 @@ public Step batchStep() {
 
 --- 
 
-- JobExplorer / JobRegistry / JobOperator
 - 어플리케이션 예제 (1)
 - 어플리케이션 예제 (2)
 - 어플리케이션 예제 (3)
@@ -1475,3 +1476,8 @@ public Step batchStep() {
 - 어플리케이션 예제 (6)
 - 어플리케이션 예제 (7)
 - 정리
+
+
+
+
+
