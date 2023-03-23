@@ -1460,6 +1460,12 @@ public Step batchStep() {
 
 [Job 1](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/615c17a2d1f4348560010517b0612c06636aaabd)
 
+[Job2 - Job, Step, reader](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/42ad14a8312b839aeb38c53e415d8db5b984bd89)
+
+[Job2 - processor, api service](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/da8e845805f12e86313f56cc3a8a098ef3b4bea1)
+
+[Job2 - scheduler](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/a08919e1106ba490c23af73ee94fadd24b866314)
+
 ---
 
 필요 시 수강
