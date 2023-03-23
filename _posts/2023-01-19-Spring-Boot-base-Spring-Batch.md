@@ -1466,24 +1466,18 @@ public Step batchStep() {
 
 [Job2 - scheduler](https://github.com/jihunparkme/Inflearn-Spring-Batch/commit/a08919e1106ba490c23af73ee94fadd24b866314)
 
+## 마무리
+
+- 도메인 이해 : JobInstance, JobExecution, StepExecution, ExecutionContext, JobParameter, JobRepository, JobLauncher
+- Job 구성 및 API 활용 : Job, Step, Flow, Tasklet
+- Chunk 프로세스 : Chunk, ItemReader, ItemProcessor, ItemWriter
+- 반복 및 내결함성 : Repeat, Skip, Retry, Listener
+- 이벤트 리스너 : JobExecutionListener, StepListener, RetriyListner, SkipListener
+- 멀티 스레드 배치 처리 : MultiThread Batch Process
+- 테스트 및 운영 : TDD & JobExeplorer, JobRegistry, JobOperator
+
 ---
 
-필요 시 수강
+필요 시 추가 수강
 
 - 스프링 배치 청크 프로세스 활용 ItemReader / ItemWriter / ItemProcessor
-
---- 
-
-- 어플리케이션 예제 (1)
-- 어플리케이션 예제 (2)
-- 어플리케이션 예제 (3)
-- 어플리케이션 예제 (4)
-- 어플리케이션 예제 (5)
-- 어플리케이션 예제 (6)
-- 어플리케이션 예제 (7)
-- 정리
-
-
-
-
-
