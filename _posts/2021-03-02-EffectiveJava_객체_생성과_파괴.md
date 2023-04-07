@@ -1,27 +1,13 @@
 ---
 layout: post
-title: 02. 객체 생성과 파괴
+title: 객체 생성과 파괴
 summary: 객체 생성과 파괴
 categories: (Book)Effective-JAVA-3/E
 featured-img: EFF_JAVA
 # mathjax: true
 ---
 
-# Table of Contents
-
-**2장. 객체 생성과 파괴**
-
-- [item 1. 생성자 대신 정적 팩터리 메서드를 고려하라.](#item-1-생성자-대신-정적-팩터리-메서드를-고려하라)
-- [item 2. 생성자에 매개변수가 많다면 빌더를 고려하라.](#item-2-생성자에-매개변수가-많다면-빌더를-고려하라)
-- [item 3. private 생성자나 열거 타입으로 싱글턴임을 보증하라](#item-3-private-생성자나-열거-타입으로-싱글턴임을-보증하라)
-- [item 4. 인스턴스화를 막으려거든 private 생성자를 사용하라.](#item-4-인스턴스화를-막으려거든-private-생성자를-사용하라)
-- [item 5. 자원을 직접 명시하지 말고 의존 객체 주입을 사용하라](#item-5-자원을-직접-명시하지-말고-의존-객체-주입을-사용하라)
-- [item 6. 불필요한 객체 생성을 피하라.](#item-6-불필요한-객체-생성을-피하라)
-- [item 7. 다 쓴 객체 참조를 해제하라.](#item-7-다-쓴-객체-참조를-해제하라)
-- [item 8. finalizer와 cleaner 사용을 피하라.](#item-8-finalizer와-cleaner-사용을-피하라)
-- [item 9. try-finally 보다는 try-with-resources를 사용하라.](#item-9-try-finally-보다는-try-with-resources를-사용하라)
-
-# 2장. 객체 생성과 파괴
+# 객체 생성과 파괴
 
 <br>
 
