@@ -9,8 +9,6 @@ featured-img: EFF_JAVA
 
 # 객체 생성과 파괴
 
-<br>
-
 ## item 1. 생성자 대신 정적 팩터리 메서드를 고려하라.
 
 - 클래스는 생성자와 별도로 정적 팩터리 메서드(static factory method)를 제공할 수 있다.
