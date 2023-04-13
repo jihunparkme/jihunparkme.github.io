@@ -114,7 +114,7 @@ public static Boolean valueOf(boolean b) {
 
 **public static final 방식의 싱글턴**
 
-- public, protected 생성자가 없으므로 클래스가 초기화될 때 만들어진 인스턴스가 전체 시스템에서 하나뿐임을 보장
+- public, protected 생성자가 없으므로 클래스 초기화 시 만들어진 인스턴스가 전체 시스템에서 하나뿐임을 보장
  - 해당 클래스가 싱글턴인 것이 API에 명백히 드러남(final 이므로 다른 객체 참조 불가)
  - 간결함
 
@@ -134,7 +134,7 @@ elvis.leaveTheBuilding();
 
 **정적 팩터리 방식의 싱글턴**
 
-- API를 바꾸지 않고도 싱글턴이 아니게 변경 가능
+- API 변경 없이 싱글턴이 아니도록 변경 가능
 - 정적 팩터리를 제네릭 싱글턴 팩터리로 만들 수 있음
 - 정적 팩터리의 메서드 참조를 공급자(Supplier<>)로 사용할 수 있음
 
@@ -155,8 +155,8 @@ elvis.leaveTheBuilding();
 
 참고.
 
-- 위 두 방식으로 싱글턴 클래스를 직렬화하려면 단순히 Serializable 구현만 하는 것이 아니라 모든 인스턴스 필드를 일시적이라고 선언하고 readResolve 메서드를 제공해야 한다.
-  - 이렇게 하지 않으면 직렬화된 인스턴스를 역직렬화할 때마다 새로운 인스턴스가 생성
+- 위 두 방식으로 싱글턴 클래스를 직렬화하려면 모든 인스턴스 필드를 일시적이라고 선언하고 readResolve 메서드를 제공 필요
+  - 이렇게 하지 않을 경우 직렬화된 인스턴스를 역직렬화할 때마다 새로운 인스턴스가 생성.
 
 ```java
 private Object readResolve() {
@@ -184,6 +184,9 @@ public enum Elvis {
 Elvis elvis = Elvis.INSTANCE;
 elvis.leaveTheBuilding();
 ```
+
+🔔
+> 만들려는 싱글턴이 Enum 이외의 클래스를 상속하지 않는다면, "원소가 하나인 열거 타입을 선언" 방식을 선택해 보자.
 
 <br>
 
