@@ -110,39 +110,33 @@ public static Boolean valueOf(boolean b) {
 
 ## item 3. private 생성자나 열거 타입으로 싱글턴임을 보증하라.
 
-- 싱클턴을 만드는 방식은 보통 둘 중 하나
+싱클턴을 만드는 방식
 
-1. **public static member 가 final 필드인 방식**
-   - public이나 protected 생성자가 없으므로 Elvis 클래스가 초기화될 때 만들어진 인스턴스가 전체 시스템에서 하나뿐임이 보장
-   - public 필드방식의 큰 장점
-     - 해당 클래스가 싱글턴인 것을 API에 명백히 들어남
-       - public static 필드가 final 이므로 절대 다른 객체를 참조할 수 없음
-     - 간결함
+**public static final 방식의 싱글턴**
+
+- public, protected 생성자가 없으므로 클래스가 초기화될 때 만들어진 인스턴스가 전체 시스템에서 하나뿐임을 보장
+ - 해당 클래스가 싱글턴인 것이 API에 명백히 드러남(final 이므로 다른 객체 참조 불가)
+ - 간결함
 
 ```java
 public class Elvis {
-    // member가 public 
     public static final Elvis INSTANCE = new Elvis();
-
     private Elvis() { }
 
-    public void leaveTheBuilding() {
-        System.out.println("Whoa baby, I'm outta here!");
-    }
-
-    // 이 메서드는 보통 클래스 바깥(다른 클래스)에 작성해야 한다!
-    public static void main(String[] args) {
-        Elvis elvis = Elvis.INSTANCE;
-        elvis.leaveTheBuilding();
-    }
+    public void leaveTheBuilding() { ... }
 }
+
+..
+
+Elvis elvis = Elvis.INSTANCE;
+elvis.leaveTheBuilding();
 ```
 
-2. **정적 팩터리 메서드를 public static Member로 제공**
-   - 정적 팩터리 방식의 장점
-     - API를 바꾸지 않고도 싱글턴이 아니게 변경할 수 있음
-     - 원한다면 정적 팩터리를 제네릭 싱글턴 팩터리로 만들 수 있음
-     - 정적 팩터리의 메서드 참조를 공급자로 사용할 수 있음
+**정적 팩터리 방식의 싱글턴**
+
+- API를 바꾸지 않고도 싱글턴이 아니게 변경 가능
+- 정적 팩터리를 제네릭 싱글턴 팩터리로 만들 수 있음
+- 정적 팩터리의 메서드 참조를 공급자(Supplier<>)로 사용할 수 있음
 
 ```java
 public class Elvis {
@@ -150,20 +144,19 @@ public class Elvis {
     private Elvis() { }
     public static Elvis getInstance() { return INSTANCE; }
 
-    public void leaveTheBuilding() {
-        System.out.println("Whoa baby, I'm outta here!");
-    }
-
-    // 이 메서드는 보통 클래스 바깥(다른 클래스)에 작성해야 한다!
-    public static void main(String[] args) {
-        Elvis elvis = Elvis.getInstance();
-        elvis.leaveTheBuilding();
-    }
+    public void leaveTheBuilding() { ... }        
 }
+
+..
+
+Elvis elvis = Elvis.getInstance();
+elvis.leaveTheBuilding();
 ```
 
-- 위 둘 중 하나의 방식으로 만든 싱글턴 클래스를 직렬화하려면 단순히 Serializable을 구현한다고 선언하는 것 뿐만 아니라 모든 인스턴스 필드를 일시적이라고 선언하고 readResolve 메서드를 제공해야 한다.
-  - 이렇게 하지 않으면 직렬화된 인스턴스를 역직렬화할 때마다 새로운 인스턴스가 만들어 짐..
+참고.
+
+- 위 두 방식으로 싱글턴 클래스를 직렬화하려면 단순히 Serializable 구현만 하는 것이 아니라 모든 인스턴스 필드를 일시적이라고 선언하고 readResolve 메서드를 제공해야 한다.
+  - 이렇게 하지 않으면 직렬화된 인스턴스를 역직렬화할 때마다 새로운 인스턴스가 생성
 
 ```java
 private Object readResolve() {
@@ -172,26 +165,24 @@ private Object readResolve() {
 }
 ```
 
-3. 🔍**원소가 하나인 열거 타입을 선언**🔍
-   - public 필드 방식과 비슷하지만, 더 간결하고, 추가 노력 없이 직렬화가 가능.
-   - 아주 복잡한 직렬화 상황이나 리플렉션 공격에서도 제 2의 인스턴스가 생기는 일을 완벽하게 막아줌
-   - <u>*대부분 상황에서 원소가 하나뿐인 열거 타입이 싱글턴을 만드는 가장 좋은 방법*</u>
-   - 단, 만들려는 싱글턴이 Enum 이외의 클래스를 상속해야 한다면 이 방법은 사용할 수 없음.?
+**원소가 하나인 열거 타입을 선언**
+
+ - public 필드 방식과 비슷하지만, 더 간결하고, 추가 노력 없이 직렬화 가능.
+ - 아주 복잡한 직렬화 상황이나 리플렉션 공격에서도 제 2의 인스턴스가 생기는 일을 완벽하게 방어
+ - <u>*대부분 상황에서 원소가 하나뿐인 열거 타입이 싱글턴을 만드는 가장 좋은 방법*</u>
+ - 단, 만들려는 싱글턴이 Enum 이외의 클래스를 상속해야 한다면 이 방법은 사용할 수 없음.
 
 ```java
 public enum Elvis {
     INSTANCE;
 
-    public void leaveTheBuilding() {
-        System.out.println("기다려 자기야, 지금 나갈께!");
-    }
-
-    // 이 메서드는 보통 클래스 바깥(다른 클래스)에 작성해야 한다!
-    public static void main(String[] args) {
-        Elvis elvis = Elvis.INSTANCE;
-        elvis.leaveTheBuilding();
-    }
+    public void leaveTheBuilding() { ... }
 }
+
+..
+
+Elvis elvis = Elvis.INSTANCE;
+elvis.leaveTheBuilding();
 ```
 
 <br>
