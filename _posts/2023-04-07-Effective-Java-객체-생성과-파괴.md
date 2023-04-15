@@ -242,56 +242,37 @@ public class SpellChecker {
 
 ## item 6. 불필요한 객체 생성을 피하라.
 
-- 생성자 대신 정적 팩터리 메서드를 제공하는 불변 클래스에서는 정적 팩터리 메서드를 사용해 불필요한 객체 생성을 피할 수 있다.
-- Boolean.valueOf(String) 팩터리 메서드를 사용하는 것이 좋다.
-- 생성자는 호출할 때마다 새로운 객체를 만들지만, 팩터리 메서드는 그렇지 않다.
+- 똑같은 기능의 객체를 매번 생성하기보다 `객체 하나를 재사용`하는 편이 나을 때가 만다.
+- 생성자 대신 정적 팩터리 메서드를 제공하는 불변 클래스에서는 정적 팩터리 메서드를 사용해 불필요한 객체 생성을 피할 수 있다. (ex.Boolean.valueOf(String))
+  - 생성자는 호출할 때마다 새로운 객체를 만들지만, 팩터리 메서드는 그렇지 않다.
 
-📝값비싼 객체를 재사용해 성능을 개선하자.
+비싼 객체가 반복해서 필요하다면 캐싱해서 재사용해보자.
+- 인스턴스를 클래스 초기화 과정에서 직접 생성해 캐싱해두고, 나중에 해당 인스턴스를 재사용할 수 있다.
 
 ```java
+// 값비싼 객체를 재사용해 성능을 개선
 public class RomanNumerals {
-    // 값비싼 객체를 재사용해 성능을 개선
     private static final Pattern ROMAN = Pattern.compile(
-                                            "^(?=.)M*(C[MD]|D?C{0,3})"
-                                                    + "(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$");
+                "^(?=.)M*(C[MD]|D?C{0,3})"
+                + "(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$");
 
     static boolean isRomanNumeralFast(String s) {
         return ROMAN.matcher(s).matches();
     }
-
-    public static void main(String[] args) {
-        int numSets = Integer.parseInt(args[0]);
-        int numReps = Integer.parseInt(args[1]);
-        boolean b = false;
-
-        for (int i = 0; i < numSets; i++) {
-            long start = System.nanoTime();
-            for (int j = 0; j < numReps; j++) {
-                b ^= isRomanNumeral("MCMLXXVI");
-            }
-            long end = System.nanoTime();
-            System.out.println(((end - start) / (1_000. * numReps)) + " μs.");
-        }
-
-        // VM이 최적화하지 못하게 막는 코드
-        if (!b)
-            System.out.println();
-    }
 }
 ```
 
-📝박싱된 기본 타입보다는 기본 타입을 사용하고, 의도치 않은 오토박싱이 숨어들지 않도록 주의하자.
+박싱된 기본 타입보다는 기본 타입을 사용하고, 의도치 않은 오토박싱이 숨어들지 않도록 주의하자.
 
 ```java
+// Long으로 선언해서 불필요한 인스턴스가 약 2^31개나 만들어진다.
 private static long sum() {
-    Long sum = 0L; // Long으로 선언해서 불필요한 인스턴스가 약 2^31개나 만들어진다.
+    Long sum = 0L; 
     for (long i = 0; i <= Integer.MAX_VALUE; i++)
         sum += i;
     return sum;
 }
 ```
-
-- 아주 무거운 객체가 아닌 다음에야 단순히 객체 생성을 피하고자 우리만의 풀(pool)을 만들지는 말자.
 
 ## item 7. 다 쓴 객체 참조를 해제하라.
 
