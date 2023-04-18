@@ -75,3 +75,5 @@ public interface ServletContainerInitializer {
 ServletException;
 }
 ```
+
+[서블릿 컨테이너 초기화를 위한 설정](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/ac5cd44f85a8a2751ee73d641bf97b33943ffcf4)
