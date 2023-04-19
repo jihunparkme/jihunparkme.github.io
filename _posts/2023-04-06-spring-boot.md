@@ -77,3 +77,15 @@ ServletException;
 ```
 
 [서블릿 컨테이너 초기화를 위한 설정](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/ac5cd44f85a8a2751ee73d641bf97b33943ffcf4)
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/servlet-container.png?raw=true 'Result')
+
+
+초기화 순서
+
+- 서블릿 컨테이너 초기화 실행
+  - ServletContainerInitializer 를 구현하고, `resources/META-INF/services/jakarta.servlet.ServletContainerInitializer` 파일에 등록된 컨테이너를 실행
+- 애플리케이션 초기화 실행
+  - 컨터이너를 실행하면서 `@HandlesTypes(AppInit.class)` 가 선언되어 있을 경우 AppInit 구현체를 모두 찾아서 생성 및 실행
+
+[서블릿 컨테이너 / 애플리케이션 초기화](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/a64d0c2224db274f839d175ce626add47288c2f3)
