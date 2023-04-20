@@ -95,3 +95,11 @@ jakarta.servlet.ServletContainerInitializer 파일에 해당 클래스를 직접
 - 애플리케이션 초기화는 서블릿 컨테이너에 상관없이 원하는 모양으로 인터페이스 생성이 가능하여 애플리케이션 초기화 코드가 서블릿 컨테이너에 대한 의존을 줄일 수 있음
 
 [서블릿 컨테이너 / 애플리케이션 초기화](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/a64d0c2224db274f839d175ce626add47288c2f3)
+
+**스프링 컨테이너 등록**
+
+- 스프링 컨테이너 만들기
+- 스프링MVC 컨트롤러를 스프링 컨테이너에 빈으로 등록하기
+- 스프링MVC를 사용하는데 필요한 디스패처 서블릿을 서블릿 컨테이너 등록하기
+
+[스프링 컨테이너 등록](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/309038cec60f458c80ab06bd86f650b80c3bc515)
