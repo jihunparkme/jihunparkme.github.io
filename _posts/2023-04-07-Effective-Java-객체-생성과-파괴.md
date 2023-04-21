@@ -85,14 +85,14 @@ public static Boolean valueOf(boolean b) {
 - 클라이언트는 필요한 객체를 직접 만드는 대신, 필수 매개변수만으로 생성자를 호출해 빌더 객체를 얻는다.
   - 그 후 빌더 객체가 제공하는 일종의 세터 메서드들로 원하는 선택 매개변수들을 설정
 
-[점층적 생성자 패턴과 자바빈즈 패턴의 장점만 적용](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter2/item2/builder/NutritionFacts.java)
+[📝 점층적 생성자 패턴과 자바빈즈 패턴의 장점만 적용](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter2/item2/builder/NutritionFacts.java)
 
 - 빌더 패턴은 계층적으로 설계된 클래스와 함께 사용하기 좋다.
   - 각 계층의 클래스에 관련 빌더를 멤버로 정의
   - 추상 클래스는 추상 빌더를, 구체 클래스는 구체 빌더를 갖도록 하자.
 - 빌더를 이용하면 가변인수 매개변수를 여러 개 사용할 수도 있다.
 
-[계층적으로 설계된 클래스와 잘 어울리는 빌더 패턴](https://github.com/WegraLee/effective-java-3e-source-code/tree/master/src/effectivejava/chapter2/item2/hierarchicalbuilder)
+[📝 계층적으로 설계된 클래스와 잘 어울리는 빌더 패턴](https://github.com/WegraLee/effective-java-3e-source-code/tree/master/src/effectivejava/chapter2/item2/hierarchicalbuilder)
 
 **빌더의 단점**
 
@@ -306,95 +306,34 @@ private static long sum() {
 
 ## item 8. finalizer와 cleaner 사용을 피하라.
 
-- finalizer는 예측할 수 없고, 상황에 따라 위험할 수 있어 일반적으로 불필요하다.
-- cleaner는 finalizer보다는 덜 위험하지만, 여전히 예측할 수 없고, 느리고, 일반적으로 불필요하다.
-- finalizer와 cleaner로는 제때 수행되어야 하는 작업은 절대 할 수 없다.
-  - finalizer와 cleaner는 즉시 수행된다는 보장이 없다.
-- finalizer와 cleaner는 심각한 성능 문제도 동반한다.
-- finalizer를 사용한 클래스는 finalizer 공격에 노출되어 심각한 보안 문제를 일으킬 수도 있다.
-- final이 아닌 클래스를 finalizer 공격으로부터 방어하려면 아무 일도 하지 않는 finalize 메서드를 만들고 final로 선언하자!
-- cleaner와 finalizer의 적절한 쓰임새
-  1. 자원의 소유자가 close 메서드를 호출하지 않는 것에 대비한 안전망 역할
-  2. Native peer와 연결된 객체에서 (Native peer는 자바 객체가 아니라 가비지 컬렉터는 그 존재를 알지 못한다)
-     - 단, 자원을 즉시 회수해야 한다면 close 메서드를 사용
+자바는 두 가지 객체 소멸자를 제공
 
-📝cleaner를 안전망으로 활용하는 AutoCloseable Class
-- System.exit 을 호출할 때의 cleaner 동작은 구현하기 나름이다 청소가 이뤄질지는 보장하지 않는다.
+- finalizer는 예측할 수 없고, 상황에 따라 위험할 수 있어 일반적으로 불필요
+- cleaner는 finalizer보다는 덜 위험하지만, 여전히 예측할 수 없고, 느리고, 일반적으로 불필요
+- finalizer와 cleaner로는 제때 수행되어야 하는 작업은 절대 할 수 없음
+  - 즉시 수행된다는 보장이 없고, 가비지 컬렉터 알고리즘에 달려있어 가비지 컬렉터 구현마다 천차만별
+- 상태를 영구적으로 수정하는 작업에서는 절대 finalizer, cleaner에 의존하지 말자
+- finalizer와 cleaner는 심각한 성능 문제도 동반
+- finalizer를 사용한 클래스는 finalizer 공격에 노출되어 심각한 보안 문제를 일으킬 수도 있음
+  - final이 아닌 클래스를 finalizer 공격으로부터 방어하려면 아무 일도 하지 않는 finalize 메서드를 만들고 final로 선언하기
 
-```java
-import java.lang.ref.Cleaner;
+.
 
-public class Room implements AutoCloseable {
-    private static final Cleaner cleaner = Cleaner.create();
+cleaner와 finalizer의 사용
 
-    // 청소가 필요한 자원. 절대 Room을 참조해서는 안 된다!
-    private static class State implements Runnable {
-        int numJunkPiles; // Number of junk piles in this room
+1. 자원의 소유자가 close 메서드를 호출하지 않는 것에 대비한 안전망 역할
+2. Native peer와 연결된 객체에서 자원을 즉시 회수해야 한다면 close 메서드를 사용 (Native peer는 자바 객체가 아니라 가비지 컬렉터는 그 존재를 알지 못함)
 
-        State(int numJunkPiles) {
-            this.numJunkPiles = numJunkPiles;
-        }
+[📝 cleaner를 안전망으로 활용하는 AutoCloseable Class](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter2/item8/Room.java)
+- cleaner 동작은 구현하기 나름이고 청소가 이뤄질지는 보장하지 않음
 
-        // close 메서드나 cleaner가 호출한다.
-        @Override public void run() {
-            System.out.println("Cleaning room");
-            numJunkPiles = 0;
-        }
-    }
+[📝 cleaner 안전망을 갖춘 자원을 제대로 활용하는 클라이언트](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter2/item8/Adult.java)
 
-    // 방의 상태. cleanable과 공유한다.
-    private final State state;
-
-    // cleanable 객체. 수거 대상이 되면 방을 청소한다.
-    private final Cleaner.Cleanable cleanable;
-
-    public Room(int numJunkPiles) {
-        state = new State(numJunkPiles);
-        cleanable = cleaner.register(this, state);
-    }
-
-    @Override public void close() {
-        cleanable.clean();
-    }
-}
-```
-
-📝cleaner 안전망을 갖춘 자원을 제대로 활용하는 클라이언트
-
-```java
-public class Adult {
-    public static void main(String[] args) {
-        try (Room myRoom = new Room(7)) {
-            System.out.println("Hello~");
-        }
-    }
-}
-
-// Result
-Hello~
-Cleaning room
-```
-
-📝cleaner 안전망을 갖춘 자원을 제대로 활용하지 못하는 클라이언트
-
-```java
-public class Teenager {
-    public static void main(String[] args) {
-        new Room(99);
-        System.out.println("Peace out");
-        
-        // System.gc()를 추가해보자.
-        // 단, 가비지 컬렉러를 강제로 호출하는 이런 방식에 의존해서는 절대 안 된다!
-	   //  System.gc();
-    }
-}
-
-// Result
-Peace out
-```
+[📝 cleaner 안전망을 갖춘 자원을 제대로 활용하지 못하는 클라이언트](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter2/item8/Teenager.java)
 
 🔔
 > cleaner(java8 까지는 finalizer)는 안전망 역할이나 중요하지 않은 네이티브 자원 회수용으로만 사용하자.
+> 
 > 물론 이런 경우라도 불확실성과 성능 저하에 주의해야 한다.
 
 <br>
