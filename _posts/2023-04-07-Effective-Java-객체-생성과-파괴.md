@@ -340,60 +340,13 @@ cleaner와 finalizer의 사용
 
 ## item 9. try-finally 보다는 try-with-resources를 사용하라.
 
-📝try-finally 더 이상 자원을 회수하는 최선의 방책이 아니다!
-
-```java
-static String firstLineOfFile(String path) throws IOException {
-    BufferedReader br = new BufferedReader(new FileReader(path));
-    try {
-        return br.readLine();
-    } finally {
-        br.close();
-    }
-}
-```
-
-📝자원이 둘 이상이면 너무 지저분해진다.
-
-```java
-static void copy(String src, String dst) throws IOException {
-    InputStream in = new FileInputStream(src);
-    try {
-        OutputStream out = new FileOutputStream(dst);
-        try {
-            byte[] buf = new byte[BUFFER_SIZE];
-            int n;
-            while ((n = in.read(buf)) >= 0)
-                out.write(buf, 0, n);
-        } finally {
-            out.close();
-        }
-    } finally {
-        in.close();
-    }
-}
-```
-
-**try-with-resources**
-
-- 이 구조를 사용하려면 해당 자원이 AutoCloseable 인터페이스를 구현해야 한다.
-  - 단순이 void를 반환하는 close 메서드 하나만 정의해도 된다.
-
-📝 try-with-resources 자원을 회수하는 최선책
-- 프로그래머에게 보여줄 예외 하나만 보존되고 여러 개의 다른 예외가 숨겨질 수 있음
-- 스택 추적 내역에 숨겨졌다는 꼬리표를 달고 출력
-
-```java
-static String firstLineOfFile(String path) throws IOException {
-    try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-        return br.readLine();
-        // readLine와 close 호출 양 쪽에서 예외가 발생하면, 
-        // close에서 발생한 예외는 숨겨지고 readLine에서 발생한 예외가 기록.
-    }
-}
-```
+- 자원 닫기는 클라이언트가 놓치기 쉬워서 예측할 수 없는 성능 문제로 이어지기도 한다.
+- try-with-resources 구조를 사용하려면 해당 자원이 AutoCloseable 인터페이스를 구현해야 한다.
 
 📝복수의 자원을 처리하는  try-with-resources 짧고 매혹적
+- 프로그래머에게 보여줄 예외 하나만 보존되고 여러 개의 다른 예외가 숨겨짐
+- 숨겨진 예외들도 스택 추적 내역에 숨겨졌다는 꼬리표를 달고 출력
+- catch 절을 사용해서 다수 예외 처리 가능
 
 ```java
 static void copy(String src, String dst) throws IOException {
@@ -407,23 +360,10 @@ static void copy(String src, String dst) throws IOException {
 }
 ```
 
-📝try-with-resources 를 catch 절과 함께 쓰는 모습
-
-```java
-static String firstLineOfFile(String path, String defaultVal) {
-    try (BufferedReader br = new BufferedReader(
-        new FileReader(path))) {
-        return br.readLine();
-    } catch (IOException e) {
-        // 예외를 던지는 대신 기본값을 반환
-        return defaultVal;
-    }
-}
-```
-
 🔔
 
 > 꼭 회수해야 하는 자원을 다룰 때는 try-finally 말고, try-with-resources를 사용하자.
+> 
 > 예외는 없다. 코드는 더 짧고 분명해지고, 만들어지는 예외 정보도 훨씬 유용하다.
 > 
 > try-finally로 작성하면 실용적이지 못할 만큼 코드가 지저분해지는 경우라도, 
