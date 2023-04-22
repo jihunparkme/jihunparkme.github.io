@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 객체 생성과 파괴
+title: 02. 객체 생성과 파괴
 summary: 객체 생성과 파괴
 categories: (Book)Effective-JAVA-3/E JAVA
 featured-img: EFF_JAVA

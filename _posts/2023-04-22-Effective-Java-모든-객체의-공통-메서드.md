@@ -2,7 +2,7 @@
 layout: post
 title: 03. 모든 객체의 공통 메서드
 summary: 모든 객체의 공통 메서드
-categories: (Book)Effective-JAVA-3/E
+categories: (Book)Effective-JAVA-3/E JAVA
 featured-img: EFF_JAVA
 # mathjax: true
 ---
@@ -11,11 +11,13 @@ featured-img: EFF_JAVA
 
 **3장. 모든 객체의 공통 메서드**
 
-- [item 10. equals는 일반 규약을 지켜 재정의하라](#item-10-equals는-일반-규약을-지켜-재정의하라)
-- [item 11. equals를 재정의하려거든 hashCode도 재정의하라](#item-11-equals를-재정의하려거든-hashCode도-재정의하라)
-- [item 12. toString을 항상 재정의하라.](#item-12-toString을-항상-재정의하라)
-- [item 13. clone 재정의는 주의해서 진행하라.](#item-13-clone-재정의는-주의해서-진행하라)
-- [item 14. Comparable을 구현할지 고려하라.](#item-14-Comparable을-구현할지-고려하라)
+- [Table of Contents](#table-of-contents)
+- [3장. 모든 객체의 공통 메서드](#3장-모든-객체의-공통-메서드)
+  - [item 10. equals는 일반 규약을 지켜 재정의하라.](#item-10-equals는-일반-규약을-지켜-재정의하라)
+  - [item 11. equals를 재정의하려거든 hashCode도 재정의하라](#item-11-equals를-재정의하려거든-hashcode도-재정의하라)
+  - [item 12. toString을 항상 재정의하라.](#item-12-tostring을-항상-재정의하라)
+  - [item 13. clone 재정의는 주의해서 진행하라.](#item-13-clone-재정의는-주의해서-진행하라)
+  - [item 14. Comparable을 구현할지 고려하라.](#item-14-comparable을-구현할지-고려하라)
 
 <br>
 
@@ -494,4 +496,6 @@ public int compareTo(PhoneNumber pn) {
 
 📝🔔🔍
 
-> Code Reference : [https://github.com/WegraLee/effective-java-3e-source-code/tree/master/src/effectivejava](https://github.com/WegraLee/effective-java-3e-source-code/tree/master/src/effectivejava)
+- [effective-java-3e-source-code (KOR)](https://github.com/WegraLee/effective-java-3e-source-code)
+
+- [effective-java-3e-source-code (EN)](https://github.com/jbloch/effective-java-3e-source-code)
