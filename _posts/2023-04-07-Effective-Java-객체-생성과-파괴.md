@@ -2,7 +2,7 @@
 layout: post
 title: 객체 생성과 파괴
 summary: 객체 생성과 파괴
-categories: (Book)Effective-JAVA-3/E
+categories: (Book)Effective-JAVA-3/E JAVA
 featured-img: EFF_JAVA
 # mathjax: true
 ---
@@ -371,4 +371,6 @@ static void copy(String src, String dst) throws IOException {
 
 📝🔔🔍
 
-> Code Reference : [https://github.com/WegraLee/effective-java-3e-source-code/tree/master/src/effectivejava](https://github.com/WegraLee/effective-java-3e-source-code/tree/master/src/effectivejava)
+- [effective-java-3e-source-code (KOR)](https://github.com/WegraLee/effective-java-3e-source-code)
+
+- [effective-java-3e-source-code (EN)](https://github.com/jbloch/effective-java-3e-source-code)
