@@ -11,13 +11,16 @@ featured-img: EFF_JAVA
 
 ## item 10. equals는 일반 규약을 지켜 재정의하라.
 
-- equals 메서드는 아래 상황 중 하나에 해당한다면 재정의하지 않는 것이 최선
-  - _각 인스턴스가 본질적으로 고유하다._
+equals 메서드의 재정의에는 함정이 도사리고 있는데, 이 문제를 회피하는 가장 쉬운 길은 아예 재정의를 하지 않는 것.
+
+🔍아래 상황 중 하나에 해당한다면 equals 메서드를 재정의하지 않는 것이 최선
+
+- **각 인스턴스가 본질적으로 고유할 경우**
     - 값을 표현하는 것이 아닌 동작하는 개체를 표현하는 클래스(ex. Thread)
-  - _인스턴스의 '논리적 동치성'을 검사할 일이 없다._
-  - _상위 클래스에서 재정의한 equals가 하위 클래스에도 딱 들어맞는다._
+- **인스턴스의 '논리적 동치성'을 검사할 일이 없을 경우**
+- **상위 클래스에서 재정의한 equals가 하위 클래스에도 딱 들어맞을 경우**
     - Set, List, Map 구현체들은 상속을 받아 그대로 사용
-  - 클래스가 private거나 package-private이고, equals 메서드를 호출할 일이 없다.
+- **클래스가 private, package-private이고 equals 메서드를 호출할 일이 없을 경우**
     - equals가 실수로라도 호출되는 것을 막고 싶다면 아래와 같이 구현해두자.
 
 ```java
@@ -26,46 +29,30 @@ featured-img: EFF_JAVA
 }
 ```
 
-- equals를 재정의해야 할 때는
-  - 객체 식별성이 아닌 논리적 동치성을 확인해야 하는데, 상위 클래스의 equals가 논리적 동치성을 비교하도록 재정의되지 않았을 때.!
-    - 주로 값 클래스(ex. Integer, String ..)
-  - 값 클래스라 해도, 값이 같은 인스턴스가 둘 이상 만들어지지 않음을 보장하는 인스턴스 통제 클래스라면 equals를 재정의하지 않아도 된다.
-- 🔍equals 메서드는 동치관계(equivalence relation)를 구현하며, 아래를 만족
-  - `반사성(reflexivity)` : null이 아닌 모든 참조 값 x에 대해, x.equals(x)는 true다.
-  - `대칭성(symmetry)` : null이 아닌 모든 참조 값 x, y에 대해, x.equals(y)가 true면 y.equals(x)도 true다.
-  - `추이성(transitivity)` : null이 아닌 모든 참조 값 x, y, z에 대해, x.equals(y)가 true고, y.equals(z)도 true면 x.equals(z)도 true다.
-  - `일관성(consistency)` : null이 아닌 모든 참조 값 x, y에 대해, x.equals(y)를 반복해서 호출하면 항상 true를 반환하거나 항상 false를 반환한다.
-  - `null-아님` : null이 아닌 모든 참조 값 x에 대해, x.equals(null)은 false다.
+🔍equals를 재정의해야 하는 경우
 
-🔍**동치관계**
+- 객체 식별성이 아닌 논리적 동치성을 확인해야 하는데, 상위 클래스의 equals가 논리적 동치성을 비교하도록 재정의되지 않았을 경우
+  - (ex. 주로 값 클래스. Integer, String ..)
+- 값 클래스라 해도, 값이 같은 인스턴스가 둘 이상 만들어지지 않음을 보장하는 인스턴스 통제 클래스라면 equals를 재정의하지 않아도 된다. (ex. Enum)
 
-- 집합을 서로 같은 원소들로 이뤄진 부분집합으로 나누는 연산
-  - 이 부분집합들을 동치류(equivalence class; 동치 클래스)라고 함
+🔍equals 메서드를 재정의할 때는 반드시 일반 규약을 따라야 함
 
-🔍**`동치관계`를 만족시키기 위한 다섯 요건**
+- equals 메서드는 동치관계(equivalence relation)를 만족하며 다섯 가지 요건을 만족
+  - 동치관계: 집합을 서로 같은 원소들로 이뤄진 부분집합으로 나누는 연산
+    - 이 부분집합들을 동치류(equivalence class; 동치 클래스)라고 함
+  
+**`반사성(reflexivity)`**
+- null이 아닌 모든 참조 값 x에 대해, x.equals(x)는 true다.
+- 객체는 자기 자신과 같아야 한다.
 
-1. `반사성` : 객체는 자기 자신과 같아야 한다.
-2. `대칭성` : 두 객체는 서로에 대한 동치 여부에 똑같이 답해야 한다.
-   - equals 규약을 어기면 그 객체를 사용하는 다른 객체들이 어떻게 반응할지 알 수 없다.
+**`대칭성(symmetry)`**
+- null이 아닌 모든 참조 값 x, y에 대해, x.equals(y)가 true면 y.equals(x)도 true다.
+- 두 객체는 서로에 대한 동치 여부에 똑같이 답해야 한다.
+  - equals 규약을 어기면 그 객체를 사용하는 다른 객체들이 어떻게 반응할지 알 수 없다.
 
-📝대칭성을 위배하는 코드
+[📝 대칭성 위배 코드](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter3/item10/CaseInsensitiveString.java)
 
-```java
-public final class CaseInsensitiveString {
-    private final String s;
-    // ...
-    @Override public boolean equals(Object o) {
-        if (o instanceof CaseInsensitiveString)
-            return s.equalsIgnoreCase(
-            ((CaseInsensitiveString) o).s);
-        if (o instanceof String)  // 한 방향으로만 작동!
-            return s.equalsIgnoreCase((String) o);
-        return false;
-    }
-}
-```
-
-📝수정된 equals
+📝 대칭성을 위배하지 않는 코드
 
 ```java
 private final String s;
@@ -76,45 +63,23 @@ private final String s;
 }
 ```
 
-3. `추이성` : 첫 번째 객체와 두 번째 객체가 같고, 두 번째 객체와 세 번째 객체가 같다면, 첫 번째 객체와 세 번째 객체도 같아야 한다.
-   - 구체 클래스를 확장해 새로운 값을 추가하면서 equals 규약을 만족시킬 방법은 존재하지 않는다.
-   - ex) <u>_Point_</u> Class와 Point Class를 상속받은 <u>_ColorPoint_</u> Class 의 equals.
+**`추이성(transitivity)`**
+- null이 아닌 모든 참조 값 x, y, z에 대해, x.equals(y)가 true고, y.equals(z)도 true면 x.equals(z)도 true다.
+- 첫 번째 객체와 두 번째 객체가 같고, 두 번째 객체와 세 번째 객체가 같다면, 첫 번째 객체와 세 번째 객체도 같아야 한다.
+  - 구체 클래스를 확장해 새로운 값을 추가하면서 equals 규약을 만족시킬 방법은 존재하지 않는다.
 
-📝equals 규약을 지키면서 값 추가하기 (상속 대신 컴포지션을 사용)
+[📝equals 규약을 지키면서 값 추가하기 (상속 대신 컴포지션을 사용)](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter3/item10/composition/ColorPoint.java)
 
-```java
-public class ColorPoint {
-    private final Point point;
-    private final Color color;
+`일관성(consistency)`
+- null이 아닌 모든 참조 값 x, y에 대해, x.equals(y)를 반복해서 호출하면 항상 true를 반환하거나 항상 false를 반환한다.
+- 두 객체가 같다면 앞으로도 영원히 같아야 한다.
+  - 클래스가 불변이든 가변이든 equals의 판단에 신뢰할 수 없는 자원이 끼어들게 해서는 안 된다.
+  - 모든 객체가 null과 같지 않아야 한다.
 
-    public ColorPoint(int x, int y, Color color) {
-        point = new Point(x, y);
-        this.color = Objects.requireNonNull(color);
-    }
+`null-아님`
+- null이 아닌 모든 참조 값 x에 대해, x.equals(null)은 false다.
 
-    // 이 ColorPoint의 Point 뷰를 반환
-    public Point asPoint() {
-        return point;
-    }
-
-    @Override public boolean equals(Object o) {
-        if (!(o instanceof ColorPoint))
-            return false;
-        ColorPoint cp = (ColorPoint) o;
-        return cp.point.equals(point) && cp.color.equals(color);
-    }
-
-    @Override public int hashCode() {
-        return 31 * point.hashCode() + color.hashCode();
-    }
-}
-```
-
-4. `일관성` : 두 객체가 같다면 앞으로도 영원히 같아야 한다.
-   - 클래스가 불변이든 가변이든 equals의 판단에 신뢰할 수 없는 자원이 끼어들게 해서는 안 된다.
-   - 모든 객체가 null과 같지 않아야 한다.
-
-📝명시적 null 검사는 불필요하다.
+📝명시적 null 검사는 불필요
 
 ```java
 @Override public boolean equals(Object o) {
@@ -126,7 +91,7 @@ public class ColorPoint {
 }
 ```
 
-📝묵시적 null 검사가 낫다.
+📝묵시적 null 검사를
 
 ```java
 @Override public boolean equals(Object o) {
