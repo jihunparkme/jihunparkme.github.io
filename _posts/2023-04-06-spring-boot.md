@@ -103,3 +103,25 @@ jakarta.servlet.ServletContainerInitializer 파일에 해당 클래스를 직접
 - 스프링MVC를 사용하는데 필요한 디스패처 서블릿을 서블릿 컨테이너 등록하기
 
 [스프링 컨테이너 등록](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/309038cec60f458c80ab06bd86f650b80c3bc515)
+
+**스프링 MVC 서블릿 컨테이너 초기화 지원**
+
+번거롭고 반복적인 서블릿 컨테이너 초기화 과정을 스프링 MVC이 지원
+
+- 개발자는 서블릿 컨테이너 초기화 과정은 생략하고, 애플리케이션 초기화 코드만 작성
+- `WebApplicationInitializer` 인터페이스만 구현
+ - spring-web 라이브러리를 보면, 아래 파일들을 이미 등록해둔 것을 확인
+ - META-INF/services/jakarta.servlet.ServletContainerInitializer
+ - org.springframework.web.SpringServletContainerInitializer
+
+```java
+package org.springframework.web;
+
+public interface WebApplicationInitializer {
+  void onStartup(ServletContext servletContext) throws ServletException;
+}
+```
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/WebApplicationInitializer.png?raw=true 'Result')
+
+[스프링 MVC 서블릿 컨테이너 초기화 지원(WebApplicationInitializer 구현)](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/75febc7e060a0f49b77090352ebf7e8732667ee5)
