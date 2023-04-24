@@ -125,3 +125,12 @@ public interface WebApplicationInitializer {
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/WebApplicationInitializer.png?raw=true 'Result')
 
 [스프링 MVC 서블릿 컨테이너 초기화 지원(WebApplicationInitializer 구현)](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/75febc7e060a0f49b77090352ebf7e8732667ee5)
+
+## 스프링 부트와 내장 톰캣
+
+**WAR 배포 방식의 단점**
+
+- WAS(ex. tomcat) 별도 설치 필요
+- 개발 환경 설정 복잡
+- 배포 과정 복잡
+- 버전 변경 시 WAS 재설치 필요
