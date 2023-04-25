@@ -146,3 +146,9 @@ implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.1.5'
 - 내장 톰캣을 사용하면 톰캣 서버 설치, IDE에 별도의 복잡한 톰캣 설정 없이 main() 메서드만 실행하면 톰캣까지 매우 편리하게 실행
 
 [스프링 부트와 내장 톰캣: 서블릿](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/2de424bdf8f28456f739d918bca616b38fddc978)
+
+**내장 톰캣: 스프링**
+
+- 내장 톰캣에 스프링 연동
+
+[스프링 부트와 내장 톰캣: 스프링 컨테이너 연결](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/31c8afb99b0a6ca1e0cd791695ba0c73fa48dc80)
