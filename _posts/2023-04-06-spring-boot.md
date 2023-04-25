@@ -128,9 +128,21 @@ public interface WebApplicationInitializer {
 
 ## 스프링 부트와 내장 톰캣
 
+**Tomcat Library**
+
+```gradle
+implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.1.5'
+```
+
 **WAR 배포 방식의 단점**
 
 - WAS(ex. tomcat) 별도 설치 필요
 - 개발 환경 설정 복잡
 - 배포 과정 복잡
 - 버전 변경 시 WAS 재설치 필요
+
+**내장 톰캣: 서블릿**
+
+- 내장 톰캣을 사용하면 톰캣 서버 설치, IDE에 별도의 복잡한 톰캣 설정 없이 main() 메서드만 실행하면 톰캣까지 매우 편리하게 실행
+
+[스프링 부트와 내장 톰캣: 서블릿](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/2de424bdf8f28456f739d918bca616b38fddc978)
