@@ -179,3 +179,8 @@ implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.1.5'
 
   - 빌드: `./gradlew clean buildFatJar`
   - 실행: `java -jar embed-0.0.1-SNAPSHOT.jar`
+
+
+**부트 클래스 만들어 보기**
+
+[스프링 부트와 내장 톰캣: 편리한 부트 클래스 만들기](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/b46935f67de40ee8a6a51f241e9daa51066c2a5e)
