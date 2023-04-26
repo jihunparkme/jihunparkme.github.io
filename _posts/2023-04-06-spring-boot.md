@@ -152,3 +152,24 @@ implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.1.5'
 - 내장 톰캣에 스프링 연동
 
 [스프링 부트와 내장 톰캣: 스프링 컨테이너 연결](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/31c8afb99b0a6ca1e0cd791695ba0c73fa48dc80)
+
+**내장 톰캣: 빌드와 배포**
+
+- 라이브러리로 포함된 내장 톰캣을 빌드 배포하기
+- main() 메서드를 실행하기 위해서 jar 형식으로 빌드
+- jar 안에는 `META-INF/MANIFEST.MF` 파일에 실행할 main() 메서드의 클래스를 지정
+  ```groovy
+  Manifest-Version: 1.0
+  Main-Class: hello.embed.EmbedTomcatSpringMain
+  ```
+- `build.gradle` 적용 시
+  ```groovy
+  task buildJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'hello.embed.EmbedTomcatSpringMain'
+    }
+    with jar
+  }
+  ```
+- 빌드: `./gradlew clean buildJar`
+- 실행: `java -jar embed-0.0.1-SNAPSHOT.jar`
