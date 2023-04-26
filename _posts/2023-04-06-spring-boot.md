@@ -163,13 +163,19 @@ implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.1.5'
   Main-Class: hello.embed.EmbedTomcatSpringMain
   ```
 - `build.gradle` 적용 시
+  - Jar 안에는 Jar를 포함할 수 없으므로, 라이브러리(jar)에서 제공되는 클래스들이 포함된 `fat jar` 또는 `uber jar` 를 활용
   ```groovy
-  task buildJar(type: Jar) {
-    manifest {
-        attributes 'Main-Class': 'hello.embed.EmbedTomcatSpringMain'
-    }
-    with jar
+  task buildFatJar(type: Jar) {
+      manifest {
+          attributes 'Main-Class': 'hello.embed.EmbedTomcatSpringMain'
+      }
+       // 파일명 중복 시 경고
+      duplicatesStrategy = DuplicatesStrategy.WARN
+      // 라이브러리들을 돌리면서 class 파일들을 뽑아내고, 빌드 시 포함
+      from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+      with jar
   }
   ```
-- 빌드: `./gradlew clean buildJar`
-- 실행: `java -jar embed-0.0.1-SNAPSHOT.jar`
+
+  - 빌드: `./gradlew clean buildFatJar`
+  - 실행: `java -jar embed-0.0.1-SNAPSHOT.jar`
