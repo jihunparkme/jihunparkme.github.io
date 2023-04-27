@@ -79,7 +79,7 @@ private final String s;
 `null-아님`
 - null이 아닌 모든 참조 값 x에 대해, x.equals(null)은 false다.
 
-📝명시적 null 검사는 불필요
+📝 명시적 null 검사는 불필요
 
 ```java
 @Override public boolean equals(Object o) {
@@ -91,7 +91,7 @@ private final String s;
 }
 ```
 
-📝묵시적 null 검사를
+📝 묵시적 null 검사를
 
 ```java
 @Override public boolean equals(Object o) {
@@ -105,54 +105,41 @@ private final String s;
 
 🔍**양질의 equals 메서드 구현 방법**
 
-1. `== 연산자를 사용해 입력이 자기 자신의 참조인지 확인한다.`
+1. `== 연산자를 사용해 입력이 자기 자신의 참조인지 확인`
    - 자기 자신이면 true 반환
-2. `instanceof 연산자로 입력이 올바른 타입인지 확인한다.`
-3. `입력을 올바른 타입으로 형변환한다.`
-4. `입력 객체와 자기 자신의 대응되는 핵심필드들이 모두 일치하는지 하나씩 검사한다.`
+2. `instanceof 연산자로 입력이 올바른 타입인지 확인`
+3. `입력을 올바른 타입으로 형변환`
+4. `입력 객체와 자기 자신의 대응되는 핵심필드들이 모두 일치하는지 하나씩 검사`
 
-- Float.compare()와 Double.compare()을 제외한 기본 타입 필드는 == 연산자로 비교
-- equals의 성능을 위해 다를 가능성이 더 크거나 비교 비용이 싼 필드를 먼저 비교하자.
-- equals를 다 구현했다면 `대칭적`, `추이성`, `일관적`인지 자문해보자.
+- Float.compare()와 Double.compare()을 제외한 기본 타입 필드는 == 연산자로 비교, 참조 타입 필드는 각각의 equals 메서드
+- 배열 필드는 원소 각각을 앞서의 지침대로 비교하고, 모든 원소가 핵심 필드라면 Arrays.equals 메서드들 중 하나를 사용
+- null 가능성이 있을 경우 Objects.equals(Object, Object) 비교로 NPE 방지
+- equals의 성능을 위해 다를 가능성이 더 크거나 비교 비용이 싼 필드를 먼저 비교
+- equals를 다 구현했다면 `대칭적`, `추이성`, `일관적`인지 자문
+- equals를 재정의할 땐 hashCode도 반드시 재정의
+- Object 외의 타입을 매개변수로 받는 equals 메서드는 선언하지 말자
 
-📝전형적인 equals 메서드의 예
+📝 전형적인 equals 메서드의 예
 
 ```java
-public final class PhoneNumber {
-    private final short areaCode, prefix, lineNum;
+// 입력 타입은 반드시 Object (다중정의)
+@Override public boolean equals(Object o) { 
+    // 필드들의 동치성만 검사해도 equals 규약을 어렵지 않게 지킬 수 있다.
+    if (o == this) return true;
+    if (!(o instanceof PhoneNumber)) return false;
 
-    public PhoneNumber(int areaCode, int prefix, int lineNum) {
-        this.areaCode = rangeCheck(areaCode, 999, "지역코드");
-        this.prefix   = rangeCheck(prefix,   999, "프리픽스");
-        this.lineNum  = rangeCheck(lineNum, 9999, "가입자 번호");
-    }
-
-    private static short rangeCheck(int val, int max, String arg) {
-        if (val < 0 || val > max)
-            throw new IllegalArgumentException(arg + ": " + val);
-        return (short) val;
-    }
-
-    @Override public boolean equals(Object o) { // 입력 타입은 반드시 Object (다중정의)
-		// 필드들의 동치성만 검사해도 equals 규약을 어렵지 않게 지킬 수 있다.
-        if (o == this) return true;
-        if (!(o instanceof PhoneNumber)) return false;
-
-        PhoneNumber pn = (PhoneNumber)o;
-        return pn.lineNum == lineNum && pn.prefix == prefix
-                && pn.areaCode == areaCode;
-    }
-
-    // equals를 재정의할 땐 hashCode도 반드시 재정의하자!
+    PhoneNumber pn = (PhoneNumber)o;
+    return pn.lineNum == lineNum && pn.prefix == prefix
+            && pn.areaCode == areaCode;
 }
 ```
 
 🔔
-
 > 꼭 필요한 경우가 아니면 equals를 재정의하지 말자.
+> 
 > 많은 경우에 Object의 equals가 여러분이 원하는 비교를 정확히 수행해준다.
-> 재정의해야 할 때는 그 클래스의 핵심 필드 모두를 빠짐없이,
-> 다섯 가지 규약을 확실히 지켜가며 비교해야 한다.
+> 
+> 재정의해야 할 때는 그 클래스의 핵심 필드 모두를 빠짐없이, 다섯 가지 규약을 확실히 지켜가며 비교해야 한다.
 
 <br>
 
