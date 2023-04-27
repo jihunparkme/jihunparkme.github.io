@@ -103,15 +103,14 @@ private final String s;
 }
 ```
 
-🔍**양질의 equals 메서드 구현 방법**
+🔍 **양질의 equals 메서드 구현 방법**
 
 1. `== 연산자를 사용해 입력이 자기 자신의 참조인지 확인`
-   - 자기 자신이면 true 반환
 2. `instanceof 연산자로 입력이 올바른 타입인지 확인`
 3. `입력을 올바른 타입으로 형변환`
 4. `입력 객체와 자기 자신의 대응되는 핵심필드들이 모두 일치하는지 하나씩 검사`
 
-- Float.compare()와 Double.compare()을 제외한 기본 타입 필드는 == 연산자로 비교, 참조 타입 필드는 각각의 equals 메서드
+- Float.compare()와 Double.compare()을 제외한 기본 타입 필드는 == 연산자로 비교, 참조 타입 필드는 각각의 equals 메서드로 비교
 - 배열 필드는 원소 각각을 앞서의 지침대로 비교하고, 모든 원소가 핵심 필드라면 Arrays.equals 메서드들 중 하나를 사용
 - null 가능성이 있을 경우 Objects.equals(Object, Object) 비교로 NPE 방지
 - equals의 성능을 위해 다를 가능성이 더 크거나 비교 비용이 싼 필드를 먼저 비교
