@@ -144,7 +144,9 @@ private final String s;
 
 ## item 11. equals를 재정의하려거든 hashCode도 재정의하라
 
-- equals를 재정의한 클래스 모두에서 hashCode도 재정의해야 한다.
+equals를 재정의한 클래스 모두에서 hashCode도 재정의해야 한다.
+
+- 그렇지 않으면 hashCode 일반 규약을 어기게 되어 해당 클래스의 인스턴스를 HashMap 이나 HashSet 같은 컬렉션의 원소로 사용할 때 문제를 일으키게 된다.
 
 **Object 명세에서 발췌한 규약**
 
@@ -152,66 +154,14 @@ private final String s;
 - equals(Object)가 두 객체를 같다고 판단했다면, 두 객체의 hashCode는 똑같은 값을 반환해야 한다.
 - equals(Object)가 두 객체를 다르다고 판단했더라도, 두 객체의 hashCode가 서로 다른 값을 반환할 필요는 없다. 단, 다른 객체에 대해서는 다른 값을 반환해야 해시테이블의 성능이 좋아진다.
 
-**좋은 hashCode를 작성하는 간단한 요령**
-
-1. int 변수 result를 선언한 후 값 c로 초기화한다. 이때 c는 해당 객체의 첫번째 핵심 필드를 단계 2.a 방식으로 계산한 해시코드다. (여기서 핵심 필드란 equals 비교에 사용되는 필드)
-2. 해당 객체의 나머지 핵심 필드 f 각각에 대해 다음 작업을 수행한다.
-   - a. 해당 필드의 해시코드 c를 계산한다.
-     - 기본 타입 필드라면, Type.hashCode(f)를 수행한다. 여기서 Type은 해당 기본 타입의 박싱 클래스다.
-     - 참조 타입 필드면서 이 클래스의 equals 메서드가 이 필드의 equals를 재귀적으로 호출해 비교한다면, 이 필드의 hashCode를 재귀적으로 호출한다. 계산이 더 복잡해질 것 같다면, 이 필드의 표준형을 만들어 그 표준형의 hashCode를 호출한다. 필드의 값이 null이면 보통 0을 사용)
-     - 필드가 배열이라면, 핵심 원소 각각을 별도 필드처럼 다룬다. 이상의 규칙을 재귀적으로 적용해 각 핵심 원소의 해시코드를 계산한 다음, 단계 2.b 방식으로 갱신한다. 배열에 핵심 원소가 하나도 없다면 단순히 상수를 사용한다. 모든 원소가 핵심 원소라면 Arrays.hashCode를 사용한다.
-   - b. 단계 2.a에서 계산한 해시코드 c로 result를 갱신한다. 코드로는 다음과 같다. `result = 31 * result + c;`
-3. result를 반환한다.
-
-- hashCode를 다 구현했다면 이 메서드가 동치인 인스턴스에 대해 똑같은 해시코드를 반환할지 자문해보자.
-- 단계 2.b의 곱셈 31 \* result는 필드를 곱하는 순서에 따라 result 값이 달라지게 한다.
-  - (31은 홀수이면서 소수이기 때문에 사용)
-
-📝 전형적인 hashCode 메서드
-
-```java
-// 전화번호에 hashCode 부여
-@Override public int hashCode() {
-    int result = Short.hashCode(areaCode);
-    result = 31 * result + Short.hashCode(prefix);
-    result = 31 * result + Short.hashCode(lineNum);
-    return result;
-}
-```
-
-📝 한 줄짜리 hashCode 메서드 (성능이 아쉬움)
-
-```java
-@Override public int hashCode() {
-    // 인수를 담기 위한 배열 생성, 박싱-언박싱 등으로 느리다.
-    return Object.hash(lineNum, prefix, areaCode);
-}
-```
-
-📝 해시코드를 지연(lazy initialization) 초기화하는 hashCode 메서드 (스레드 안정성까지 고려해야 함)
-
-```java
-private int hashCode; // 자동으로 0으로 초기화된다.
-
-@Override public int hashCode() {
-    int result = hashCode;
-    if (result == 0) {
-        result = Short.hashCode(areaCode);
-        result = 31 * result + Short.hashCode(prefix);
-        result = 31 * result + Short.hashCode(lineNum);
-        hashCode = result;
-    }
-    return result;
-}
-```
+📝 [hashCode 메서드](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter3/item11/PhoneNumber.java)
 
 🔔
-
-> equals를 재정의할 때는 hashCode도 반드시 재정의해야 한다.
-> 그렇지 않으면 프로그램이 제대로 동작하지 않을 것이다.
+> equals를 재정의할 때는 hashCode도 반드시 재정의해야 한다. 그렇지 않으면 프로그램이 제대로 동작하지 않을 것이다.
+> 
 > 재정의한 hashCode는 Object의 API 문서에 기술된 일반 규약을 따라야 하며, 서로 다른 인스턴스라면 되도록 해시코드도 서로 다르게 구현해야 한다.
-> 이렇게 구현하기가 어렵지는 않지만 조금 따분한 일이긴 하다.
-> 하지만 AutoValue 프레임워크를 사용하면 멋진 equals와 hashCode를 자동으로 만들어준다.
+> 
+> 구현하기가 어렵지는 않지만 조금 따분한 일이긴 하다. 하지만 AutoValue 프레임워크를 사용하면 멋진 equals와 hashCode를 자동으로 만들어준다.
 
 <br>
 
