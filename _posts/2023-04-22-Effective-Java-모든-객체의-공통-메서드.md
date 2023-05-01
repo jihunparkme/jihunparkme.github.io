@@ -208,20 +208,17 @@ public final class PhoneNumber {
 
 ## item 13. clone 재정의는 주의해서 진행하라.
 
-- Cloneable을 구현한 클래스의 인스턴스에서 clone을 호출하면 그 객체의 필드들을 하나하나 복사한 객체를 반환하며, 그렇지 않은 클래스의 인스턴스에서 호출하면 CloneNotSupportedException을 던진다.
+- Cloneable을 구현한 클래스는 clone 메서드를 public으로 제공하며, 사용자는 당연히 복제가 제대로 이뤄지리라 기대하지만, 깨지기 쉽고, 위험하고, 모순적인 매커니즘이 탄생한다..
 
 📝 가변 상태를 참조하지 않는 클래스용 clone 메서드
 
 ```java
-public final class PhoneNumber implements Cloneable {
-    // ...
-    @Override public PhoneNumber clone() {
-        try {
-            // 재정의한 메서드의 반환 타입은 상위 클래스의 메서드가 반환하는 타입의 하위 타입일 수 있다.
-            return (PhoneNumber) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();  // 일어날 수 없는 일이다.
-        }
+@Override public PhoneNumber clone() {
+    try {
+        // 재정의한 메서드의 반환 타입은 상위 클래스의 메서드가 반환하는 타입의 하위 타입일 수 있다.
+        return (PhoneNumber) super.clone();
+    } catch (CloneNotSupportedException e) {
+        throw new AssertionError();  // 일어날 수 없는 일이다.
     }
 }
 ```
@@ -232,14 +229,9 @@ public final class PhoneNumber implements Cloneable {
 📝 가변 상태를 참조하는 클래스용 clone 메서드
 
 ```java
-public class Stack {
-    private Object[] elements;
-    private int size = 0;
-    // ...
-
-    @Override public Stack clone() {
+@Override public Stack clone() {
     try {
-	    Stack result = (Stack) super.clone();
+        Stack result = (Stack) super.clone();
         // elements 필드가 복사본과 같은 메모리를 참조하지 않도록 배열의 clone을 재귀적으로 호출
         result.elements = elements.clone();
         return result;
@@ -249,62 +241,10 @@ public class Stack {
 }
 ```
 
-📝 복잡한 가변 상태를 갖는 클래스용 재귀적 clone 메서드
-
-```java
-public class HashTable implements Cloneable {
-    private Entry[] buckets = ...;
-
-    private static class Entry {
-        final Object key;
-        Object value;
-        Entry next;
-
-        Entry(Object key, Object value, Entry next) {
-            this.key = key;
-            this.value = value;
-            this.next = next;
-        }
-
-        // 1. 이 엔트리가 가리키는 연결 리스트를 재귀적으로 복사
-        // 재귀 호출로 리스트가 길면 stackOverFlow를 일으킬 위험
-        Entry deepCopyRecursion() {
-            return new Entry(key, value, next == null ? null : next.deepCopy());
-        }
-
-        // 2. 재귀 호출의 stackOverFlow 문제를 피하기 위해 반복자를 사용
-        Entry deepCopy() {
-            Entry result = new Entry(key, value, next);
-            for (Entry p = result; p.next != null; p = p.next) {
-                p.next = new Entry(p.next.key, p.next.value, p.next.next);
-            }
-            return result;
-        }
-
-        @Override public HashTable clone() {
-            try {
-                HashTable result = (HashTable) super.clone();
-                result.bucket = new Entry[buckets.length];
-                for (int i = 0; i < buckets.length; i++) {
-                    if (buckets[i] != null) {
-                        result.buckets[i] = buckets[i].deepCopy();
-                    }
-                }
-                return result;
-            } catch (CloneNotSupportedException e) {
-                throw new AssertionError();
-            }
-        }
-
-        // ..
-    }
-}
-```
-
+- 상속용 클래스는 Cloneable을 구형해서는 안 된다.
 - Cloneable을 구현하는 모든 클래스는 clone을 재정의해야 한다.
 - 복사 생성자와 복사 팩터리는 더 나은 객체 복사 방식을 제공할 수 있다.
-  - 장점.
-  - 문서화된 규약에 기대지 않고, 정상적인 final 필드 용법과 충돌하지 않고, 불필요한 검사 예외를 던지지 않고, 형변환도 필요하지 않고, ...
+  - 문서화된 규약에 기대지 않고, 정상적인 final 필드 용법과 충돌하지 않고, 불필요한 검사 예외를 던지지 않고, 형변환도 필요하지 않음
   - 해당 클래스가 구현한 interface 타입의 인스턴스를 인수로 받을 수 있음
   - 클라이언트는 원본의 구현 타입에 얽매이지 않고 복제본의 타입을 직접 선택할 수 있음
 
@@ -326,10 +266,12 @@ public static Yum newInstance(Yum yum) {
 }
 ```
 
-> Cloneable이 몰고 온 모든 문제를 되짚어봤을 때,
-> 새로운 인터페이스를 만들 때는 절대 Cloneable을 확장해서는 안 되며, 새로운 클래스도 이를 구현해서는 안 된다.
+> Cloneable이 몰고 온 모든 문제를 되짚어봤을 때, 새로운 인터페이스를 만들 때는 절대 Cloneable을 확장해서는 안 되며, 새로운 클래스도 이를 구현해서는 안 된다.
+> 
 > final 클래스라면 Cloneable을 구현해도 위험이 크지 않지만, 성능 최적화 관점에서 검토한 후 별다른 문제가 없을 때만 드물게 혀용해야 한다.
-> 기본 원칙은 '복제 기능은 생성자와 팩터리를 이용하는 게 최고 !!' 라는 것이다.
+> 
+> 기본 원칙은 '복제 기능은 생성자와 팩터리를 이용하는 게 최고!' 라는 것. 
+> 
 > 단, 배열만은 clone 메서드 방식이 가장 깔끔한, 이 규칙의 합당한 예외라고 할 수 있다.
 
 <br>
