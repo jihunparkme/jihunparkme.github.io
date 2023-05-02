@@ -184,3 +184,26 @@ implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.1.5'
 **부트 클래스 만들어 보기**
 
 [스프링 부트와 내장 톰캣: 편리한 부트 클래스 만들기](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/b46935f67de40ee8a6a51f241e9daa51066c2a5e)
+
+## 스프링 부트와 웹 서버
+
+**실행 과정**
+
+```java
+@SpringBootApplication
+public class BootApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(BootApplication.class, args);
+	}
+}
+```
+
+- 스프링 부트 실행은 Java main() 메서드에서 SpringApplication.run() 호출
+- 파라미터로 메인 설정 정보를 넘겨주는데, 보통 @SpringBootApplication 애노테이션이 있는 현재 클래스를 지정
+- @SpringBootApplication 애노테이션 안에는 @ComponentScan을 포함한 여러 기능이 설정
+  - 기본 설정은 현재 패키지와 그 하위 패키지 모두를 컴포넌트 스캔
+
+`SpringApplication.run(BootApplication.class, args);` 코드 한 줄에서
+- `스프링 컨테이너 생성` (new AnnotationConfigServletWebServerApplicationContext())
+- `WAS(내장 톰캣) 생성` (Tomcat tomcat = new Tomcat())
