@@ -207,3 +207,73 @@ public class BootApplication {
 `SpringApplication.run(BootApplication.class, args);` 코드 한 줄에서
 - `스프링 컨테이너 생성` (new AnnotationConfigServletWebServerApplicationContext())
 - `WAS(내장 톰캣) 생성` (Tomcat tomcat = new Tomcat())
+
+### 실행 가능 Jar(Executable Jar)
+
+Fat Jar의 문제점(라이브러리 확인 어려움, 파일명 중복 해결 어려움)을 해결하기 위해 jar 내부에 jar를 포함하여 실행할 수 있는 스프링 부트에서 새롭게 정의한 특별한 구조의 jar
+
+```text
+boot-0.0.1-SNAPSHOT.jar
+  META-INF
+    MANIFEST.MF
+  org/springframework/boot/loader
+    JarLauncher.class : 스프링 부트 main() 실행 클래스
+  BOOT-INF
+    classes : 개발한 class 파일과 리소스 파일
+      hello/boot/BootApplication.class
+      hello/boot/controller/HelloController.class
+      …
+    lib : 외부 라이브러리
+        spring-webmvc-6.0.4.jar
+        tomcat-embed-core-10.1.5.jar
+        ...
+    classpath.idx : 외부 라이브러리 모음
+    layers.idx : 스프링 부트 구조 정보
+```
+
+**Jar 실행 정보**
+
+- `java -jar xxx.jar` 를 실행하게 되면 `META-INF/MANIFEST.MF` 파일을 찾고, 여기에 있는 Main-Class 를 읽어서 main() 메서드를 실행
+
+```yml
+Manifest-Version: 1.0
+Main-Class: org.springframework.boot.loader.JarLauncher
+Start-Class: hello.boot.BootApplication
+Spring-Boot-Version: 3.0.2
+Spring-Boot-Classes: BOOT-INF/classes/
+Spring-Boot-Lib: BOOT-INF/lib/
+Spring-Boot-Classpath-Index: BOOT-INF/classpath.idx
+Spring-Boot-Layers-Index: BOOT-INF/layers.idx
+Build-Jdk-Spec: 17
+```
+
+- Main-Class
+  - JarLauncher(org/springframework/boot/loader/JarLauncher)는 스프링 부트가 빌드 시 삽입
+  - JarLauncher: 내부 jar(classes, lib)와 특별한 구조의 클래스 정보를 읽어들이는 기능
+  - 이후 Start-Class 에 지정된 main() 호출
+- Start-Class
+  - main() 이 있는 hello.boot.BootApplication
+- Spring-Boot-Version : 스프링 부트 버전
+- Spring-Boot-Classes : 개발한 클래스 경로
+- Spring-Boot-Lib : 라이브러리 경로
+- Spring-Boot-Classpath-Index : 외부 라이브러리 모음
+- Spring-Boot-Layers-Index : 스프링 부트 구조 정보
+
+**스프링 부트 로더**
+
+- org/springframework/boot/loader 하위에 있는 클래스
+- JarLauncher 를 포함한 스프링 부트가 제공하는 실행 가능 Jar를 실제로 구동시키는 클래스들이 포함
+- 스프링 부트는 빌드 시 이 클래스들을 포함
+
+**실행 과정**
+
+1.java -jar xxx.jar
+
+2.MANIFEST.MF 인식
+
+3.JarLauncher.main() 실행
+
+- BOOT-INF/classes/ 인식
+- BOOT-INF/lib/ 인식
+
+4.BootApplication.main() 실행
