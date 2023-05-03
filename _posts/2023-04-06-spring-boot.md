@@ -277,3 +277,40 @@ Build-Jdk-Spec: 17
 - BOOT-INF/lib/ 인식
 
 4.BootApplication.main() 실행
+
+## 스프링 부트 라이브러리 버전 관리
+
+- 스프링 부트는 수 많은 라이브러리 버전을 직접 관리
+- 라이브러리 버전을 생략해도 스프링 부트가 부트 버전에 맞춘 최적화된 라이브러리 버전을 선택
+- 잘 알려지지 않거나 대중적이지 않아서 스프링 부트가 관리하지 않는 외부 라이브러리는 버전을 직접 명시
+- 버전 관리 기능을 사용하려면 io.spring.dependency-management 플러그인 사용 필요
+  - spring-boot-dependencies [BOM(Bill of materials) 정보](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-dependencies/build.gradle)를 참고해서 버전 관리
+  - [Managed Dependency Coordinates](https://docs.spring.io/spring-boot/docs/current/reference/html/dependency-versions.html#appendix.dependency-versions.coordinates)
+
+```groovy
+plugins {
+  id 'org.springframework.boot' version '3.0.2'
+  id 'io.spring.dependency-management' version '1.1.0' 
+  id 'java'
+}
+
+...
+
+dependencies {
+ //스프링 웹, MVC
+ implementation 'org.springframework:spring-webmvc'
+ //내장 톰캣
+ implementation 'org.apache.tomcat.embed:tomcat-embed-core'
+ //JSON 처리
+ implementation 'com.fasterxml.jackson.core:jackson-databind'
+ //스프링 부트 관련
+ implementation 'org.springframework.boot:spring-boot'
+ implementation 'org.springframework.boot:spring-boot-autoconfigure'
+ //LOG 관련
+ implementation 'ch.qos.logback:logback-classic'
+ implementation 'org.apache.logging.log4j:log4j-to-slf4j'
+ implementation 'org.slf4j:jul-to-slf4j'
+ //YML 관련
+ implementation 'org.yaml:snakeyaml'
+}
+```
