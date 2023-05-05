@@ -9,6 +9,8 @@ featured-img: EFF_JAVA
 
 # 2장. 객체 생성과 파괴
 
+객체를 만들어야 할 때와 만들지 말아야 할 떄를 구분하는 법, 올바른 객체 생성 방법과 불필요한 생성을 피하는 방법, 제때 파괴됨을 보장하고 파괴 전에 수행해야 할 정리 작업을 관리하는 요렁
+
 ## item 1. 생성자 대신 정적 팩터리 메서드를 고려하라.
 
 - 클래스는 생성자와 별도로 정적 팩터리 메서드(static factory method)를 제공할 수 있다.
@@ -370,6 +372,8 @@ static void copy(String src, String dst) throws IOException {
 > try-with-resources로 정확하고 쉽게 자원을 회수할 수 있다.
 
 # 3장. 모든 객체의 공통 메서드
+
+final이 아닌 Object 메서드(equals, hashCode, toString, clone, finalize)들을 언제, 어떻게 재정의해야 하는지.
 
 ## item 10. equals는 일반 규약을 지켜 재정의하라.
 
