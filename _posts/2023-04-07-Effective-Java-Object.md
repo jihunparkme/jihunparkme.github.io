@@ -701,6 +701,10 @@ public int compareTo(PhoneNumber pn) {
 >
 > 그 대신 박싱된 기본 타입 클래스가 제공하는 정적 compare 메서드나 Comarator 인터페이스가 제공하는 비교자 생성 메서드를 사용하자.
 
+...
+
+**Reference**
+
 - [effective-java-3e-source-code (KOR)](https://github.com/WegraLee/effective-java-3e-source-code)
 
 - [effective-java-3e-source-code (EN)](https://github.com/jbloch/effective-java-3e-source-code)

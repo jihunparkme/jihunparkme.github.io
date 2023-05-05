@@ -164,6 +164,10 @@ featured-img: EFF_JAVA
 
 📝🔔🔍
 
+...
+
+**Reference**
+
 - [effective-java-3e-source-code (KOR)](https://github.com/WegraLee/effective-java-3e-source-code)
 
 - [effective-java-3e-source-code (EN)](https://github.com/jbloch/effective-java-3e-source-code)
