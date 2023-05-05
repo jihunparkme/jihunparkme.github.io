@@ -315,3 +315,25 @@ dependencies {
 }
 ```
 
+**스프링 부트 스타터**
+
+[Spring Boot application starters](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.build-systems.starters)
+
+- 간편한 라이브러리 관리를 위해 프로젝트 시작에 필요한 라이브러리 의존성을 모아둔 스프링 부트 스타터 제공
+
+```groovy
+dependencies {
+  // 스프링 웹 MVC, 내장 톰캣, JSON 처리, 스프링 부트 관련, LOG, YML 등 포함
+ implementation 'org.springframework.boot:spring-boot-starter-web'
+ // 스프링 데이터 JPA, 하이버네이트 등 포함
+ implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+}
+```
+
+**외부 라이브러리 버전 변경**
+
+[Version Properties](https://docs.spring.io/spring-boot/docs/current/reference/html/dependency-versions.html#appendix.dependency-versions.properties)
+
+```groovy
+ext['tomcat.version'] = '10.1.4'
+```
