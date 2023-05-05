@@ -265,6 +265,7 @@ public static Yum newInstance(Yum yum) {
     // ..
 }
 ```
+🔔
 
 > Cloneable이 몰고 온 모든 문제를 되짚어봤을 때, 새로운 인터페이스를 만들 때는 절대 Cloneable을 확장해서는 안 되며, 새로운 클래스도 이를 구현해서는 안 된다.
 > 
@@ -278,7 +279,9 @@ public static Yum newInstance(Yum yum) {
 
 ## item 14. Comparable을 구현할지 고려하라.
 
-- 알파벳, 숫자, 연대 같이 순서가 명확한 값 클래스를 작성한다면 반드시 Comparable 인터페이스를 구현하자.
+알파벳, 숫자, 연대 같이 순서가 명확한 값 클래스를 작성한다면 반드시 Comparable 인터페이스를 구현하자.
+- compareTo는 단순 동치성 비교에 더해 순서까지 비교하고, 제네릭하다.
+- Compareable 구현으로 수많은 제네릭 알고리즘과 컬렉션의 힘을 누릴 수 있다.
 
 ```java
 public interface Comparable<T> {
@@ -286,12 +289,17 @@ public interface Comparable<T> {
 }
 ```
 
-- compareTo 메서드의 일반 규약은 equals의 규약과 비슷
-  - Comparable을 구현한 클래스는 모든 x,y에 대한 sgn(x.compareTo(y)) == -sgn(y.compareTo(x))여야 한다.
-    - 따라서, x.compareTo(y)는 y.compareTo(x)가 예외를 던질 때에 한해 예외를 던져야 한다.
-  - Comparable을 구현한 클래스는 추이성을 보장해야 한다.
-  - Comparable을 구현한 클래스는 모든 z에 대해 x.compareTo(y) == 0 이면 sgn(x.compareTo(z)) == sgn(y.compareTo(z))
-  - (x.compareTo(y) == 0) == (x.equals(y))여야 한다.
+compareTo 메서드의 일반 규약은 equals의 규약과 비슷
+
+주어진 객체와 순서를 비교. 작으면 음수, 같으면 0, 크면 양수 반환. 비교할 수 없는 타입일 경우 ClassCastException
+
+- Comparable을 구현한 클래스는 모든 x,y에 대한 sgn(x.compareTo(y)) == -sgn(y.compareTo(x))여야 한다.
+  - x.compareTo(y)는 y.compareTo(x)가 예외를 던질 때에 한해 예외를 던져야 한다.
+- Comparable을 구현한 클래스는 추이성을 보장해야 한다.
+- Comparable을 구현한 클래스는 모든 z에 대해 x.compareTo(y) == 0 이면 sgn(x.compareTo(z)) == sgn(y.compareTo(z))
+- (x.compareTo(y) == 0) == (x.equals(y))여야 한다.
+
+compareTo 규약을 지키지 못하면 비교를 활용하는 클래스와 어울리지 못함
 
 📝 기본 타입 필드가 여럿일 때의 비교자
 
@@ -323,9 +331,14 @@ public int compareTo(PhoneNumber pn) {
 }
 ```
 
--
+🔔
 
-📝🔔🔍
+> 순서를 고려해야 하는 값 클래스를 작성한다면 꼭 Compareable 인터페이스를 구현하여, 그 인스턴스들을 쉽게 정렬하고, 검색하고, 비교 기능을 제공하는 컬렉션과 어우러지도록 해야 한다.
+>
+> compareTo 메서드에서 필드의 값을 비교할 때, <와 > 연산자는 쓰지 말자.
+>
+> 그 대신 박싱된 기본 타입 클래스가 제공하는 정적 compare 메서드나 Comarator 인터페이스가 제공하는 비교자 생성 메서드를 사용하자.
+
 
 - [effective-java-3e-source-code (KOR)](https://github.com/WegraLee/effective-java-3e-source-code)
 
