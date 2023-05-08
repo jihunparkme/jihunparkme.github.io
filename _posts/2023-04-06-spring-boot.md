@@ -337,3 +337,8 @@ dependencies {
 ```groovy
 ext['tomcat.version'] = '10.1.4'
 ```
+
+## Auto Configuration
+
+[example commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/8534640b8d653e9efacf63343d7fe315a77c1703)
+
