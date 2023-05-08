@@ -13,8 +13,6 @@ featured-img: EFF_JAVA
 
 ## item 15. 클래스와 멤버의 접근 권한을 최소화하라.
 
-🔔
-
 > 프로그램 요소의 접근성은 가능한 한 최소한으로 하자. 
 >
 > 꼭 필요한 것만 골라 최소한의 public API를 설계하자.
@@ -24,6 +22,8 @@ featured-img: EFF_JAVA
 > public 클래스는 상수용 public static final 필드 외에는 어떠한 public 필드도 가져서는 안 된다. 
 > 
 > public static final 필드가 참조하는 객체가 불변인지 확인하자.
+
+📖
 
 잘 설계된 컴포넌트는 클래스 내부 데이터와 내부 구현 정보를 외부 컴포넌트로부터 얼마나 잘 숨겼는지에 달려 있다.
 
