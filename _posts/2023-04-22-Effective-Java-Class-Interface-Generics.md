@@ -13,6 +13,18 @@ featured-img: EFF_JAVA
 
 ## item 15. 클래스와 멤버의 접근 권한을 최소화하라.
 
+🔔
+
+> 프로그램 요소의 접근성은 가능한 한 최소한으로 하자. 
+>
+> 꼭 필요한 것만 골라 최소한의 public API를 설계하자.
+>
+> 그 외에는 클래스, 인터페이스, 멤버가 의도치 않게 API로 공개되는 일이 없도록 해야 한다.
+>
+> public 클래스는 상수용 public static final 필드 외에는 어떠한 public 필드도 가져서는 안 된다. 
+> 
+> public static final 필드가 참조하는 객체가 불변인지 확인하자.
+
 잘 설계된 컴포넌트는 클래스 내부 데이터와 내부 구현 정보를 외부 컴포넌트로부터 얼마나 잘 숨겼는지에 달려 있다.
 
 - 오직 API를 통해서만 다른 컴포넌트와 소통하며 서로의 내부 동작 방식에는 전혀 개의치 않는다.
@@ -41,18 +53,6 @@ featured-img: EFF_JAVA
 - package-private: 멤버가 소속된 패키지 안의 모든 클래스에서 접근 가능 (default. 단, interface는 public)
 - protected: package-private 접근 범위를 포함하고, 멤버를 선언한 클래스의 하위 클래스에서도 접근 가능
 - public: 모든 곳에서 접근 가능
-
-🔔
-
-> 프로그램 요소의 접근성은 가능한 한 최소한으로 하자. 
->
-> 꼭 필요한 것만 골라 최소한의 public API를 설계하자.
->
-> 그 외에는 클래스, 인터페이스, 멤버가 의도치 않게 API로 공개되는 일이 없도록 해야 한다.
->
-> public 클래스는 상수용 public static final 필드 외에는 어떠한 public 필드도 가져서는 안 된다. 
-> 
-> public static final 필드가 참조하는 객체가 불변인지 확인하자.
 
 <br>
 
