@@ -342,3 +342,46 @@ ext['tomcat.version'] = '10.1.4'
 
 [example commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/8534640b8d653e9efacf63343d7fe315a77c1703)
 
+스프링 부트는 Auto Configuration 기능을 제공하는데, 자주 사용하는 빈들을 자동으로 등록해 준다.
+- JdbcTemplate , DataSource , TransactionManager .. 등 스프링 부트가 자동 구성을 제공해서 스프링 빈으로 등록
+- spring-boot-autoconfigure 프로젝트 안에서 수 많은 자동 구성 제공
+
+ex. JdbcTemplateAutoConfiguration
+
+```java
+@AutoConfiguration(after = DataSourceAutoConfiguration.class)
+@ConditionalOnClass({ DataSource.class, JdbcTemplate.class })
+@ConditionalOnSingleCandidate(DataSource.class)
+@EnableConfigurationProperties(JdbcProperties.class)
+@Import({ DatabaseInitializationDependencyConfigurer.class,
+JdbcTemplateConfiguration.class,
+NamedParameterJdbcTemplateConfiguration.class })
+public class JdbcTemplateAutoConfiguration {
+}
+```
+
+`@AutoConfiguration` : 자동 구성을 사용하려면 이 애노테이션 등록
+
+- 내부에 @Configuration 으로 빈을 등록하는 자바 설정 파일로 사용
+- after = DataSourceAutoConfiguration.class
+  - 자동 구성이 실행되는 순서 지정
+  - JdbcTemplate 은 DataSource 가 필요므로 DataSource 를 자동으로 등록해주는 DataSourceAutoConfiguration 이후 실행하도록 설정
+
+`@ConditionalOnClass`({ DataSource.class, JdbcTemplate.class })
+
+- IF문과 유사한 기능 제공
+- 해당 클래스가 있는 경우에만 설정이 동작
+- 없다면 설정들이 모두 무효화 되고, 빈도 등록되지 않음
+- JdbcTemplate 은 DataSource, JdbcTemplate 클래스가 있어야 동작이 가능
+
+`@Import` : 스프링에서 자바 설정 추가 시 사용
+
+참고. JdbcTemplateConfiguration
+
+`@Configuration` : 자바 설정 파일로 사용
+
+`@ConditionalOnMissingBean`(JdbcOperations.class)
+- JdbcOperations(JdbcTemplate 부모 인터페이스) 빈이 없을 때 동작
+- 내가 등록한 JdbcTemplate 과 중복 등록되는 문제 방지
+
+[스프링 부트가 제공하는 자동 구성](https://docs.spring.io/spring-boot/docs/current/reference/html/auto-configuration-classes.html)
