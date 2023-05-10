@@ -385,3 +385,28 @@ public class JdbcTemplateAutoConfiguration {
 - 내가 등록한 JdbcTemplate 과 중복 등록되는 문제 방지
 
 [스프링 부트가 제공하는 자동 구성](https://docs.spring.io/spring-boot/docs/current/reference/html/auto-configuration-classes.html)
+
+---
+
+**@Conditional**
+
+- 특정 상황일 때만 특정 빈들을 등록해서 사용하도록 도와주는 기능
+- Condition 인터페이스를 구현해서 사용
+  ```java
+  /**
+   * ConditionContext : 스프링 컨테이너, 환경 정보등이 담은 클래스
+   * AnnotatedTypeMetadata : 애노테이션 메타 정보를 담은 클래스
+   */
+  package org.springframework.context.annotation;
+    public interface Condition {
+    boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata);
+  }
+  ```
+
+[@conditional example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/c7ea70233c8310bb16dacd5002c5378539f75339)
+- 예를 들어, @Conditional(MemoryCondition.class) 선언이 되어 있을 경우
+  - MemoryCondition matches() 실행
+  - 결과가 true 일 경우
+    - MemoryConfig 는 정상 동작 -> memoryController, memoryFinder 빈 등록
+  - 결과가 false 일 경우
+    - MemoryConfig 는 무효화 -> memoryController, memoryFinder 빈은 등록되지 않음
