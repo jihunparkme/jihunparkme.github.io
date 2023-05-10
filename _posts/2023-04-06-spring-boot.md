@@ -76,7 +76,7 @@ ServletException;
 }
 ```
 
-[서블릿 컨테이너 초기화를 위한 설정](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/ac5cd44f85a8a2751ee73d641bf97b33943ffcf4)
+[서블릿 컨테이너 초기화를 위한 설정 example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/ac5cd44f85a8a2751ee73d641bf97b33943ffcf4)
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/servlet-container.png?raw=true 'Result')
 
@@ -94,7 +94,7 @@ ServletException;
 jakarta.servlet.ServletContainerInitializer 파일에 해당 클래스를 직접 지정해야 하지만, 애플리케이션 초기화는 특정 인터페이스만 구현하면 되는 편리함
 - 애플리케이션 초기화는 서블릿 컨테이너에 상관없이 원하는 모양으로 인터페이스 생성이 가능하여 애플리케이션 초기화 코드가 서블릿 컨테이너에 대한 의존을 줄일 수 있음
 
-[서블릿 컨테이너 / 애플리케이션 초기화](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/a64d0c2224db274f839d175ce626add47288c2f3)
+[서블릿 컨테이너 / 애플리케이션 초기화 example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/a64d0c2224db274f839d175ce626add47288c2f3)
 
 **스프링 컨테이너 등록**
 
@@ -102,7 +102,7 @@ jakarta.servlet.ServletContainerInitializer 파일에 해당 클래스를 직접
 - 스프링MVC 컨트롤러를 스프링 컨테이너에 빈으로 등록하기
 - 스프링MVC를 사용하는데 필요한 디스패처 서블릿을 서블릿 컨테이너 등록하기
 
-[스프링 컨테이너 등록](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/309038cec60f458c80ab06bd86f650b80c3bc515)
+[스프링 컨테이너 등록 example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/309038cec60f458c80ab06bd86f650b80c3bc515)
 
 **스프링 MVC 서블릿 컨테이너 초기화 지원**
 
@@ -124,7 +124,7 @@ public interface WebApplicationInitializer {
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/WebApplicationInitializer.png?raw=true 'Result')
 
-[스프링 MVC 서블릿 컨테이너 초기화 지원(WebApplicationInitializer 구현)](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/75febc7e060a0f49b77090352ebf7e8732667ee5)
+[스프링 MVC 서블릿 컨테이너 초기화 지원(WebApplicationInitializer 구현) example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/75febc7e060a0f49b77090352ebf7e8732667ee5)
 
 ## 스프링 부트와 내장 톰캣
 
@@ -145,13 +145,13 @@ implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.1.5'
 
 - 내장 톰캣을 사용하면 톰캣 서버 설치, IDE에 별도의 복잡한 톰캣 설정 없이 main() 메서드만 실행하면 톰캣까지 매우 편리하게 실행
 
-[스프링 부트와 내장 톰캣: 서블릿](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/2de424bdf8f28456f739d918bca616b38fddc978)
+[스프링 부트와 내장 톰캣: 서블릿 example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/2de424bdf8f28456f739d918bca616b38fddc978)
 
 **내장 톰캣: 스프링**
 
 - 내장 톰캣에 스프링 연동
 
-[스프링 부트와 내장 톰캣: 스프링 컨테이너 연결](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/31c8afb99b0a6ca1e0cd791695ba0c73fa48dc80)
+[스프링 부트와 내장 톰캣: 스프링 컨테이너 연결 example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/31c8afb99b0a6ca1e0cd791695ba0c73fa48dc80)
 
 **내장 톰캣: 빌드와 배포**
 
@@ -183,7 +183,7 @@ implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.1.5'
 
 **부트 클래스 만들어 보기**
 
-[스프링 부트와 내장 톰캣: 편리한 부트 클래스 만들기](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/b46935f67de40ee8a6a51f241e9daa51066c2a5e)
+[스프링 부트와 내장 톰캣: 편리한 부트 클래스 만들기 example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/b46935f67de40ee8a6a51f241e9daa51066c2a5e)
 
 ## 스프링 부트와 웹 서버
 
@@ -340,7 +340,7 @@ ext['tomcat.version'] = '10.1.4'
 
 ## Auto Configuration
 
-[example commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/8534640b8d653e9efacf63343d7fe315a77c1703)
+[Auto Configuration example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/8534640b8d653e9efacf63343d7fe315a77c1703)
 
 스프링 부트는 Auto Configuration 기능을 제공하는데, 자주 사용하는 빈들을 자동으로 등록해 준다.
 - JdbcTemplate , DataSource , TransactionManager .. 등 스프링 부트가 자동 구성을 제공해서 스프링 빈으로 등록
@@ -388,7 +388,7 @@ public class JdbcTemplateAutoConfiguration {
 
 ---
 
-**@Conditional**
+### @Conditional
 
 - 특정 상황일 때만 특정 빈들을 등록해서 사용하도록 도와주는 기능
 - Condition 인터페이스를 구현해서 사용
