@@ -436,4 +436,6 @@ public class JdbcTemplateAutoConfiguration {
   - 빌드: `./gradlew clean build`
 - 라이브러리를 사용할 프로젝트
   - dependencies 추가: `implementation files('libs/memory-v1.jar')`
-  - 빈 등록: 
+  - 빈 등록
+    - 여기서 클라이언트는 라이브러리를 사용하기 위해 어떤 빈을 등록해야 하는지 알아야 하고, 그것을 등록해야 하는 번거로움이 있다.
+    - 이러한 복잡한 초기 설정을 자동으로 처리해주는 것이 스프링 부트 자동 구성(Auto Configuration)
