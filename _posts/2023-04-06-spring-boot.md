@@ -410,3 +410,22 @@ public class JdbcTemplateAutoConfiguration {
     - MemoryConfig 는 정상 동작 -> memoryController, memoryFinder 빈 등록
   - 결과가 false 일 경우
     - MemoryConfig 는 무효화 -> memoryController, memoryFinder 빈은 등록되지 않음
+- 위 코드는 `@ConditionalOnProperty(name = "memory", havingValue = "on")` 한 줄로 처리가 가능
+
+**스프링이 제공하는 다양한 Condition Annotations**
+
+- @ConditionalOnClass, @ConditionalOnMissingClass
+  - 클래스가 있는 경우 동작. 나머지는 그 반대
+- @ConditionalOnBean, @ConditionalOnMissingBean
+  - 빈이 등록되어 있는 경우 동작. 나머지는 그 반대
+- @ConditionalOnProperty
+  - 환경 정보가 있는 경우 동작.
+- @ConditionalOnResource
+  - 리소스가 있는 경우 동작.
+- @ConditionalOnWebApplication, @ConditionalOnNotWebApplication
+  - 웹 애플리케이션인 경우 동작.
+- @ConditionalOnExpression
+  - SpEL 표현식에 만족하는 경우 동작.
+
+  참고. [Condition Annotations](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.developing-auto-configuration.condition-annotations)
+  - 주로 스프링 부트 자동 구성에 사용
