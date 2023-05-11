@@ -429,3 +429,11 @@ public class JdbcTemplateAutoConfiguration {
 
   참고. [Condition Annotations](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.developing-auto-configuration.condition-annotations)
   - 주로 스프링 부트 자동 구성에 사용
+
+**라이브러리 만들기**
+
+- 라이브러리 프로젝트
+  - 빌드: `./gradlew clean build`
+- 라이브러리를 사용할 프로젝트
+  - dependencies 추가: `implementation files('libs/memory-v1.jar')`
+  - 빈 등록: 
