@@ -439,3 +439,31 @@ public class JdbcTemplateAutoConfiguration {
   - 빈 등록
     - 여기서 클라이언트는 라이브러리를 사용하기 위해 어떤 빈을 등록해야 하는지 알아야 하고, 그것을 등록해야 하는 번거로움이 있다.
     - 이러한 복잡한 초기 설정을 자동으로 처리해주는 것이 스프링 부트 자동 구성(Auto Configuration)
+
+**자동 구성 라이브러리 만들기**
+
+- 라이브러리 프로젝트
+  - Config 파일에 자동 구성 추가
+    - `@ConditionalOnProperty(name = "memory", havingValue = "on")`
+    ```java
+    @AutoConfiguration
+    @ConditionalOnProperty(name = "memory", havingValue = "on")
+    public class MemoryAutoConfig {
+        @Bean
+        public MemoryController memoryController() {
+            return new MemoryController(memoryFinder());
+        }
+        @Bean
+        public MemoryFinder memoryFinder() {
+            return new MemoryFinder();
+        }
+    }
+    ```
+  - 자동 구성 대상 지정
+    - `src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
+      ```text
+      memory.MemoryAutoConfig
+      ```
+    - 스프링 부트는 시작 시점에 해당 파일의 정보를 읽어서 자동 구성으로 사용
+    - 내부에 있는 MemoryAutoConfig 가 자동으로 실행
+  - 빌드
