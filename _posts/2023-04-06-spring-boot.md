@@ -430,11 +430,12 @@ public class JdbcTemplateAutoConfiguration {
   참고. [Condition Annotations](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.developing-auto-configuration.condition-annotations)
   - 주로 스프링 부트 자동 구성에 사용
 
+### 자동 구성
+
 **자동 구성 라이브러리 만들기**
 
-- 라이브러리 프로젝트
+- 라이브러리 생성 프로젝트
   - Config 파일에 자동 구성 추가
-    - `@ConditionalOnProperty(name = "memory", havingValue = "on")`
     ```java
     @AutoConfiguration
     @ConditionalOnProperty(name = "memory", havingValue = "on")
@@ -449,15 +450,24 @@ public class JdbcTemplateAutoConfiguration {
         }
     }
     ```
-  - 자동 구성 대상 지정
+  - 자동 구성 대상 클래스 지정
     - `src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
       ```text
       memory.MemoryAutoConfig
       ```
     - 스프링 부트는 시작 시점에 해당 파일의 정보를 읽어서 자동 구성으로 사용
-    - 내부에 있는 MemoryAutoConfig 가 자동으로 빈 등록
+    - 내부에 있는 MemoryAutoConfig가 자동으로 빈 등록
   - 빌드: `./gradlew clean build`
 - 라이브러리를 사용할 프로젝트
   - dependencies 추가: `implementation files('libs/memory-v1.jar')`
   - 스프링 부트 자동 구성이 적용되어 라이브러리 사용을 위한 빈들이 자동으로 등록
   - 라이브러리 설정 필요 시 VM 옵션 추가: `-Dmemory=on` 
+
+**스프링 부트의 자동 구성**
+
+- 스프링 부트는 아래 경로에 있는 파일을 읽어서 스프링 부트 자동 구성으로 사용
+  - `resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
+  - 스프링 부트가 제공하는 spring-boot-autoconfigure 라이브러리에서도 자동 구성을 사용
+    - `org.springframework.boot.autoconfigure.AutoConfiguration.imports`
+- 해당 파일을 읽고 동작하는 방식
+  - `@SpringBootApplication` -> `@EnableAutoConfiguration`(자동 구성 활성화) -> `@Import(AutoConfigurationImportSelector.class)`(스프링 설정 정보 포함)
