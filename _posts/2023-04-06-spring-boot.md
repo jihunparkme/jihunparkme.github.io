@@ -474,7 +474,7 @@ public class JdbcTemplateAutoConfiguration {
 
 **ImportSelector**
 
-- @Import 에 설정 정보를 추가하는 방법
+- [@Import에 설정 정보를 추가하는 방법](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/b504c09c362bc5e35841fac0a98d9511a3fbe187)
   - 정적인 방법: 코드에 대상을 지정
     ```java
     @Configuration
@@ -501,7 +501,7 @@ public class JdbcTemplateAutoConfiguration {
       }
 
       ...
-      
+
       @Configuration
       @Import(HelloImportSelector.class)
       public static class SelectorConfig {
