@@ -470,7 +470,7 @@ public class JdbcTemplateAutoConfiguration {
   - 스프링 부트가 제공하는 spring-boot-autoconfigure 라이브러리에서도 자동 구성을 사용
     - `org.springframework.boot.autoconfigure.AutoConfiguration.imports`
 - 해당 파일을 읽고 동작하는 방식
-  - `@SpringBootApplication` -> `@EnableAutoConfiguration`(자동 구성 활성화) -> `@Import(AutoConfigurationImportSelector.class)`(스프링 설정 정보 포함)
+  - `@SpringBootApplication` 실행 -> `@EnableAutoConfiguration`(자동 구성 활성화) -> `@Import(AutoConfigurationImportSelector.class)`(스프링 설정 정보) -> `resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` 파일을 열어서 설정 정보 선택
 
 **ImportSelector**
 
