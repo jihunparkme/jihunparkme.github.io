@@ -471,3 +471,39 @@ public class JdbcTemplateAutoConfiguration {
     - `org.springframework.boot.autoconfigure.AutoConfiguration.imports`
 - 해당 파일을 읽고 동작하는 방식
   - `@SpringBootApplication` -> `@EnableAutoConfiguration`(자동 구성 활성화) -> `@Import(AutoConfigurationImportSelector.class)`(스프링 설정 정보 포함)
+
+**ImportSelector**
+
+- @Import 에 설정 정보를 추가하는 방법
+  - 정적인 방법: 코드에 대상을 지정
+    ```java
+    @Configuration
+    @Import({AConfig.class, BConfig.class})
+    public class AppConfig {...}
+    ```
+  - 동적인 방법: 설정으로 사용할 대상을 동적으로 선택
+    - ImportSelector 인터페이스 구현 -> 단순히 hello.selector.HelloConfig 설정 정보 반환
+      ```java
+      package org.springframework.context.annotation;
+
+      public interface ImportSelector {
+      String[] selectImports(AnnotationMetadata importingClassMetadata);
+      //...
+      }
+      ```
+    - 반환되어 설정 정보로 사용할 클래스를 동적으로 프로그래밍
+      ```java
+      public class HelloImportSelector implements ImportSelector {
+          @Override
+          public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+              return new String[]{"hello.selector.HelloConfig"};
+          }
+      }
+
+      ...
+      
+      @Configuration
+      @Import(HelloImportSelector.class)
+      public static class SelectorConfig {
+      }
+      ```
