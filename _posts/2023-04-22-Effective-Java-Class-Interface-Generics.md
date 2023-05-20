@@ -146,7 +146,90 @@ featured-img: EFF_JAVA
 
 ## item 19. 상속을 고려해 설계하고 문서화하라. 그러지 않았다면 상속을 금지하라.
 
-> --
+> 상속용 클래스를 설계하기란 결코 만만치 않다.
+>
+> 클래스 내부에서 스스로를 어떻게 사용하는지(자기사용 패턴) 모두 문서로 남겨야 하며, 일단 문서화한 것은 그 클래스가 쓰이는 한 반드시 지켜야 한다.
+>
+> 그렇지 않으면 그 내부 구현 방식을 믿고 활용하던 하위 클래스를 오동작하게 만들 수 있다.
+>
+> 다른 이가 효율 좋은 하위 클래스를 만들 수 있도록 일부 메서드를 protected로 제공해야 할 수도 있다.
+>
+> 그러니 클래스를 확장해야 할 명확한 이유가 떠오르지 않으면 상속을 금지하는 편이 나을 것이다.
+>
+> 상속을 금지하려면 클래스를 final로 선언하거나 생성자 모두를 외부에서 접근할 수 없도록 만들면 된다.
+
+상속용 클래스는 재정의할 수 있는 메서드들을 내부적으로 어떻게 이용하는지 문서로 남겨야 한다.
+
+
+java.util.AbstractCollection#remove
+- 내부 동작 방식을 설명
+- 메서드 주석에 @implSpec 태그를 붙여주면 자바독 도구가 생성
+
+```java
+/**
+ * {@inheritDoc}
+ *
+ * @implSpec
+ * This implementation iterates over the collection looking for the
+ * specified element.  If it finds the element, it removes the element
+ * from the collection using the iterator's remove method.
+ *
+ * <p>Note that this implementation throws an
+ * {@code UnsupportedOperationException} if the iterator returned by this
+ * collection's iterator method does not implement the {@code remove}
+ * method and this collection contains the specified object.
+ *
+ * @throws UnsupportedOperationException {@inheritDoc}
+ * @throws ClassCastException            {@inheritDoc}
+ * @throws NullPointerException          {@inheritDoc}
+ */
+public boolean remove(Object o) {...}
+```
+
+java.util.AbstractList#removeRange
+- 클래스의 내부 동작 과정 중간에 끼어들 수 있는 훅을 잘 선별하여 protected 메서드 형태로 공개
+  
+```java
+/**
+ * Removes from this list all of the elements whose index is between
+ * {@code fromIndex}, inclusive, and {@code toIndex}, exclusive.
+ * Shifts any succeeding elements to the left (reduces their index).
+ * This call shortens the list by {@code (toIndex - fromIndex)} elements.
+ * (If {@code toIndex==fromIndex}, this operation has no effect.)
+ *
+ * <p>This method is called by the {@code clear} operation on this list
+ * and its subLists.  Overriding this method to take advantage of
+ * the internals of the list implementation can <i>substantially</i>
+ * improve the performance of the {@code clear} operation on this list
+ * and its subLists.
+ *
+ * @implSpec
+ * This implementation gets a list iterator positioned before
+ * {@code fromIndex}, and repeatedly calls {@code ListIterator.next}
+ * followed by {@code ListIterator.remove} until the entire range has
+ * been removed.  <b>Note: if {@code ListIterator.remove} requires linear
+ * time, this implementation requires quadratic time.</b>
+ *
+ * @param fromIndex index of first element to be removed
+ * @param toIndex index after last element to be removed
+ */
+protected void removeRange(int fromIndex, int toIndex) {
+    ListIterator<E> it = listIterator(fromIndex);
+    for (int i=0, n=toIndex-fromIndex; i<n; i++) {
+        it.next();
+        it.remove();
+    }
+}
+```
+
+- 상속용 클래스를 시험하는 방법은 직접 하위 클래스를 만들어 보는 것이 **유일**
+- 상속용으로 설계한 클래스는 배포 전에 반드시 하위 클래스를 만들어 검증하자.
+- 상속용 클래스의 생성자는 직접적으로든 간접적으로든 재정의 가능 메서드를 호출해서는 안 된다.
+- clone, readObject 모두 직접적으로든 간접적으로든 재정의 가능 메서드를 호출해서는 안 된다.
+- 상속용으로 설계하지 않은 클래스는 상속을 금지하자.
+  - 클래스를 final 로 선언
+  - 모든 생성자를 private/package-private 선언 후 public 정적 팩터리 제공
+  - 좋은 예. Set, List, Map
 
 <br>
 
