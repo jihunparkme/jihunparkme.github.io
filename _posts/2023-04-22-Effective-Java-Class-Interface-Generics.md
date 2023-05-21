@@ -235,7 +235,24 @@ protected void removeRange(int fromIndex, int toIndex) {
 
 ## item 20. 추상 클래스보다는 인터페이스를 우선하라.
 
-> --
+> 일반적으로 다중 구현용 타입으로는 인터페이스가 가장 적합
+>
+> 복잡한 인터페이스라면 구현하는 수고를 덜어주는 골격 구현을 함께 제공하는 방법을 꼭 고려해보자.
+>
+> 골격 구현은 '가능한 한' 인터페이스의 디폴트 메서드로 제공하여 그 인터페이스를 구현한 모든 곳에서 활용하도록 하는 것이 좋다.
+>
+> '가능한 한'의 이유는, 인터페이스에 걸려 있는 구현상의 제약 때문에 골격 구현을 추상클래스로 제공하는 경우가 더 흔하기 때문.
+
+기존 클래스에도 손쉽게 새로운 인터페이스를 구현해 넣을 수 있다.
+- 인터페이스는 믹스인(mixin, 대상 타입의 주된 기능에 선택적 기능을 혼합) 정의에 안성맞춤
+- 인터페이스로는 계층구조가 없는 타입 프레임워크를 만들 수 있음
+- 인터페이스는 기능을 향상시키는 안전하고 강력한 수단
+
+골격 구현 클래스
+- 추상 클래스처럼 구현을 도와주는 동시에, 추상 클래스로 타입을 정의할 때 따라오는 심각한 제약에서는 자유로움
+- [골격 구현을 사용해 완성한 구체 클래스](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter4/item20/IntArrays.java)
+- [골격 구현 클래스](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter4/item20/AbstractMapEntry.java)
+- 단순 구현(simple implementation)은 골격 구현의 작은 변종으로, AbstractMap.SimpleEntry가 좋은 예
 
 <br>
 
