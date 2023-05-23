@@ -2,7 +2,7 @@
 layout: post
 title: Spring Boot
 summary: Spring Boot 핵심 원리와 활용
-categories: Spring-Boot
+categories: Spring-Boot 자동구성 외부설정
 featured-img: spring
 # mathjax: true
 ---
@@ -526,4 +526,6 @@ public class JdbcTemplateAutoConfiguration {
 - `자바 커맨드 라인 인수`: 커맨드 라인에서 전달하는 외부 설정. 실행시 main(args) 메서드에서 사용
   - `java -jar app.jar dataA dataB`
   - [commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/bb6f9af170da552493bffab90bc24fc9e028276f)
+- `자바 커맨드 라인 옵션 인수`: 스프링에서 커맨드 라인 인수를 key=value 형식으로 편리하게 사용할 수 있도록 표준 방식(--) 정의
+  - `--url=devdb --username=dev_user --password=dev_pw mode=on`
 - `외부 파일(설정 데이터)`: 프로그램에서 외부 파일을 직접 읽어서 사용
