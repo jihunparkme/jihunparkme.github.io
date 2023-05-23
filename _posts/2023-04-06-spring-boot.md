@@ -531,3 +531,9 @@ public class JdbcTemplateAutoConfiguration {
   - [commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/f505f48acd33fb89a4a4a0738c5dd9f29832b1ca)
   - [스프링 부트에서 사용](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/51ac6770d986e8bd5db4d058d3f6a11cbebb68c5)
 - `외부 파일(설정 데이터)`: 프로그램에서 외부 파일을 직접 읽어서 사용
+
+**스프링 통합**
+
+- 추상화(Environment, PropertySource)를 통해 외부 설정값이 어디에 위치하든 일관성 있고, 편리하게 설정값을 읽을 수 있음
+- PropertySource: 스프링은 로딩 시점에 필요한 PropertySource 들을 생성하고, Environment 에서 사용할 수 있게 연결
+- Environment: 모든 외부 설정(*커멘드 라인 옵션 인수, 자바 시스템 속성, OS 환경변수, 설정 파일*)은 Environment 를 통해 조회
