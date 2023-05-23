@@ -516,3 +516,11 @@ public class JdbcTemplateAutoConfiguration {
 ## 외부설정
 
 환경에 따라 변하는 설정값을 실행 시점에 주입
+
+설정값 외부 설정을 하는 일반적인 네 가지 방법
+- `OS 환경 변수`: OS에서 지원하는 외부 설정. 해당 OS를 사용하는 모든 프로세스에서 사용
+  - [commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/8dafc144067cbb603716e428fffe901b2cb5aab0)
+- `자바 시스템 속성`: 자바에서 지원하는 외부 설정. 해당 JVM 안에서 사용
+  - `java -Durl=devdb -Dusername=dev_user -Dpassword=dev_pw -jar app.jar`
+- `자바 커맨드 라인 인수`: 커맨드 라인에서 전달하는 외부 설정. 실행시 main(args) 메서드에서 사용
+- `외부 파일(설정 데이터)`: 프로그램에서 외부 파일을 직접 읽어서 사용
