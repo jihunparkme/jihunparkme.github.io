@@ -529,4 +529,5 @@ public class JdbcTemplateAutoConfiguration {
 - `자바 커맨드 라인 옵션 인수`: 스프링에서 커맨드 라인 인수를 key=value 형식으로 편리하게 사용할 수 있도록 표준 방식(--) 정의
   - `--url=devdb --username=dev_user --password=dev_pw mode=on`
   - [commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/f505f48acd33fb89a4a4a0738c5dd9f29832b1ca)
+  - [스프링 부트에서 사용](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/51ac6770d986e8bd5db4d058d3f6a11cbebb68c5)
 - `외부 파일(설정 데이터)`: 프로그램에서 외부 파일을 직접 읽어서 사용
