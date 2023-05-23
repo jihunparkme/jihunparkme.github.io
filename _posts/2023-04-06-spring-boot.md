@@ -522,5 +522,6 @@ public class JdbcTemplateAutoConfiguration {
   - [commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/8dafc144067cbb603716e428fffe901b2cb5aab0)
 - `자바 시스템 속성`: 자바에서 지원하는 외부 설정. 해당 JVM 안에서 사용
   - `java -Durl=devdb -Dusername=dev_user -Dpassword=dev_pw -jar app.jar`
+  - [commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/83e5b951d1ffd06b21c05d9b4317527405ae99e6)
 - `자바 커맨드 라인 인수`: 커맨드 라인에서 전달하는 외부 설정. 실행시 main(args) 메서드에서 사용
 - `외부 파일(설정 데이터)`: 프로그램에서 외부 파일을 직접 읽어서 사용
