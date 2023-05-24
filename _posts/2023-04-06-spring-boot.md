@@ -531,6 +531,7 @@ public class JdbcTemplateAutoConfiguration {
   - [commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/f505f48acd33fb89a4a4a0738c5dd9f29832b1ca)
   - [스프링 부트에서 사용](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/51ac6770d986e8bd5db4d058d3f6a11cbebb68c5)
 - `외부 파일(설정 데이터)`: 프로그램에서 외부 파일을 직접 읽어서 사용
+  - 로딩 시점에 파일(`.properties`, `.yml`)을 자동으로 읽어서 그 속의 값들을 외부 설정값으로 사용
 
 **[스프링 통합](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/028f460681fea8cc22d385169d5a4f4b0378e5de)**
 
