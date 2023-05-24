@@ -527,11 +527,16 @@ public class JdbcTemplateAutoConfiguration {
   - `java -jar app.jar dataA dataB`
   - [commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/bb6f9af170da552493bffab90bc24fc9e028276f)
 - `자바 커맨드 라인 옵션 인수`: 스프링에서 커맨드 라인 인수를 key=value 형식으로 편리하게 사용할 수 있도록 표준 방식(--) 정의
-  - `--url=devdb --username=dev_user --password=dev_pw mode=on`
+  - `java -jar app.jar --url=devdb --username=dev_user --password=dev_pw mode=on`
   - [commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/f505f48acd33fb89a4a4a0738c5dd9f29832b1ca)
   - [스프링 부트에서 사용](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/51ac6770d986e8bd5db4d058d3f6a11cbebb68c5)
 - `외부 파일(설정 데이터)`: 프로그램에서 외부 파일을 직접 읽어서 사용
   - 로딩 시점에 파일(`.properties`, `.yml`)을 자동으로 읽어서 그 속의 값들을 외부 설정값으로 사용
+  - 프로필: `spring.profiles.active={profile}` 설정으로 프로필 지정
+    - 아래 규칙으로 설정 프로필에 맞는 내부 파일(설정 데이터) 조회 
+    - `application-{profile}.properties`
+  - 커맨드 라인 옵션 인수 실행: `--spring.profiles.active=dev`
+  - 자바 시스템 속성 실행: `-Dspring.profiles.active=dev`
 
 **[스프링 통합](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/028f460681fea8cc22d385169d5a4f4b0378e5de)**
 
