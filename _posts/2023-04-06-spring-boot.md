@@ -537,6 +537,7 @@ public class JdbcTemplateAutoConfiguration {
     - `application-{profile}.properties`
   - 커맨드 라인 옵션 인수 실행: `--spring.profiles.active=dev`
   - 자바 시스템 속성 실행: `-Dspring.profiles.active=dev`
+  - [내부 파일 통합](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/12819ba26ceacc67954c715832f6e5e8a35b00ed)
 
 **[스프링 통합](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/028f460681fea8cc22d385169d5a4f4b0378e5de)**
 
