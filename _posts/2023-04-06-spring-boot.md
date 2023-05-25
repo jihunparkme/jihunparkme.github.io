@@ -544,3 +544,24 @@ public class JdbcTemplateAutoConfiguration {
 - 추상화(Environment, PropertySource)를 통해 외부 설정값이 어디에 위치하든 일관성 있고, 편리하게 설정값을 읽을 수 있음
 - PropertySource: 스프링은 로딩 시점에 필요한 PropertySource 들을 생성하고, Environment 에서 사용할 수 있게 연결
 - Environment: 모든 외부 설정(*커멘드 라인 옵션 인수, 자바 시스템 속성, OS 환경변수, 설정 파일*)은 Environment 를 통해 조회
+
+**우선순위**
+
+```yml
+url=local.db.com
+username=local_user
+password=local_pw
+#---
+spring.config.activate.on-profile=dev
+url=dev.db.com
+username=dev_user
+password=dev_pw
+#---
+spring.config.activate.on-profile=prod
+url=prod.db.com
+username=prod_user
+password=prod_pw
+```
+
+- 단순하게 문서를 위에서 아래로 순서대로 읽으면서 값을 설정. 기존 데이터가 있으면 덮어쓰기
+- 논리 문서에 `spring.config.activate.on-profile` 옵션이 있으면 해당 프로필을 사용할 때(*--spring.profiles.active*)만 논리 문서 적용
