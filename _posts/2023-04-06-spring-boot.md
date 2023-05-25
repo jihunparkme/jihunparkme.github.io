@@ -547,6 +547,9 @@ public class JdbcTemplateAutoConfiguration {
 
 **우선순위**
 
+- 더 유연한 것이 우선권
+- 범위가 넒은 것 보다 좁은 것이 우선권
+
 ```yml
 url=local.db.com
 username=local_user
@@ -565,3 +568,22 @@ password=prod_pw
 
 - 단순하게 문서를 위에서 아래로 순서대로 읽으면서 값을 설정. 기존 데이터가 있으면 덮어쓰기
 - 논리 문서에 `spring.config.activate.on-profile` 옵션이 있으면 해당 프로필을 사용할 때(*--spring.profiles.active*)만 논리 문서 적용
+
+[**외부 설정 우선순위**](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config)
+
+(내려갈수록 우선순위 높아짐)
+
+- 설정 데이터(application.properties)
+- OS 환경변수
+- 자바 시스템 속성
+- 커맨드 라인 옵션 인수
+- @TestPropertySource(in Test)
+
+[**설정 데이터 우선순위**](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config.files)
+
+(내려갈수록 우선순위 높아짐)
+
+- jar 내부 application.properties
+- jar 내부 프로필 적용 파일 application-{profile}.properties
+- jar 외부 application.properties
+- jar 외부 프로필 적용 파일 application-{profile}.properties
