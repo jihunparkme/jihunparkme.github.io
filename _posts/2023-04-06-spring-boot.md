@@ -587,3 +587,5 @@ password=prod_pw
 - jar 내부 프로필 적용 파일 application-{profile}.properties
 - jar 외부 application.properties
 - jar 외부 프로필 적용 파일 application-{profile}.properties
+
+applicaiton.properties에 설정 데이터를 기본으로 사용하다가 일부 속성을 변경할 필요가 생기면 더 높은 우선순위를 가지는 자바 시스템 속성이나 커맨드 라인 옵션 인수를 사용할 수도 있다.
