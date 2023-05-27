@@ -299,9 +299,55 @@ public class PhysicalConstants {
 
 ## item 23. 태그 달린 클래스보다는 클래스 계층구조를 활용하라.
 
-> --
+> 태그 달린 클래스를 써야 하는 상황은 거의 없다.
+>
+> 새로운 클래스를 작성하는 데 태그 필드가 등장한다면 태그를 없애고 계층구조로 대체하는 방법을 생각해보자.
+>
+> 기존 클래스가 태그 필드를 사용하고 있다면 계층구조로 리팩터링하는 것을 고민해보자.
 
 📖
+
+태그 달린 클래스는 쓸데없는 코드가 많다.
+- 열거 타입
+- 태그 필드
+- switch 문
+- 여러 구현이 혼합
+- 불필요한 코드
+
+태그 달린 클래스는 장황하고, 오류를 내기 쉽고, 비효율적이다.
+
+태그 달린 클래스를 클래스 계층구조를 변환해주자.
+
+```java
+abstract class Figure {
+    abstract double area();
+}
+
+class Circle extends Figure {
+    final double radius;
+
+    Circle(double radius) { this.radius = radius; }
+
+    @Override double area() { return Math.PI * (radius * radius); }
+}
+
+class Rectangle extends Figure {
+    final double length;
+    final double width;
+
+    Rectangle(double length, double width) {
+        this.length = length;
+        this.width  = width;
+    }
+    @Override double area() { return length * width; }
+}
+
+class Square extends Rectangle {
+    Square(double side) {
+        super(side, side);
+    }
+}
+```
 
 <br>
 
