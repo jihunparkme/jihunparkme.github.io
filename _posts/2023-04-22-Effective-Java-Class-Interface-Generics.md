@@ -545,9 +545,39 @@ public class SampleClass {
 
 ## item 25. 톱레벨 클래스는 한 파일에 하나만 담으라.
 
-> --
+> 소스 파일 하나에는 반드시 톱레별 클래스(혹은 톱레벨 인터페이스)를 하나만 담자.
+>
+> 이 규치만 따른다면 컴파일러가 한 클래스에 대한 정의를 여러 개 만들어 내는 일은 사라진다.
+>
+> 소스 파일을 어떤 순서로 컴파일하든 바이너리 파일이나 프로그램의 동작이 달라지는 일은 결코 일어나지 않을 것이다.
 
 📖
+
+**소스 파일 하나에 톱레벨 클래스를 여러 개 선언한다면, 아무런 득이 없을 뿐더러 심각한 위험을 감수해야 한다.**
+
+- 어느 소스 파일을 먼저 컴파일하냐에 따라 결과가 달라지게 된다.
+
+💡**해결책**
+- 톱 레벨 클래스들을 서로 다른 소스 파일로 분리하기
+- 여러 톱레벨 클래스를 한 파일에 담고 싶다면 정적 멤버 클래스 사용 고민해보기
+  - 다른 클래스에 담긴 부차적 클래스라면 이 방법을 선호
+  - 읽기 좋고, private 선언 시 접근 범위도 최소화로 관리가 가능
+
+```java
+public class Sample {
+    public static void main(String[] args) {
+        System.out.println(Utensil.NAME + Dessert.NAME);
+    }
+
+    private static class Utensil {
+        static final String NAME = "pan";
+    }
+
+    private static class Dessert {
+        static final String NAME = "cake";
+    }
+}
+```
 
 <br>
 
