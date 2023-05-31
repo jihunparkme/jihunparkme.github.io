@@ -592,11 +592,46 @@ applicaiton.properties에 설정 데이터를 기본으로 사용하다가 일�
 
 ### 외부 설정 사용
 
-`Environment`
+**`Environment`**
+
 - Environment로 외부 설정 조회
 - Environment를 직접 주입받고, env.getProperty(key)를 통해 값을 꺼내는 과정을 반복해야 하는 단점
 - [속성 변환기(Properties Conversion)](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config.typesafe-configuration-properties.conversion)
 - [Environment example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/317f085f9d73d038d572c5827f828dc449fc2ed4)
 
-`@Value`
-`@ConfigurationProperties`
+```java
+String url = env.getProperty("my.datasource.url");
+String username = env.getProperty("my.datasource.username");
+String password = env.getProperty("my.datasource.password");
+int maxConnection = env.getProperty("my.datasource.etc.max-connection", Integer.class);
+Duration timeout = env.getProperty("my.datasource.etc.timeout", Duration.class);
+List<String> options = env.getProperty("my.datasource.etc.options", List.class);
+```
+
+**`@Value`**
+
+- 외부 설정값을 편리하게 주입
+- 내부에서는 Environment 사용
+- 필드, 파라미터에 사용 가능
+- 타입 컨버팅을 자동으로 수행
+- 외부 설정 정보의 키 값을 하나하나 입력, 주입 받아야 하는 단점
+- 기본값 사용 시: `@Value("${my.datasource.etc.max-connection:1}")`
+
+```java
+@Value("${my.datasource.url}")
+private String url;
+@Value("${my.datasource.username}")
+private String username;
+@Value("${my.datasource.password}")
+private String password;
+@Value("${my.datasource.etc.max-connection}")
+private int maxConnection;
+@Value("${my.datasource.etc.timeout}")
+private Duration timeout;
+@Value("${my.datasource.etc.options}")
+private List<String> options;
+```
+
+**`@ConfigurationProperties`**
+
+- 
