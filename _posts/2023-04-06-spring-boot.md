@@ -616,6 +616,7 @@ List<String> options = env.getProperty("my.datasource.etc.options", List.class);
 - 타입 컨버팅을 자동으로 수행
 - 외부 설정 정보의 키 값을 하나하나 입력, 주입 받아야 하는 단점
 - 기본값 사용 시: `@Value("${my.datasource.etc.max-connection:1}")`
+- [@Value example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/7a031b7295ae4abb339c0fe578a9a3d54a52412d)
 
 ```java
 @Value("${my.datasource.url}")
