@@ -589,3 +589,14 @@ password=prod_pw
 - jar 외부 프로필 적용 파일 application-{profile}.properties
 
 applicaiton.properties에 설정 데이터를 기본으로 사용하다가 일부 속성을 변경할 필요가 생기면 더 높은 우선순위를 가지는 자바 시스템 속성이나 커맨드 라인 옵션 인수를 사용할 수도 있다.
+
+### 외부 설정 사용
+
+`Environment`
+- Environment로 외부 설정 조회
+- Environment를 직접 주입받고, env.getProperty(key)를 통해 값을 꺼내는 과정을 반복해야 하는 단점
+- [속성 변환기(Properties Conversion)](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config.typesafe-configuration-properties.conversion)
+- [Environment example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/317f085f9d73d038d572c5827f828dc449fc2ed4)
+
+`@Value`
+`@ConfigurationProperties`
