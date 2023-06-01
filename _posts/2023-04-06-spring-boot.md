@@ -635,4 +635,8 @@ private List<String> options;
 
 **`@ConfigurationProperties`**
 
-- 
+- Type-safe Configuration Properties
+- 외부 설정의 묶음 정보를 객체로 변환하는 기능
+- 타입 안전한 설정 속성 사용(타입이 다르면 오류 발생)
+- 캐밥 표기법을 낙타 표기법으로 중간에 자동으로 변환
+- [@ConfigurationProperties example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/a22e7e3f9f31628a7f58c09f892e6ad01edb1d17)
