@@ -636,13 +636,20 @@ private List<String> options;
 **`@ConfigurationProperties`**
 
 - Type-safe Configuration Properties
-- 외부 설정의 묶음 정보를 객체로 변환하는 기능
-- 타입 안전한 설정 속성 사용(타입이 다르면 오류 발생)
+- **외부 설정의 묶음, 계층 정보를 객체로 변환**해서 사용
+- **타입 안전한 설정** 속성 사용(타입이 다르면 오류 발생)
 - 캐밥 표기법을 낙타 표기법으로 중간에 자동으로 변환
 - [@ConfigurationProperties example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/a22e7e3f9f31628a7f58c09f892e6ad01edb1d17)
-- 값 변경 방지를 위해 세터 대신 생성자를 사용하자.
-- @DefaultValue: 해당 값을 찾을 수 없는 경우 기본값을 사용
+- 값 변경 방지를 위해 세터 대신 **생성자**를 사용하자.
+- **@DefaultValue**: 해당 값을 찾을 수 없는 경우 기본값을 사용
 - [@ConfigurationProperties 생성자 활용](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/46cc8384974355a374ee5979185942c7b0d527f6)
+- 숫자의 범위, 문자의 길이 검증을 위해 **자바 빈 검증기**(java bean validation) 사용 가능
+  - dependency: *implementation 'org.springframework.boot:spring-boot-starter-validation*
+- [](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/95601713aeb5d258ea31308edd139c41a187375d)
+
+> 가장 좋은 예외는 컴파일 예외, 그리고 애플리케이션 로딩 시점에 발생하는 예외. 
+> 
+> 가장 나쁜 예외는 고객 서비스 중에 발생하는 런타임 예외
 
 ```java
 my.datasource.url=local.db.com
