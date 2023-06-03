@@ -669,9 +669,93 @@ if (o instanceof Set) {
 
 ## item 28. 배열보다는 리스트를 사용하라.
 
-> --
+> 배열과 제네릭에는 매우 다른 타입 규칙이 적용된다.
+>
+> 배열은 공변이고 실체화되는 반면, 제네릭은 불공변이고 타입 정보가 소거된다.
+>
+> 그 결과 배열은 런타임에는 타입 안전하지만 컴파일타임에는 그렇지 않다.
+>
+> 제네릭은 그 반대다. 그래서 둘이 섞어 쓰기 쉽지 않다.
+>
+> 둘을 섞어 쓰다가 컴파일 오류나 경고를 만나면, 가장 먼저 배열을 리스트로 대체하는 방법을 적용해보자.
 
 📖
+
+**배열과 제네릭 타입의 중요한 차이**
+
+공변과 비공변
+  
+- 배열은 공변(covariant): 함께 변함
+  - Sub가 Super의 하위 타입일 때, Sub[]는 Super[]의 하위 타입이 된다.
+    ```java
+    // 런타임 시점에 실패. ArrayStoreException
+    Object[] objectArray = new Long[1];
+    objectArray[0] = "타입이 달라 넣을 수 없음.";
+    ``` 
+- 제네릭은 불공면(invariant)
+  - 서로 다른 타입의 Type1, Type2는 List\<Type1\>은 List\<Type2\>의 하위 타입도, 상위 타입도 아니다.
+    ```java
+    // 컴파일 시점에 실패
+    List<Object> ol = new ArrayList<Long>();
+    ol.add("타입이 달라 넣을 수 없음.")
+    ```
+
+실체화와 소거
+
+- 배열은 실체화되어 Long 배열에 String을 넣으려 하면 ArrayStoreException 발생
+- 제네릭은 타입 정보가 런타임에는 소거(erasure)
+
+배열은 제네릭 타입, 매개변수화 타입, 타입 매개변수로 사용할 수 없다.
+
+```java
+/**
+ * 배열 적용
+ * choose 메서드 호출 때마다 반환된 Object를 타입 형변환해야 한다.
+ * 다른 타입의 원소가 들어 있었다면 런타임에 형변환 오류가 발생
+ */
+public class Chooser<T> {
+    private final Object choiceArray;
+
+    public Chooser(Collection choices) {
+        choiceArray = choices.toArray();
+    }
+
+    public Object choose() {
+        Random rnd = ThreadLocalRandom.current();
+        return choiceArray[rnd.nextInt(choiceArray.length)];
+    }
+}
+
+...
+
+/**
+ * 리스트 기반
+ * 타입 안전성 확보
+ */
+public class Chooser<T> {
+    private final List<T> choiceList;
+
+    public Chooser(Collection<T> choices) {
+        choiceList = new ArrayList<>(choices);
+    }
+
+    public T choose() {
+        Random rnd = ThreadLocalRandom.current();
+        return choiceList.get(rnd.nextInt(choiceList.size()));
+    }
+
+    public static void main(String[] args) {
+        List<Integer> intList = List.of(1, 2, 3, 4, 5, 6);
+
+        Chooser<Integer> chooser = new Chooser<>(intList);
+
+        for (int i = 0; i < 10; i++) {
+            Number choice = chooser.choose();
+            System.out.println(choice);
+        }
+    }
+}
+```
 
 <br>
 
