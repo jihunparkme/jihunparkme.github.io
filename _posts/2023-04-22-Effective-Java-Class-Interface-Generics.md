@@ -765,6 +765,112 @@ public class Chooser<T> {
 
 📖
 
+일반 클래스를 제네릭 클래스로 만들기
+- 클래스 선언에 타입 매개변수를 추가하기.
+- 배열 타입을 적절한 타입 매개변수로 바꾸기.
+  - 방법1. E와 같이 실체화 불가 타입으로 배열을 만들 수 없으므로 Obejct 배열을 생성한 후 제네릭 배열로 형변환하기
+    - 가독성이 좋고, 형병환을 배열 생성 시 단 합 번만 수행. 
+    - 단, 힙 오염(배열의 런타임 타입이 컴파일타임 타입과 달라서 발생하는 현상)을 일으키는 단점이 존재
+    ```java
+    @SuppressWarnings("unchecked")
+    public Stack() {
+        elements = (E[]) new Object[DEFAULT_INITIAL_CAPACITY];
+    }
+    ```
+  - 방법2. E[] 타입에서 Object[] 타입으로 바꾸기
+    ```java
+    private Object[] elements;
+
+    ...
+
+    @SuppressWarnings("unchecked") E result = (E) elements[--size];
+    ```
+
+Before
+
+```java
+public class Stack {
+    private Object[] elements;
+    private int size = 0;
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
+    
+    public Stack() {
+        elements = new Object[DEFAULT_INITIAL_CAPACITY];
+    }
+
+    public void push(Object e) {
+        ensureCapacity();
+        elements[size++] = e;
+    }
+
+    public Object pop() {
+        if (size == 0)
+            throw new EmptyStackException();
+
+        result = elements[--size];
+        elements[size] = null; 
+        return result;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    private void ensureCapacity() {
+        if (elements.length == size)
+            elements = Arrays.copyOf(elements, 2 * size + 1);
+    }
+}
+```
+
+After
+
+```java
+public class Stack<E> {
+    private E[] elements;
+    private int size = 0;
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
+
+    // 배열 elements는 push(E)로 넘어온 E 인스턴스만 담는다.
+    // 따라서 타입 안전성을 보장하지만, 이 배열의 런타임 타입은 E[]가 아닌 Object[]
+    @SuppressWarnings("unchecked")
+    public Stack() {
+        elements = (E[]) new Object[DEFAULT_INITIAL_CAPACITY];
+    }
+
+    public void push(E e) {
+        ensureCapacity();
+        elements[size++] = e;
+    }
+
+    public E pop() {
+        if (size == 0)
+            throw new EmptyStackException();
+        E result = elements[--size];
+        elements[size] = null; // 다 쓴 참조 해제
+        return result;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    private void ensureCapacity() {
+        if (elements.length == size)
+            elements = Arrays.copyOf(elements, 2 * size + 1);
+    }
+
+    // 코드 29-5 제네릭 Stack을 사용하는 맛보기 프로그램 (174쪽)
+    public static void main(String[] args) {
+        Stack<String> stack = new Stack<>();
+        for (String arg : args)
+            stack.push(arg);
+        while (!stack.isEmpty())
+            System.out.println(stack.pop().toUpperCase());
+    }
+}
+```
+
 <br>
 
 ## item 30. 이왕이면 제네릭 메서드로 만들라.
