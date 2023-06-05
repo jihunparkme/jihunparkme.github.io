@@ -645,7 +645,7 @@ private List<String> options;
 - [@ConfigurationProperties 생성자 활용](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/46cc8384974355a374ee5979185942c7b0d527f6)
 - 숫자의 범위, 문자의 길이 검증을 위해 **자바 빈 검증기**(java bean validation) 사용 가능
   - dependency: *implementation 'org.springframework.boot:spring-boot-starter-validation*
-- [](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/95601713aeb5d258ea31308edd139c41a187375d)
+- [@ConfigurationProperties 속성 검증](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/95601713aeb5d258ea31308edd139c41a187375d)
 
 > 가장 좋은 예외는 컴파일 예외, 그리고 애플리케이션 로딩 시점에 발생하는 예외. 
 > 
@@ -690,3 +690,12 @@ public class MyDataSourcePropertiesV2 {
     }
 }
 ```
+
+### YAML
+
+YAML(YAML Ain't Markup Language)은 읽기 좋은 데이터 구조를 목표
+
+- 확장자는 yaml, yml(주로 사용)
+- application.properties, application.yml 동시 사용 시 application.properties 우선권
+- `---`로 논리 파일 구분
+- spring.config.active.on-profile 로 프로필 적용
