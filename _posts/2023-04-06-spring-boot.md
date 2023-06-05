@@ -699,3 +699,5 @@ YAML(YAML Ain't Markup Language)은 읽기 좋은 데이터 구조를 목표
 - application.properties, application.yml 동시 사용 시 application.properties 우선권
 - `---`로 논리 파일 구분
 - spring.config.active.on-profile 로 프로필 적용
+- `--spring.profiles.active=dev`
+- [commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/1bad8b61c94df81c99ae32c4d225e86119168abc)
