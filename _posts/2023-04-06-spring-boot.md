@@ -708,4 +708,4 @@ YAML(YAML Ain't Markup Language)은 읽기 좋은 데이터 구조를 목표
 - 특정 조건에 따라 해당 빈을 등록할지 말지 선택
 - 각 환경 별로 외부 설정 값, 등록되는 스프링 빈 분리
 - 스프링은 @Conditional 기능을 활용해서 @Profile 기능을 제공
-- [profile example]()
+- [profile example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/212c129d47786cdf3a38b392c66ad898e9c621e2)
