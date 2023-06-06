@@ -709,3 +709,15 @@ YAML(YAML Ain't Markup Language)은 읽기 좋은 데이터 구조를 목표
 - 각 환경 별로 외부 설정 값, 등록되는 스프링 빈 분리
 - 스프링은 @Conditional 기능을 활용해서 @Profile 기능을 제공
 - [profile example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/212c129d47786cdf3a38b392c66ad898e9c621e2)
+
+## 액츄에이터
+
+모니터링 대응을 위해 서비스에 문제가 없는지 모니터링하고, 지표들을 심어서 감시하는 활동이 중요
+
+프로덕션 준비 기능: 프로덕션을 운영에 배포할 때 준비해야 하는 비 기능적 요소
+
+- 애플리케이션이 살아있는지, 로그 정보는 정상 설정 되었는지, 커넥션 풀은 얼마나 사용되고 있는지 등 확인 필요
+  - 지표(metric): CPU 사용량
+  - 추적(trace): 이슈 코드 추적
+  - 감사(auditing): 고객 로그인, 로그아웃 이력 추적
+  - 모니터링: 시스템 상태
