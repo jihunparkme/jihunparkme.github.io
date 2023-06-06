@@ -700,4 +700,12 @@ YAML(YAML Ain't Markup Language)은 읽기 좋은 데이터 구조를 목표
 - `---`로 논리 파일 구분
 - spring.config.active.on-profile 로 프로필 적용
 - `--spring.profiles.active=dev`
-- [commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/1bad8b61c94df81c99ae32c4d225e86119168abc)
+- [yaml example](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/1bad8b61c94df81c99ae32c4d225e86119168abc)
+
+### @Profile
+
+@Profile 애노테이션을 사용하면 해당 프로필이 활성화된 경우에만 빈 등록
+- 특정 조건에 따라 해당 빈을 등록할지 말지 선택
+- 각 환경 별로 외부 설정 값, 등록되는 스프링 빈 분리
+- 스프링은 @Conditional 기능을 활용해서 @Profile 기능을 제공
+- [profile example]()
