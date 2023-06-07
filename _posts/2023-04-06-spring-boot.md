@@ -743,28 +743,30 @@ implementation 'org.springframework.boot:spring-boot-starter-actuator'
           exposure:
             include: "*"
     ```
-    ```json
-    {
-      "href": "http://localhost:8080/actuator",
-      "href": "http://localhost:8080/actuator/beans",
-      "href": "http://localhost:8080/actuator/caches/{cache}",
-      "href": "http://localhost:8080/actuator/caches",
-      "href": "http://localhost:8080/actuator/health/{*path}",
-      "href": "http://localhost:8080/actuator/health",
-      "href": "http://localhost:8080/actuator/info",
-      "href": "http://localhost:8080/actuator/conditions",
-      "href": "http://localhost:8080/actuator/configprops/{prefix}",
-      "href": "http://localhost:8080/actuator/configprops",
-      "href": "http://localhost:8080/actuator/env",
-      "href": "http://localhost:8080/actuator/env/{toMatch}",
-      "href": "http://localhost:8080/actuator/loggers",
-      "href": "http://localhost:8080/actuator/loggers/{name}",
-      "href": "http://localhost:8080/actuator/heapdump",
-      "href": "http://localhost:8080/actuator/threaddump",
-      "href": "http://localhost:8080/actuator/metrics",
-      "href": "http://localhost:8080/actuator/metrics/{requiredMetricName}",
-      "href": "http://localhost:8080/actuator/scheduledtasks",
-      "href": "http://localhost:8080/actuator/mappings",
-    }
-    ```
-    
+
+[Endpoints](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints)
+
+- /actuator: 
+- /actuator/beans: 스프링 컨테이너에 등록된 스트링 빈 목록
+- /actuator/caches/{cache}: 
+- /actuator/caches: 
+- /actuator/health/{*path}: 
+- /actuator/health: 
+- /actuator/info: 애플리케이션 정보
+- /actuator/conditions: condition을 통해 빈 등록 시 평가 조건과 일치하거나 일치하지 않는 이유 표시
+- /actuator/configprops/{prefix}: 
+- /actuator/configprops: @ConfigurationProperties 목록
+- /actuator/env: Environment 정보
+- /actuator/env/{toMatch}: 
+- /actuator/loggers: 애플리케이션 로거 설정 정보. 변경도 가능
+- /actuator/loggers/{name}: 
+- /actuator/heapdump: 
+- /actuator/threaddump: 쓰레드 덤프 정보
+- /actuator/metrics: : 애플리케이션의 메트릭 정보
+- /actuator/metrics/{requiredMetricName}: 
+- /actuator/scheduledtasks: 
+- /actuator/mappings: @RequestMapping 정보 목록
+- /httpexchanges: HTTP 호출 응답 정보. HttpExchangeRepository 구현 빈 등록 필요
+- /shutdown: 애플리케이션 종료. 기본으로 비활성화
+
+  
