@@ -721,3 +721,9 @@ YAML(YAML Ain't Markup Language)은 읽기 좋은 데이터 구조를 목표
   - 추적(trace): 이슈 코드 추적
   - 감사(auditing): 고객 로그인, 로그아웃 이력 추적
   - 모니터링: 시스템 상태
+
+Dependency
+
+```groovy
+implementation 'org.springframework.boot:spring-boot-starter-actuator'
+```
