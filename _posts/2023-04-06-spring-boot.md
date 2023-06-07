@@ -712,6 +712,8 @@ YAML(YAML Ain't Markup Language)은 읽기 좋은 데이터 구조를 목표
 
 ## 액츄에이터
 
+[Production-ready Features](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)
+
 모니터링 대응을 위해 서비스에 문제가 없는지 모니터링하고, 지표들을 심어서 감시하는 활동이 중요
 
 프로덕션 준비 기능: 프로덕션을 운영에 배포할 때 준비해야 하는 비 기능적 요소
@@ -731,7 +733,9 @@ implementation 'org.springframework.boot:spring-boot-starter-actuator'
 - `http://localhost:8080/actuator` 로 확인 가능
   - 애플리케이션 상태 정보: `http://localhost:8080/actuator/health`
   - 각 엔드포인트는 /actuator/{엔드포인트명} 형식으로 접근
-  - 더 많은 기능을 제공받기 위해 설정 추가
+  - 더 많은 기능을 제공받기 위해 엔드포인트 노출 설정 추가(모든 엔드포인트를 웹에 노출)
+    - 엔드포인트는 shutdown 제외하고 대부분 기본으로 활성화
+    - 특정 엔드포인트 활성화 시 `management.endpoint.{엔드포인트명}.enabled=true`
     ```yml
     management:
       endpoints:
