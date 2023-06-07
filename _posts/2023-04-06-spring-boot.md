@@ -727,3 +727,40 @@ Dependency
 ```groovy
 implementation 'org.springframework.boot:spring-boot-starter-actuator'
 ```
+
+- `http://localhost:8080/actuator` 로 확인 가능
+  - 애플리케이션 상태 정보: `http://localhost:8080/actuator/health`
+  - 각 엔드포인트는 /actuator/{엔드포인트명} 형식으로 접근
+  - 더 많은 기능을 제공받기 위해 설정 추가
+    ```yml
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: "*"
+    ```
+    ```json
+    {
+      "href": "http://localhost:8080/actuator",
+      "href": "http://localhost:8080/actuator/beans",
+      "href": "http://localhost:8080/actuator/caches/{cache}",
+      "href": "http://localhost:8080/actuator/caches",
+      "href": "http://localhost:8080/actuator/health/{*path}",
+      "href": "http://localhost:8080/actuator/health",
+      "href": "http://localhost:8080/actuator/info",
+      "href": "http://localhost:8080/actuator/conditions",
+      "href": "http://localhost:8080/actuator/configprops/{prefix}",
+      "href": "http://localhost:8080/actuator/configprops",
+      "href": "http://localhost:8080/actuator/env",
+      "href": "http://localhost:8080/actuator/env/{toMatch}",
+      "href": "http://localhost:8080/actuator/loggers",
+      "href": "http://localhost:8080/actuator/loggers/{name}",
+      "href": "http://localhost:8080/actuator/heapdump",
+      "href": "http://localhost:8080/actuator/threaddump",
+      "href": "http://localhost:8080/actuator/metrics",
+      "href": "http://localhost:8080/actuator/metrics/{requiredMetricName}",
+      "href": "http://localhost:8080/actuator/scheduledtasks",
+      "href": "http://localhost:8080/actuator/mappings",
+    }
+    ```
+    
