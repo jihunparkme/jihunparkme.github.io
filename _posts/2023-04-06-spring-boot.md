@@ -775,6 +775,7 @@ implementation 'org.springframework.boot:spring-boot-starter-actuator'
     id "com.gorylenko.gradle-git-properties" version "2.4.1"
     ```
   - [Writing Custom InfoContributors](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.info.writing-custom-info-contributors)
+  - [info endpoints sample](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/d079267ec76a83406061158a6bfef60eb7d7fb2c)
 - /actuator/`conditions`: condition을 통해 빈 등록 시 평가 조건과 일치하거나 일치하지 않는 이유 표시
 - /actuator/`configprops`: @ConfigurationProperties 목록
 - - /actuator/configprops/{prefix}: 
