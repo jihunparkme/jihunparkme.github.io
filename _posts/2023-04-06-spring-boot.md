@@ -747,31 +747,48 @@ implementation 'org.springframework.boot:spring-boot-starter-actuator'
 [Endpoints](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints)
 
 - /actuator: 
-- /actuator/beans: 스프링 컨테이너에 등록된 스트링 빈 목록
-- /actuator/caches/{cache}: 
-- /actuator/caches: 
-- /actuator/health/{*path}: 
-- /actuator/health: 애플리케이션 문제를 빠르게 인지(전체 상태, db, mongo, redis, diskspace, ping 등 확인 가능)
+- /actuator/`beans`: 스프링 컨테이너에 등록된 스트링 빈 목록
+- /actuator/`caches`:
+- /actuator/caches/{cache}:  
+- /actuator/`health`: 애플리케이션 문제를 빠르게 인지(전체 상태, db, mongo, redis, diskspace, ping 등 확인 가능)
   - 헬스 컴포넌트 중 하나라도 문제가 있으면 전체 상태는 DOWN
   - 헬스 정보를 더 자세히 보기 위한 옵션 `management.endpoint.health.show-details=always`
   - 간략히 보기 위한 옵션 `management.endpoint.health.show-components=always`
   - [Auto-configured HealthIndicators](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.health.auto-configured-health-indicators)
   - [Writing Custom HealthIndicators](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.health.writing-custom-health-indicators)
-- /actuator/info: 애플리케이션 정보
-- /actuator/conditions: condition을 통해 빈 등록 시 평가 조건과 일치하거나 일치하지 않는 이유 표시
-- /actuator/configprops/{prefix}: 
-- /actuator/configprops: @ConfigurationProperties 목록
-- /actuator/env: Environment 정보
+- /actuator/health/{*path}: 
+- /actuator/`info`: 애플리케이션 기본 정보 (default 비활성화)
+  - `management.info.<id>.enabled=true`
+  - java : 자바 런타임 정보
+  - os : OS 정보
+  - env : Environment 에서 info. 로 시작하는 정보
+  - build : 빌드 정보 (META-INF/build-info.properties 파일 필요)
+    ```groovy
+    // build.gradle 에 아래 코드를 추가하면 자동으로 빌드 정보 파일 생성
+    springBoot {
+      buildInfo()
+    }
+    ```
+  - git : git 정보 (git.properties 파일 필요)
+    ```groovy
+    // git.properties plugin 추가
+    id "com.gorylenko.gradle-git-properties" version "2.4.1"
+    ```
+  - [Writing Custom InfoContributors](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.info.writing-custom-info-contributors)
+- /actuator/`conditions`: condition을 통해 빈 등록 시 평가 조건과 일치하거나 일치하지 않는 이유 표시
+- /actuator/`configprops`: @ConfigurationProperties 목록
+- - /actuator/configprops/{prefix}: 
+- /actuator/`env`: Environment 정보
 - /actuator/env/{toMatch}: 
-- /actuator/loggers: 애플리케이션 로거 설정 정보. 변경도 가능
+- /actuator/`loggers`: 애플리케이션 로거 설정 정보. 변경도 가능
 - /actuator/loggers/{name}: 
-- /actuator/heapdump: 
-- /actuator/threaddump: 쓰레드 덤프 정보
-- /actuator/metrics: : 애플리케이션의 메트릭 정보
+- /actuator/`heapdump`: 
+- /actuator/`threaddump`: 쓰레드 덤프 정보
+- /actuator/`metrics`: : 애플리케이션의 메트릭 정보
 - /actuator/metrics/{requiredMetricName}: 
-- /actuator/scheduledtasks: 
-- /actuator/mappings: @RequestMapping 정보 목록
-- /httpexchanges: HTTP 호출 응답 정보. HttpExchangeRepository 구현 빈 등록 필요
-- /shutdown: 애플리케이션 종료. 기본으로 비활성화
+- /actuator/`scheduledtasks`: 
+- /actuator/`mappings`: @RequestMapping 정보 목록
+- /`httpexchanges`: HTTP 호출 응답 정보. HttpExchangeRepository 구현 빈 등록 필요
+- /`shutdown`: 애플리케이션 종료. 기본으로 비활성화
 
   
