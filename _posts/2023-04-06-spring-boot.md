@@ -751,7 +751,12 @@ implementation 'org.springframework.boot:spring-boot-starter-actuator'
 - /actuator/caches/{cache}: 
 - /actuator/caches: 
 - /actuator/health/{*path}: 
-- /actuator/health: 
+- /actuator/health: 애플리케이션 문제를 빠르게 인지(전체 상태, db, mongo, redis, diskspace, ping 등 확인 가능)
+  - 헬스 컴포넌트 중 하나라도 문제가 있으면 전체 상태는 DOWN
+  - 헬스 정보를 더 자세히 보기 위한 옵션 `management.endpoint.health.show-details=always`
+  - 간략히 보기 위한 옵션 `management.endpoint.health.show-components=always`
+  - [Auto-configured HealthIndicators](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.health.auto-configured-health-indicators)
+  - [Writing Custom HealthIndicators](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.health.writing-custom-health-indicators)
 - /actuator/info: 애플리케이션 정보
 - /actuator/conditions: condition을 통해 빈 등록 시 평가 조건과 일치하거나 일치하지 않는 이유 표시
 - /actuator/configprops/{prefix}: 
