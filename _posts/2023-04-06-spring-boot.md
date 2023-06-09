@@ -786,7 +786,7 @@ implementation 'org.springframework.boot:spring-boot-starter-actuator'
     ```yml
     logging.level.hello.controller: debug
     ```
-  - 특정 로거 이름 기준으로 조회. /actuator/loggers/{name}
+  - 특정 로거 이름 기준으로 조회. /actuator/`loggers/{name}`
     - /actuator/loggers/hello.controller
   - 애플리케이션을 다시 시작하지 않고, (메모리에) 실시간으로 로그 레벨 변경
     ```json
@@ -803,6 +803,9 @@ implementation 'org.springframework.boot:spring-boot-starter-actuator'
 - /actuator/`scheduledtasks`: 
 - /actuator/`mappings`: @RequestMapping 정보 목록
 - /`httpexchanges`: HTTP 호출 응답 정보. HttpExchangeRepository 구현 빈 등록 필요
+  - 최대 100개의 HTTP 요청 제공(최대 요청 초과 시 과거 요청을 삭제
+  - setCapacity() 로 최대 요청수를 변경 가능
+  - 단순하고 제한이 많은 기능이므로 개발 단계에서만 주로 사용하고, 실제 운영 서비스에서는 모니터링 툴이나 핀포인트, Zipkin 같은 다른 기술 사용 추천
 - /`shutdown`: 애플리케이션 종료. 기본으로 비활성화
 
   
