@@ -781,8 +781,21 @@ implementation 'org.springframework.boot:spring-boot-starter-actuator'
 - - /actuator/configprops/{prefix}: 
 - /actuator/`env`: Environment 정보
 - /actuator/env/{toMatch}: 
-- /actuator/`loggers`: 애플리케이션 로거 설정 정보. 변경도 가능
-- /actuator/loggers/{name}: 
+- /actuator/`loggers`: 로깅 관련 정보 확인. 실시간 변경
+  - 특정 패키지에 로그 레벨 설정(default. INFO)
+    ```yml
+    logging.level.hello.controller: debug
+    ```
+  - 특정 로거 이름 기준으로 조회. /actuator/loggers/{name}
+    - /actuator/loggers/hello.controller
+  - 애플리케이션을 다시 시작하지 않고, (메모리에) 실시간으로 로그 레벨 변경
+    ```json
+    POST http://localhost:8080/actuator/loggers/hello.controller
+
+    {
+      "configuredLevel": "TRACE"
+    }
+    ```
 - /actuator/`heapdump`: 
 - /actuator/`threaddump`: 쓰레드 덤프 정보
 - /actuator/`metrics`: : 애플리케이션의 메트릭 정보
