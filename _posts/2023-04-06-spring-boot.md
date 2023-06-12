@@ -814,3 +814,71 @@ implementation 'org.springframework.boot:spring-boot-starter-actuator'
 management.server.port=9292
 ```
 - 외부망을 통해 접근이 필요하다면 /actuator 경로에 서블릿 필터, 스프링 인터셉터, 스프링 시큐티리를 통해 인증된 사용자만 접근 가능하도록 설정 필요
+
+## 모니터링
+
+서비스 운영 시 애플리케이션의 CPU, 메모리, 커넥션 사용, 고객 요청 수 같은 수 많은 지표들을 확인하는 것이 필요하다.
+
+그래야 어디에 어떤 문제가 발생했는지 사전 대응이 가능하고, 실제 문제가 발생해도 원인을 빠르게 파악하고 대처할 수 있다. 
+
+.
+
+수 많은 모니터링 툴이 있고, 각 툴마다 전달 방식이 다른데 이 모든 것들을 추상화한 라이브러리가 마이크로미터(Micrometer)
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/micrometer.png?raw=true 'Result')
+
+- 마이크로미터는 application metric facade 라고 불리는데, 애플리케이션의 메트릭(측정 지표)을 마이크로미터가 정한 표준 방법으로 모아서 제공 (추상화된 마이크로미터로 구현체를 쉽게 갈아끼울 수 있음)
+- spring boot actuator 는 마이크로미터를 기본 내장해서 사용
+- 개발자는 마이크로미터가 정한 표준 방법으로 메트릭(측정 지표)를 전달
+  - 사용하는 모니터링 툴에 맞는 구현체 선택
+  - 이후 모니터링 툴이 변경되어도 해당 구현체만 변경해주면 끝
+  - 애플리케이션 코드는 모니터링 툴이 변경되어도 그대로 유지 가능
+
+[Micrometer Documentation](https://micrometer.io/docs)
+
+<details>
+<summary>마이크로미터가 지원하는 모니터링 툴</summary>
+AppOptics
+
+Atlas
+
+CloudWatch
+
+Datadog
+
+Dynatrace
+
+Elastic
+
+Ganglia
+
+Graphite
+
+Humio
+
+Influx
+
+Instana
+
+JMX
+
+KairosDB
+
+New Relic
+
+Prometheus
+
+SignalFx
+
+Stackdriver
+
+StatsD
+
+Wavefront
+</details>
+
+### 마이크로미터
+
+### 프로메테우스
+
+### 그라파나
