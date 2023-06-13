@@ -846,6 +846,8 @@ management.server.port=9292
 
 [Micrometer Documentation](https://micrometer.io/docs)
 
+### 메트릭
+
 <details>
 <summary>마이크로미터가 지원하는 모니터링 툴</summary>
 AppOptics
@@ -886,6 +888,57 @@ StatsD
 
 Wavefront
 </details>
+
+.
+
+[Supported Metrics and Meters](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.metrics.supported)
+
+마이크로미터와 액츄에이터가 기본으로 제공하는 다양한 메트릭
+- JVM 메트릭 `jvm.*`
+  - 메모리 및 버퍼 풀 세부 정보
+  - 가비지 수집 관련 통계
+  - 스레드 활용
+  - 로드 및 언로드된 클래스 수
+  - JVM 버전 정보
+  - JIT 컴파일 시간
+- 시스템 메트릭 `system.*, process.*, disk.*`
+  - CPU 지표
+  - 파일 디스크립터 메트릭
+  - 가동 시간 메트릭
+  - 사용 가능한 디스크 공간
+- 애플리케이션 시작 메트릭 `application.*`
+  - application.started.time: 애플리케이션 시작에 걸리는 시간
+  (ApplicationStartedEvent로 측정 - 스프링 컨테이너가 완전히 실행된 상태. 이후에 커맨드 라인 러너가 호출)
+  - application.ready.time : 애플리케이션 요청을 처리할 준비가 되는데 걸리는 시간
+    (ApplicationReadyEvent 로 측정- 커맨드 라인 러너가 실행된 이후에 호출)
+- 스프링 MVC 메트릭
+  - http.server.requests: 스프링 MVC 컨트롤러가 처리하는 모든 요청 정보
+  - TAG 로 정보를 분류해서 확인 가능
+    - uri : 요청 URI
+    - method : HTTP 메서드(GET, POST..)
+    - status : HTTP Status 코드(200, 400, 500..)
+    - exception : 예외
+    - outcome : 상태코드 그룹(1xx:INFORMATIONAL, 2xx:SUCCESS, 3xx:REDIRECTION, 4xx:CLIENT_ERROR, 5xx:SERVER_ERROR)
+- 톰캣 메트릭 `tomcat.`
+  - 톰캣의 최대 쓰레드, 사용 쓰레드 수를 포함한 다양한 메트릭 확인 가능
+    ```yml
+    server:
+      tomcat:
+        mbeanregistry:
+          enabled: true
+    ```
+- 데이터 소스 메트릭: DataSource, Connection Pool 관련 메트릭 정보 `jdbc.connections.`
+  - 최대 커넥션, 최소 커넥션, 활성 커넥션, 대기 커넥션 수 등 확인 가능
+- 로그 메트릭 : logback 로그에 대한 메트릭 정보
+  - trace, debug, info, warn, error 각 로그 레벨에 따른 로그 수 확인 가능
+- 기타
+  - HTTP 클라이언트 메트릭(RestTemplate , WebClient)
+  - 캐시 메트릭
+  - 작업 실행과 스케줄 메트릭
+  - 스프링 데이터 리포지토리 메트릭
+  - 몽고DB 메트릭
+  - 레디스 메트릭
+- 커스텀 메트릭
 
 ### 마이크로미터
 
