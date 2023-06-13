@@ -799,7 +799,17 @@ implementation 'org.springframework.boot:spring-boot-starter-actuator'
 - /actuator/`heapdump`: 
 - /actuator/`threaddump`: 쓰레드 덤프 정보
 - /actuator/`metrics`: : 애플리케이션의 메트릭 정보
-  - /actuator/metrics/{requiredMetricName}: 
+  - /actuator/metrics/{requiredMetricName}
+    ```text
+    /actuator/metrics/jvm.memory.used : JVM 메모리 사용량
+    --- availableTags
+    /actuator/metrics/jvm.memory.used?tag=area:heap
+
+    /actuator/metrics/http.server.requests : HTTP 요청수
+    --- availableTags
+    /actuator/metrics/http.server.requests?tag=uri:/log
+    /actuator/metrics/http.server.requests?tag=uri:/log&tag=status:200
+    ```
 - /actuator/`scheduledtasks`: 
 - /actuator/`mappings`: @RequestMapping 정보 목록
 - /`httpexchanges`: HTTP 호출 응답 정보. HttpExchangeRepository 구현 빈 등록 필요
