@@ -831,7 +831,7 @@ management.server.port=9292
 
 그래야 어디에 어떤 문제가 발생했는지 사전 대응이 가능하고, 실제 문제가 발생해도 원인을 빠르게 파악하고 대처할 수 있다. 
 
-.
+### 마이크로미터
 
 수 많은 모니터링 툴이 있고, 각 툴마다 전달 방식이 다른데 이 모든 것들을 추상화한 라이브러리가 마이크로미터(Micrometer)
 
@@ -845,8 +845,6 @@ management.server.port=9292
   - 애플리케이션 코드는 모니터링 툴이 변경되어도 그대로 유지 가능
 
 [Micrometer Documentation](https://micrometer.io/docs)
-
-### 메트릭
 
 <details>
 <summary>마이크로미터가 지원하는 모니터링 툴</summary>
@@ -889,7 +887,7 @@ StatsD
 Wavefront
 </details>
 
-.
+### 메트릭
 
 [Supported Metrics and Meters](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.metrics.supported)
 
@@ -940,8 +938,20 @@ Wavefront
   - 레디스 메트릭
 - 커스텀 메트릭
 
-### 마이크로미터
+### 프로메테우스 & 그라파나
 
-### 프로메테우스
+- `프로메테우스` : 메트릭을 지속해서 수집하고 DB에 저장하는 역할
+  - [Prometheus Docs](https://prometheus.io/docs/introduction/overview/) 
+- `그라파나` : 프로메테우스에 있는 데이터를 불러서 데이터를 그래프로 보여주는 툴
+  - 다양한 그래프를 제공하고, 프로메테우스를 포함한 다양한 데이터소스 지원
 
-### 그라파나
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/prometheus.png?raw=true 'Result')
+
+\1. 스프링 부트 액츄에이터, 마이크로미터를 사용하면 수 많은 메트릭 자동 생성
+- 마이크로미터 프로메테우스 구현체는 프로메테우스가 읽을 수 있는 포멧으로 메트릭을 생성
+
+\2. 프로메테우스는 이렇게 만들어진 메트릭을 지속해서 수집
+
+\3. 프로메테우스는 수집한 메트릭을 내부 DB에 저장
+
+\4. 사용자는 그라파나 대시보드 툴을 통해 그래프로 편리하게 메트릭을 조회(필요한 데이터는 프로메테우스를 통해 조회)
