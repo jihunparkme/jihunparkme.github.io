@@ -1093,3 +1093,15 @@ http://localhost:9090/
   - 설정(Configuration) ->  Data sources -> Add data source -> Prometheus
   - URL 정보: http://localhost:9090
   - Save & test
+
+**대시보드**
+
+- 애플리케이션, 프로메테우스, 그라파나가 모두 실행중인 상태여야 한다.
+
+  - \1. 왼쪽 Dashboards 메뉴
+
+  - \2. New 버튼 -> New Dashboard
+
+  - \3. 오른쪽 상단 Save dashboard 저장 
+
+  - \4. Dashboard name 입력
