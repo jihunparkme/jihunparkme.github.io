@@ -1006,3 +1006,48 @@ scrape_configs:
 
 http://localhost:9090/
 - 프로메테우스 메뉴 -> Status -> Configuration, Targets 에서 추가한 설정 확인
+
+**자주 사용하는 기능**
+
+- 기본기능
+  - Table: Evaluation time 을 수정해서 과거 시간 조회
+  - Graph: 메트릭을 그래프로 조회
+- 필터: 레이블 기준으로 필터 사용. 중괄호(`{}`) 문법 사용
+  - 레이블 일치 연산자
+    - `=` : 제공된 문자열과 정확히 동일한 레이블 선택
+    - `!=` : 제공된 문자열과 같지 않은 레이블 선택
+    - `=~` : 제공된 문자열과 정규식 일치하는 레이블 선택
+    - `!~` : 제공된 문자열과 정규식 일치하지 않는 레이블 선택
+  ```text
+  example.
+  
+  uri=/log , method=GET 조건으로 필터
+    -> http_server_requests_seconds_count{uri="/log", method="GET"}
+
+  /actuator/prometheus 는 제외한 조건으로 필터
+    -> http_server_requests_seconds_count{uri!="/actuator/prometheus"}
+
+  method 가 GET, POST 인 경우를 포함해서 필터
+    -> http_server_requests_seconds_count{method=~"GET|POST"}
+
+  /actuator 로 시작하는 uri 는 제외한 조건으로 필터
+    -> http_server_requests_seconds_count{uri!~"/actuator.*"}
+  ```
+- 연산자 쿼리와 함수
+  - `+` (덧셈), `-` (빼기), `*` (곱셈), `/` (분할), `%` (모듈로), `^` (승수/지수)
+  - sum: 합계
+    - `sum(http_server_requests_seconds_count)`
+  - sum by: SQL group by 와 유사
+    - `sum by(method, status)(http_server_requests_seconds_count)`
+  - count: 메트릭 자체의 수 카운트
+    - `count(http_server_requests_seconds_count)`
+  - topk: 상위 메트릭 조회
+    - `topk(3, http_server_requests_seconds_count)`
+  - 오프셋 수정자
+    - `http_server_requests_seconds_count offset 10m`
+    - 현재 기준 특정 과거 시점의 데이터 반환
+  - 범위 벡터 선택기
+    - `http_server_requests_seconds_count[1m]`
+    - 지난 1분간의 모든 기록값 선택
+    - 차트에 바로 표현할 수 없고, 데이터로는 확인 가능
+    - 결과를 차트에 표현하기 위해서는 약간의 가공 필요
