@@ -955,3 +955,14 @@ Wavefront
 \3. 프로메테우스는 수집한 메트릭을 내부 DB에 저장
 
 \4. 사용자는 그라파나 대시보드 툴을 통해 그래프로 편리하게 메트릭을 조회(필요한 데이터는 프로메테우스를 통해 조회)
+
+#### 프로메테우스
+
+설치
+- https://prometheus.io/download/
+- Mac OS: darwin 
+
+실행
+- 시스템 환경설정 - 보안 및 개인 정보 보호 - 일반 - 확인 없이 허용
+- terminal - `./prometheus` 
+- http://localhost:9090/
