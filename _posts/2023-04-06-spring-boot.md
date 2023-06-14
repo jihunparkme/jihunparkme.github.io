@@ -1018,21 +1018,21 @@ http://localhost:9090/
     - `!=` : 제공된 문자열과 같지 않은 레이블 선택
     - `=~` : 제공된 문자열과 정규식 일치하는 레이블 선택
     - `!~` : 제공된 문자열과 정규식 일치하지 않는 레이블 선택
-  ```text
-  example.
-  
-  uri=/log , method=GET 조건으로 필터
-    -> http_server_requests_seconds_count{uri="/log", method="GET"}
+    ```text
+    example.
+    
+    uri=/log , method=GET 조건으로 필터
+      -> http_server_requests_seconds_count{uri="/log", method="GET"}
 
-  /actuator/prometheus 는 제외한 조건으로 필터
-    -> http_server_requests_seconds_count{uri!="/actuator/prometheus"}
+    /actuator/prometheus 는 제외한 조건으로 필터
+      -> http_server_requests_seconds_count{uri!="/actuator/prometheus"}
 
-  method 가 GET, POST 인 경우를 포함해서 필터
-    -> http_server_requests_seconds_count{method=~"GET|POST"}
+    method 가 GET, POST 인 경우를 포함해서 필터
+      -> http_server_requests_seconds_count{method=~"GET|POST"}
 
-  /actuator 로 시작하는 uri 는 제외한 조건으로 필터
-    -> http_server_requests_seconds_count{uri!~"/actuator.*"}
-  ```
+    /actuator 로 시작하는 uri 는 제외한 조건으로 필터
+      -> http_server_requests_seconds_count{uri!~"/actuator.*"}
+    ```
 - 연산자 쿼리와 함수
   - `+` (덧셈), `-` (빼기), `*` (곱셈), `/` (분할), `%` (모듈로), `^` (승수/지수)
   - sum: 합계
@@ -1051,3 +1051,24 @@ http://localhost:9090/
     - 지난 1분간의 모든 기록값 선택
     - 차트에 바로 표현할 수 없고, 데이터로는 확인 가능
     - 결과를 차트에 표현하기 위해서는 약간의 가공 필요
+
+**게이지와 카운터**
+
+`게이지`(Gauge)
+- 임의로 오르내일 수 있는 값(ex. CPU 사용량, 메모리 사용량, 사용중인 커넥션)
+
+`카운터`(Counter)
+- 단순하게 증가하는 단일 누적 값(ex. HTTP 요청 수, 로그 발생 수)
+- increase()
+  - 지정한 시간 단위별로 증가 확인
+  - `increase(http_server_requests_seconds_count{uri="/log"}[1m])`
+- rate()
+  - 범위 백터에서 초당 평균 증가율 계산
+- irate()
+  - rate 와 유사. 범위 벡터에서 초당 순간 증가율 계산
+
+> [기본기능](https://prometheus.io/docs/prometheus/latest/querying/basics/)
+>
+> [연산자](https://prometheus.io/docs/prometheus/latest/querying/operators/)
+> 
+> [함수](https://prometheus.io/docs/prometheus/latest/querying/functions/)
