@@ -965,6 +965,7 @@ Wavefront
 **설치**
 
 - https://prometheus.io/download/
+- https://github.com/prometheus/prometheus/releases/download/v2.42.0/prometheus-2.42.0.darwin-amd64.tar.gz
 - Mac OS: darwin 
 
 **실행**
@@ -1072,3 +1073,16 @@ http://localhost:9090/
 > [연산자](https://prometheus.io/docs/prometheus/latest/querying/operators/)
 > 
 > [함수](https://prometheus.io/docs/prometheus/latest/querying/functions/)
+
+#### 그라파나
+
+**설치**
+
+- https://grafana.com/grafana/download
+- https://dl.grafana.com/enterprise/release/grafana-enterprise-9.3.6.darwin-amd64.tar.gz
+
+**실행**
+
+- 압축을 풀고 bin 폴더 이동 후 `./grafana-server`
+- http://localhost:3000/
+- 초기 계정 -> admin/admin
