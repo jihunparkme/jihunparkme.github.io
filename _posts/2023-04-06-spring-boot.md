@@ -1105,3 +1105,5 @@ http://localhost:9090/
   - \3. 오른쪽 상단 Save dashboard 저장 
 
   - \4. Dashboard name 입력
+
+- [공유 대시보드 활용](https://grafana.com/grafana/dashboards/)
