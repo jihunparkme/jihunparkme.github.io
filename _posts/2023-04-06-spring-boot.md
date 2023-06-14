@@ -983,6 +983,26 @@ Wavefront
     implementation 'io.micrometer:micrometer-registry-prometheus'
     ```
   - 액츄에이터에 프로메테우스 메트릭 수집 엔드포인트가 자동 추가
-    - /actuator/prometheus
+    - `/actuator/prometheus`
 - 프로메테우스 설정
   - 프로메테우스가 애플리케이션의 메트릭을 주기적으로 수집하도록 설정
+
+**수집 설정**
+
+prometheus.yml 
+
+```yml
+scrape_configs:
+ - job_name: "prometheus"
+   static_configs:
+     - targets: ["localhost:9090"]
+ # 하단 추가
+ - job_name: "spring-actuator" # 수집하는 임의 이름
+   metrics_path: '/actuator/prometheus' # 수집 경로 지정(1초에 한 번씩 호출해서 메트릭 수집)
+   scrape_interval: 1s # 수집 주기 (10s~1m 권장)
+   static_configs: # 수집할 서버 정보(IP, PORT)
+     - targets: ['localhost:8080']
+```
+
+http://localhost:9090/
+- 프로메테우스 메뉴 -> Status -> Configuration, Targets 에서 추가한 설정 확인
