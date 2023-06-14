@@ -1076,7 +1076,6 @@ http://localhost:9090/
 
 #### 그라파나
 
-**설치**
 
 - https://grafana.com/grafana/download
 - https://dl.grafana.com/enterprise/release/grafana-enterprise-9.3.6.darwin-amd64.tar.gz
