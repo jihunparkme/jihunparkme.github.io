@@ -1086,3 +1086,10 @@ http://localhost:9090/
 - 압축을 풀고 bin 폴더 이동 후 `./grafana-server`
 - http://localhost:3000/
 - 초기 계정 -> admin/admin
+
+**연동**
+
+- 데이터소스 추가
+  - 설정(Configuration) ->  Data sources -> Add data source -> Prometheus
+  - URL 정보: http://localhost:9090
+  - Save & test
