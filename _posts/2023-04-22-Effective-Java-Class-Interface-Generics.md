@@ -914,6 +914,26 @@ public static <E> Set<E> union(Set<E> s1, Set<E> s2) {
 
 📖
 
+E 생산자(producer) 매개변수에 와일드카드 타입 적용
+
+```java
+public void pushAll(Iterable<? extends E> src) {
+    for (E e : src)
+        push(e);
+}
+```
+
+E 소비자(consumer) 매개변수에 와일드카드 타입 적용
+```java
+public void popAll(Collection<? super E> dst) {
+    while (!isEmpty())
+        dst.add(pop());
+}
+```
+
+유연성을 극대화하려면 원소의 생산자나 소비자용 입력 매개변수에 와일드카드 타입을 사용하자.
+- 입력 매개변수가 생산자와 소비자 역할을 동시에 한다면 타입을 정확히 지정해야 하는 상황으로, 이 경우 와일드카드 타입을 사용하지 말아야 한다.
+
 <br>
 
 ## item 32. 제네릭과 가변인수를 함께 쓸 때는 신중하라.
