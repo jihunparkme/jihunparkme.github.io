@@ -1109,4 +1109,32 @@ http://localhost:9090/
 
 ### 매트릭 활용
 
-비즈니스에 특화된 부분(주문수, 취소수, 재고 수량 등)을 모니터링하기 위해 직접 메드릭을 등록할 수 있다.
+비즈니스에 특화된 부분(주문수, 취소수, 재고 수량 등)을 모니터링하기 위해 직접 메트릭 등록 가능
+
+- [등록할 메트릭 기능](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/46e84a81d8c3143cbfcb2271685dedf258be01fe)
+
+**MeterRegistry**
+
+- 마이크로미터 기능을 제공하는 핵심 컴포넌트
+- 스프링을 통해서 주입 받아서 사용하고, 카운터, 게이지 등을 등록
+- [카운터]((https://prometheus.io/docs/concepts/metric_types/#counter))
+  - 단조롭게 증가하는 단일 누적 측정 항목
+    - 단일 값, 보통 하나씩 증가, 누적이므로 전체 값을 포함(total)
+  - 값을 증가하거나 0으로 초기화 하는 기능만 가능
+  - 마이크로미터에서 값을 감소하는 기능도 지원하지만, 목적에 맞지 않음
+  - 예) HTTP 요청수 (increase() , rate() 활용)
+  ```java
+  import io.micrometer.core.instrument.Counter;
+
+  /**
+   * actuator: my.order
+   * prometheus: my_order_total
+   */
+  Counter.builder("my.order") // 메트릭 이름
+          .tag("class", this.getClass().getName()) // 프로메테우스에서 필터할 수 있는 레이블
+          .tag("method", "order")
+          .description("order")
+          .register(registry).increment();
+  ```
+- 게이지
+
