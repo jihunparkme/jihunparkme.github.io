@@ -1106,3 +1106,7 @@ http://localhost:9090/
   - \4. Dashboard name 입력
 
 - [공유 대시보드 활용](https://grafana.com/grafana/dashboards/)
+
+### 매트릭 활용
+
+비즈니스에 특화된 부분(주문수, 취소수, 재고 수량 등)을 모니터링하기 위해 직접 메드릭을 등록할 수 있다.
