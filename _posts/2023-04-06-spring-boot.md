@@ -1123,6 +1123,7 @@ http://localhost:9090/
   - 값을 증가하거나 0으로 초기화 하는 기능만 가능
   - 마이크로미터에서 값을 감소하는 기능도 지원하지만, 목적에 맞지 않음
   - 예) HTTP 요청수 (increase() , rate() 활용)
+  - [example commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/fc8582db6e4360a81e6ddfb572fbe2d437dbc2e6)
   ```java
   import io.micrometer.core.instrument.Counter;
 
