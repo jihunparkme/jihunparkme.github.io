@@ -1117,7 +1117,8 @@ http://localhost:9090/
 
 - 마이크로미터 기능을 제공하는 핵심 컴포넌트
 - 스프링을 통해서 주입 받아서 사용하고, 카운터, 게이지 등을 등록
-- [카운터]((https://prometheus.io/docs/concepts/metric_types/#counter))
+
+[**카운터**]((https://prometheus.io/docs/concepts/metric_types/#counter))
   - 단조롭게 증가하는 단일 누적 측정 항목
     - 단일 값, 보통 하나씩 증가, 누적이므로 전체 값을 포함(total)
   - 값을 증가하거나 0으로 초기화 하는 기능만 가능
@@ -1125,5 +1126,19 @@ http://localhost:9090/
   - 예) HTTP 요청수 (increase() , rate() 활용)
   - [MeterRegistry 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/fc8582db6e4360a81e6ddfb572fbe2d437dbc2e6)
   - [@Counted 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/a141a816d1a9370dd5e9f5c3c4523be37952ae2a)
-- 게이지
 
+**게이지**
+
+**Timer**
+
+- 시간 측정에 사용
+- 실행 시간도 함께 측정 가능(카운터와 유사)
+- 아래 내용을 한 번에 측정
+  - seconds_count : 누적 실행 수() - counter
+    - `increase(my_order_seconds_count{method="order"}[1m])`
+  - seconds_sum : 실행 시간의 합 - sum
+  - seconds_max : 최대 실행 시간(가장 오래걸린 실행 시간) - gauge
+    - 1~3분 마다 최대 실행 시간을 다시 계산(내부에 타임 윈도우라는 개념 존재)
+    - `my_order_seconds_max`
+  - seconds_sum / seconds_count = 평균 실행시간
+    - `increase(my_order_seconds_sum[1m]) / increase(my_order_seconds_count[1m])`
