@@ -1127,7 +1127,14 @@ http://localhost:9090/
   - [MeterRegistry 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/fc8582db6e4360a81e6ddfb572fbe2d437dbc2e6)
   - [@Counted 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/a141a816d1a9370dd5e9f5c3c4523be37952ae2a)
 
-**게이지**
+[**게이지**](https://prometheus.io/docs/concepts/metric_types/#gauge)
+
+- 임의로 오르내릴 수 있는 단일 숫자 값을 나타내는 메트릭
+- 값의 현재 상태를 보는데 사용(값이 증가하거나 감소)
+- 카운터, 게이지의 쉬운 구분을 위해 값이 감소할 수 있는가를 고민해보자
+- ex. 차량 속도, CPU 사용량, 메모리 사용량 ..
+- [MeterRegistry 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/e2f51b257362438d721eb2a11d4c661d5b698239)
+- [MeterBinder 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/95d3b52ba5a9ff1d5340cb5d6359897f63733e31#diff-4660cd824605e0ca8e21e11c07614cc4b5db5b6f72a6cdcfd08af62818da4d8b)
 
 **Timer**
 
