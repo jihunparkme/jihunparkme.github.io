@@ -1114,11 +1114,11 @@ http://localhost:9090/
 - [등록할 메트릭 기능](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/46e84a81d8c3143cbfcb2271685dedf258be01fe)
 
 **MeterRegistry**
-
 - 마이크로미터 기능을 제공하는 핵심 컴포넌트
 - 스프링을 통해서 주입 받아서 사용하고, 카운터, 게이지 등을 등록
 
-[**Counter**]((https://prometheus.io/docs/concepts/metric_types/#counter))
+**`Counter`**
+  - [Counter]((https://prometheus.io/docs/concepts/metric_types/#counter))
   - 단조롭게 증가하는 단일 누적 측정 항목
     - 단일 값, 보통 하나씩 증가, 누적이므로 전체 값을 포함(total)
   - 값을 증가하거나 0으로 초기화 하는 기능만 가능
@@ -1127,8 +1127,8 @@ http://localhost:9090/
   - [MeterRegistry 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/fc8582db6e4360a81e6ddfb572fbe2d437dbc2e6)
   - [@Counted 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/a141a816d1a9370dd5e9f5c3c4523be37952ae2a)
 
-[**게이지**](https://prometheus.io/docs/concepts/metric_types/#gauge)
-
+**`Gauge`**
+- [Gauge](https://prometheus.io/docs/concepts/metric_types/#gauge)
 - 임의로 오르내릴 수 있는 단일 숫자 값을 나타내는 메트릭
 - 값의 현재 상태를 보는데 사용(값이 증가하거나 감소)
 - 카운터, 게이지의 쉬운 구분을 위해 값이 감소할 수 있는가를 고민해보자
@@ -1136,8 +1136,7 @@ http://localhost:9090/
 - [MeterRegistry 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/e2f51b257362438d721eb2a11d4c661d5b698239)
 - [MeterBinder 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/95d3b52ba5a9ff1d5340cb5d6359897f63733e31#diff-4660cd824605e0ca8e21e11c07614cc4b5db5b6f72a6cdcfd08af62818da4d8b)
 
-**Timer**
-
+**`Timer`**
 - 시간 측정에 사용
 - 실행 시간도 함께 측정 가능(카운터와 유사)
 - 아래 내용을 한 번에 측정
@@ -1151,3 +1150,9 @@ http://localhost:9090/
     - `increase(my_order_seconds_sum[1m]) / increase(my_order_seconds_count[1m])`
 - [MeterRegistry 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/ff3346ef865bb25af7a06ead43727364fbf540e6)
 - [@Timed 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/21fe0f080150b3f4a1e0898340e91613dc716ae6)
+
+**`Tag, 레이블`**
+- 데이터를 나눠서 확인 가능
+- 카디널리티(특정 데이터 집합의 유니크한 값의 개수)가 낮으면서 그룹화 할 수 있는 단위에 사용
+  - ex. 성별, 주문 상태, 결제 수단[신용카드, 현금] ..
+  - 카디널리티가 높으면 불가 - ex. 주문번호, PK ..
