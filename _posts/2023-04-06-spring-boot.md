@@ -1142,3 +1142,5 @@ http://localhost:9090/
     - `my_order_seconds_max`
   - seconds_sum / seconds_count = 평균 실행시간
     - `increase(my_order_seconds_sum[1m]) / increase(my_order_seconds_count[1m])`
+- [MeterRegistry 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/ff3346ef865bb25af7a06ead43727364fbf540e6)
+- [@Timer 적용 commit]()
