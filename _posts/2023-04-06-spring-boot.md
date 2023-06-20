@@ -1118,7 +1118,7 @@ http://localhost:9090/
 - 마이크로미터 기능을 제공하는 핵심 컴포넌트
 - 스프링을 통해서 주입 받아서 사용하고, 카운터, 게이지 등을 등록
 
-[**카운터**]((https://prometheus.io/docs/concepts/metric_types/#counter))
+[**Counter**]((https://prometheus.io/docs/concepts/metric_types/#counter))
   - 단조롭게 증가하는 단일 누적 측정 항목
     - 단일 값, 보통 하나씩 증가, 누적이므로 전체 값을 포함(total)
   - 값을 증가하거나 0으로 초기화 하는 기능만 가능
@@ -1143,4 +1143,4 @@ http://localhost:9090/
   - seconds_sum / seconds_count = 평균 실행시간
     - `increase(my_order_seconds_sum[1m]) / increase(my_order_seconds_count[1m])`
 - [MeterRegistry 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/ff3346ef865bb25af7a06ead43727364fbf540e6)
-- [@Timer 적용 commit]()
+- [@Timed 적용 commit](https://github.com/jihunparkme/Inflearn-Spring-Boot/commit/21fe0f080150b3f4a1e0898340e91613dc716ae6)
