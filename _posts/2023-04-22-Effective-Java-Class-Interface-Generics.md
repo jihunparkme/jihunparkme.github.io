@@ -910,7 +910,15 @@ public static <E> Set<E> union(Set<E> s1, Set<E> s2) {
 
 ## item 31. 한정적 와일드카드를 사용해 API 유연성을 높이라.
 
-> --
+> 조금 복잡하더라도 와일드카드 타입을 적용하면 API가 훨씬 유연해진다.
+>
+> 그러니 널리 쓰일 라이브러리를 작성한다면 반드시 와일드카드 타입을 적절히 사용해줘야 한다.
+>
+> PECS 공식을 기억하자.
+>
+> 즉, 생산자(produce)는 extends를 소비자(consumer)는 super를 사용한다.
+>
+> Comparable과 Comparator는 모두 소비자라는 사실도 잊지 말자.
 
 📖
 
@@ -933,8 +941,62 @@ public void popAll(Collection<? super E> dst) {
 
 유연성을 극대화하려면 원소의 생산자나 소비자용 입력 매개변수에 와일드카드 타입을 사용하자.
 - 입력 매개변수가 생산자와 소비자 역할을 동시에 한다면 타입을 정확히 지정해야 하는 상황으로, 이 경우 와일드카드 타입을 사용하지 말아야 한다.
+- 단, 반환 타입에는 한정적 와일드카드 타입을 사용하면 안 된다. 유연성은 커녕 클라이언트 코드에서도 와일드카드 타입을 써야 한다.
+- 클래스 사용자가 와일드카드 타입을 신경 써야 한다면 그 API에 어떠한 문제가 있을 가능성이 크다.
 
+`펙스(PECS): producer-extends, consumer-super`
 
+- PECS 공식은 와일드카드 타입을 사용하는 기본 원칙
+  
+**참고.** 매개변수(parameteR)와 인수(argument)의 차이
+- 매개변수: 메서드 선언에 정의한 변수
+- 인수: 메서드 호출 시 넘기는 실젯값
+```java
+void add(int value) { ... } // value = 매개변수
+add(10) // 10 = 인수
+```
+
+Comparable, Comparator은 언제나 소비자이므로, 일반적으로 `Compareable<E>` 보다는 `Compareable<? super E>` 를 사용하는 편이 낫다.
+
+.
+
+직접 구현한 다른 타입을 확장한 타입을 지원하기 위해 와일드카드가 필요하기도 하다.
+
+```java
+ScheduledFuture는 Delayed의 하위 인터페이스고, Delayed는 Comparable<Delayed>를 확장
+
+<<interface>>
+Comparable<E>
+
+<<interface>>
+Delayed
+
+<<interface>>
+ScheduledFuture<V>
+```
+
+타입 매개변수와 와일드카드에는 공통되는 부분이 있어서, 메서드를 정의할 때 둘 중 어느 것을 사용해도 괜찮을 때가 많다.
+- 비한정적 타입 매개변수
+  ```java
+  public static <E> void swap(List<E> list, int i, int j);
+  ```
+- 비한정적 와일드카드
+  - public API 라면 간단한 비한정적 와일드카드를 사용하는 방법이 유리
+  - 메서드 선언에 타입 매개변수가 한 번만 나오면 와일드카드로 대체하자.
+    ```java
+    public static void swap(List<?> list, int i, int j);
+    ```
+  - List<?> 에는 null 외에 어떤 값도 넣을 수 없는 단점이 존재하는데, 이 경우 와일드카드 타입의 실제 타입을 알려주는 메서드를 private 도우미 메서드로 따로 작성하여 활용하자.
+    ```java
+    public static void swap(List<?> list, int i, int j) {
+        swapHelper(list, i, j);
+    }
+
+    // 와일드카드 타입을 실제 타입으로 바꿔주는 private 도우미 메서드
+    private static <E> void swapHelper(List<E> list, int i, int j) {
+        list.set(i, list.set(j, list.get(i)));
+    }
+    ```
 
 <br>
 
