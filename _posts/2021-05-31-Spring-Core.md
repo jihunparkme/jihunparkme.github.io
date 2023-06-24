@@ -85,14 +85,20 @@ featured-img: spring_core
 - 클래스 다이어그램 (개발자 시점)
 - 객체 다이어그램 (인스턴스끼리의 참조)
 
-## 스프링 컨테이너
+## Spring Container
+
+```java
+ApplicationContext applicationContext =
+ new
+AnnotationConfigApplicationContext(ConfigObject.class);
+```
 
 - ApplicationContext: 스프링 컨테이너
 - `@Configuration` 이 선언된 객체를 `설정 정보`로 사용
   - Config 객체에서 `@Bean` 선언된 메서드를 모두 호출해서 반환된 객체를 `스프링 컨테이너에 등록`
   - 스프링 빈(스프링 컨테이너에 등록된 객체)은 @Bean 선언된 메서드명을 스프링 빈의 이름으로 사용
 
-## 싱글톤 컨테이너
+## Singleton Container
 
 - 싱글톤 패턴 : 클래스의 인스턴스가 딱 1개만 생성되는 것을 보장하는 디자인 패턴
 - 싱글톤 객체(스프링 빈)는 상태를 무상태(stateless)로 설계해야 한다.
@@ -101,8 +107,6 @@ featured-img: spring_core
   - 가급적 읽기만 가능해야 한다.
   - 필드 대신에 자바에서 공유되지 않는, 지역변수, 파라미터, ThreadLocal 등을 사용해야 한다.
 - 스프링 설정 정보는 항상 @Configuration을 사용하여 싱글톤을 보장하자.
-
----
 
 ## Component Scan
 
