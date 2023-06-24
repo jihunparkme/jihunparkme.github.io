@@ -965,6 +965,7 @@ Comparable, Comparator은 언제나 소비자이므로, 일반적으로 `Compare
 직접 구현한 다른 타입을 확장한 타입을 지원하기 위해 와일드카드가 필요하기도 하다.
 
 ```java
+/*
 ScheduledFuture는 Delayed의 하위 인터페이스고, Delayed는 Comparable<Delayed>를 확장
 
 <<interface>>
@@ -975,6 +976,7 @@ Delayed
 
 <<interface>>
 ScheduledFuture<V>
+*/
 
 ...
 
