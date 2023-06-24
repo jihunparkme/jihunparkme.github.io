@@ -111,6 +111,59 @@ ApplicationContext applicationContext =
 - **스프링 빈 의존관계 설정**
   - 설정 정보를 참고해서 의존관계 주입(DI)
 
+### Bean 조회
+
+```java
+AnnotationConfigApplicationContext ac = 
+  new AnnotationConfigApplicationContext(AppConfig.class);
+
+@Test
+void findAllBean() {
+    // 스프링에 등록된 모든 빈 정보 조회
+    String[] beanDefinitionNames = ac.getBeanDefinitionNames();
+    for (String beanDefinitionName : beanDefinitionNames) {
+        // 빈 이름으로 빈 객체(인스턴스) 조회
+        Object bean = ac.getBean(beanDefinitionName);
+        System.out.println("name=" + beanDefinitionName + " object=" +
+        bean);
+    }
+}
+
+@Test
+void findApplicationBean() {
+    String[] beanDefinitionNames = ac.getBeanDefinitionNames();
+    for (String beanDefinitionName : beanDefinitionNames) {
+        BeanDefinition beanDefinition = ac.getBeanDefinition(beanDefinitionName);
+        // ROLE_APPLICATION: 직접 등록한 애플리케이션 빈
+        // ROLE_INFRASTRUCTURE: 스프링이 내부에서 사용하는 빈
+        if (beanDefinition.getRole() == BeanDefinition.ROLE_APPLICATION) {
+        Object bean = ac.getBean(beanDefinitionName);
+        System.out.println("name=" + beanDefinitionName + " object=" +
+        bean);
+        }
+    }
+}
+```
+
+**빈 조회 방법**
+- 빈 이름과 타입으로 조회: `ac.getBean(빈이름, 타입)`
+- 해당 타입의 모든 빈 조회: `ac.getBeansOfType()` 
+- 조회 대상 스프링 빈이 없으면 예외 발생
+  - NoSuchBeanDefinitionException: No bean named 'xxxxx' available
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Singleton Container
 
 - 싱글톤 패턴 : 클래스의 인스턴스가 딱 1개만 생성되는 것을 보장하는 디자인 패턴
