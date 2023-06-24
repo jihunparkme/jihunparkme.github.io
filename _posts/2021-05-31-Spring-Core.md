@@ -2,7 +2,7 @@
 layout: post
 title: Spring Core
 summary: Inflearn Spring Core Principles (스프링 핵심 원리 - 기본편)
-categories: Spring
+categories: Spring Bean
 featured-img: spring_core
 # mathjax: true
 ---
@@ -15,7 +15,7 @@ featured-img: spring_core
 
 # A table of contents
 
-- [Inflearn_Spring2_Core_Principles](#inflearn_spring2_core_principles)
+- [Inflearn\_Spring2\_Core\_Principles](#inflearn_spring2_core_principles)
 - [A table of contents](#a-table-of-contents)
   - [Spring](#spring)
   - [좋은 객체지향의 5가지 원칙 (SOLID)](#좋은-객체지향의-5가지-원칙-solid)
