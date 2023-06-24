@@ -88,15 +88,28 @@ featured-img: spring_core
 ## Spring Container
 
 ```java
-ApplicationContext applicationContext =
- new
-AnnotationConfigApplicationContext(ConfigObject.class);
+/** 
+ * AnnotationConfigApplicationContext : ApplicationContext 인터페이스의 구현체
+ *  ConfigObject : 구성 정보
+ */
+ApplicationContext applicationContext = 
+  new AnnotationConfigApplicationContext(ConfigObject.class);
 ```
 
-- ApplicationContext: 스프링 컨테이너
-- `@Configuration` 이 선언된 객체를 `설정 정보`로 사용
+- ApplicationContext = 스프링 컨테이너
+- 스프링 컨테이너는 XML 기반 또는 애노테이션 기반의 자바 설정 클래스로 만들 수 있음
+
+**스프링 컨테이너 생성 과정**
+- **스프링 컨테이너 생성**
+  - `@Configuration` 선언 객체를 `설정 정보`로 사용
+  - 또는 `new AnnotationConfigApplicationContext(ConfigObject.class)`
+- **스프링 빈 등록**
   - Config 객체에서 `@Bean` 선언된 메서드를 모두 호출해서 반환된 객체를 `스프링 컨테이너에 등록`
-  - 스프링 빈(스프링 컨테이너에 등록된 객체)은 @Bean 선언된 메서드명을 스프링 빈의 이름으로 사용
+  - 스프링 빈(스프링 컨테이너에 등록된 객체)은 @Bean 선언된 메서드명을 스프링 빈의 이름으로 사용하거나 `@Bean(name="beanName")` 처럼 직접 부여도 가능
+  - 빈 이름은 항상 다른 이름을 사용하자.
+    - 같은 이름을 사용하면, 다른 빈이 무시되거나, 덮어쓰이거나 설정에 따라 오류가 발생
+- **스프링 빈 의존관계 설정**
+  - 설정 정보를 참고해서 의존관계 주입(DI)
 
 ## Singleton Container
 
