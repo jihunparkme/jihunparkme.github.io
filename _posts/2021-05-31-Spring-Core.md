@@ -175,10 +175,14 @@ void findApplicationBean() {
     - 편리한 리소스 조회
     - 파일, 클래스패스, 외부 등에서 리소스를 편리하게 조회
 
+**BeanDefinition**
 
+- 스프링 빈 설정 메타 정보
+  - `@Bean`, `<bean>` 각 하나씩 메타 정보 생성
+- 추상화된 BeanDefinition 덕분에 스프링이 (자바 코드, XML, Groovy 등)다양한 설정 형식을 지원
+- 스프링 컨테이너는 이 메타정보를 기반으로 스프링 빈 생성
 
-
-
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/bean-definition.png?raw=true 'Result')
 
 
 
