@@ -151,6 +151,30 @@ void findApplicationBean() {
 - 조회 대상 스프링 빈이 없으면 예외 발생
   - NoSuchBeanDefinitionException: No bean named 'xxxxx' available
 
+**BeanFactory**
+
+- 스프링 컨테이너의 최상위 인터페이스
+- 스프링 빈을 관리하고 조회하는 역할 담당(getBean() 제공)
+
+> BeanFactory <- ApplicationContext <- AnnotationConfig, ApplicationContext
+
+**ApplicationContext**
+
+- BeanFactory 기능을 모두 상속받아서 제공
+- 빈을 관리하고 검색하는 기능뿐만 아니라, 수 많은 편리 부가 기능 제공
+  - MessageSource
+    - 메시지소스를 활용한 국제화 기
+    - 한국에서 들어오면 한국어, 영어권에서 들어오면 영어 출력
+  - EnvironmentCapable
+    - 환경변수
+    - 로컬, 개발, 운영등을 구분해서 처리
+  - ApplicationEventPublisher
+    - 애플리케이션 이벤트
+    - 이벤트를 발행하고 구독하는 모델을 편리하게 지원
+  - ResourceLoader
+    - 편리한 리소스 조회
+    - 파일, 클래스패스, 외부 등에서 리소스를 편리하게 조회
+
 
 
 
