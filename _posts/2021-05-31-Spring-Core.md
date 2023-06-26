@@ -223,14 +223,29 @@ void findApplicationBean() {
   - 빈 이름 직접 지정: @Component("beanName")
 - 의존관계 주입은 `@Autowired`가 해결
   - 기본 조회 전략: 타입이 같은 빈을 찾아서 주입
+
+```java
+@ComponentScan(
+  /**
+   * basePackages
+   * 탐색할 패키지의 시작 위치(하위 패키지 모두 탐색)
+   * 지정하지 않으면 @ComponentScan 선언된 설정 정보 클래스의 패키지가 시작 위치
+   * 설정 정보 클래스의 위치를 프로젝트 최상 단에 두는 것을 추천
+   * 
+   * 스프링 부트는 기본 방법으로 @SpringBootApplication 에 @ComponentScan 포함
+   */
+    basePackages = {"hello.core", "hello.service"}, 
+}
+```
+
 - Component Scan 기본 대상
-  - `@Component`
-  - `@Controller` : 스프링 MVC 컨트롤러로 인식
-  - `@Service` : 비즈니스 계층을 인식하는데 도움..
-  - `@Repository` : 스프링 데이터 접근 계층으로 인식하고, 데이터 계층의 예외를 스프링 예외로 변환
-  - `@Configuration` : 스프링 설정 정보로 인식하고, 스프링 빈이 싱글톤을 유지하도록 추가 처리
+  - `@Component`:  컴포넌트 스캔 탐색 대상
+  - `@Controller` : 스프링 MVC 컨트롤러
+  - `@Service` : 비즈니스 로직 계층
+  - `@Repository` : 스프링 데이터 접근 계층(데이터 계층의 예외를 스프링 예외로 변환)
+  - `@Configuration` : 스프링 설정 정보(스프링 빈이 싱글톤을 유지하도록 처리)
 
-
+  
 
 
 
