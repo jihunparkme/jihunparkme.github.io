@@ -216,22 +216,13 @@ void findApplicationBean() {
   - @Configuration 선언 시 바이트코드를 조작하는 CGLIB 기술이 적용되어 싱글톤 보장
   - 설정 정보 클래스를 상속받은 xxx@CGLIB 클래스가 싱글톤을 보장
 
-
-
-
-
-
-
-
-
-
-
-
 ## Component Scan
 
-- Config class에 @ComponentScan을 명시해주면, 자동으로 class path를 탐색해서 @Component가 명시된 class들을 Spring Container의 Spring Bean으로 등록해준다.
-- 의존관계 주입은 @Autowired가 해결해준다.
-  - 기본 조회 전략은 타입이 같은 빈을 찾아서 주입
+- 설정 정보 클래스에 `@ComponentScan`을 명시해 주면, 자동으로 class path를 탐색해서 `@Component`가 명시된 class들을 스캔해서 스프링 빈으로 등록
+  - 빈 이름 기본 전략: 앞글자만 소문자로 변경된 클래스명을 사용
+  - 빈 이름 직접 지정: @Component("beanName")
+- 의존관계 주입은 `@Autowired`가 해결
+  - 기본 조회 전략: 타입이 같은 빈을 찾아서 주입
 - Component Scan 기본 대상
   - `@Component`
   - `@Controller` : 스프링 MVC 컨트롤러로 인식
@@ -239,7 +230,15 @@ void findApplicationBean() {
   - `@Repository` : 스프링 데이터 접근 계층으로 인식하고, 데이터 계층의 예외를 스프링 예외로 변환
   - `@Configuration` : 스프링 설정 정보로 인식하고, 스프링 빈이 싱글톤을 유지하도록 추가 처리
 
----
+
+
+
+
+
+
+
+
+
 
 ## 의존관계 자동 주입
 
