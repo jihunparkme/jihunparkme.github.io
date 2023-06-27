@@ -245,15 +245,17 @@ void findApplicationBean() {
   - `@Repository` : 스프링 데이터 접근 계층(데이터 계층의 예외를 스프링 예외로 변환)
   - `@Configuration` : 스프링 설정 정보(스프링 빈이 싱글톤을 유지하도록 처리)
 
-  
+**Filters**
 
+- includeFilters : 컴포넌트 스캔 대상 추가 지정
+- excludeFilters : 컴포넌트 스캔에서 제외할 대상 지정
 
-
-
-
-
-
-
+```java
+@ComponentScan(
+    includeFilters = @Filter(type = FilterType.ANNOTATION, classes = MyIncludeComponent.class),
+    excludeFilters = @Filter(type = FilterType.ANNOTATION, classes = MyExcludeComponent.class)
+)
+```
 
 ## 의존관계 자동 주입
 
