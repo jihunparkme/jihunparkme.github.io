@@ -263,7 +263,9 @@ void findApplicationBean() {
 
   - 생성자를 통해 의존 관계를 주입받는 방법
   - 딱 1번 호출 보장. **불변-필수** 의존관계
+  - 불변하게 설계 가능하고, 의존관계 누락 방지(final)
   - 항상 생성자 주입을 선택하자.
+  - lombok 사용 시 `@RequiredArgsConstructor`
 
   ```java
   @Component
@@ -370,51 +372,54 @@ void findApplicationBean() {
   }
   ```
 
-### 조회 빈이 2개 이상일 경우 발생하는 문제
+### 조회 대상 빈이 2개 이상일 경우
 
-- `@Autowired`
-  - 타입 매칭을 시도하고, 이때 여러 빈이 있으면 필드 이름, 파라미터 이름으로 빈 이름을 추가 매칭
-  ```java
-  @Autowired
-  private DiscountPolicy rateDiscountPolicy
-  ```
-- `@Qualifier`
+`@Autowired`
 
-  - 추가 구분자를 붙여주는 방법
-  - 빈 등록 시 @Qualifier 붙이기
+- 타입 매칭을 시도
+- 여러 빈이 조회되면 필드 이름, 파라미터 이름으로 빈 이름을 추가 매칭
+```java
+@Autowired
+private DiscountPolicy rateDiscountPolicy
+```
 
-  ```java
-  @Component
-  @Qualifier("mainDiscountPolicy")
-  public class RateDiscountPolicy implements DiscountPolicy {}
+`@Qualifier`
 
-  // 주입 시 @Qualifier를 붙여주고 등록한 이름을 적기
+- 빈 등록 시 @Qualifier 로 추가 구분자 설정
+- @Qualifier 매칭 -> 빈 이름 매칭 -> NoSuchBeanDefinitionException 예외
 
-  // 1. 생성자 자동 주입의 경우
-  @Autowired
-  public OrderServiceImpl(MemberRepository memberRepository @Qualifier("mainDiscountPolicy") DiscountPolicy
-  discountPolicy) {
+```java
+@Component
+@Qualifier("mainDiscountPolicy") // 빈 등록 시 이름 설정
+public class RateDiscountPolicy implements DiscountPolicy {}
 
-    this.memberRepository = memberRepository;
-    this.discountPolicy = discountPolicy;
+/** 1. 생성자 자동 주입의 경우 **/
+@Autowired
+public OrderServiceImpl(
+        MemberRepository memberRepository,
+        @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
 
-  }
+  this.memberRepository = memberRepository;
+  this.discountPolicy = discountPolicy;
 
-  // 2. 수정자 자동 주입의 경우
-  @Autowired
-  public DiscountPolicy setDiscountPolicy(@Qualifier ("mainDiscountPolicy") DiscountPolicy discountPolicy) {
-    return discountPolicy;
-  }
-  ```
+}
 
-- `@Primary`
-  - @Autowired 시에 여러 빈이 매칭되면 @Primary가 우선권
-  - Database Connection을 가져올 경우 등 은근 사용
-  ```java
-  @Component
-  @Primary
-  public class RateDiscountPolicy implements DiscountPolicy {}
-  ```
+/** 2. 수정자 자동 주입의 경우 **/
+@Autowired
+public DiscountPolicy setDiscountPolicy(@Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+  return discountPolicy;
+}
+```
+
+`@Primary`
+
+- @Autowired 시에 여러 빈이 매칭되면 @Primary가 우선권
+- Database Connection을 가져올 경우 등 은근 사용
+```java
+@Component
+@Primary
+public class RateDiscountPolicy implements DiscountPolicy {}
+```
 
 ### 조회한 빈이 모두 필요할 경우
 
