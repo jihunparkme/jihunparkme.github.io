@@ -374,7 +374,7 @@ void findApplicationBean() {
 
 ### 조회 대상 빈이 2개 이상일 경우
 
-`@Autowired`
+**`@Autowired`**
 
 - 타입 매칭을 시도
 - 여러 빈이 조회되면 필드 이름, 파라미터 이름으로 빈 이름을 추가 매칭
@@ -383,7 +383,7 @@ void findApplicationBean() {
 private DiscountPolicy rateDiscountPolicy
 ```
 
-`@Qualifier`
+**`@Qualifier`**
 
 - 빈 등록 시 @Qualifier 로 추가 구분자 설정
 - @Qualifier 매칭 -> 빈 이름 매칭 -> NoSuchBeanDefinitionException 예외
@@ -411,7 +411,7 @@ public DiscountPolicy setDiscountPolicy(@Qualifier("mainDiscountPolicy") Discoun
 }
 ```
 
-`@Primary`
+**`@Primary`**
 
 - @Autowired 시에 여러 빈이 매칭되면 @Primary가 우선권
 - Database Connection을 가져올 경우 등 은근 사용
@@ -419,6 +419,34 @@ public DiscountPolicy setDiscountPolicy(@Qualifier("mainDiscountPolicy") Discoun
 @Component
 @Primary
 public class RateDiscountPolicy implements DiscountPolicy {}
+```
+
+**참고. 빈 애노테이션 만들기**
+
+```java
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER,
+ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Qualifier("mainDiscountPolicy")
+public @interface MainDiscountPolicy {
+}
+
+//
+
+@Component
+@MainDiscountPolicy
+public class RateDiscountPolicy implements DiscountPolicy {}
+
+//
+
+@Autowired
+public OrderServiceImpl(
+          MemberRepository memberRepository,
+          @MainDiscountPolicy DiscountPolicy discountPolicy) {
+  this.memberRepository = memberRepository;
+  this.discountPolicy = discountPolicy;
+}
 ```
 
 ### 조회한 빈이 모두 필요할 경우
