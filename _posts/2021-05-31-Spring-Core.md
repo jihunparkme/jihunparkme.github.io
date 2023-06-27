@@ -451,7 +451,7 @@ public OrderServiceImpl(
 
 ### 조회한 빈이 모두 필요할 경우
 
-- 동적으로 Bean을 선택해야할 때, 다형성 코드를 유지하면서 Bean을 사용할 수 있음
+동적으로 Bean을 선택해야할 때, 다형성 코드를 유지하면서 Bean을 사용할 수 있음
 
 ```java
 public class AllBeanTest {
@@ -473,25 +473,19 @@ public class AllBeanTest {
 
 
     static class DiscountService {
+        // Map(Key=스프링 빈 이름, value=DiscountPolicy 타입으로 조회한 모든 스프링 빈)
         private final Map<String, DiscountPolicy> policyMap;
+        // DiscountPolicy 타입으로 조회한 모든 스프링 빈을
         private final List<DiscountPolicy> policies;
 
-        // DiscountService 는 Map 으로 모든 DiscountPolicy 를 주입받는다
         public DiscountService(Map<String, DiscountPolicy> policyMap,  List<DiscountPolicy> policies) {
             this.policyMap = policyMap;
             this.policies = policies;
-
-            System.out.println("policyMap = " + policyMap);
-            System.out.println("policies = " + policies);
         }
 
         // 원하는 할인 방법은 매개변수로 받은 후, Map에서 꺼내서 사용
         public int discount(Member member, int price, String discountCode) {
             DiscountPolicy discountPolicy = policyMap.get(discountCode);
-
-            System.out.println("discountCode = " + discountCode);
-            System.out.println("discountPolicy = " + discountPolicy);
-
             return discountPolicy.discount(member, price);
         }
     }
