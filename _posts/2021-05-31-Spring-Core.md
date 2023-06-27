@@ -259,11 +259,11 @@ void findApplicationBean() {
 
 ## 의존관계 자동 주입
 
-- `생성자 주입`✨
+- `생성자 주입` ⭐️
 
   - 생성자를 통해 의존 관계를 주입받는 방법
   - 딱 1번 호출 보장. **불변-필수** 의존관계
-  - 항상 생성자 주입을 선택하라 !
+  - 항상 생성자 주입을 선택하자.
 
   ```java
   @Component
@@ -286,7 +286,7 @@ void findApplicationBean() {
   - **선택, 변경** 가능성이 있는 의존 관계
     - 선택적으로 사용할 경우(주입할 대상이 없어도 동작하도록 할 경우)
       - @Autowired(required = false)
-    - 중간에 의존관계를 변경할 일은 거의 없음
+    - 단, 중간에 의존관계를 변경할 일은 거의 없음
 
   ```java
   @Component
@@ -309,7 +309,7 @@ void findApplicationBean() {
 
 - `필드 주입`
 
-  - 외부에서 변경이 불가능하여 테스트하기 힘들다는 치명적인 단점
+  - 외부에서 변경이 불가능하여 테스트하기 힘들다는 치명적
   - 가급적 테스트 코드에서만 사용
 
   ```java
@@ -340,6 +340,33 @@ void findApplicationBean() {
       this.memberRepository = memberRepository;
       this.discountPolicy = discountPolicy;
     }
+  }
+  ```
+
+**옵션**
+
+- @Autowired(required=false)
+  - 자동 주입할 대상이 없으면 수정자 메서드 자체를 호출하지 않음
+  ```java
+  @Autowired(required = false)
+  public void setNoBean1(Member member) {
+      System.out.println("setNoBean1 = " + member);
+  }
+  ```
+- org.springframework.lang.@Nullable
+  - 자동 주입할 대상이 없으면 null
+  ```java
+  @Autowired
+  public void setNoBean2(@Nullable Member member) {
+      System.out.println("setNoBean2 = " + member);
+  }
+  ```
+- Optional<>
+  - 자동 주입할 대상이 없으면 Optional.empty
+  ```java
+  @Autowired(required = false)
+  public void setNoBean3(Optional<Member> member) {
+      System.out.println("setNoBean3 = " + member);
   }
   ```
 
