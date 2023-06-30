@@ -576,13 +576,35 @@ PrototypeBean HelloBean() {
 
 - 스프링 컨테이너는 프로토타입 빈의 생성과 의존관계 주입, 초기화까지만 관여하는 매우 짧은 범위의 스코프(종료 메서드 호출 X)
 - 스프링 컨테이너에 조회할 때마다 새로운 인스턴스를 생성해서 반환
+  - 의존성 주입을 받는 시점에 각각 새로운 프로토타입 빈이 생성
 - 프로토타입 빈을 조회한 클라이언트가 관리. 종료 메서드 호출도 클라이언트가 수행
+- 직접적으로 사용하는 일은 매우 드묾
 
 `웹 관련 스코프`
 
 - request: 웹 요청이 들어오고 나갈때 까지 유지되는 스코프
 - session: 웹 세션이 생성되고 종료될 때 까지 유지되는 스코프
 - application: 웹의 서블릿 컨텍스와 같은 범위로 유지되는 스코프
+
+.
+
+참고. **싱글톤 빈과 함께 사용시 문제점**
+
+- 스프링은 일반적으로 싱글톤 빈을 사용하여 싱글톤 빈이 프로토타입 빈을 사용
+- 싱글톤 빈은 생성 시점에만 의존성 주입을 받으므로, 프로토타입 빈을 사용할 때마다 새로 생성해서 사용하고자하는 의도와 다르게 프로토타입 빈 스코프가 싱글톤 빈과 함께 계속 유지
+- ObjectProvider 을 활용한 문제 해결
+  - 지정한 빈을 컨테이너에서 대신 찾아주는 DL(Dependency Lookup) 서비스 제공
+  ```java
+  @Autowired
+  private ObjectProvider<PrototypeBean> prototypeBeanProvider;
+
+  public int logic() {
+      PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+      prototypeBean.addCount();
+      int count = prototypeBean.getCount();
+      return count;
+  }
+  ```
 
 ---
 
