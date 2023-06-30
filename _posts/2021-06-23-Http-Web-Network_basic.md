@@ -14,28 +14,6 @@ HTTP Web Network 강의 노트
 
 - HTTP 기본
 
-# Table Of Contents
-
-1. [인터넷 네트워크](#인터넷-네트워크)
-
-- IP(Internet Protocol)
-- TCP, UDP
-- PORT
-- DNS
-
-2. [URI와 웹 브라우저 요청 흐름](#URI과-웹-브라우저-요청-흐름)
-
-- URI
-- 웹 브라우저 요청 흐름
-
-3. [HTTP 기본](#HTTP-기본)
-
-- HTTP
-- 클라이언트 서버 구조
-- Stateful, Stateless
-- 비 연결성(connectionless)
-- HTTP 메시지
-
 ---
 
 # 인터넷 네트워크
@@ -263,3 +241,4 @@ IP는 변하기 쉽고 외우기 어렵기 때문에 DNS가 필요
 - [스프링 DB 1편 > 데이터 접근 핵심 원리](https://jihunparkme.github.io/Spring-DB-Part1/)
 - [스프링 DB 2편 > 데이터 접근 활용 기술](https://jihunparkme.github.io/Spring-DB-Part2/)
 - [스프링 핵심 원리 > 고급편](https://jihunparkme.github.io/Spring-Core-Principles-Advanced/)
+- [실전! 스프링 부트](https://jihunparkme.github.io/spring-boot/)
