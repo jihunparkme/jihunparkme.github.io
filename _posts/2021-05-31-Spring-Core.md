@@ -18,15 +18,15 @@ featured-img: spring_core
 [Spring Documentaion](https://spring.io/projects)
 
 - Required
-  - 스프링 프레임워크
-  - 스프링 부트
+  - Spring Framework
+  - Spring Boot
 - Optional
-  - 스프링 데이터
-  - 스프링 세션
-  - 스프링 시큐리티
-  - 스프링 Rest Docs
-  - 스프링 배치
-  - 스프링 클라우드
+  - Spring Data
+  - Spring Session
+  - Spring Security
+  - Spring Rest Docs
+  - Spring Batch
+  - Spring Cloud
 
 ---
 
