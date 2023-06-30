@@ -33,6 +33,7 @@ Controller
 
 - DispatcherServlet ➜ FrameworkServlet ➜ HttpServletBean ➜ HttpServlet
 - 스프링 부트는 DispacherServlet 을 서블릿으로 자동으로 등록하고, 모든 경로(urlPatterns="/")를 매핑
+- DispacherServlet.doDispatch() 참고
 
 1. 핸들러 조회 : 핸들러 매핑을 통해 요청 URL에 매핑된 핸들러(컨트롤러)를 조회
 
@@ -49,18 +50,6 @@ Controller
 7. View 반환 : viewResolver는 뷰의 논리 이름을 물리 이름으로 바꾸고, 렌더링 역할을 담당하는 뷰 객체 반환 (JSP의 경우 InternalResourceView(JstlView) 를 반환하는데, 내부에 forward() 로직 존재)
 
 8. 뷰 렌더링 : 뷰를 통해서 뷰를 렌더링
-
-
-
-
-
-
-
-
-
-
-
-
 
 **주요 인터페이스**
 
