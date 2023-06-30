@@ -193,11 +193,12 @@ private void printEtc(HttpServletRequest request) {
 
 - 메시지 바디 없이 URL 쿼리 파라미터에 데이터를 포함해서 전달
 - HTTP Message Body 를 사용하지 않으므로 Content-type 이 없음
-- request.getParameter("name");
 - ex) 검색, 필터, 페이징 ...
 
 ```java
-// http://localhost:8080/request-param?username=hello&age=20
+/**
+ * http://localhost:8080/request-param?username=hello&age=20
+ */
 
 // 단일 파라미터 조회
 String username = request.getParameter("username");
@@ -214,12 +215,20 @@ String[] usernames = request.getParameterValues("username");
 
 ### `Post` (HTML Form)
 
-- Content-type: application/x-www-form-urlencoded
-  - 메시지 바디에 쿼리 파리미터 형식으로 전달 username=hello&age=20
-  - HTTP Message Body 에 데이터를 포함해서 전달하므로 Content-type 에 포함된 데이터 형식을 지정
-- request.getParameter("name");
-  - URL Query Parameter 형식과 동일
+- HTTP Message Body 에 데이터를 포함해서 전달하므로 Content-type 에 포함된 데이터 형식을 지정
 - ex) 회원가입, 상품주문, HTML Form ...
+
+```java
+/** 
+ * http://localhost:8080/basic/hello-form.html
+ * 
+ * content-type: application/x-www-form-urlencoded
+ * message body: username=hello&age=20
+ */ 
+
+// URL Query Parameter 형식과 동일하게 조회
+String username = request.getParameter("username");
+```
 
 ### `HTTP Message Body` 
 
