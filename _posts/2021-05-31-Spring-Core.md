@@ -540,6 +540,47 @@ public class AllBeanTest {
   - 초기화, 소멸 메서드 이름 변경 불가
   - 외부 라이브러리에 적용 불가
 
+## 빈 스코프
+
+**빈이 존재할 수 있는 범위**
+
+스프링은 싱글톤, 프로토타입, 웹 관련 스코프(request, session, application)를 지원
+
+빈 스코프 지정 방법
+
+```java
+// 컴포넌트 스캔 자동 등록
+@Scope("prototype")
+@Component
+public class HelloBean {}
+
+...
+
+// 수동 등록
+@Scope("prototype")
+@Bean
+PrototypeBean HelloBean() {
+    return new HelloBean();
+}
+```
+
+.
+
+`싱글톤`
+
+- 기본 스코프
+- 스프링 컨테이너의 시작~종료까지 유지되는 가장 넓은 범위의 스코프
+
+`프로토타입`
+
+- 스프링 컨테이너는 프로토타입 빈의 생성과 의존관계 주입까지만 관여하는 매우 짧은 범위의 스코프
+
+`웹 관련 스코프`
+
+- request: 웹 요청이 들어오고 나갈때 까지 유지되는 스코프
+- session: 웹 세션이 생성되고 종료될 때 까지 유지되는 스코프
+- application: 웹의 서블릿 컨텍스와 같은 범위로 유지되는 스코프
+
 ---
 
 **스프링 완전 정복 로드맵**
