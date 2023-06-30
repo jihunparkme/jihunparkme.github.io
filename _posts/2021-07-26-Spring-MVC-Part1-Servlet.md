@@ -11,27 +11,6 @@ featured-img: spring_mvc
 
 영한님의 [스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-mvc-1/dashboard) 강의 노트
 
-# Table Of Contents
-
-- Web Application
-  - Web Server / Web Application Server
-  - Servlet
-  - Multi Thread
-  - HTML, API, SSR, CSR
-- Servlet
-  - HttpServletRequest
-  - Http Request Data
-  - HttpServletResponse
-  - Http Response Data
-- Servlet, JSP, MVC pattern
-  - 개요
-  - 적용
-  - 한계
-- MVC 프레임워크 만들기
-- 스프링 MVC (구조 이해)
-- 스프링 MVC (기본 기능)
-- 스프링 MVC (웹 페이지 만들기)
-
 # Web Application
 
 ## Web Server
@@ -362,3 +341,4 @@ writer.println("</html>");
 - [스프링 DB 1편 > 데이터 접근 핵심 원리](https://jihunparkme.github.io/Spring-DB-Part1/)
 - [스프링 DB 2편 > 데이터 접근 활용 기술](https://jihunparkme.github.io/Spring-DB-Part2/)
 - [스프링 핵심 원리 > 고급편](https://jihunparkme.github.io/Spring-Core-Principles-Advanced/)
+- [실전! 스프링 부트](https://jihunparkme.github.io/spring-boot/)
