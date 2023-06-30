@@ -14,27 +14,6 @@ HTTP Web Network 강의 노트
 
 - HTTP Method
 
-# Table Of Contents
-
-1. [HTTP 메서드](#HTTP-메서드)
-
-- HTTP API
-- GET, POST
-- PUT, PATCH, DELETE
-- HTTP 메서드 속성
-
-2. [HTTP 메서드 활용](#HTTP-메서드-활용)
-
-- 클라이언트에서 서버로 데이터 전송
-- HTTP API 설계 예시
-
-3. [HTTP 상태코드](#HTTP-상태코드)
-
-- 2xx (성공)
-- 3xx (리다이렉션)
-- 4xx (클라이언트 오류)
-- 5xx (서버 오류)
-
 ---
 
 # HTTP 메서드
@@ -273,3 +252,4 @@ HTML FORM은 GET, POST만 지원하므로 Control URI 사용
 - [스프링 DB 1편 > 데이터 접근 핵심 원리](https://jihunparkme.github.io/Spring-DB-Part1/)
 - [스프링 DB 2편 > 데이터 접근 활용 기술](https://jihunparkme.github.io/Spring-DB-Part2/)
 - [스프링 핵심 원리 > 고급편](https://jihunparkme.github.io/Spring-Core-Principles-Advanced/)
+- [실전! 스프링 부트](https://jihunparkme.github.io/spring-boot/)
