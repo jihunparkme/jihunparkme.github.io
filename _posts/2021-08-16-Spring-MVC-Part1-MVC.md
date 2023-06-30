@@ -13,6 +13,18 @@ featured-img: spring_mvc
 
 # Spring MVC Framework
 
+## MVC Pattern
+
+Model
+- View 에 출력할 데이터를 담는 역할(View 는 화면 렌더링에만 집중)
+
+View
+- Model 에 담겨있는 데이터를 사용해서 화면(HTML)을 그리는 역할
+
+Controller
+- HTTP 요청을 받아서 파라미터를 검증하고, 비즈니스 로직을 실행하는 역할
+- 전달할 데이터를 조회해서 Model 을 통해 View 로 전달
+
 ## 스프링 MVC 전체 구조
 
 ![Result](https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/master/post_img/spring_mvc.png 'Result')
