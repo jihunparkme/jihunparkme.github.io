@@ -14,23 +14,6 @@ HTTP Web Network 강의 노트
 
 - HTTP Header
 
-# Table Of Contents
-
-- [HTTP 해더 (일반 헤더)](<#HTTP-해더-(일반-헤더)>)
-  - 표현
-  - 콘텐츠 협상 (Content negotiation)
-  - 전송 방식
-  - 일반 정보
-  - 특별한 정보
-  - 인증
-  - 쿠키
-- [HTTP 해더 (캐시와 조건부 요청)](<#HTTP-해더-(캐시와-조건부-요청)>)
-  - 캐시 기본 동작
-  - 검증 헤더와 조건부 요청
-  - 캐시와 조건부 요청 헤더
-  - 프록시 캐시
-  - 캐시 무효화
-
 ---
 
 # HTTP 해더 (일반 헤더)
@@ -297,3 +280,4 @@ Client가 선호하는 표현 요청 (요청시에만 사용)
 - [스프링 DB 1편 > 데이터 접근 핵심 원리](https://jihunparkme.github.io/Spring-DB-Part1/)
 - [스프링 DB 2편 > 데이터 접근 활용 기술](https://jihunparkme.github.io/Spring-DB-Part2/)
 - [스프링 핵심 원리 > 고급편](https://jihunparkme.github.io/Spring-Core-Principles-Advanced/)
+- [실전! 스프링 부트](https://jihunparkme.github.io/spring-boot/)
