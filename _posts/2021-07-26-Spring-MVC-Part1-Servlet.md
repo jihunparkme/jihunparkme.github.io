@@ -102,8 +102,6 @@ featured-img: spring_mvc
 - HTML 결과를 Javascript를 사용해 웹 브라우저에서 **동적**으로 생성해서 적용 (Google Map, Gmail ..)
 - React, Vue.js
 
----
-
 # Servlet
 
 ## Project
@@ -236,7 +234,30 @@ String username = request.getParameter("username");
 - HTTP API 에서 주로 사용(JSON, XML, TEXT)
 - 데이터 형식은 주로 JSON(POST, PUT, PATCH)
 
+```java
+/**
+ * POST http://localhost:8080/request-body-string
+ * 
+ * content-type: text/plain
+ * message body: hello
+ */
 
+ServletInputStream inputStream = request.getInputStream();
+String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+response.getWriter().write("ok");
+
+/**
+ * POST http://localhost:8080/request-body-json
+ * 
+ * content-type: application/json
+ * message body: {"username": "hello", "age": 20}
+ */
+
+ServletInputStream inputStream = request.getInputStream();
+String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+HelloData helloData = objectMapper.readValue(messageBody, HelloData.class);
+response.getWriter().write("ok");
+```
 
 
 
