@@ -187,34 +187,54 @@ private void printEtc(HttpServletRequest request) {
 
 ## HTTP Request Data
 
-**Client to Server (Http Request Data)**
+**HTTP 요청 메시지를 통해 클라이언트에서 서버로 데이터를 전달하는 방법**
 
 ### `Get` (URL Query Parameter)
 
+- 메시지 바디 없이 URL 쿼리 파라미터에 데이터를 포함해서 전달
 - HTTP Message Body 를 사용하지 않으므로 Content-type 이 없음
-
 - request.getParameter("name");
+- ex) 검색, 필터, 페이징 ...
 
-- ex) 검색, 필터, 페이징
+```java
+// http://localhost:8080/request-param?username=hello&age=20
+
+// 단일 파라미터 조회
+String username = request.getParameter("username");
+
+// 파라미터 이름 모두 조회
+Enumeration<String> parameterNames = request.getParameterNames(); 
+
+// 파라미터를 Map으로 조회
+Map<String, String[]> parameterMap = request.getParameterMap(); 
+
+// 복수 파라미터 조회
+String[] usernames = request.getParameterValues("username");
+```
 
 ### `Post` (HTML Form)
 
 - Content-type: application/x-www-form-urlencoded
-
-  - Query Parameter in Message Body
+  - 메시지 바디에 쿼리 파리미터 형식으로 전달 username=hello&age=20
   - HTTP Message Body 에 데이터를 포함해서 전달하므로 Content-type 에 포함된 데이터 형식을 지정
-
 - request.getParameter("name");
-
   - URL Query Parameter 형식과 동일
+- ex) 회원가입, 상품주문, HTML Form ...
 
-- ex) 회원가입, 상품주문
+### `HTTP Message Body` 
 
-### `HTTP Message Body`
+- HTTP message body 에 데이터를 직접 담아서 요청
+- HTTP API 에서 주로 사용(JSON, XML, TEXT)
+- 데이터 형식은 주로 JSON(POST, PUT, PATCH)
 
-- 데이터 형식은 주로 JSON
 
-- ex) HTTP API
+
+
+
+
+
+
+
 
 ## HttpServletResponse
 
