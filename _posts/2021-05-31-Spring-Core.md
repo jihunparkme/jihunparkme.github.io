@@ -2,7 +2,7 @@
 layout: post
 title: Spring Core
 summary: Inflearn Spring Core Principles (스프링 핵심 원리 - 기본편)
-categories: Spring Container Bean
+categories: Spring-Conquest Spring Container Bean
 featured-img: spring_core
 # mathjax: true
 ---

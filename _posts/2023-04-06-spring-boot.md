@@ -2,7 +2,7 @@
 layout: post
 title: Spring Boot
 summary: Spring Boot 핵심 원리와 활용
-categories: Spring-Boot 자동구성 외부설정 모니터링
+categories: Spring-Conquest Spring-Boot 자동구성 외부설정 모니터링
 featured-img: spring
 # mathjax: true
 ---

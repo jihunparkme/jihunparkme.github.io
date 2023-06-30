@@ -2,7 +2,7 @@
 layout: post
 title: 데이터 접근 핵심 원리
 summary: Spring DB Part 1. 데이터 접근 핵심 원리
-categories: Spring-DB 데이터-접근-기술 JDBC Transaction Exception
+categories: Spring-Conquest Spring-DB JDBC Transaction Exception
 featured-img: spring-db-part-1
 # mathjax: true
 ---
