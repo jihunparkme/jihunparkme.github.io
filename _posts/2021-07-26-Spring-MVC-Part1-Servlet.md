@@ -241,7 +241,6 @@ String username = request.getParameter("username");
  * content-type: text/plain
  * message body: hello
  */
-
 ServletInputStream inputStream = request.getInputStream();
 String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
 response.getWriter().write("ok");
@@ -252,61 +251,29 @@ response.getWriter().write("ok");
  * content-type: application/json
  * message body: {"username": "hello", "age": 20}
  */
-
 ServletInputStream inputStream = request.getInputStream();
 String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
 HelloData helloData = objectMapper.readValue(messageBody, HelloData.class);
 response.getWriter().write("ok");
 ```
 
-
-
-
-
-
-
-
 ## HttpServletResponse
 
-- Status-line
+Status-line
 
 ```java
 response.setStatus(HttpServletResponse.SC_OK); //200
 ```
 
-- Content-type
+Content-type
 
 ```java
-/**
- * response.setHeader("Content-Type", "text/plain;charset=utf-8");
- * response.setContentLength(2); //생략 시 자동 생성
- */
+// = response.setHeader("Content-Type", "text/plain;charset=utf-8");
 response.setContentType("text/plain");
 response.setCharacterEncoding("utf-8");
 ```
 
-- Cookie
-
-```java
-/**
- * response.setHeader("Set-Cookie", "myCookie=good; Max-Age=600");
- */
-Cookie cookie = new Cookie("myCookie", "good");
-cookie.setMaxAge(600); //초
-response.addCookie(cookie);
-```
-
-- Redirect
-
-```java
-/**
- * response.setStatus(HttpServletResponse.SC_FOUND); //302
- * response.setHeader("Location", "/basic/hello-form.html");
- */
-response.sendRedirect("/basic/hello-form.html");
-```
-
-- Response-headers
+Response-headers
 
 ```java
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // 캐시 무효화
@@ -314,12 +281,39 @@ response.setHeader("Pragma", "no-cache"); // 캐시 무효화(과거 버전)
 response.setHeader("my-header","hello");
 ```
 
-- Mmessage body
+Cookie
+
+```java
+// = response.setHeader("Set-Cookie", "myCookie=good; Max-Age=600");
+Cookie cookie = new Cookie("myCookie", "good");
+cookie.setMaxAge(600); // sec
+response.addCookie(cookie);
+```
+
+Redirect
+
+```java
+// response.setStatus(HttpServletResponse.SC_FOUND); // 302
+// response.setHeader("Location", "/basic/hello-form.html");
+response.sendRedirect("/basic/hello-form.html");
+```
+
+Mmessage body
 
 ```java
 PrintWriter writer = response.getWriter();
 writer.println("ok");
 ```
+
+
+
+
+
+
+
+
+
+
 
 ## HTTP Response Data
 
