@@ -187,7 +187,7 @@ private void printEtc(HttpServletRequest request) {
 
 **HTTP 요청 메시지를 통해 클라이언트에서 서버로 데이터를 전달하는 방법**
 
-### `Get` (URL Query Parameter)
+### Get(URL Query Parameter)
 
 - 메시지 바디 없이 URL 쿼리 파라미터에 데이터를 포함해서 전달
 - HTTP Message Body 를 사용하지 않으므로 Content-type 이 없음
@@ -211,7 +211,7 @@ Map<String, String[]> parameterMap = request.getParameterMap();
 String[] usernames = request.getParameterValues("username");
 ```
 
-### `Post` (HTML Form)
+### Post(HTML Form)
 
 - HTTP Message Body 에 데이터를 포함해서 전달하므로 Content-type 에 포함된 데이터 형식을 지정
 - ex) 회원가입, 상품주문, HTML Form ...
@@ -228,7 +228,7 @@ String[] usernames = request.getParameterValues("username");
 String username = request.getParameter("username");
 ```
 
-### `HTTP Message Body` 
+### HTTP Message Body
 
 - HTTP message body 에 데이터를 직접 담아서 요청
 - HTTP API 에서 주로 사용(JSON, XML, TEXT)
@@ -305,19 +305,9 @@ PrintWriter writer = response.getWriter();
 writer.println("ok");
 ```
 
-
-
-
-
-
-
-
-
-
-
 ## HTTP Response Data
 
-**Server to Client**
+**HTTP 응답 메시지**
 
 ### `단순 텍스트`
 
