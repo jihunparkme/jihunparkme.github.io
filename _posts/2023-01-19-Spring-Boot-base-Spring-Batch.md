@@ -2,7 +2,7 @@
 layout: post
 title: Spring Boot base Spring Batch
 summary: Spring Boot 기반 Spring Batch
-categories: spring-boot spring-batch
+categories: spring-batch
 featured-img: spring-batch
 # mathjax: true
 ---

@@ -2,7 +2,7 @@
 layout: post
 title: Servlet
 summary: Spring MVC Part 1. 백엔드 웹 개발 핵심 기술
-categories: Spring-Conquest Spring-MVC Spring
+categories: Spring-Conquest
 featured-img: spring_mvc
 # mathjax: true
 ---

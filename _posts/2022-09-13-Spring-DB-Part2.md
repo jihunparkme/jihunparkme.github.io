@@ -2,7 +2,7 @@
 layout: post
 title: 데이터 접근 활용 기술
 summary: Spring DB Part 2. 데이터 접근 활용 기술
-categories: Spring-Conquest Spring-DB Transaction
+categories: Spring-Conquest Transaction
 featured-img: spring-db-part-2
 # mathjax: true
 ---

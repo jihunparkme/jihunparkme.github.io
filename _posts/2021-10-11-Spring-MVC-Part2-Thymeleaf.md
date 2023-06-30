@@ -2,7 +2,7 @@
 layout: post
 title: Thymeleaf
 summary: Spring MVC Part 2. 백엔드 웹 개발 활용 기술
-categories: Spring-Conquest Spring-MVC Spring
+categories: Spring-Conquest
 featured-img: spring_mvc_2
 # mathjax: true
 ---
