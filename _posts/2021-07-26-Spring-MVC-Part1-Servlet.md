@@ -2,7 +2,7 @@
 layout: post
 title: Servlet
 summary: Spring MVC Part 1. 백엔드 웹 개발 핵심 기술
-categories: Spring-MVC Spring
+categories: SpringMVC Spring
 featured-img: spring_mvc
 # mathjax: true
 ---
@@ -119,16 +119,18 @@ featured-img: spring_mvc
 
 **HTTP 요청 메시지 로그 확인**
 
-- application.properties
-  - logging.level.org.apache.coyote.http11=debug
+application.properties
+
+```groovy
+logging.level.org.apache.coyote.http11=debug
+```
 
 ## HttpServletRequest
 
-- HTTP Start Line 조회
+HTTP Start Line 조회
 
 ```java
 private void printStartLine(HttpServletRequest request) {
-
     System.out.println("request.getMethod() = " + request.getMethod()); //GET
     System.out.println("request.getProtocal() = " + request.getProtocol()); // HTTP/1.1
     System.out.println("request.getScheme() = " + request.getScheme()); //http
@@ -139,11 +141,10 @@ private void printStartLine(HttpServletRequest request) {
 }
 ```
 
-- HTTP Header 편의 조회
+HTTP Header 편의 조회
 
 ```java
 private void printHeaderUtils(HttpServletRequest request) {
-
     System.out.println("[Host]");
     System.out.println("request.getServerName() = " + request.getServerName()); //Host 헤더
     System.out.println("request.getServerPort() = " + request.getServerPort()); //Host 헤더
@@ -167,7 +168,7 @@ private void printHeaderUtils(HttpServletRequest request) {
 }
 ```
 
-- HTTP 기타 정보
+HTTP 기타 정보
 
 ```java
 private void printEtc(HttpServletRequest request) {
