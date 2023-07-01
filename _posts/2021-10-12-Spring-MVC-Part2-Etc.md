@@ -85,7 +85,10 @@ spring.messages.basename=messages,config.i18n.messages
   hello.name=안녕 {0}
   ```
 
-메시지 파일 선택
+**Message Source 사용**
+
+- SpringBoot 는 MessageSource 를 자동으로 Spring Bean 으로 등록하므로 바로 사용 가능
+- MessageSource 는 message.properties 파일 정보를 가지고 있음
 
 ```java
 @Autowired
@@ -119,67 +122,26 @@ void argumentMessage() {
 }
 ```
 
+**Message Source 국제화 사용**
 
+- locale 정보 기반으로 국제화 파일 선택
+- Locale 이 en_US 일 경우 messages_en_US ➜ messages_en ➜ messages(default) 순서 탐색
 
+```java
+@Test
+void defaultLang() {
+    // locale 정보가 없으므로 messages 사용
+    assertThat(ms.getMessage("hello", null, null)).isEqualTo("안녕");
+    // locale 정보가 있지만, message_ko 가 없으므로 messages 사용
+    assertThat(ms.getMessage("hello", null, Locale.KOREA)).isEqualTo("안녕");
+}
 
-
-
-
-**Message Source 사용**
-
-- SpringBoot는 MessageSource 를 자동으로 Spring Bean 으로 등록하므로 바로 사용 가능
-- MessageSource는 message.properties 파일 정보를 가지고 있음
-
-  ```java
-  @Autowired
-  MessageSource ms;
-
-  @Test
-  void helloMessage() {
-    String result = ms.getMessage("hello", null, null);
-    assertThat(result).isEqualTo("안녕");
-  }
-  ```
-
-- 메시지가 없을 경우
-
-  ```java
-  @Test
-  void notFoundMessageCode() {
-    assertThatThrownBy(() -> ms.getMessage("no_code", null, null))
-                .isInstanceOf(NoSuchMessageException.class);
-  }
-  ```
-
-- 메시지가 없을 경우 기본 메시지로 대체
-
-  ```java
-  @Test
-  void notFoundMessageCodeDefaultMessage() {
-    String result = ms.getMessage("no_code", null, "기본 메시지", null);
-    assertThat(result).isEqualTo("기본 메시지");
-  }
-  ```
-
-- 매개변수 사용
-
-  ```java
-  @Test
-  void argumentMessage() {
-    String result = ms.getMessage("hello.name", new Object[]{"Spring"}, null);
-    assertThat(result).isEqualTo("안녕 Spring");
-  }
-  ```
-
-- 국제화
-  ```java
-  @Test
-  void Lang() {
-      assertThat(ms.getMessage("hello", null, null)).isEqualTo("안녕");
-      assertThat(ms.getMessage("hello", null, Locale.KOREA)).isEqualTo("안녕"); // _ko 가 없으므로 default
-      assertThat(ms.getMessage("hello", null, Locale.ENGLISH)).isEqualTo("hello"); // _en 메시지 파일 선
-  }
-  ```
+@Test
+void enLang() {
+    // locale 정보가 Locale.ENGLISH 이므로 messages_en 사용
+    assertThat(ms.getMessage("hello", null, Locale.ENGLISH)).isEqualTo("hello");
+}
+```
 
 ## Web Application Message
 
@@ -470,8 +432,8 @@ public String converterEdit(@ModelAttribute Form form, Model model) {
 
 [Spring Field Formatting](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#format)
 
-- Converter 는 범용(객체->객체)에 사용
-- Formatter 는 문자(객체->문자, 문자->객체, 현지화)에 특화
+- Converter 는 범용(객체 ➜ 객체)에 사용
+- Formatter 는 문자(객체 ➜ 문자, 문자 ➜ 객체, 현지화)에 특화
 
 **Formatter Interface**
 
