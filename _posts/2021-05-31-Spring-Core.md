@@ -386,7 +386,7 @@ private DiscountPolicy rateDiscountPolicy
 **`@Qualifier`**
 
 - 빈 등록 시 @Qualifier 로 추가 구분자 설정
-- @Qualifier 매칭 -> 빈 이름 매칭 -> NoSuchBeanDefinitionException 예외
+- @Qualifier 매칭 ➜ 빈 이름 매칭 ➜ NoSuchBeanDefinitionException 예외
 
 ```java
 @Component
@@ -514,7 +514,7 @@ public class AllBeanTest {
 
 **스프링 빈의 이벤트 라이프사이클**
 
-- `스프링 컨테이너 생성` -> `스프링 빈 생성` -> `의존관계 주입` -> `초기화 콜백` -> `사용` -> `소멸전 콜백` -> `스프링 종료`
+- `스프링 컨테이너 생성` ➜ `스프링 빈 생성` ➜ `의존관계 주입` ➜ `초기화 콜백` ➜ `사용` ➜ `소멸전 콜백` ➜ `스프링 종료`
 
 .
 
