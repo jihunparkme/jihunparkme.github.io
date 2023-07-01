@@ -473,9 +473,21 @@ public class AllBeanTest {
 
 
     static class DiscountService {
-        // Map(Key=스프링 빈 이름, value=DiscountPolicy 타입으로 조회한 모든 스프링 빈)
+        /**
+         * Map(Key=스프링 빈 이름, value=DiscountPolicy 타입으로 조회한 모든 스프링 빈)
+         * 
+         * policyMap
+         * {key = "fixDiscountPolicy", value = {FixDiscountPolicy@5731}}
+         * {key = "rateDiscountPolicy", value = {RateDiscountPolicy@5732}}
+         */
         private final Map<String, DiscountPolicy> policyMap;
-        // DiscountPolicy 타입으로 조회한 모든 스프링 빈을
+        /**
+         * DiscountPolicy 타입으로 조회한 모든 스프링 빈을
+         *
+         * policies
+         *  0 = {FixDiscountPolicy@5736} discountFixAmount = 1000
+         *  1 = {RateDiscountPolicy@5737} discountPercent = 10
+         */
         private final List<DiscountPolicy> policies;
 
         public DiscountService(Map<String, DiscountPolicy> policyMap,  List<DiscountPolicy> policies) {
