@@ -85,6 +85,46 @@ spring.messages.basename=messages,config.i18n.messages
   hello.name=안녕 {0}
   ```
 
+메시지 파일 선택
+
+```java
+@Autowired
+MessageSource ms;
+
+@Test
+void helloMessage() {
+    // locale 정보가 없으면 basename 에서 설정한 기본 이름 메시지 파일(messages.properties) 조회
+    String result = ms.getMessage("hello", null, null);
+    assertThat(result).isEqualTo("안녕");
+}
+
+@Test
+void notFoundMessageCode() {
+    // 메시지가 없는 경우 NoSuchMessageException 발생
+    assertThatThrownBy(() -> ms.getMessage("no_code", null, null))
+            .isInstanceOf(NoSuchMessageException.class);
+}
+@Test
+void notFoundMessageCodeDefaultMessage() {
+    // 메시지가 없어도 defaultMessage 를 사용하면 기본 메시지 반환
+    String result = ms.getMessage("no_code", null, "기본 메시지", null);
+    assertThat(result).isEqualTo("기본 메시지");
+}
+
+@Test
+void argumentMessage() {
+    // 메시지의 {0} 부분은 매개변수를 전달해서 치환
+    String result = ms.getMessage("hello.name", new Object[]{"Aaron"}, null);
+    assertThat(result).isEqualTo("안녕 Aaron");
+}
+```
+
+
+
+
+
+
+
 **Message Source 사용**
 
 - SpringBoot는 MessageSource 를 자동으로 Spring Bean 으로 등록하므로 바로 사용 가능
