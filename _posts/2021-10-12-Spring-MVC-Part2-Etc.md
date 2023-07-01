@@ -15,17 +15,68 @@ featured-img: spring_mvc_2
 
 # 메시지, 국제화
 
+`메시지 기능`: 다양한 메시지를 한 곳에서 관리하는 기능
+
+messages.properteis
+
+```groovy
+item=상품
+item.id=상품 ID
+item.itemName=상품명
+item.price=가격
+item.quantity=수량
+```
+
+`국제화 기능`: 메시지 파일을 각 나라별로 별도로 관리하는 국제화 기능
+- messages_en.properties 와 같이 파일명 마지막에 언어 정보 추가
+- 찾을 수 있는 국제화 파일이 없으면 messages.properties 를 기본으로 사용
+
+messages_en.propertis
+
+```groovy
+item=Item
+item.id=Item ID
+item.itemName=Item Name
+item.price=price
+item.quantity=quantity
+```
+
+messages_ko.propertis
+
+```groovy
+item=상품
+item.id=상품 ID
+item.itemName=상품명
+item.price=가격
+item.quantity=수량
+```
+
 ## Spring Message Source
 
-- SpringBoot는 MessageSource 를 자동으로 스프링 빈으로 등록
+SpringBoot 는 MessageSource 를 자동으로 스프링 빈으로 등록
+  - Spring 사용 시 구현체인 ResourceBundleMessageSource 를 빈으로 등록
+    ```java
+    @Bean
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        // messages 지정 시 messages.properties 파일을 읽어서 사용
+        messageSource.setBasenames("messages", "errors");
+        messageSource.setDefaultEncoding("utf-8");
+        return messageSource;
+    }
+    ```
 
-**Message Source 설정 (default: messages)**
+**SpringBoot Message Source 설정**
 
-- `application.properties`
-  ```properties
-  spring.messages.basename=messages,config.i18n.messages
-  ```
-- 추가 옵션은 [Docs](https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#application-properties) 참고
+application.properties
+```groovy
+spring.messages.basename=messages,config.i18n.messages
+```
+
+- 스프링 부트 메시지 소스 기본 값: `spring.messages.basename=messages`
+- MessageSource 를 스프링 빈 등록하지 않고, 스프링 부트 관련 설정을 하지 않으면 messages 라는 이름으로 기본 등록
+- 따라서 messages.properties, messages_en.properties .. 파일만 등록하면 자동으로 인식
+- 추가 옵션은 [Spring-Boot Docs](https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#application-properties) 참고
 
 - `/resources/messages.properties` 경로에 Message 파일 저장
 
