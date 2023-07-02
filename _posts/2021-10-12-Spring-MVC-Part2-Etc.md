@@ -280,8 +280,8 @@ public interface ConversionService {
 **DefaultConversionService**
 
 - ConversionService 인터페이스의 구현체(컨버터를 등록하는 기능도 제공)
-- 사용 초점의 ConversionService 와 등록 초점의 ConverterRegistry 로 분리되어 구현
-  - 인터페이스 분리 원칙 적용(ISP-Interface Segregation Principal)
+- 사용 초점의 `ConversionService` 와 등록 초점의 `ConverterRegistry `로 분리되어 구현
+  - 인터페이스 분리 원칙 적용(`ISP`-Interface Segregation Principal)
   - 인터페이스 분리를 통해 컨버터를 사용하는 클라이언트와 컨버터를 등록하고 관리하는 클라이언트의 관심사를 명확하게 분리
 
 .
@@ -304,9 +304,11 @@ void conversionService() {
 }
 ```
 
-## 🌞Spring 에 Converter 적용
+## Converter 적용 🌞
 
-- 스프링은 내부에서 ConversionService 를 제공
+- 스프링은 내부에서 ConversionService 제공
+- WebMvcConfigurer 가 제공하는 `addFormatters()` 를 사용해서 컨버터 등록
+- @RequestParam 의 경우 RequestParamMethodArgumentResolver 에서 ConversionService 를 사용해서 타입을 변환
 
 **WebConfig.java**
 
@@ -316,18 +318,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(new StringToIpPortConverter());
-        registry.addConverter(new IpPortToStringConverter());
+        registry.addConverter(new StringToIntegerConverter());
+        registry.addConverter(new IntegerToStringConverter());
     }
-}
-```
-
-**Controller**
-
-```java
-@GetMapping("/ip-port")
-public String ipPort(@RequestParam IpPort ipPort) {
-    return "ok";
 }
 ```
 
