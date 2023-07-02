@@ -249,25 +249,11 @@ void stringToInteger() {
 
 ## ConversionService
 
+개별 컨버터를 모아두고, 그것들을 묶어서 편리하게 사용할 수 있는 기능
 
+- 스프링은 @RequestParam 같은 곳 내부에서 ConversionService 를 사용해서 타입을 변환
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-**ConversionService.interface**
+**ConversionService interface**
 
 - Converting 가능 여부와 기능 제공
 
@@ -278,43 +264,43 @@ import org.springframework.lang.Nullable;
 
 public interface ConversionService {
 
-	boolean canConvert(@Nullable Class<?> sourceType, Class<?> targetType);
+    boolean canConvert(@Nullable Class<?> sourceType, Class<?> targetType);
 
     boolean canConvert(@Nullable TypeDescriptor sourceType, TypeDescriptor targetType);
 
-	@Nullable
-	<T> T convert(@Nullable Object source, Class<T> targetType);
+    @Nullable
+    <T> T convert(@Nullable Object source, Class<T> targetType);
 
-	@Nullable
-	Object convert(@Nullable Object source, @Nullable TypeDescriptor sourceType, TypeDescriptor targetType);
+    @Nullable
+    Object convert(@Nullable Object source, @Nullable TypeDescriptor sourceType, TypeDescriptor targetType);
 
 }
 ```
 
-**ConversionServiceTest.java**
+**DefaultConversionService**
 
-- 실제 사용 시에는 Converter 등록과 사용을 분리
-- DefaultConversionService 는 사용 초점의 ConversionService 와 등록 초점의 ConverterRegistry 로 분리되어 구현 (ISP-Interface Segregation Principal 적용)
+- ConversionService 인터페이스의 구현체(컨버터를 등록하는 기능도 제공)
+- 사용 초점의 ConversionService 와 등록 초점의 ConverterRegistry 로 분리되어 구현
+  - 인터페이스 분리 원칙 적용(ISP-Interface Segregation Principal)
+  - 인터페이스 분리를 통해 컨버터를 사용하는 클라이언트와 컨버터를 등록하고 관리하는 클라이언트의 관심사를 명확하게 분리
+
+.
+
+- 타입 컨버터들은 컨버전 서비스 내부에 숨어서 제공되므로, 클라이언트는 타입 컨버터를 몰라도 무관
+- 타입 변환을 원하는 클라이언트의 경우 컨버전 서비스 인터페이스에만 의존
+  - 컨버전 서비스를 등록하는 부분과 사용하는 부분을 분리하고 의존관계 주입을 사용
 
 ```java
 @Test
 void conversionService() {
-    // DefaultConversionService 를 통해 Converter "등록"
+    // Converter 등록
     DefaultConversionService conversionService = new DefaultConversionService();
     conversionService.addConverter(new StringToIntegerConverter());
     conversionService.addConverter(new IntegerToStringConverter());
-    conversionService.addConverter(new StringToIpPortConverter());
-    conversionService.addConverter(new IpPortToStringConverter());
 
-    //convert(데이터, 반환 타입) 으로 "사용"
+    // ConverterService 사용
     assertThat(conversionService.convert("10", Integer.class)).isEqualTo(10);
     assertThat(conversionService.convert(10, String.class)).isEqualTo("10");
-
-    IpPort ipPort = conversionService.convert("127.0.0.1:8080", IpPort.class);
-    assertThat(ipPort).isEqualTo(new IpPort("127.0.0.1", 8080));
-
-    String ipPortString = conversionService.convert(new IpPort("127.0.0.1", 8080), String.class);
-    assertThat(ipPortString).isEqualTo("127.0.0.1:8080");
 }
 ```
 
