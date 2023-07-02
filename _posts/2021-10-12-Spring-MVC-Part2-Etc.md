@@ -304,7 +304,7 @@ void conversionService() {
 }
 ```
 
-## Converter 적용 🌞
+## Apply Converter in Spring 🌞
 
 - 스프링은 내부에서 ConversionService 제공
 - WebMvcConfigurer 가 제공하는 `addFormatters()` 를 사용해서 컨버터 등록
@@ -322,11 +322,18 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addConverter(new IntegerToStringConverter());
     }
 }
+
+...
+
+@GetMapping("/hello-v2")
+public String helloV2(@RequestParam Integer data) {
+    return "ok";
+}
 ```
 
-## 🌞View Template 에 Converter 적용
+## Apply Converter in View Template 🌞
 
-`Thymeleaf 는 렌더링 시에 컨버터를 적용`
+타임리프는 렌더링 시 컨버터를 적용해서 렌더링 하는 방법을 편리하게 지원
 
 **View**
 
