@@ -168,20 +168,26 @@ void enLang() {
   - Spring Boot 는 언어 선택 시 기본적으로 Accept-Language 헤더값을 활용하는 AcceptHeaderLocaleResolver 사용
   - Locale 선택 방식을 변경하려면 LocaleResolver 구현체를 변경해서 쿠키나 세션 기반의 Locale 선택 기능 사용
 
-# 스프링 타입 컨버터
+---
 
-## 소개
+# 스프링 타입 컨버터
 
 **스프링 타입 변환 적용 예**
 
 - HTTP Query String 으로 전달되는 데이터는 모두 String Type 이지만, 스프링은 타입을 변환해 제공
-- `@RequestParam`, `@ModelAttribute`, `@PathVariable`, `@Value`, `XML Spring Bean 정보 변환`, `View Rendering` ...
+  - `@RequestParam`
+  - `@ModelAttribute`
+  - `@PathVariable`
+  - `@Value`
+  - `XML Spring Bean 정보 변환`
+  - `View Rendering` 
+  - ...
   ```java
+  // @RequestParam
   @GetMapping("/hello")
   public String hello(@RequestParam Integer data) {}
 
-  //---
-
+  // @ModelAttribute
   @GetMapping("/hello")
   public String hello(@ModelAttribute UserData data) {}
 
@@ -189,22 +195,20 @@ void enLang() {
       Integer data;
   }
 
-  //---
-
+  // @PathVariable
   @GetMapping("/users/{userId}")
   public String hello(@PathVariable("data") Integer data) {}
 
-  //---
-
+  // @Value
   @Value("${api.key}")
   private String key;
   ``` 
 
 ## Type Converter
 
-**컨버터 인터페이스**
+**Converter Interface**
 
-스프링에 커스텀 타입 변환이 필요하면 컨버터 인터페이스를 구현해서 등록해 보자.
+스프링에 사용자 정의 타입 변환이 필요하면 컨버터 인터페이스를 구현해서 등록해 보자.
 
 ```java
 package org.springframework.core.convert.converter;
@@ -217,18 +221,20 @@ public interface Converter<S, T> {
 ex. 컨버터 인터페이스 구현
 
 ```java
-public class IntegerToStringConverter implements Converter<Integer, String> {
-    @Override
-    public String convert(Integer source) {
-        return String.valueOf(source);
-    }
-}
-
 public class StringToIntegerConverter implements Converter<String, Integer> {
     @Override
     public Integer convert(String source) {
         return Integer.valueOf(source);
     }
+}
+
+...
+
+@Test
+void stringToInteger() {
+    StringToIntegerConverter converter = new StringToIntegerConverter();
+    Integer result = converter.convert("10");
+    assertThat(result).isEqualTo(10);
 }
 ```
 
