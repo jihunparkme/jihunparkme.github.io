@@ -200,9 +200,11 @@ void enLang() {
   private String key;
   ``` 
 
+## Type Converter
+
 **컨버터 인터페이스**
 
-- 스프링에 커스텀 타입 변환이 필요하면 타입 컨버터 인터페이스를 구현해서 등록해 보자.
+스프링에 커스텀 타입 변환이 필요하면 컨버터 인터페이스를 구현해서 등록해 보자.
 
 ```java
 package org.springframework.core.convert.converter;
@@ -212,7 +214,7 @@ public interface Converter<S, T> {
 }
 ```
 
-ex. 숫자를 문자로 변환하는 타입 컨버터
+ex. 컨버터 인터페이스 구현
 
 ```java
 public class IntegerToStringConverter implements Converter<Integer, String> {
@@ -221,48 +223,7 @@ public class IntegerToStringConverter implements Converter<Integer, String> {
         return String.valueOf(source);
     }
 }
-```
 
-
-
-
-
-
-
-
-
-
-## Type Converter
-
-[Spring Type Conversion](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#core-convert)
-
-- 스프링은 용도에 따라 다양한 방식의 타입 컨버터 제공
-  - Converter : 기본 타입 컨버터
-  - ConverterFactory : 전체 클래스 계층 구조가 필요할 경우
-  - GenericConverter : 정교한 구현, 대상 필드의 애노테이션 정보 사용 가능
-  - ConditionalGenericConverter : 특정 조건이 참인 경우에만 실행
-
-### IpPort Converter
-
-**IpPort.java**
-
-```java
-@Getter
-@EqualsAndHashCode //-> 참조값이 아닌 데이터만 비교
-public class IpPort {
-    private String ip;
-    private int port;
-
-    public IpPort(String ip, int port) {
-        this.ip = ip;
-        this.port = port;
-    }
-}
-```
-
-**StringToIntegerConverter.java**
-
-```java
 public class StringToIntegerConverter implements Converter<String, Integer> {
     @Override
     public Integer convert(String source) {
@@ -271,21 +232,34 @@ public class StringToIntegerConverter implements Converter<String, Integer> {
 }
 ```
 
-**StringToIpPortConverter.java**
+- 스프링은 용도에 따라 다양한 방식의 타입 컨버터 제공
+  - `Converter` : 기본 타입 컨버터
+  - `ConverterFactory` : 전체 클래스 계층 구조가 필요할 경우
+  - `GenericConverter` : 정교한 구현, 대상 필드의 애노테이션 정보 사용 가능
+  - `ConditionalGenericConverter` : 특정 조건이 참인 경우에만 실행
+  - 그밖에 문자, 숫자, boolean, Enum 등 일반적인 타입에 대한 대부분의 컨버터를 기본으로 제공
 
-```java
-public class StringToIpPortConverter implements Converter<String, IpPort> {
-    @Override
-    public IpPort convert(String source) {
-        String[] split = source.split(":");
-        String ip = split[0];
-        int port = Integer.parseInt(split[1]);
-        return new IpPort(ip, port);
-    }
-}
-```
+[Spring Type Conversion](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#core-convert)
 
 ## ConversionService
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 **ConversionService.interface**
 
