@@ -172,6 +172,11 @@ void enLang() {
 
 ## 소개
 
+
+
+
+
+
 **스프링 타입 변환 적용 예**
 
 - HTTP Query String 으로 전달되는 데이터는 모두 String Type 이지만, 스프링은 타입을 변환해 제공
