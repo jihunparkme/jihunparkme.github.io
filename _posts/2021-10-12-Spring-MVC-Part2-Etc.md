@@ -247,7 +247,7 @@ void stringToInteger() {
 
 [Spring Type Conversion](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#core-convert)
 
-## ConversionService
+### ConversionService
 
 개별 컨버터를 모아두고, 그것들을 묶어서 편리하게 사용할 수 있는 기능
 
@@ -304,7 +304,7 @@ void conversionService() {
 }
 ```
 
-## Apply Converter in Spring 🌞
+### Apply Converter in Spring 🌞
 
 - 스프링은 내부에서 ConversionService 제공
 - WebMvcConfigurer 가 제공하는 `addFormatters()` 를 사용해서 컨버터 등록
@@ -331,7 +331,7 @@ public String helloV2(@RequestParam Integer data) {
 }
 ```
 
-## Apply Converter in View Template
+### Apply Converter in View Template
 
 타임리프는 렌더링 시 컨버터를 적용해서 렌더링 하는 방법을 편리하게 지원
 
@@ -454,20 +454,44 @@ class MyNumberFormatterTest {
 - AnnotationFormatterFactory: 필드의 타입이나 애노테이션 정보를 활용할 수 있는 포맷터
 - [Spring Field Formatting](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#format)
 
+### FormattingConversionService
+
+- ConverstionService 에는 컨버터만 등록 가능하고, 포맷터는 등록 불가
+- 포맷터 등록을 지원하는 `FormattingConversionService` 를 사용하여 포맷터를 추가해 보자.
+  - 내부에서 어댑터 패턴을 사용해서 Formatter 가 Converter 처럼 동작하도록 지원
+- `DefaultFormattingConversionService` 는 FormattingConversionService 를 상속받아 기본적인 통화, 숫자 관련 기본 포맷터를 추가 제공
+  - ConversionService 관련 기능을 상속받으므로 Converter, Formatter 모두 등록 가능
+  - 기능이 겹칠 경우(Source-type, Target-type 동일) Converter 우선
+- 스프링 부트는 DefaultFormattingConversionService 를 상속 받은 `WebConversionService` 를 내부에서 사용
+
+```java
+DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
+
+// 컨버터 등록
+conversionService.addConverter(new StringToIpPortConverter());
+conversionService.addConverter(new IpPortToStringConverter());
+
+// 포맷터 등록
+conversionService.addFormatter(new MyNumberFormatter());
+
+// 컨버터 사용
+IpPort ipPort = conversionService.convert("127.0.0.1:8080", IpPort.class);
+assertThat(ipPort).isEqualTo(new IpPort("127.0.0.1", 8080));
+
+// 포맷터 사용
+assertThat(conversionService.convert(1000, String.class)).isEqualTo("1,000");
+assertThat(conversionService.convert("1,000", Long.class)).isEqualTo(1000L);
+```
 
 
-`DefaultFormattingConversionService`
 
-- `FormattingConversionService` 에 추가로 기본적인 통화, 숫자 관련 포맷터 제공
-- `FormattingConversionService` 는 `ConversionService` 관련 기능을 상속받기 때문에 결과적으로 컨버터도 포맷터도 모두 등록 가능
 
-- FormattingConversionServiceTest
 
-- 스프링 부트는 `DefaultFormattingConversionService` 를 상속 받은 WebConversionService` 를 내부에서 사용
 
-[Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/97990bebf3fcefc61b775b4fb8f24f08cdf48eb2)
 
-## 🌞Spring 에 Formatter 적용
+
+
+### Apply Formatter in Spring 🌞
 
 - 참고로, Converter 의 우선순위가 더 높다.
 
