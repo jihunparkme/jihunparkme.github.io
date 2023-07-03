@@ -331,7 +331,7 @@ public String helloV2(@RequestParam Integer data) {
 }
 ```
 
-## Apply Converter in View Template 🌞
+## Apply Converter in View Template
 
 타임리프는 렌더링 시 컨버터를 적용해서 렌더링 하는 방법을 편리하게 지원
 
@@ -340,11 +340,10 @@ public String helloV2(@RequestParam Integer data) {
 Controller.java
 
 ```java
-@GetMapping("/converter-view")
+@GetMapping("/view")
 public String converterView(Model model) {
     model.addAttribute("number", 10000);
-    model.addAttribute("ipPort", new IpPort("127.0.0.1", 8080));
-    return "converter-view";
+    return "view";
 }
 ```
 
@@ -353,8 +352,8 @@ view.html
 - 컨버전 서비스 적용 : `${{...}}`
 
 ```html
-<li>${ipPort}: <span th:text="${ipPort}"></span></li>
-<li>${{ipPort}}: <span th:text="${{ipPort}}"></span></li>
+<li>${number}: <span th:text="${number}" ></span></li>
+<li>${{number}}: <span th:text="${{number}}" ></span></li>
 ```
 
 **Form**
@@ -368,18 +367,18 @@ public String converterForm(Model model) {
     IpPort ipPort = new IpPort("127.0.0.1", 8080);
     Form form = new Form(ipPort);
     model.addAttribute("form", form);
-    return "converter-form";
+    return "form";
 }
 
 @PostMapping("/converter/edit")
 public String converterEdit(@ModelAttribute Form form, Model model) {
     IpPort ipPort = form.getIpPort();
     model.addAttribute("ipPort", ipPort);
-    return "converter-view";
+    return "view";
 }
 ```
 
-view.html
+form.html
 - th:field 는 Converter 까지 자동 적용
 - th:value 는 보여주는 용도
 
