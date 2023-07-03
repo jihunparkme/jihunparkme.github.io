@@ -461,7 +461,6 @@ class MyNumberFormatterTest {
   - 내부에서 어댑터 패턴을 사용해서 Formatter 가 Converter 처럼 동작하도록 지원
 - `DefaultFormattingConversionService` 는 FormattingConversionService 를 상속받아 기본적인 통화, 숫자 관련 기본 포맷터를 추가 제공
   - ConversionService 관련 기능을 상속받으므로 Converter, Formatter 모두 등록 가능
-  - 기능이 겹칠 경우(Source-type, Target-type 동일) Converter 우선
 - 스프링 부트는 DefaultFormattingConversionService 를 상속 받은 `WebConversionService` 를 내부에서 사용
 
 ```java
@@ -483,26 +482,22 @@ assertThat(conversionService.convert(1000, String.class)).isEqualTo("1,000");
 assertThat(conversionService.convert("1,000", Long.class)).isEqualTo(1000L);
 ```
 
-
-
-
-
-
-
-
-
 ### Apply Formatter in Spring 🌞
 
-- 참고로, Converter 의 우선순위가 더 높다.
+- 기능이 겹칠 경우(Source-type, Target-type 동일) Converter 우선
 
 ```java
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new StringToIpPortConverter());
+        registry.addConverter(new IpPortToStringConverter());
+
         registry.addFormatter(new MyNumberFormatter());
     }
 }
+
 ```
 
 ### Spring 기본 Formatter
