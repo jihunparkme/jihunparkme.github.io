@@ -335,9 +335,9 @@ public String helloV2(@RequestParam Integer data) {
 
 타임리프는 렌더링 시 컨버터를 적용해서 렌더링 하는 방법을 편리하게 지원
 
-**View**
+**View Template**
 
-- ConverterController.java
+Controller.java
 
 ```java
 @GetMapping("/converter-view")
@@ -348,9 +348,9 @@ public String converterView(Model model) {
 }
 ```
 
-- converter-view.html
-  - 변수 표현식 : `${...}`
-  - 컨버전 서비스 적용 : `${{...}}`
+view.html
+- 변수 표현식 : `${...}`
+- 컨버전 서비스 적용 : `${{...}}`
 
 ```html
 <li>${ipPort}: <span th:text="${ipPort}"></span></li>
@@ -359,8 +359,8 @@ public String converterView(Model model) {
 
 **Form**
 
-- ConverterController.java
-  - @ModelAttribute 내부에서 ConversionService 동작
+Controller.java
+- @ModelAttribute 내부에서 ConversionService 동작
 
 ```java
 @GetMapping("/converter/edit")
@@ -379,9 +379,9 @@ public String converterEdit(@ModelAttribute Form form, Model model) {
 }
 ```
 
-- converter-view.html
-  - th:field 는 Converter 까지 자동 적용
-  - th:value 는 보여주는 용도
+view.html
+- th:field 는 Converter 까지 자동 적용
+- th:value 는 보여주는 용도
 
 ```html
 <form th:object="${form}" th:method="post">
