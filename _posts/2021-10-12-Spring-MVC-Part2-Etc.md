@@ -521,7 +521,15 @@ public class WebConfig implements WebMvcConfigurer {
   }
   ```
 
-  [Annotation-driven Formatting](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#format-CustomFormatAnnotations)
+[Annotation-driven Formatting](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#format-CustomFormatAnnotations)
+
+> 참고,
+>
+> HttpMessageConverter 에는 Convetion Service 가 적용되지 않음
+>
+> JSON 을 객체로 변환하는 HttpMessageConverter 는 내부에서 Jackson 같은 라이브러리를 사용
+>
+> 따라서, JSON 결과로 만들어지는 숫자나 날짜 포맷을 변경하고 싶으면 해당 라이브러리가 제공하는 설정을 통해서 포맷을 지정
 
 # 파일 업로드
 
