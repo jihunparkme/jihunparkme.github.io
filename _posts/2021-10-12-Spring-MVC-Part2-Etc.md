@@ -2,7 +2,7 @@
 layout: post
 title: ETC
 summary: Spring MVC Part 2. 메시지, 국제화, 스프링 타입 컨버터, 파일 업로드
-categories: Spring-Conquest
+categories: Spring-Conquest Message Converter Formatter
 featured-img: spring_mvc_2
 # mathjax: true
 ---
@@ -392,51 +392,46 @@ form.html
 
 ## Formatter
 
-`객체를 특정한 포멧에 맞추어 문자로 출력하거나, 그 반대의 역할을 하는 것에 특화된 기능`
+**객체를 특정한 포멧에 맞추어 문자로 출력하거나, 그 반대의 역할을 하는 것에 특화된 기능**
 
-[Spring Field Formatting](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#format)
-
-- Converter 는 범용(객체 ➜ 객체)에 사용
-- Formatter 는 문자(객체 ➜ 문자, 문자 ➜ 객체, 현지화)에 특화
+- `Converter`: 범용(객체 ➜ 객체)에 사용
+- `Formatter`: 문자(객체 ➜ 문자, 문자 ➜ 객체, 현지화)에 특화
+  - 특별한 Converter..
 
 **Formatter Interface**
 
 ```java
-public interface Printer<T> { // 객체 -> 문자
-  String print(T object, Locale locale);
+public interface Printer<T> { // 객체 ➜ 문자
+    String print(T object, Locale locale);
 }
 
-public interface Parser<T> { // 문자 -> 객체
-  T parse(String text, Locale locale) throws ParseException;
+public interface Parser<T> { // 문자 ➜ 객체
+    T parse(String text, Locale locale) throws ParseException;
 }
 
-public interface Formatter<T> extends Printer<T>, Parser<T> {}
+public interface Formatter<T> extends Printer<T>, Parser<T> {
+}
 ```
 
-- MyNumberFormatter.java
+**implements Formatter**
 
 ```java
-@Slf4j
-public class MyNumberFormatter implements Formatter<Number> {
+public class NumberFormatter implements Formatter<Number> {
 
     @Override
     public Number parse(String text, Locale locale) throws ParseException {
-        log.info("text={}, locale={}", text, locale);
         NumberFormat format = NumberFormat.getInstance(locale);
         return format.parse(text);
     }
 
     @Override
     public String print(Number object, Locale locale) {
-        log.info("object={}, locale={}", object, locale);
         return NumberFormat.getInstance(locale).format(object);
     }
 }
-```
 
-- MyNumberFormatterTest.java
+...
 
-```java
 class MyNumberFormatterTest {
 
     MyNumberFormatter formatter = new MyNumberFormatter();
@@ -454,6 +449,12 @@ class MyNumberFormatterTest {
     }
 }
 ```
+
+스프링은 용도에 따라 다양한 방식의 포맷터 제공
+- AnnotationFormatterFactory: 필드의 타입이나 애노테이션 정보를 활용할 수 있는 포맷터
+- [Spring Field Formatting](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#format)
+
+
 
 `DefaultFormattingConversionService`
 
