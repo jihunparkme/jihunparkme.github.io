@@ -500,18 +500,22 @@ public class WebConfig implements WebMvcConfigurer {
 
 ```
 
-### Spring 기본 Formatter
+### Annotation driven Formatting
 
-- 객체의 각 필드마다 다른 형식의 formatter을 지정하고 싶다면 annotation 기반 formatter 를 사용하자
-
-  - `@NumberFormat` : 숫자 관련 형식
-  - `@DateTimeFormat` : 날짜 관련 형식
+- 스프링은 자바에서 기본으로 제공하는 타입들에 대해 수많은 포맷터를 기본으로 제공
+- 객체의 각 필드마다 다른 형식의 포맷을 지정하는 어려움을 해결하기 위해 애노테이션 기반 형식 지정 포맷터 제공
+  - `@NumberFormat` : 숫자 관련 형식 지정 포맷터 사용
+    - `NumberFormatAnnotationFormatterFactory`
+  - `@DateTimeFormat` : 날짜 관련 형식 지정 포맷터 사용
+    - `Jsr310DateTimeFormatAnnotationFormatterFactory`
 
   ```java
-  @Data
+  @Getter
+  @Setter
   static class Form {
       @NumberFormat(pattern = "###,###")
       private Integer number;
+
       @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
       private LocalDateTime localDateTime;
   }
