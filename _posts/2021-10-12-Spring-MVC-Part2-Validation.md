@@ -148,12 +148,12 @@ bindingResult.addError(
 **`rejectValue()` , `reject()`**
 
 BindingResult 는 검증해야 target 객체를 알고 있음
-- BindingResult 의 rejectValue(), reject() 를 사용하면 FieldError, ObjectError 를 직접 생성하지 않고, 깔끔하게 검증 오류를 다룰 수 있음
+- BindingResult 의 `rejectValue()`, `reject()` 를 사용하면 FieldError, ObjectError 를 직접 생성하지 않고, 깔끔하게 검증 오류를 다룰 수 있음
 
 ```java
 bindingResult.rejectValue("itemName", "required");
 
-bindingResult.rejectValue("price", "range", new Object[]{1000, 10000000}, null);
+bindingResult.rejectValue("price", "range", new Object[]{1000, 10000000}, "상품 가격 오류");
 
 bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
 ...
@@ -172,35 +172,15 @@ void reject(
 );
 ```
 
-
-
-
-
-
-
-
-
-
-
-- errorCode.ObjectName.fieldName
-  - 위 Message가 없을 경우 errorCode에 해당하는 Message를 사용
-
-## FieldError
+### Apply Thymeleaf
 
 **필드 오류 처리**
 
-- 오류 발생시 사용자 입력 값을 저장하는 기능을 제공 (rejectedValue)
+- `rejectedValue()`: 오류 발생 시 사용자 입력 값을 저장
 
 ```java
-bindingResult.rejectValue(
-  "price", // field (오류 필드)
-  "range", // errorCode (메시지 코드)
-  new Object[]{1000, 1000000}, // errorArgs (메시지 인자)
-  "상품 가격 오류" // defaultMessage
-  );
+bindingResult.rejectValue("price", "range", new Object[]{1000, 10000000}, "상품 가격 오류");
 ```
-
-- `th:field`는 평소에는 모델 객체의 값을 사용하지만, 오류가 발생하면 FieldError 에서 보관한 값을 사용해서 값을 출력
 
 ```html
 <input
@@ -214,16 +194,12 @@ bindingResult.rejectValue(
 <div class="field-error" th:errors="*{price}">가격 오류</div>
 ```
 
-## ObjectError
+- `th:field`는 평소에는 모델 객체의 값을 사용하지만, 오류가 발생하면 FieldError 에서 보관한 값을 사용해서 값을 출력
 
 **글로벌 오류 처리**
 
 ```java
-bindingResult.reject(
-  "totalPriceMin",  // errorCode
-  new Object[]{10000, resultPrice}, // errorArgs
-  null // defaultMessage
-  );
+bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
 ```
 
 ```html
@@ -239,6 +215,20 @@ bindingResult.reject(
 ```
 
 > [Validation and Error Messages](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html#validation-and-error-messages)
+
+
+
+
+
+
+
+
+
+
+
+- errorCode.ObjectName.fieldName
+  - 위 Message가 없을 경우 errorCode에 해당하는 Message를 사용
+
 
 ## DefaultMessageCodesResolver 기본 메시지 생성 규칙
 
