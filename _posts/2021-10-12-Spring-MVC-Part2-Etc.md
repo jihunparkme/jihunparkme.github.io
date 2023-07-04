@@ -170,7 +170,7 @@ void enLang() {
 
 ---
 
-# 스프링 타입 컨버터
+# Spring Type Converter
 
 **스프링 타입 변환 적용 예**
 
@@ -531,7 +531,7 @@ public class WebConfig implements WebMvcConfigurer {
 >
 > 따라서, JSON 결과로 만들어지는 숫자나 날짜 포맷을 변경하고 싶으면 해당 라이브러리가 제공하는 설정을 통해서 포맷을 지정
 
-# 파일 업로드
+# File Upload
 
 ## 전송 방식
 
@@ -602,7 +602,7 @@ public class WebConfig implements WebMvcConfigurer {
 
 [HTTP 메시지 참고](https://developer.mozilla.org/ko/docs/Web/HTTP/Messages)
 
-## 서블릿과 파일 업로드
+## Servlet File Upload
 
 **Multipart 관련 설정**
 
@@ -715,7 +715,7 @@ body=�PNG
 ...
 ```
 
-## 🌞스프링과 파일 업로드
+## Spring File Upload 🌞
 
 - 스프링은 `MultipartFile` Interface 로 Multipart File 을 매우 편리하게 지원
 
@@ -734,12 +734,11 @@ public String saveFile(@RequestParam String itemName,
 }
 ```
 
-### 파일 업로드, 다운로드 구현
+## File Upload And Download
 
 [예제로 구현하는 파일 업로드, 다운로드 (1)](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/8b208405d5104f87e0e055bc163408cc96937d3e)
 
 [예제로 구현하는 파일 업로드, 다운로드 (2)](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/c20895f7e420339dd0e7fc6ae528d2c0c243bdd4)
-
 
 ---
 
