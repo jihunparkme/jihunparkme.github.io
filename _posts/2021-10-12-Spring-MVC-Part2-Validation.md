@@ -120,7 +120,7 @@ BindingResult 에 검증 오류를 적용하는 세 가지 방법
 spring.messages.basename=messages,errors
 ```
 
-**errors.properties**
+errors.properties
 
 ```groovy
 required.item.itemName=상품 이름은 필수입니다.
@@ -133,6 +133,11 @@ required=필수 값 입니다.
 
 ```java
 bindingResult.addError(
+  new FieldError("item", "itemName", item.getItemName(), false, 
+  new String[]{"required.item.itemName"}, null, null)
+);
+
+bindingResult.addError(
     new FieldError("item", "price", item.getPrice(), false, 
     new String[]{"range.item.price"}, // codes : 메시지 코드
     new Object[]{1000, 1000000}, // arguments : 메시지에서 사용하는 인자
@@ -140,10 +145,32 @@ bindingResult.addError(
 );
 ```
 
+**`rejectValue()` , `reject()`**
 
+BindingResult 는 검증해야 target 객체를 알고 있음
+- BindingResult 의 rejectValue(), reject() 를 사용하면 FieldError, ObjectError 를 직접 생성하지 않고, 깔끔하게 검증 오류를 다룰 수 있음
 
+```java
+bindingResult.rejectValue("itemName", "required");
 
+bindingResult.rejectValue("price", "range", new Object[]{1000, 10000000}, null);
 
+bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
+...
+
+void rejectValue(
+  @Nullable String field, // 오류 필드명
+  String errorCode, // 오류 코드(메시지에 등록된 코드가 아닌 messageResolver 를 위한 오류 코드)
+  @Nullable Object[] errorArgs, // 메시지에서 사용하는 인자
+  @Nullable String defaultMessage // 기본 메시지(오류 메시지를 찾을 수 없을 때 사용)
+);
+
+void reject(
+  String errorCode, 
+  @Nullable Object[] errorArgs,
+  @Nullable String defaultMessage
+);
+```
 
 
 
