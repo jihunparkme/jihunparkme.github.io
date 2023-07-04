@@ -15,20 +15,90 @@ featured-img: spring_mvc_2
 
 # Spring Verification
 
-- 컨트롤러의 중요한 역할중 하나는 HTTP 요청이 정상인지 검증하는 것
-  - 클라이언트 검증은 조작할 수 있으므로 보안에 취약
-  - 그렇다고 서버만으로 검증하면 즉각적인 고객 사용성이 부족
-  - 서버, 클라이언트 검증을 적절히 섞어서 사용하되 서버 검증은 필수
-  - API 방식 사용 시, API 스펙을 잘 정의해서 검증 오류를 API 응답 결과에 잘 남겨야 함
+컨트롤러의 중요한 역할중 하나는 HTTP 요청이 정상인지 검증하는 것
+- 클라이언트 검증은 조작할 수 있으므로 보안에 취약
+- 그렇다고 서버만으로 검증하면 즉각적인 고객 사용성이 부족
+- 서버, 클라이언트 검증을 적절히 섞어서 사용하되 서버 검증은 필수
+- API 방식 사용 시, API 스펙을 잘 정의해서 검증 오류를 API 응답 결과에 잘 남겨야 함
 
 # BindingResult
 
-- BindingResult bindingResult 은 @ModelAttribute 객체 다음에 와야 함
+스프링이 제공하는 검증 오류를 보관하는 객체
 
-  - BindingResult 가 있으면 @ModelAttribute 에 데이터 바인딩 시 오류가 발생해도 컨트롤러가 호출
-  - Model에 자동으로 포함
+```java
+@PostMapping("/add")
+public String addItemV1(@ModelAttribute Item item, 
+                        BindingResult bindingResult, 
+                        RedirectAttributes redirectAttributes) {
 
-- BindingResult는 어떤 객체를 대상으로 검증하는지 target을 이미 알고 있음
+    if (!StringUtils.hasText(item.getItemName())) {
+        bindingResult.addError(new FieldError("item", "itemName", "상품 이름은 필수입니다."));
+    }
+
+    if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
+        bindingResult.addError(new FieldError("item", "price", "가격은 1,000 ~ 1, 000, 000까지 허용합니다."));
+    }
+
+    if (item.getQuantity() == null || item.getQuantity() > 10000) {
+        bindingResult.addError(new FieldError("item", "quantity", "수량은 최대 9, 999까지 허용합니다."));
+    }
+
+    //특정 필드 예외가 아닌 전체 예외
+    if (item.getPrice() != null && item.getQuantity() != null) {
+        int resultPrice = item.getPrice() * item.getQuantity();
+        if (resultPrice < 10000) {
+            bindingResult.addError(new ObjectError("item", "가격 * 수량의 합은 10, 000원 이상이어야 합니다.현재 값 = " + resultPrice));
+        }
+    }
+
+    if (bindingResult.hasErrors()) {
+        log.info("errors={}", bindingResult);
+        return "validation/v2/addForm";
+    }
+
+    //성공 로직
+    Item savedItem = itemRepository.save(item);
+    redirectAttributes.addAttribute("itemId", savedItem.getId());
+    redirectAttributes.addAttribute("status", true);
+    return "redirect:/validation/v2/items/{itemId}";
+}
+
+...
+
+/** 
+ * FieldError class
+ * 필드에 오류가 있으면 FieldError 객체를 생성해서 bindingResult 에 담아두자.
+ * 
+ * objectName : @ModelAttribute 이름
+ * field : 오류가 발생한 필드 이름
+ * defaultMessage : 오류 기본 메시지 
+ */
+public FieldError(String objectName, String field, String defaultMessage) {}
+
+/**
+ * ObjectError
+ * 특정 필드를 넘어서는 오류가 있으면 ObjectError 객체를 생성해서 bindingResult 에 담아두자.
+ * 
+ * objectName : @ModelAttribute 의 이름
+  * defaultMessage : 오류 기본 메시지
+ */
+public ObjectError(String objectName, String defaultMessage) {}
+```
+
+`BindingResult`
+
+- @ModelAttribute 객체 다음 위치
+- BindingResult 가 있으면 @ModelAttribute 에 데이터 바인딩 시 오류가 발생해도 컨트롤러 호출
+  - BindingResult 가 없으면 400 오류 발생 후, 오류 페이지로 이동
+  - BindingResult 가 있으면 오류 정보(FieldError)를 BindingResult 에 담아서 컨트롤러 정상 호출
+- Model 에 자동으로 포함
+- 어떤 객체를 대상으로 검증하는지 타겟을 알고 있음
+
+
+
+
+
+
 
 ## Setting
 
