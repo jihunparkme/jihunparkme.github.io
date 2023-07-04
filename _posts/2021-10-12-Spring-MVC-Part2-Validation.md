@@ -69,34 +69,31 @@ public String addItemV2(@ModelAttribute Item item,
 /** 
  * FieldError class
  * 필드에 오류가 있으면 FieldError 객체를 생성해서 bindingResult 에 담아두자.
- * 
- * objectName : @ModelAttribute 이름
- * field : 오류가 발생한 필드 이름
- * defaultMessage : 오류 기본 메시지 
  */
-public FieldError(String objectName, String field, String defaultMessage) {}
+public FieldError(
+  String objectName, // @ModelAttribute 이름
+  String field, // 오류가 발생한 필드 이름
+  String defaultMessage // 오류 기본 메시지 
+) {}
 
-/**
- * FieldError class
- * 
- * objectName : 오류가 발생한 객체 이름
- * field : 오류 필드
- * rejectedValue : 사용자가 입력한 값(거절된 값)
- * bindingFailure : 타입 오류 같은 바인딩 실패인지, 검증 실패인지 구분 값
- * codes : 메시지 코드
- * arguments : 메시지에서 사용하는 인자
- * defaultMessage : 기본 오류 메시지
- */
-public FieldError(String objectName, String field, @Nullable Object rejectedValue, boolean bindingFailure, @Nullable String[] codes, @Nullable Object[] arguments, @Nullable String defaultMessage)
+public FieldError(
+  String objectName, // 오류가 발생한 객체 이름
+  String field, // 오류 필드
+  @Nullable Object rejectedValue, // 사용자가 입력한 값(거절된 값)
+  boolean bindingFailure, // 타입 오류 같은 바인딩 실패인지, 검증 실패인지 구분 값
+  @Nullable String[] codes, // 메시지 코드
+  @Nullable Object[] arguments, // 메시지에서 사용하는 인자
+  @Nullable String defaultMessage // 기본 오류 메시지
+)
 
 /**
  * ObjectError
  * 특정 필드를 넘어서는 오류가 있으면 ObjectError 객체를 생성해서 bindingResult 에 담아두자.
- * 
- * objectName : @ModelAttribute 의 이름
-  * defaultMessage : 오류 기본 메시지
  */
-public ObjectError(String objectName, String defaultMessage) {}
+public ObjectError(
+  String objectName, // @ModelAttribute 의 이름
+  String defaultMessage // 오류 기본 메시지
+) {}
 ```
 
 `BindingResult`
@@ -117,23 +114,46 @@ BindingResult 에 검증 오류를 적용하는 세 가지 방법
 
 ## Error Message
 
-**application.properties**
+오류 메시지 파일을 인식할 수 있도록 설정 추가
 
-```properties
+```groovy
 spring.messages.basename=messages,errors
 ```
 
 **errors.properties**
 
-```properties
+```groovy
 required.item.itemName=상품 이름은 필수입니다.
 range.item.price=가격은 {0} ~ {1} 까지 허용합니다.
 max.item.quantity=수량은 최대 {0} 까지 허용합니다.
 totalPriceMin=가격 * 수량의 합은 {0}원 이상이어야 합니다. 현재 값 = {1}
 required.default=기본 오류 메시지
-
 required=필수 값 입니다.
 ```
+
+```java
+bindingResult.addError(
+    new FieldError("item", "price", item.getPrice(), false, 
+    new String[]{"range.item.price"}, // codes : 메시지 코드
+    new Object[]{1000, 1000000}, // arguments : 메시지에서 사용하는 인자
+    null)
+);
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - errorCode.ObjectName.fieldName
   - 위 Message가 없을 경우 errorCode에 해당하는 Message를 사용
@@ -650,6 +670,9 @@ public class ValidationItemApiController {
 - `@RequestBody` 는 HttpMessageConverter 단계에서 JSON 데이터를 객체로 변경
   - 객체로 변경하지 못하면 이후 단계 자체가 진행되지 않고 예외 발생. 컨트롤러도 호출되지 않고, Validator도 적용 불가능
 
+
+
+최종 코드 추가...
 
 ---
 
