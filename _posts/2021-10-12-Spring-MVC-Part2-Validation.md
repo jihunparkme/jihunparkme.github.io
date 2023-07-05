@@ -273,40 +273,96 @@ ObjectName: item
   - FieldError, ObjectError 생성자를 보면 알 수 있듯이, 여러 오류 코드를 가질 수 있음
 - `MessageCodesResolver` 를 통해 생성된 순서대로 오류 코드 보관
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```text
+1. rejectValue() 호출
+2. MessageCodesResolver 를 사용해서 검증 오류 코드로 메시지 코드들을 생성
+3. new FieldError() 를 생성하면서 메시지 코드들을 보관
+4. th:erros 에서 메시지 코드들로 메시지를 순서대로 메시지에서 찾고 출력
+```
 
 ## 오류 코드 관리 전략
 
-- 중요하지 않은 메시지는 범용성 있는 requried 같은 간단한 메시지로 끝내고, 정말 중요한 메시지는 꼭 필요할 때 구체적으로 적어서 사용하는 방식이 효과적
+**구체적인 것 ➜ 덜 구체적인 것으로가 핵심**
 
-1. rejectValue() 호출
+- MessageCodesResolver 는 구체적인 것(required.item.itemName)을 먼저 생성하고, 덜 구체적인 것(required)을 나중애 생성
+- 중요하지 않은 메시지는 범용성 있는 간단한 메시지(requried)로, 중요한 메시지는 필요할 때 구체적으로 사용하는 방식이 효과적
 
-2. MessageCodesResolver 를 사용해서 검증 오류 코드로 메시지 코드들을 생성
+errors.properties
+```groovy
+#==ObjectError==
+#Level1
+totalPriceMin.item=상품의 가격 * 수량의 합은 {0}원 이상이어야 합니다. 현재 값 = {1}
 
-3. new FieldError() 를 생성하면서 메시지 코드들을 보관
+#Level2 - 생략
+totalPriceMin=전체 가격은 {0}원 이상이어야 합니다. 현재 값 = {1}
 
-4. th:erros 에서 메시지 코드들로 메시지를 순서대로 메시지에서 찾고 출력
+
+
+#==FieldError==
+#Level1
+required.item.itemName=상품 이름은 필수입니다.
+range.item.price=가격은 {0} ~ {1} 까지 허용합니다.
+max.item.quantity=수량은 최대 {0} 까지 허용합니다.
+
+#Level2 - 생략
+
+#Level3
+required.java.lang.String = 필수 문자입니다.
+required.java.lang.Integer = 필수 숫자입니다.
+min.java.lang.String = {0} 이상의 문자를 입력해주세요.
+min.java.lang.Integer = {0} 이상의 숫자를 입력해주세요.
+range.java.lang.String = {0} ~ {1} 까지의 문자를 입력해주세요.
+range.java.lang.Integer = {0} ~ {1} 까지의 숫자를 입력해주세요.
+max.java.lang.String = {0} 까지의 숫자를 허용합니다.
+max.java.lang.Integer = {0} 까지의 숫자를 허용합니다.
+
+#Level4
+required = 필수 값 입니다.
+min= {0} 이상이어야 합니다.
+range= {0} ~ {1} 범위를 허용합니다.
+max= {0} 까지 허용합니다.
+```
+
+### ValidationUtils
+
+**ValidationUtils 사용 전**
+
+```java
+if (!StringUtils.hasText(item.getItemName())) {
+    bindingResult.rejectValue("itemName", "required", "기본: 상품 이름은 필수입니다.");
+}
+```
+
+**ValidationUtils 사용 후**
+
+```java
+ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "itemName", "required");
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Spring 자체 검증 오류 메시지 처리
 
