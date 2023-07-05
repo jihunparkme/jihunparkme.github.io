@@ -217,6 +217,61 @@ bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
 > [Validation and Error Messages](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html#validation-and-error-messages)
 
 
+## MessageCodesResolver
+
+- 검증 오류 코드로 메시지 코드들을 생성
+- `MessageCodesResolver` 는 인터페이스, `DefaultMessageCodesResolver` 는 기본 구현체
+- `ObjectError`, `FieldError` 와 주로 함께 사용
+
+**DefaultMessageCodesResolver 기본 메시지 생성 규칙**
+
+필드 오류
+
+```text
+필드 오류의 경우 다음 순서로 4가지 메시지 코드 생성
+
+1. code + "." + ObjectName + "." + field
+2. code + "." + field
+3. code + "." + field type
+4. code
+
+---
+
+(example)
+error code: required
+ObjectName: item
+field: itemName
+field type: String
+
+1. "required.item.itemName"
+2. "required.itemName"
+3. "required.java.lang.String"
+4. "required"
+
+```
+
+객체 오류
+
+```text
+객체 오류의 경우 다음 순서로 2가지 생성
+
+1. code + "." + objectName
+2. code
+
+---
+
+(example)
+error code: totalPriceMin
+ObjectName: item
+
+1. "totalPriceMin.item"
+2. "totalPriceMin"
+```
+
+**동작 방식**
+- `rejectValue()` , `reject()` 는 내부에서 `MessageCodesResolver` 사용 ➜ 여기서 메시지 코드 생성
+  - FieldError, ObjectError 생성자를 보면 알 수 있듯이, 여러 오류 코드를 가질 수 있음
+- `MessageCodesResolver` 를 통해 생성된 순서대로 오류 코드 보관
 
 
 
@@ -226,45 +281,20 @@ bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
 
 
 
-- errorCode.ObjectName.fieldName
-  - 위 Message가 없을 경우 errorCode에 해당하는 Message를 사용
 
 
-## DefaultMessageCodesResolver 기본 메시지 생성 규칙
 
-- MessageCodesResolver는 검증 오류 코드로 메시지 코드들을 생성
 
-- MessageCodesResolver는 인터페이스, DefaultMessageCodesResolver는 기본 구현체
 
-- rejectValue() , reject()는 내부에서 MessageCodesResolver를 사용
 
-**필드 오류 (FieldError)**
 
-`error code` : typeMismatch
 
-`object name` : user
 
-`field` : age
 
-`field type` : int
 
-1. typeMismatch.user.age
 
-2. typeMismatch.age
 
-3. typeMismatch.int
 
-4. typeMismatch
-
-**객체 오류 (ObjectError)**
-
-`error code` : required
-
-`object name` : item
-
-1. required.item
-
-2. required
 
 ## 오류 코드 관리 전략
 
