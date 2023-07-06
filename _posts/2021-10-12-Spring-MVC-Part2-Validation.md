@@ -341,15 +341,17 @@ ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "itemName", "required")
 
 ## Spring 검증 오류 메시지
 
-- 주로 타입 정보가 맞지 않을 경우 Spring 직접 검증
-- Spring은 타입 오류가 발생하면 typeMismatch 오류 코드를 사용
+- Spring 은 타입 오류가 발생하면 typeMismatch 오류 코드를 사용
+  - 주로 타입 정보가 맞지 않을 경우 Spring 직접 검증
 - `typeMismatch` 오류 코드가 `MessageCodesResolver` 를 통해 4가지 메시지 코드로 생성
   - typeMismatch.item.price
   - typeMismatch.price
   - typeMismatch.java.lang.Integer
   - typeMismatch
 
-```properties
+errors.properties
+
+```groovy
 typeMismatch.java.lang.Integer=숫자를 입력해주세요.
 typeMismatch=타입 오류입니다.
 ```
@@ -448,8 +450,8 @@ public String addItem(@Validated @ModelAttribute Item item, BindingResult bindin
 
 - 검증기를 실행하라는 애노테이션
 - `WebDataBinder` 에 등록한 검증기를 찾아서 실행
-  - 여러 검증기가 등록된다면 supports() 를 통해 구분
-  - 여기서는 supports(Item.class) 호출되고, 결과가 true 이므로 ItemValidator 의 validate() 호출
+  - 여러 검증기가 등록된다면 Validator.supports() 를 통해 구분
+  - 여기서는 Validator.supports(Item.class) 호출 후, 결과가 true 이므로 ItemValidator 의 validate() 호출
 - bindingResult 에 검증 결과가 담김
 
 
