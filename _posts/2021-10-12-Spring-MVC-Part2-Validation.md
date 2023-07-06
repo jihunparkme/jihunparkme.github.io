@@ -27,7 +27,7 @@ featured-img: spring_mvc_2
 
 ```java
 @PostMapping("/add")
-public String addItemV2(@ModelAttribute Item item, 
+public String addItem(@ModelAttribute Item item, 
                         BindingResult bindingResult, 
                         RedirectAttributes redirectAttributes, 
                         Model model) {
@@ -356,7 +356,7 @@ typeMismatch=타입 오류입니다.
 
 ## Validator
 
-스프링은 검증을 체계적으로 제공하기 위해 `Validator` 인터페이스 제공
+스프링은 체계적으로 검증 기능을 제공하기 위해 `Validator` 인터페이스 제공
 
 ```java
 public interface Validator {
@@ -400,49 +400,83 @@ public class ItemValidator implements Validator {
 ...
 
 @PostMapping("/add")
-public String addItemV5(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+public String addItem(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
     itemValidator.validate(item, bindingResult);
 
     ...
 }
 ```
 
+## WebDataBinder
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-- Controller에서 WebDataBinder를 통해 ItemValidator 호출
+`WebDataBinder` 는 스프링의 파라미터 바인딩 역할을 해주고, 검증 기능도 내부에 포함
 
 ```java
-// WebDataBinder에 검증기 추가 시 해당 컨트롤러에서는 검증기 자동 적용
+/**
+ * @InitBinder
+ * 특정 컨트롤러에만 적용
+ */
 @InitBinder
 public void init(WebDataBinder dataBinder) {
     dataBinder.addValidators(itemValidator);
 }
-```
 
-- @Validated 는 검증기를 실행하라는 애노테이션
-  - WebDataBinder 에 등록한 검증기를 찾아서 실행
-  - bindingResult 에 검증 결과가 담기게 됨
+...
+
+/**
+ * Application.class
+ * 글로벌 설정(모든 컨트롤러에 다 적용)
+ * 직접 사용하는 경우는 드묾
+ */
+@Override
+public Validator getValidator() {
+    return new ItemValidator();
+}
+```
 
 ```java
- @PostMapping("/add")
+@PostMapping("/add")
 public String addItem(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    ...
+}
 ```
+
+- `WebDataBinder` 에 검증기 추가 시 해당 컨트롤러에서는 검증기를 자동 적용
+- `WebDataBinder` 를 통해 `ItemValidator` 호출
+
+**@Validated**
+
+- 검증기를 실행하라는 애노테이션
+- `WebDataBinder` 에 등록한 검증기를 찾아서 실행
+  - 여러 검증기가 등록된다면 supports() 를 통해 구분
+  - 여기서는 supports(Item.class) 호출되고, 결과가 true 이므로 ItemValidator 의 validate() 호출
+- bindingResult 에 검증 결과가 담김
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Bean Validation
 
@@ -635,12 +669,12 @@ public class Item {
 
 ```java
 @PostMapping("/add")
-public String addItem2(@Validated(SaveCheck.class) @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+public String addItem(@Validated(SaveCheck.class) @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
   //...
 }
 
 @PostMapping("/{itemId}/edit")
-public String edit2(@PathVariable Long itemId, @Validated(UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult) {
+public String edit(@PathVariable Long itemId, @Validated(UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult) {
   //...
 }
 ```
