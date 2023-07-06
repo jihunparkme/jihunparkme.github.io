@@ -339,37 +339,11 @@ if (!StringUtils.hasText(item.getItemName())) {
 ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "itemName", "required");
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Spring 자체 검증 오류 메시지 처리
 
 - 주로 타입 정보가 맞지 않을 경우 Spring 직접 검증
-
 - Spring은 타입 오류가 발생하면 typeMismatch 오류 코드를 사용
-
+- `typeMismatch` 오류 코드가 `MessageCodesResolver` 를 통해 4가지 메시지 코드로 생성
   - typeMismatch.item.price
   - typeMismatch.price
   - typeMismatch.java.lang.Integer
@@ -379,6 +353,19 @@ ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "itemName", "required")
 typeMismatch.java.lang.Integer=숫자를 입력해주세요.
 typeMismatch=타입 오류입니다.
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Validator 분리
 
