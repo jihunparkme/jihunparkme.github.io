@@ -828,8 +828,8 @@ public class ValidationItemApiController {
   - 실무에서는 필요한 데이터만 뽑아 별도 API 스펙을 정의하고 객체를 만들어서 반환
   ```text
   Field error in object 'itemSaveForm' on field 'quantity': rejected value [10000]; codes [Max.itemSaveForm.quantity,Max.quantity,Max.java.lang.Integer,Max]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [itemSaveForm.quantity,quantity]; arguments []; default message [quantity],9999]; default message [9999 이하여야 합니다]
-
   ```
+  
   ```json
   [
     {
@@ -871,9 +871,10 @@ public class ValidationItemApiController {
   - ModelAttribute 대상 객체는 `Setter` 메서드 필요
 - 필드 단위로 정교하게 바인딩이 적용
 - 특정 필드가 바인딩 되지 않더라도 나머지 필드는 정상 바인딩 되고, @Validator 를 사용한 검증도 적용 가능
+- [test code]()
 
 `@RequestBody`
-- HttpMessageConverter 단계에서 JSON 데이터를 객체로 변경 실패파면 이후 단계가 진행되지 않고 예외 발생
+- HttpMessageConverter 단계에서 JSON 데이터를 객체로 변경 실패파면 이후 단계가 진행되지 않고 400 Bad Request 예외 발생
 - 타입 오류가 발생할 경우 컨트롤러도 호출되지 않고, Validator 도 적용 불가
   ```json
   {
@@ -883,21 +884,7 @@ public class ValidationItemApiController {
       "path": "/validation/api/items/add"
   }
   ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-최종 코드 추가...
-
+- [test code]()
 ---
 
 **스프링 완전 정복 로드맵**
