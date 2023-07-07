@@ -612,9 +612,10 @@ Max={0}, 최대 {1}
 2. 애노테이션의 message 속성 사용 ➜ @NotBlank(message = "공백은 입력할 수 없습니다.")
 3. 라이브러리가 제공하는 기본 값 사용 ➜ "공백일 수 없습니다"
 
-## 오브젝트 오류
+## 글로벌 오류
 
-- `@ScriptAssert()` 사용은 제약이 많으므로 추천하지 않음.
+`@ScriptAssert()` 사용은 제약이 많고 검증 기능이 해당 객체 범위를 넘어설 경우 대응이 어렵다.
+- 글로벌 오류 관련 부분만 자바 코드로 작성하는 것을 권장
 
 ```java
 if (item.getPrice() != null && item.getQuantity() != null) {
@@ -625,37 +626,41 @@ if (item.getPrice() != null && item.getQuantity() != null) {
 }
 ```
 
-## Form(add/edit) Validation 분리
+## groups
 
-### groups
+등록시에 검증할 기능과 수정시에 검증할 기능을 각각 그룹으로 나누어 적용
+- groups 기능은 실제 잘 사용되지 않음
+- 대신 실무에서는 주로 등록용 폼 객체(ItemSaveForm)와 수정용 폼 객체(ItemUpdateForm)를 분리해서 사용
 
-- groups 기능은 실제 잘 사용되지는 않음
-- 실무에서는 주로 등록용 폼 객체와 수정용 폼 객체를 분리해서 사용
+참고. @Valid 에는 groups 적용 기능을 제공하지 않으므로, groups 사용 시 @Validated 를 사용하자.
 
-**SaveCheck.java**
+**groups 생성**
 
 ```java
+/**
+ * 저장용 groups
+ */
 public interface SaveCheck {
 }
-```
 
-**UpdateCheck**
+...
 
-```java
+/**
+ * 수정용 groups
+ */
 public interface UpdateCheck {
 }
-```
 
-**item.java**
+...
 
-```java
 @Data
+@NoArgsConstructor
 public class Item {
 
-    @NotNull(groups = UpdateCheck.class)
+    @NotNull(groups = UpdateCheck.class) // 수정 시에만 적용
     private Long id;
 
-    @NotBlank(message = "{0} 공백은 입력할 수 없습니다.", groups = {SaveCheck.class, UpdateCheck.class}) //빈값+공백 검증
+    @NotBlank(message = "{0} 공백은 입력할 수 없습니다.", groups = {SaveCheck.class, UpdateCheck.class})
     private String itemName;
 
     @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
@@ -663,11 +668,8 @@ public class Item {
     private Integer price;
 
     @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
-    @Max(value = 9999, groups = SaveCheck.class)
+    @Max(value = 9999, groups = SaveCheck.class) // 등록 시에만 적용
     private Integer quantity;
-
-    public Item() {
-    }
 
     public Item(String itemName, Integer price, Integer quantity) {
         this.itemName = itemName;
@@ -677,9 +679,7 @@ public class Item {
 }
 ```
 
-**Controller.java**
-
-- @Validated 에 validation interface 명시
+**validation interface 명시**
 
 ```java
 @PostMapping("/add")
@@ -687,13 +687,15 @@ public String addItem(@Validated(SaveCheck.class) @ModelAttribute Item item, Bin
   //...
 }
 
+...
+
 @PostMapping("/{itemId}/edit")
 public String edit(@PathVariable Long itemId, @Validated(UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult) {
   //...
 }
 ```
 
-## 🌞 실무 사용 방법
+## groups 대안 방법 🌞
 
 ### Form 전송 객체 분리
 
