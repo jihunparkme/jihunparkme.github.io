@@ -829,7 +829,7 @@ public class ValidationItemApiController {
   ```text
   Field error in object 'itemSaveForm' on field 'quantity': rejected value [10000]; codes [Max.itemSaveForm.quantity,Max.quantity,Max.java.lang.Integer,Max]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [itemSaveForm.quantity,quantity]; arguments []; default message [quantity],9999]; default message [9999 이하여야 합니다]
   ```
-  
+
   ```json
   [
     {
@@ -871,7 +871,7 @@ public class ValidationItemApiController {
   - ModelAttribute 대상 객체는 `Setter` 메서드 필요
 - 필드 단위로 정교하게 바인딩이 적용
 - 특정 필드가 바인딩 되지 않더라도 나머지 필드는 정상 바인딩 되고, @Validator 를 사용한 검증도 적용 가능
-- [test code]()
+- [test code](https://github.com/jihunparkme/conquest-of-spring/blob/progress/src/test/java/com/conquest/spring/validation/ValidationItemApiControllerModelAttributeTest.java)
 
 `@RequestBody`
 - HttpMessageConverter 단계에서 JSON 데이터를 객체로 변경 실패파면 이후 단계가 진행되지 않고 400 Bad Request 예외 발생
@@ -884,7 +884,7 @@ public class ValidationItemApiController {
       "path": "/validation/api/items/add"
   }
   ```
-- [test code]()
+- [test code](https://github.com/jihunparkme/conquest-of-spring/blob/progress/src/test/java/com/conquest/spring/validation/ValidationItemApiControllerRequestBodyTest.java)
 ---
 
 **스프링 완전 정복 로드맵**
