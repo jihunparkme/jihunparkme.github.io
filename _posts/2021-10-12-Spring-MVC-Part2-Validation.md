@@ -573,15 +573,13 @@ public String addItem(@Validated @ModelAttribute Item item, BindingResult bindin
 
 **검증 순서**
 
-1/.@ModelAttribute 각각의 필드에 타입 변환 시도
-
-- 성공하면 다음으로
+\1. @ModelAttribute 각 필드에 타입 변환 시도
+- 변환에 성공한 필드만 BeanValidation 적용
 - 실패하면 typeMismatch 로 FieldError 추가
 
-2/.Validator 적용
-
-- 바인딩에 성공한 필드만 Bean Validation 적용
-- BeanValidator는 바인딩에 실패한 필드는 BeanValidation을 적용하지 않음
+\2. BeanValidation
+- 바인딩에 성공한 필드만 BeanValidation 적용
+- 바인딩에 실패한 필드는 적용하지 않음
 
 ## 에러 코드
 
