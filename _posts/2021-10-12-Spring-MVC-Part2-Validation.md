@@ -812,6 +812,9 @@ public class ValidationItemApiController {
 
 - 성공 요청: 성공
 - 실패 요청: JSON 을 객체로 생성하는 것 자체가 실패
+  ```text
+  JSON parse error: Cannot deserialize value of type `java.lang.Integer` from String "A": not a valid `java.lang.Integer` value]
+  ```
   ```json
   {
     "timestamp": "2023-07-07T00:00:00.000+00:00",
@@ -823,6 +826,10 @@ public class ValidationItemApiController {
   ```
 - 검증 오류 요청: JSON을 객체로 생성하는 것은 성공, 검증에서 실패
   - 실무에서는 필요한 데이터만 뽑아 별도 API 스펙을 정의하고 객체를 만들어서 반환
+  ```text
+  Field error in object 'itemSaveForm' on field 'quantity': rejected value [10000]; codes [Max.itemSaveForm.quantity,Max.quantity,Max.java.lang.Integer,Max]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [itemSaveForm.quantity,quantity]; arguments []; default message [quantity],9999]; default message [9999 이하여야 합니다]
+
+  ```
   ```json
   [
     {
@@ -854,7 +861,6 @@ public class ValidationItemApiController {
   ]
   ```
 
-
 **@ModelAttribute VS @RequestBody**
 
 - `HttpMessageConverter` 는 각 필드 단위로 적용되는 것이 아니라, `전체 객체 단위`로 적용
@@ -869,6 +875,14 @@ public class ValidationItemApiController {
 - HttpMessageConverter 단계에서 JSON 데이터를 객체로 변경 실패파면 이후 단계가 진행되지 않고 예외 발생
 - 컨트롤러도 호출되지 않고, Validator 도 적용 불가
 
+  ```json
+  {
+      "timestamp": "2023-07-07T04:36:11.489+00:00",
+      "status": 400,
+      "error": "Bad Request",
+      "path": "/validation/api/items/add"
+  }
+  ```
 
 
 
