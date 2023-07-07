@@ -783,7 +783,7 @@ public String edit(@PathVariable Long itemId, @Validated @ModelAttribute("item")
 
 # HTTP Message Converter
 
-- `@Valid`, `@Validated` 는 HttpMessageConverter(`@RequestBody`)에도 적용 가능
+`@Valid`, `@Validated` 는 HttpMessageConverter(`@RequestBody`)에도 적용 가능
 
 > `@ModelAttribute` 는 HTTP 요청 파라미터(URL 쿼리 스트링, POST Form)를 다룰 때 사용
 >
@@ -809,7 +809,6 @@ public class ValidationItemApiController {
 ```
 
 **API 요청 케이스**
-
 - 성공 요청: 성공
 - 실패 요청: JSON 을 객체로 생성하는 것 자체가 실패
   ```text
@@ -824,8 +823,8 @@ public class ValidationItemApiController {
     "path": "/validation/api/items/add"
   }
   ```
-- 검증 오류 요청: JSON을 객체로 생성하는 것은 성공, 검증에서 실패
-  - 실무에서는 필요한 데이터만 뽑아 별도 API 스펙을 정의하고 객체를 만들어서 반환
+- 검증 오류 요청: JSON을 객체로 생성하는 것은 성공했지만, 검증에서 실패
+  - 실무에서는 필요한 데이터만 뽑아 별도 API 스펙을 정의하고 객체를 만들어서 오류 정보 반환
   ```text
   Field error in object 'itemSaveForm' on field 'quantity': rejected value [10000]; codes [Max.itemSaveForm.quantity,Max.quantity,Max.java.lang.Integer,Max]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [itemSaveForm.quantity,quantity]; arguments []; default message [quantity],9999]; default message [9999 이하여야 합니다]
   ```
@@ -871,7 +870,7 @@ public class ValidationItemApiController {
   - ModelAttribute 대상 객체는 `Setter` 메서드 필요
 - 필드 단위로 정교하게 바인딩이 적용
 - 특정 필드가 바인딩 되지 않더라도 나머지 필드는 정상 바인딩 되고, @Validator 를 사용한 검증도 적용 가능
-- [test code](https://github.com/jihunparkme/conquest-of-spring/blob/progress/src/test/java/com/conquest/spring/validation/ValidationItemApiControllerModelAttributeTest.java)
+- [test code](https://github.com/jihunparkme/conquest-of-spring/blob/main/src/test/java/com/conquest/spring/validation/ValidationItemApiControllerModelAttributeTest.java)
 
 `@RequestBody`
 - HttpMessageConverter 단계에서 JSON 데이터를 객체로 변경 실패파면 이후 단계가 진행되지 않고 400 Bad Request 예외 발생
@@ -884,7 +883,10 @@ public class ValidationItemApiController {
       "path": "/validation/api/items/add"
   }
   ```
-- [test code](https://github.com/jihunparkme/conquest-of-spring/blob/progress/src/test/java/com/conquest/spring/validation/ValidationItemApiControllerRequestBodyTest.java)
+- [test code](https://github.com/jihunparkme/conquest-of-spring/blob/main/src/test/java/com/conquest/spring/validation/ValidationItemApiControllerRequestBodyTest.java)
+
+[**Ideal result code..**](https://github.com/jihunparkme/conquest-of-spring/tree/main/src/main/java/com/conquest/spring/validation)
+
 ---
 
 **스프링 완전 정복 로드맵**
