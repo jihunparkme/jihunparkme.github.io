@@ -461,7 +461,8 @@ public String addItem(@Validated @ModelAttribute Item item, BindingResult bindin
 - 특정한 구현체가 아니라 Bean Validation 2.0(JSR-380)이라는 기술 표준
   - 검증 애노테이션과 여러 인터페이스의 모음
   - 마치 JPA 가 표준 기술이고 그 구현체로 하이버네이트가 있는 것과 유사
-- 일반적으로 사용하는 구현체는 HIBERNATE Validator
+- 일반적으로 사용하는 구현체는 Hibernate Validator
+  - ORM 과는 무관..
 
 **Hibernate Validator Reference**
 
@@ -471,32 +472,97 @@ public String addItem(@Validated @ModelAttribute Item item, BindingResult bindin
 >
 > [Jakarta Bean Validation constraints](https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/#validator-defineconstraints-spec)
 
+---
 
+**dependence**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Apply Spring
-
-**Dependence**
-
-```gradle
+```groovy
 implementation 'org.springframework.boot:spring-boot-starter-validation'
 ```
+
+**Jakarta Bean Validation**
+- `jakarta.validation-api`: Bean Validation 인터페이스
+- `hibernate-validator`: 구현체
+
+
+**검증 애노테이션 적용**
+
+```java
+@Data
+@NoArgsConstructor
+public class Item {
+
+    private Long id;
+
+    @NotBlank // 빈값 + 공백 허용 X
+    private String itemName;
+
+    @NotNull // null 허용 X
+    @Range(min = 1000, max = 1000000) // 범위 안의 값이어야 허용
+    private Integer price;
+
+    @NotNull
+    @Max(9999) // 최대 9999까지만 허용
+    private Integer quantity;
+
+    public Item(String itemName, Integer price, Integer quantity) {
+        this.itemName = itemName;
+        this.price = price;
+        this.quantity = quantity;
+    }
+}
+
+...
+
+@Test
+void beanValidation() {
+    /**
+     * 검증기 생성
+     */
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+
+    Item item = new Item();
+    item.setItemName(" ");
+    item.setPrice(0);
+    item.setQuantity(10000);
+
+    /**
+     * 검증 실행
+     *
+     * 검증 대상(item)을 검증기에 삽입
+     * Set 에는 ConstraintViolation 이라는 검증 오류가 담김
+     * 결과가 비어있으면 검증 오류가 없는 것
+     */
+    Set<ConstraintViolation<Item>> violations = validator.validate(item);
+    for (ConstraintViolation<Item> violation : violations) {
+        System.out.println("violation=" + violation);
+        System.out.println("violation.message=" + violation.getMessage() + "\n");
+    }
+}
+```
+
+```text
+violation=ConstraintViolationImpl{interpolatedMessage='공백일 수 없습니다', propertyPath=itemName, rootBeanClass=class com.conquest.spring.validation.domain.Item, messageTemplate='{jakarta.validation.constraints.NotBlank.message}'}
+violation.message=공백일 수 없습니다
+
+violation=ConstraintViolationImpl{interpolatedMessage='9999 이하여야 합니다', propertyPath=quantity, rootBeanClass=class com.conquest.spring.validation.domain.Item, messageTemplate='{jakarta.validation.constraints.Max.message}'}
+violation.message=9999 이하여야 합니다
+
+violation=ConstraintViolationImpl{interpolatedMessage='1000에서 1000000 사이여야 합니다', propertyPath=price, rootBeanClass=class com.conquest.spring.validation.domain.Item, messageTemplate='{org.hibernate.validator.constraints.Range.message}'}
+violation.message=1000에서 1000000 사이여야 합니다
+```
+
+## Apply Bean Validation in Spring
+
+스프링은 이미 개발자를 위해 빈 검증기를 스프링에 완전히 통합
+
+
+
+
+
+
+
 
 - 자동으로 Bean Validator를 인지하고 스프링에 통합
 - Spring Boot는 자동으로 LocalValidatorFactoryBean 을 글로벌 Validator로 등록
