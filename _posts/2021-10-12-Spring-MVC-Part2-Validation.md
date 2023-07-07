@@ -555,60 +555,14 @@ violation.message=1000에서 1000000 사이여야 합니다
 
 ## Apply Bean Validation in Spring
 
-스프링은 이미 개발자를 위해 빈 검증기를 스프링에 완전히 통합
+스프링 부트는 `spring-boot-starter-validation` 라이브러리가 추가되면 자동으로 `Bean Validator` 를
+인지하고 스프링에 통합
 
-
-
-
-
-
-
-
-- 자동으로 Bean Validator를 인지하고 스프링에 통합
-- Spring Boot는 자동으로 LocalValidatorFactoryBean 을 글로벌 Validator로 등록
-  - LocalValidatorFactoryBean 은 Annotation 기반 검증
-- @Valid, @Validated 만 적용하여 검증 사용 가능
+- Spring Boot 는 자동으로 `LocalValidatorFactoryBean` 을 `Global Validator` 로 등록
+  - `LocalValidatorFactoryBean` 은 Annotation 기반 검증
+- `@Valid`(자바 표준), `@Validated`(스프링 전용) 만 적용하여 검증 사용 가능
 - 검증 오류 발생 시 FieldError, ObjectError 를 생성해서 BindingResult 에 담아 준다.
-
-**Item.java**
-
-```java
-import lombok.Data;
-import org.hibernate.validator.constraints.Range;
-
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-@Data
-public class Item {
-
-    private Long id;
-
-    @NotBlank //빈값+공백 검증
-    private String itemName;
-
-    @NotNull
-    @Range(min = 1000, max = 1000000)
-    private Integer price;
-
-    @NotNull
-    @Max(9999)
-    private Integer quantity;
-
-    public Item() {
-    }
-
-    public Item(String itemName, Integer price, Integer quantity) {
-        this.itemName = itemName;
-        this.price = price;
-        this.quantity = quantity;
-    }
-}
-
-```
-
-- 기존에 등록한 ItemValidator 제거
+- ItemValidator 가 등록되어 있다면 오류 검증기 중복을 막기 위해 제거가 필요
 
 ```java
 @PostMapping("/add")
