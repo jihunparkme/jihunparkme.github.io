@@ -456,19 +456,20 @@ public String addItem(@Validated @ModelAttribute Item item, BindingResult bindin
 
 # Bean Validation
 
-- 검증 로직을 모든 프로젝트에 적용할 수 있게 공통화하고, 표준화 한 것
-
-- 특정한 구현체가 아니라 Bean Validation 2.0(JSR-380)이라는 기술 표준 (검증 애노테이션과 여러 인터페이스의 모음)
-
+- 검증 로직을 모든 프로젝트에 적용할 수 있게 공통화하고, 표준화
+  - 애노테이션 하나로 검증 로직을 매우 편리하게 적용
+- 특정한 구현체가 아니라 Bean Validation 2.0(JSR-380)이라는 기술 표준
+  - 검증 애노테이션과 여러 인터페이스의 모음
+  - 마치 JPA 가 표준 기술이고 그 구현체로 하이버네이트가 있는 것과 유사
 - 일반적으로 사용하는 구현체는 HIBERNATE Validator
 
-**Reference**
+**Hibernate Validator Reference**
 
-> [HIBERNATE](http://hibernate.org/validator/)
+> [Hibernate Validator](http://hibernate.org/validator/)
 >
-> [HIBERNATE Validator](https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/)
+> [Hibernate Validator Guide](https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/)
 >
-> [HIBERNATE Validator Annotations](https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/#validator-defineconstraints-spec)
+> [Jakarta Bean Validation constraints](https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/#validator-defineconstraints-spec)
 
 
 
