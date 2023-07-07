@@ -861,20 +861,20 @@ public class ValidationItemApiController {
   ]
   ```
 
-**@ModelAttribute VS @RequestBody**
+## @ModelAttribute VS @RequestBody
 
 - `HttpMessageConverter` 는 각 필드 단위로 적용되는 것이 아니라, `전체 객체 단위`로 적용
 - 따라서, 메시지 컨버터 작동이 성공해서 객체를 생성해야 `@Valid`, `@Validated` 가 적용
 
 `@ModelAttribute`
 - HTTP 요청 파리미터를 처리
+  - ModelAttribute 대상 객체는 `Setter` 메서드 필요
 - 필드 단위로 정교하게 바인딩이 적용
-- 특정 필드가 바인딩 되지 않아도 나머지 필드는 정상 바인딩 되고, @Validator 를 사용한 검증도 적용 가능
+- 특정 필드가 바인딩 되지 않더라도 나머지 필드는 정상 바인딩 되고, @Validator 를 사용한 검증도 적용 가능
 
-**@RequestBody**
+`@RequestBody`
 - HttpMessageConverter 단계에서 JSON 데이터를 객체로 변경 실패파면 이후 단계가 진행되지 않고 예외 발생
-- 컨트롤러도 호출되지 않고, Validator 도 적용 불가
-
+- 타입 오류가 발생할 경우 컨트롤러도 호출되지 않고, Validator 도 적용 불가
   ```json
   {
       "timestamp": "2023-07-07T04:36:11.489+00:00",
