@@ -112,7 +112,7 @@ BindingResult 에 검증 오류를 적용하는 세 가지 방법
 - 개발자가 직접 입력
 - Validator 사용
 
-## Error Message
+# Error Message
 
 오류 메시지 파일을 인식할 수 있도록 설정 추가
 
@@ -172,7 +172,7 @@ void reject(
 );
 ```
 
-### Apply Thymeleaf
+## Apply Thymeleaf
 
 **필드 오류 처리**
 
@@ -323,7 +323,7 @@ range= {0} ~ {1} 범위를 허용합니다.
 max= {0} 까지 허용합니다.
 ```
 
-### ValidationUtils
+## ValidationUtils
 
 **ValidationUtils 사용 전**
 
@@ -356,7 +356,7 @@ typeMismatch.java.lang.Integer=숫자를 입력해주세요.
 typeMismatch=타입 오류입니다.
 ```
 
-## Validator
+# Validator
 
 스프링은 체계적으로 검증 기능을 제공하기 위해 `Validator` 인터페이스 제공
 
@@ -409,7 +409,7 @@ public String addItem(@ModelAttribute Item item, BindingResult bindingResult, Re
 }
 ```
 
-## WebDataBinder
+# WebDataBinder
 
 `WebDataBinder` 는 스프링의 파라미터 바인딩 역할을 해주고, 검증 기능도 내부에 포함
 
@@ -454,32 +454,6 @@ public String addItem(@Validated @ModelAttribute Item item, BindingResult bindin
   - 여기서는 Validator.supports(Item.class) 호출 후, 결과가 true 이므로 ItemValidator 의 validate() 호출
 - bindingResult 에 검증 결과가 담김
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Bean Validation
 
 - 검증 로직을 모든 프로젝트에 적용할 수 있게 공통화하고, 표준화 한 것
@@ -495,6 +469,25 @@ public String addItem(@Validated @ModelAttribute Item item, BindingResult bindin
 > [HIBERNATE Validator](https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/)
 >
 > [HIBERNATE Validator Annotations](https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/#validator-defineconstraints-spec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Apply Spring
 
