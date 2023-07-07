@@ -583,6 +583,8 @@ public String addItem(@Validated @ModelAttribute Item item, BindingResult bindin
 
 ## 에러 코드
 
+애노테이션 오류 코드를 기반으로 MessageCodesResolver 를 통해 다양한 메시지 코드가 순서대로 생성
+
 **@NotBlank**
 
 - NotBlank.item.itemName
@@ -607,10 +609,8 @@ Max={0}, 최대 {1}
 **BeanValidation 메시지 찾는 순서**
 
 1. 생성된 메시지 코드 순서대로 messageSource 에서 메시지 찾기
-
-2. 애노테이션의 message 속성 사용 @NotBlank(message = "공백! {0}")
-
-3. 라이브러리가 제공하는 기본 값 사용 공백일 수 없습니다
+2. 애노테이션의 message 속성 사용 ➜ @NotBlank(message = "공백은 입력할 수 없습니다.")
+3. 라이브러리가 제공하는 기본 값 사용 ➜ "공백일 수 없습니다"
 
 ## 오브젝트 오류
 
