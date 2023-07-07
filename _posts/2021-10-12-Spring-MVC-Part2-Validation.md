@@ -695,14 +695,14 @@ public String edit(@PathVariable Long itemId, @Validated(UpdateCheck.class) @Mod
 }
 ```
 
-## groups 대안 방법 🌞
+## Form 전송 객체 분리 🌞
 
-### Form 전송 객체 분리
+groups 기능을 사용하면 전반적인 복잡도가 상승해서 실무에서는 주로 폼 객체를 분리해서 사용
+- 등록과 수정은 다루는 데이터 범위에 차이가 있다보니 완전히 다른 데이터가 넘어온다.
+- 따라서, Save/Update 별도의 객체로 데이터를 전달받는 것이 좋다.
+- 폼 데이터 전달을 위한 별도의 객체를 사용하면 등록, 수정이 완전히 분리되기 때문에 groups 적용이 불필요
 
-- 수정의 경우 등록과 수정은 완전히 다른 데이터가 넘어온다.
-- 따라서 Save/Update 별도의 객체로 데이터를 전달받는 것이 좋다.
-
-**item.java**
+**Form 전송 객체 분리**
 
 ```java
 @Data
@@ -712,11 +712,9 @@ public class Item {
     private Integer price;
     private Integer quantity;
 }
-```
 
-**itemSaveForm.java**
+...
 
-```java
 @Data
 public class ItemSaveForm {
 
@@ -731,11 +729,9 @@ public class ItemSaveForm {
     @Max(value = 9999)
     private Integer quantity;
 }
-```
 
-**itemUpdateForm.java**
+...
 
-```java
 @Data
 public class ItemUpdateForm {
 
@@ -749,23 +745,41 @@ public class ItemUpdateForm {
     @Range(min = 1000, max = 1000000)
     private Integer price;
 
-    //수정에서 수량은 자유로 변경 가능
     private Integer quantity;
 }
 ```
 
-- Form 객체를 Item 으로 변환
+**분리된 전송 객체 적용**
+
+- MVC Model 에 item 으로 담기도록 하기 위해 @ModelAttribute("item") 적용
 
 ```java
-Item item = new Item();
-item.setItemName(form.getItemName());
-item.setPrice(form.getPrice());
-item.setQuantity(form.getQuantity());
+@PostMapping("/add")
+public String addItem(@Validated @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-Item savedItem = itemRepository.save(item);
+    ...
+
+    Item item = new Item();
+    item.setItemName(form.getItemName());
+    item.setPrice(form.getPrice());
+    item.setQuantity(form.getQuantity());
+
+    ...
+}
+
+@PostMapping("/{itemId}/edit")
+public String edit(@PathVariable Long itemId, @Validated @ModelAttribute("item") ItemUpdateForm form, BindingResult bindingResult) {
+
+    ...
+
+    Item itemParam = new Item();
+    itemParam.setItemName(form.getItemName());
+    itemParam.setPrice(form.getPrice());
+    itemParam.setQuantity(form.getQuantity());
+
+    ...
+}
 ```
-
-[Validation Annotation Docs](https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/#validator-defineconstraints-spec)
 
 ### HTTP Message Converter
 
