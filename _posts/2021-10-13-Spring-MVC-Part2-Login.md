@@ -30,8 +30,13 @@ featured-img: spring_mvc_2
 
 **영속 쿠키와 세션 쿠키**
 
-- `영속 쿠키`: 만료 날짜를 입력하면 해당 날짜까지 유지
-- `세션 쿠키`: 만료 날짜를 생략하면 브라우저 종료시 까지만 유지
+- `영속 쿠키`: 만료 날짜를 입력하면 `해당 날짜까지` 유지
+- `세션 쿠키`: 만료 날짜를 생략하면 `브라우저 종료시 까지`만 유지
+  ```java
+  // 쿠키 생성 후 HttpServletResponse 에 담기
+  Cookie idCookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
+  response.addCookie(idCookie);
+  ```
 
 
 
@@ -45,12 +50,6 @@ featured-img: spring_mvc_2
 
 
 
-
-
-```java
-Cookie idCookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
-response.addCookie(idCookie); // HttpServletResponse
-```
 
 ## 쿠키 조회
 
