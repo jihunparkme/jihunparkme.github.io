@@ -32,61 +32,41 @@ featured-img: spring_mvc_2
 
 - `영속 쿠키`: 만료 날짜를 입력하면 `해당 날짜까지` 유지
 - `세션 쿠키`: 만료 날짜를 생략하면 `브라우저 종료시 까지`만 유지
-  ```java
-  // 쿠키 생성 후 HttpServletResponse 에 담기
-  Cookie idCookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
-  response.addCookie(idCookie);
-  ```
 
+```java
+Cookie idCookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
+response.addCookie(idCookie);
+```
 
-
-
-
-
-
-
-
-
-
-
-
+- 로그인에 성공하면 쿠키를 생성하고 HttpServletResponse 에 담기
+- 만료 날짜를 생략(세션 쿠키)하였으므로 웹 브라우저는 종료 전까지 회원의 id 를 서버에 계속 전달
 
 ## 쿠키 조회
 
 ```java
 @GetMapping("/")
 public String homeLogin(@CookieValue(name = "memberId", required = false) Long memberId, Model model) {
-
-    if (memberId == null) {
-        return "home";
-    }
-
-    //로그인
-    Member loginMember = memberRepository.findById(memberId);
-    if (loginMember == null) {
-        return "home";
-    }
-
-    model.addAttribute("member", loginMember);
-    return "loginHome";
+  // ...
 }
 ```
+
+- `@CookieValue` 를 사용하면 편리하게 쿠키 조회
+- 쿠키가 없는 요청도 접근할 수 있으므로, `required = false` 적용
 
 ## 쿠키 제거
 
 ```java
 @PostMapping("/logout")
 public String logout(HttpServletResponse response) {
-    expireCookie(response, "memberId");
-    return "redirect:/";
-}
-
-private void expireCookie(HttpServletResponse response, String cookieName) {
-    Cookie cookie = new Cookie(cookieName, null);
+    Cookie cookie = new Cookie("memberId", null);
     cookie.setMaxAge(0);
     response.addCookie(cookie);
+
+    return "redirect:/";
 }
 ```
+
+- 응답 쿠키 생성 시 `Max-Age: 0` 으로 설정해 주면 해당 쿠키는 즉시 종료
 
 ## 쿠키와 보안 문제
 
