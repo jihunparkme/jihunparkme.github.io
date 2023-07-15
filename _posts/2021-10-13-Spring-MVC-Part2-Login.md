@@ -143,10 +143,10 @@ public String logout(HttpServletResponse response) {
 
 Session 정보는 서버 메모리에 저장
 
-- request.getSession(true) : default
+- `request.getSession(true)` : default
   - 세션이 있으면 기존 세션 반환
   - 세션이 없으면 새로운 세션을 생성해서 반환
-- request.getSession(false)
+- `request.getSession(false)`
   - 세션이 있으면 기존 세션 반환
   - 세션이 없으면 새로운 세션을 생성하지 않고, null 반환
 
@@ -156,7 +156,6 @@ public String login(@Valid @ModelAttribute LoginForm form, BindingResult binding
 
     //... 로그인 성공
 
-    // 
     // 세션이 있으면 기존 세션 반환, 없으면 신규 세션 생성
     HttpSession session = request.getSession();
     // 세션에 로그인 회원 정보 보관
@@ -226,8 +225,8 @@ log.info("isNew={}", session.isNew());
 - 세션과 관련된 쿠키(JSESSIONID)를 탈취 당했을 경우 오랜 시간이 지나도 해당 쿠키로 악의적인 요청을 할 수 있음.
 - 세션은 기본적으로 메모리에 생성
   - 메모리 크기가 무한하지 않으므로 `세션에는 최소한의 데이터만 보관`하는 것이 중요
-  - 메모리 사용량(보관한 데이터 용량 * 사용자 수)이 급격하게 늘어나 장애 발생 가능성 존재
-  - 세션 시간을 너무 길게 가져가면 메모리 사용이 계속 누적 될 수 있으므로 적당한 시간을 선택하는 것이 필요
+  - `메모리 사용량`(보관한 데이터 용량 * 사용자 수)이 급격하게 늘어나 장애 발생 가능성 존재
+  - `세션 시간`을 너무 길게 가져가면 메모리 사용이 계속 누적 될 수 있으므로 적당한 시간을 선택하는 것이 필요
   
 
 **세션 종료 시점**
