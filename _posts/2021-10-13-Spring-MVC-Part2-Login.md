@@ -98,37 +98,42 @@ public String logout(HttpServletResponse response) {
 
 **로그인 요청**
 
-- 사용자가 정보를 전달하면 서버에서 해당 사용자가 맞는지 확인
+- 사용자 정보가 서버로 전달되면 올바른 정보인지 확인
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/session-request.png?raw=true 'Result')
 
 **세션 생성**
 
-- 세션 ID 는 추정 불가능한 UUID 로 생성
-- 생성된 세션 ID 와 세션에 보관할 값을 서버 세션 저장소에 보관
+- 추정 불가능한 `UUID` 로 session ID 생성
+- `세션 저장소`에 생성된 `session ID` 와 보관할 값(사용자 기본 정보) 저장
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/session-store.png?raw=true 'Result')
 
 **서버의 세션 ID 쿠키 응답**
 
-- 클라이언트와 서버는 결국 쿠키로 연결
-- 서버는 클라이언트에 UUID 세션 ID 만 쿠키에 담아서 전달
-- 클라이언트는 쿠키 저장소에 UUID 세션 ID 쿠키 보관
+- 서버는 클라이언트에 `UUID Session ID` 로 응답 쿠키를 생성해서 전달
+  - 클라이언트와 서버는 결국 쿠키로 연결
+- 클라이언트는 쿠키 저장소에 UUID Session ID 쿠키 보관
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/session-response.png?raw=true 'Result')
 
 **클라이언트의 세션 ID 쿠키 전달**
 
-- 클라이언트는 요청 시 항상 쿠키를 함께 전달
+- 클라이언트는 요청 시 항상 Session ID 쿠키를 함께 전달
+- 서버는 클라이언트가 전달한 Session ID 쿠키 정보로 세션 저장소를 조회해서 로그인 시 보관한 세션 정보를 사용
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/session-client.png?raw=true 'Result')
 
 
 
-1. 사용자 정보가 서버로 전달되면 올바른 정보인지 확인
-2. 해당 사용자의 `세션 ID 생성`(UUID) 및 `세션 저장소`에 보관
-3. 서버는 클라이언트에게 `세션 ID`를 `쿠키`에 담아 전달
-4. 클라이언트는 쿠키 저장소에 세션 ID 를 보관하여 서버와 연결
+
+
+
+
+
+
+
+
 
 **URL에 jsessionid 를 포함하지 않고 쿠키를 통해서만 세션을 유지할 경우 추가**
 
