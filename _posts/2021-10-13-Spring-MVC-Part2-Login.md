@@ -124,60 +124,43 @@ public String logout(HttpServletResponse response) {
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/session-client.png?raw=true 'Result')
 
+> URL에 jsessionid 를 포함하지 않고 쿠키를 통해서만 세션을 유지할 경우 아래 옵션추가
+>
+> ```properties
+> server.servlet.session.tracking-modes=cookie
+> ```
 
+## HttpSession
 
+**서블릿은 세션을 위해 HttpSession 기능 제공**
 
+- 서블릿을 통해 HttpSession 생성 시 아래와 같은 쿠키 생성
+  ```yml
+  Cookie: JSESSIONID=5B78E23B513F50164D6FDD8C97B0AD05
+  ```
 
-
-
-
-
-
-
-
-**URL에 jsessionid 를 포함하지 않고 쿠키를 통해서만 세션을 유지할 경우 추가**
-
-```properties
-server.servlet.session.tracking-modes=cookie
-```
-
-## 세션 생성
+### 세션 생성
 
 Session 정보는 서버 메모리에 저장
 
 - request.getSession(true) : default
-  - 세션이 있으면 기존 세션을 반환
+  - 세션이 있으면 기존 세션 반환
   - 세션이 없으면 새로운 세션을 생성해서 반환
 - request.getSession(false)
-
-  - 세션이 있으면 기존 세션을 반환
+  - 세션이 있으면 기존 세션 반환
   - 세션이 없으면 새로운 세션을 생성하지 않고, null 반환
-
-<i>로그인</i>
-
-```java
-HttpSession session = request.getSession();
-session.setAttribute(SessioinConst.LOGIN_MEMBER, loginMember);
-```
 
 ```java
 @PostMapping("/login")
 public String login(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
 
-    if (bindingResult.hasErrors()) {
-        return "login/loginForm";
-    }
+    //... 로그인 성공
 
-    Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
-    log.info("login? {}", loginMember);
-
-    if (loginMember == null) {
-        bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-        return "login/loginForm";
-    }
-
+    // 
+    // 세션이 있으면 기존 세션 반환, 없으면 신규 세션 생성
     HttpSession session = request.getSession();
-    session.setAttribute(SessioinConst.LOGIN_MEMBER, loginMember);
+    // 세션에 로그인 회원 정보 보관
+    session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
     return "redirect:/";
 }
@@ -185,28 +168,18 @@ public String login(@Valid @ModelAttribute LoginForm form, BindingResult binding
 
 ## 세션 조회
 
-<i>Home</i>
-
-```java
-HttpSession session = request.getSession(false);
-if (session == null){
-    return "home";
-}
-
-Member loginMember = (Member) session.getAttribute(SessioinConst.LOGIN_MEMBER);
-```
-
-- 스프링은 세션을 더 편리하게 사용할 수 있도록 `@SessionAttribute` 지원
+스프링은 세션을 더 편리하게 사용할 수 있도록 `@SessionAttribute` 지원
+- 세션과 세션 데이터를 찾는 번거로운 과정을 스프링이 한번에 처리
 
 ```java
 @GetMapping("/")
-public String homeLogin(
-        @SessionAttribute(name = SessioinConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
-
+public String homeLoginV3Spring(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
+    // 세션에 회원 데이터가 있을 경우
     if (loginMember == null) {
         return "home";
     }
 
+    // 세션이 있을 경우
     model.addAttribute("member", loginMember);
     return "loginHome";
 }
@@ -214,25 +187,36 @@ public String homeLogin(
 
 ## 세션 제거
 
-<i>로그아웃</i>
-
-```java
-HttpSession session = request.getSession(false);
-if (session != null){
-    session.invalidate();
-}
-```
-
 ```java
 @PostMapping("/logout")
 public String logout(HttpServletRequest request) {
-    HttpSession session = request.getSession(false);
-    if (session != null){
-        session.invalidate();
+    HttpSession session = request.getSession(false); 
+    if (session != null) {
+        session.invalidate(); // 세션 삭제
     }
+
     return "redirect:/";
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 세션 타임아웃
 
