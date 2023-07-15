@@ -198,25 +198,26 @@ public String logout(HttpServletRequest request) {
     return "redirect:/";
 }
 ```
+## 세션 정보
 
+```java
+HttpSession session = request.getSession(false);
 
+session.getAttributeNames()
+        .asIterator()
+        .forEachRemaining(name -> log.info("session name={}, value={}", name, session.getAttribute(name)));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Session ID (JSESSIONID 값)
+log.info("sessionId={}", session.getId()); 
+// 세션 유효 시간 (sec.)
+log.info("maxInactiveInterval={}", session.getMaxInactiveInterval()); 
+// 세션 생성 일시 (Long)
+log.info("creationTime={}", new Date(session.getCreationTime())); 
+// 세션과 연결된 사용자가 최근에 서버에 접근한 시간 (Long) ->  클라이언트에서 서버로 sessionId(JSESSIONID)를 요청한 경우 갱신
+log.info("lastAccessedTime={}", new Date(session.getLastAccessedTime())); 
+// 새로 생성된 세션인지 확인
+log.info("isNew={}", session.isNew()); 
+```
 
 ## 세션 타임아웃
 
@@ -237,21 +238,24 @@ server.servlet.session.timeout=1800 # default
 session.setMaxInactiveInterval(1800); //1
 ```
 
-## 세션 정보
 
-```java
-HttpSession session = request.getSession(false);
 
-session.getAttributeNames().asIterator()
-        .forEachRemaining(name -> log.info("session name={}, value={}",
-                name, session.getAttribute(name)));
 
-log.info("sessionId={}", session.getId()); //session ID (JSESSIONID)
-log.info("maxInactiveInterval={}", session.getMaxInactiveInterval()); //세션 유효 시간 (초)
-log.info("creationTime={}", new Date(session.getCreationTime())); //세션 생성 일시 (Long)
-log.info("lastAccessedTime={}", new Date(session.getLastAccessedTime())); //세션과 연결된 사용자가 최근에 서버에 접근한 시간 (Long)
-log.info("isNew={}", session.isNew()); //새로 생성된 세션인지 확인
-```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 필터, 인터셉터
 
