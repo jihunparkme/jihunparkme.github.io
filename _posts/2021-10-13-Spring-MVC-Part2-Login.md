@@ -90,24 +90,40 @@ public String logout(HttpServletResponse response) {
 - 해커가 토큰 정보를 가져가도 시간이 지나면 사용할 수 없도록 서버에서 해당 토큰의 `만료시간을 짧게 유지`
   - 해킹이 의심되는 경우 서버에서 해당 토큰을 강제로 제거
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Session
 
 `서버에 중요한 정보를 보관하고 연결을 유지하는 방법`
 
 - 서버의 세션 저장소에 중요한 정보를 보관하고 해당 정보를 토큰으로 변환 후 쿠키로 연결을 유지
+
+**로그인 요청**
+
+- 사용자가 정보를 전달하면 서버에서 해당 사용자가 맞는지 확인
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/session-request.png?raw=true 'Result')
+
+**세션 생성**
+
+- 세션 ID 는 추정 불가능한 UUID 로 생성
+- 생성된 세션 ID 와 세션에 보관할 값을 서버 세션 저장소에 보관
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/session-store.png?raw=true 'Result')
+
+**서버의 세션 ID 쿠키 응답**
+
+- 클라이언트와 서버는 결국 쿠키로 연결
+- 서버는 클라이언트에 UUID 세션 ID 만 쿠키에 담아서 전달
+- 클라이언트는 쿠키 저장소에 UUID 세션 ID 쿠키 보관
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/session-response.png?raw=true 'Result')
+
+**클라이언트의 세션 ID 쿠키 전달**
+
+- 클라이언트는 요청 시 항상 쿠키를 함께 전달
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/session-client.png?raw=true 'Result')
+
+
 
 1. 사용자 정보가 서버로 전달되면 올바른 정보인지 확인
 2. 해당 사용자의 `세션 ID 생성`(UUID) 및 `세션 저장소`에 보관
