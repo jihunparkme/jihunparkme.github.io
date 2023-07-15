@@ -139,7 +139,7 @@ public String logout(HttpServletResponse response) {
   Cookie: JSESSIONID=5B78E23B513F50164D6FDD8C97B0AD05
   ```
 
-### 세션 생성
+## 세션 생성
 
 Session 정보는 서버 메모리에 저장
 
