@@ -256,31 +256,21 @@ log.info("isNew={}", session.isNew());
   - session.getLastAccessedTime(): 최근 세션 접근 시간
   - LastAccessedTime 이후로 timeout 시간이 지나면, WAS 가 내부에서 해당 세션 제거
 
+# Filter, Interceptor
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 필터, 인터셉터
-
-- 웹과 관련된 공통 관심사는 `서블릿 필터` 또는 `스프링 인터셉터`를 사용
+- 공통 관심사(cross-cutting concern): 애플리케이션의 여러 로직에서 공통으로 관심을 갖는 것
+  - ex. 여러 컨트롤러에서 로그인 여부 확인
+- 웹과 관련된 공통 관심사는 `서블릿 필터` 또는 `스프링 인터셉터` 사용 권장
   - `HttpServletRequest` 제공 (HTTP header, URL 정보 등..)
+
+
+
+
+
+
+
+
+
 
 ## 서블릿 필터
 
