@@ -525,7 +525,7 @@ public interface HandlerInterceptor {
   - 예외 여부에 관계없이 `항상 호출`
   - 예외 발생 시 예외 정보를 파라미터로 받아서 로그 출력 가능
 
-## 요청 로그
+### 요청 로그
 
 **요청 로그 인터셉터 구현**
 
@@ -626,28 +626,68 @@ RESPONSE [6234a913-f24f-461f-a9e1-85f153b3c8b2][/members/add]
 >
 > [PathPattern Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/util/pattern/PathPattern.html)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### 인증 체크
 
-[Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/7fc7ecec6ae9167352f2d14894216037d96c8c7e)
+**로그인 체크 인터셉터**
 
-- 서블릿 필터에 비해 스프링 인터셉터가 더욱 사용법이 편리
+```java
+@Slf4j
+public class LoginCheckInterceptor implements HandlerInterceptor {
+    /**
+     * 인증은 컨트롤러 호출 전에만 호출되면 되므로 preHandle 만 구현
+     */
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String requestURI = request.getRequestURI();
+
+        log.info("인증 체크 인터셉터 실행 {}", requestURI);
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
+            log.info("미인증 사용자 요청");
+            response.sendRedirect("/login?redirectURL=" + requestURI); // 로그인으로 redirect
+            return false;
+        }
+
+        return true;
+    }
+}
+```
+
+**로그인 체크 인터셉터 등록**
+
+```java
+@Configuration
+public class InterceptorWebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LogInterceptor())
+                .order(1)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/css/**", "/*.ico", "/error");패턴 지정
+        registry.addInterceptor(new LoginCheckInterceptor())
+                .order(2)
+                .addPathPatterns("/**")
+                .excludePathPatterns(
+                        "/", "/members/add", "/login", "/logout", "/css/**", "/*.ico", "/error"
+                );
+    }
+}
+```
+
+
+> 서블릿 필터에 비해 스프링 인터셉터가 더욱 사용법이 편리
+>
+> 특별한 문제가 없다면 인터셉터를 사용하자.
+
+
+
+
+
+
+
+
 
 ## ArgumentResolver 활용
 
