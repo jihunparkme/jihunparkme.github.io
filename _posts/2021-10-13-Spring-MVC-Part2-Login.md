@@ -301,15 +301,93 @@ public interface Filter {
 
 ### 요청 로그
 
+**필터 설정**
+
+```java
+@Configuration
+public class FilterWebConfig {
+    /**
+     * FilterRegistrationBean 를 사용하여 필터 등록
+     *
+     * @ServletComponentScan, @WebFilter(filterName = "logFilter", urlPatterns = "/*") 로 필터 등록이 가능하지만 필터 순서 조절 불가
+     * Spring Boot 는 WAS 를 들고 함께 띄우기 때문에, WAS 를 띄울 때 필터를 같이 세팅
+     */
+    @Bean
+    public FilterRegistrationBean logFilter() {
+        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(new LogFilter()); // 등록할 필터 지정
+        filterRegistrationBean.setOrder(1); // 필터는 체인으로 동작하므로 순서 지정
+        filterRegistrationBean.addUrlPatterns("/*"); // 필터를 적용할 URL 패턴 지정
+        return filterRegistrationBean;
+    }
+}
+```
+
 **로그 필터**
 
-[Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/3669eca5b08d2349869098a619e18d979912ebdf)
+- 필터 사용을 위해 필터 인터페이스 구현
+
+```java
+@Slf4j
+public class LogFilter implements Filter {
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        log.info("log filter init");
+    }
+
+    /**
+     * HTTP 요청이 오면 호출
+     * - 고객의 요청 응답 정보를 한 번에 확인 가능
+     * - 시간 정보를 추가해서 요청 시간 확인 및 성능 최적화 가능
+     */
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String requestURI = httpRequest.getRequestURI(); // 요청 URI 정보
+
+        String uuid = UUID.randomUUID().toString(); // HTTP 요청 구분 목적
+
+        try {
+            log.info("REQUEST [{}][{}]", uuid, requestURI);
+            /**
+             * 다음 필터가 있으면 필터 호출. 필터가 없으면 서블릿 호출
+             * (doFilter 를 호출하지 않으면 다음 단계로 진행되지 않음)
+             */
+            chain.doFilter(request, response);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            log.info("RESPONSE [{}][{}]", uuid, requestURI);
+        }
+    }
+
+    @Override
+    public void destroy() {
+        log.info("log filter destroy");
+    }
+}
+```
 
 **참고**
 
-- HTTP 요청 로그에 각 요청자별 식별자를 자동으로 남기려면 [Spring logback mdc](https://oddblogger.com/spring-boot-mdc-logging) 참고
-
+- [Spring logback mdc](https://oddblogger.com/spring-boot-mdc-logging)
+  - HTTP 요청 로그에 각 요청자별 식별자를 자동으로 남기기
 - [spring logback mdc test](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/58fe53325290f3f5709c9fa86bf315bc7341a5b2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### 인증 체크
 
