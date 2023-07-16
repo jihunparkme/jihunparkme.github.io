@@ -369,6 +369,13 @@ public class FilterWebConfig {
 }
 ```
 
+**실행 로그**
+```text
+hello.login.web.filter.LogFilter: REQUEST [0a2249f2-cc70-4db4-98d1-492ccf5629dd][/items]
+
+hello.login.web.filter.LogFilter: RESPONSE [0a2249f2-cc70-4db4-98d1-492ccf5629dd][/items]
+```
+
 **참고**
 
 > [Spring logback mdc](https://oddblogger.com/spring-boot-mdc-logging) (HTTP 요청 로그에 각 요청자별 식별자를 자동으로 남기기)
@@ -598,6 +605,19 @@ public class InterceptorWebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/css/**", "/*.ico", "/error"); // 인터셉터 제외 패턴 지정
     }
 }
+```
+
+**실행 로그**
+```text
+REQUEST [6234a913-f24f-461f-a9e1-85f153b3c8b2][/members/add]
+[hello.login.web.member.MemberController#addForm(Member)]
+
+postHandle [ModelAndView [view="members/addMemberForm"; 
+model={member=Member(id=null, loginId=null, name=null, password=null),
+org.springframework.validation.BindingResult.member=org.springframework.validat
+ion.BeanPropertyBindingResult: 0 errors}]]
+
+RESPONSE [6234a913-f24f-461f-a9e1-85f153b3c8b2][/members/add]
 ```
 
 **참고**
