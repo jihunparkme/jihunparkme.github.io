@@ -301,29 +301,7 @@ public interface Filter {
 
 ### 요청 로그
 
-**필터 설정**
-
-```java
-@Configuration
-public class FilterWebConfig {
-    /**
-     * FilterRegistrationBean 를 사용하여 필터 등록
-     *
-     * @ServletComponentScan, @WebFilter(filterName = "logFilter", urlPatterns = "/*") 로 필터 등록이 가능하지만 필터 순서 조절 불가
-     * Spring Boot 는 WAS 를 들고 함께 띄우기 때문에, WAS 를 띄울 때 필터를 같이 세팅
-     */
-    @Bean
-    public FilterRegistrationBean logFilter() {
-        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new LogFilter()); // 등록할 필터 지정
-        filterRegistrationBean.setOrder(1); // 필터는 체인으로 동작하므로 순서 지정
-        filterRegistrationBean.addUrlPatterns("/*"); // 필터를 적용할 URL 패턴 지정
-        return filterRegistrationBean;
-    }
-}
-```
-
-**로그 필터**
+**로그 필터 구현**
 
 - 필터 사용을 위해 필터 인터페이스 구현
 
@@ -369,31 +347,141 @@ public class LogFilter implements Filter {
 }
 ```
 
+**필터 설정**
+
+```java
+@Configuration
+public class FilterWebConfig {
+    /**
+     * FilterRegistrationBean 를 사용하여 필터 등록
+     *
+     * @ServletComponentScan, @WebFilter(filterName = "logFilter", urlPatterns = "/*") 로 필터 등록이 가능하지만 필터 순서 조절 불가
+     * Spring Boot 는 WAS 를 들고 함께 띄우기 때문에, WAS 를 띄울 때 필터를 같이 세팅
+     */
+    @Bean
+    public FilterRegistrationBean logFilter() {
+        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(new LogFilter()); // 등록할 필터 지정
+        filterRegistrationBean.setOrder(1); // 필터는 체인으로 동작하므로 순서 지정
+        filterRegistrationBean.addUrlPatterns("/*"); // 필터를 적용할 URL 패턴 지정
+        return filterRegistrationBean;
+    }
+}
+```
+
 **참고**
 
-- [Spring logback mdc](https://oddblogger.com/spring-boot-mdc-logging)
-  - HTTP 요청 로그에 각 요청자별 식별자를 자동으로 남기기
-- [spring logback mdc test](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/58fe53325290f3f5709c9fa86bf315bc7341a5b2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+> [Spring logback mdc](https://oddblogger.com/spring-boot-mdc-logging) (HTTP 요청 로그에 각 요청자별 식별자를 자동으로 남기기)
+> 
+> [spring logback mdc test](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/58fe53325290f3f5709c9fa86bf315bc7341a5b2)
 
 ### 인증 체크
 
-[Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/79aabbb4e99124ded45cc7495ecc3730422e46b4)
+**로그인 체크 필터 구현**
 
-## 🌞 스프링 인터셉터
+```java
+@Slf4j
+public class LoginCheckFilter implements Filter {
+    private static final String[] whitelist = {"/", "/members/add", "/login", "/logout", "/css/*"}; // 인증과 무관하게 항상 허용하는 경로
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String requestURI = httpRequest.getRequestURI();
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+
+        try {
+            if (isLoginCheckPath(requestURI)) {
+                HttpSession session = httpRequest.getSession(false);
+
+                if (session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
+                    /**
+                     * 미인증 사용자는 로그인 화면으로 리다이렉트 처리
+                     * 로그인 이후 요청 경로로 이동하기 위해 쿼리 파라미터로 요청 경로를 함께 전달
+                     */
+                    httpResponse.sendRedirect("/login?redirectURL=" + requestURI);
+                    // 미인증 사용자는 다음(필터, 서블릿, 컨트롤러)으로 진행하지 않고 종료.
+                    return;
+                }
+            }
+
+            chain.doFilter(request, response);
+        } catch (Exception e) {
+            /**
+             * 예외 로깅 가능 하지만, 톰캣까지 예외를 보내주어야 함
+             * (ServletFilter 에서 터진 예외를 ServletContainer(WAS) 까지 올려줘야 함)
+             */
+            throw e;
+        } finally {
+            log.info("인증 체크 필터 종료 {}", requestURI);
+        }
+    }
+
+    /**
+     * 화이트 리스트의 경우 인증 체크 X
+     */
+    private boolean isLoginCheckPath(String requestURI) {
+        return !PatternMatchUtils.simpleMatch(whitelist, requestURI);
+    }
+}
+```
+
+**필터 설정**
+
+```java
+@Configuration
+public class FilterWebConfig {
+    // ...
+    
+    @Bean
+    public FilterRegistrationBean loginCheckFilter() {
+        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(new LoginCheckFilter()); // 로그인 필터 등록
+        filterRegistrationBean.setOrder(2); // 로그 필터 이후 로그인 필터 적용
+        filterRegistrationBean.addUrlPatterns("/*"); // 모든 요청에 로그인 필터 적용
+        return filterRegistrationBean;
+    }
+}
+
+```
+
+**로그인 성공 시 처리**
+
+```java
+@PostMapping("/login")
+public String login(
+        @Valid @ModelAttribute LoginForm form, BindingResult bindingResult,
+        @RequestParam(defaultValue = "/") String redirectURL,
+        HttpServletRequest request) {
+
+    // ...
+
+    /**
+     * 미인증 사용자는 요청 경로를 포함해서 /login 에 redirectURL 요청 파라미터를 추가해서 요청
+     * 로그인 성공시 해당 경로로 고객을 redirect
+     */
+    return "redirect:" + redirectURL;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 🌞 스프링 인터셉터
 
 - 서블릿과 동일하게 웹 관련 공통 관심사항을 해결하는 기술
 
