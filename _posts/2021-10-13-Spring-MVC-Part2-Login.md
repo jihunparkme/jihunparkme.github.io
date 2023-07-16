@@ -681,50 +681,59 @@ public class InterceptorWebConfig implements WebMvcConfigurer {
 >
 > 특별한 문제가 없다면 인터셉터를 사용하자.
 
+## ArgumentResolver 활용 🌞
 
+Controller Method 의 인자로 임의의 값을 전달하는 방법 제공
 
-
-
-
-
-
-
-## ArgumentResolver 활용
-
-- Controller Method 인자로 임의의 값을 전달하는 방법 제공
-
-**Login annotation**
+**Login Annotation 생성**
 
 ```java
-@GetMapping("/")
-public String homeLogin(@Login Member loginMember, Model model) {}
-```
-
-```java
-@Target(ElementType.PARAMETER) //PARAMETER에만 사용
-@Retention(RetentionPolicy.RUNTIME) //리플렉션 활용을 위해 런타임까지 애노테이션 정보가 남도록 설정
+@Target(ElementType.PARAMETER) // PARAMETER 에만 사용
+@Retention(RetentionPolicy.RUNTIME) // 리플렉션 등의 활용을 위해 런타임까지 애노테이션 정보가 남도록 설정
 public @interface Login {}
 ```
 
 - @Target : annotation 대상 지정
-- @Retention : 어느 시점까지 어노테이션의 메모리를 가져갈 지 설정
+- @Retention : 어느 시점까지 어노테이션의 메모리를 가져갈지 설정
+
+.
+
+**@Login 적용**
+
+```java
+@GetMapping("/")
+public String homeLogin(@Login Member loginMember, Model model) { ... }
+```
+.
 
 **HandlerMethodArgumentResolver 구현**
 
 ```java
 @Slf4j
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-
         boolean hasLoginAnnotation = parameter.hasParameterAnnotation(Login.class);
         boolean hasMemberType = Member.class.isAssignableFrom(parameter.getParameterType());
 
+        /**
+         * @Login 어노테이션이 있으면서 Member 타입이면 해당 ArgumentResolver 사용
+         * 결과가 true 일 경우 resolveArgument() 실행
+         */ 
         return hasLoginAnnotation && hasMemberType;
     }
 
+    /**
+     * 컨트롤러 호출 직전에 호출 되어서 필요한 파라미터 정보를 생성
+     * - 세션에 있는 로그인 회원 정보인 member 객체를 찾아서 반환
+     * - 이후 Spring MVC 는 컨트롤러의 메서드를 호출하면서 여기에서 반환된 member 객체를 파라미터에 전달
+     */
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+    public Object resolveArgument(MethodParameter parameter,
+                                  ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest,
+                                  WebDataBinderFactory binderFactory) throws Exception {
 
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         HttpSession session = request.getSession(false);
@@ -735,28 +744,24 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         return session.getAttribute(SessionConst.LOGIN_MEMBER);
     }
 }
-
 ```
 
-- supportsParameter() : annotation(@Login) 과 class type(Member) 확인 후 해당 ArgumentResolver 사용
-  - 결과가 true 일 경우 resolveArgument() 실행
-- resolveArgument() : Controller 호출 직전에 호출되어 필요한 파라미터 정보 생성
-  - ArgumentResolver 실행 시 어떤 값을 넣어 줄지 설정
+.
 
 **ArgumentResolver 설정**
 
 ```java
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class ArgumentResolverWebConfig implements WebMvcConfigurer {
 
-  //...
-
-  @Override
-  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-      resolvers.add(new LoginMemberArgumentResolver());
-  }
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(new LoginMemberArgumentResolver());
+    }
 }
 ```
+
+> `ArgumentResolver` 를 활용하면 공통 작업이 필요할 때 애노테이션으로 컨트롤러를 더욱 편리하게 사용 가능
 
 ---
 
