@@ -23,19 +23,19 @@ featured-img: spring_mvc_2
 
 **`Exception`**
 
-```java
-@GetMapping("/error-ex")
-    public void errorEx() {
-    throw new RuntimeException("예외 발생!");
-}
-```
-
 자바 직접 실행 시 예외 발생
 
 - 자바 메인 메서드를 직접 실행할 경우 main 쓰레드 실행
 - main 쓰레드 실행 도중에 예외를 잡지 못하고 예외가 던져지면, `예외 정보를 남기고 해당 쓰레드 종료`
 
 웹 애플리케이션에서 예외 발생
+
+```java
+@GetMapping("/error-ex")
+    public void errorEx() {
+    throw new RuntimeException("예외 발생!");
+}
+```
 
 - 사용자 요청별로 별도의 쓰레드가 할당되고, 서블릿 컨테이너 안에서 실행
 - 애플리케이션에서 예외 발생 시, try~catch 로 예외를 잡아서 처리하면 문제가 없음.
@@ -61,8 +61,8 @@ public void error404(HttpServletResponse response) throws IOException {
 ```
 
 - 오류 발생 시 `HttpServletResponse.sendError` 메서드 사용 가능
-  - sendError 호출 시 바로 예외가 발생하는 것은 아니지만, response 내부에 오류 발생 상태를 저장하여 WAS(Servlet container) 에게 전달
-  - WAS(Servlet container) 는 클라이언트에게 응답 전에 response 에 sendError() 호출 기록 확인 후, 호출되었다면 설정한 오류 코드에 맞는 기본 오류 페이지 출력
+  - sendError 호출 시 바로 예외가 발생하는 것은 아니지만, `response 내부에 오류 발생 상태를 저장`하여 WAS(Servlet container) 에게 전달
+  - WAS(Servlet container) 는 클라이언트에게 응답 전에 response 에 `sendError() 호출 기록 확인` 후, 호출되었다면 `설정한 오류 코드에 맞는 기본 오류 페이지 출력`
 - sendError 흐름
   ```text
   WAS(sendError 호출 기록 확인) <- 필터 <- 서블릿 <- 인터셉터 <- 컨트롤러
