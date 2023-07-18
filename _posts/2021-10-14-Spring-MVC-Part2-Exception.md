@@ -17,47 +17,66 @@ featured-img: spring_mvc_2
 
 ## 서블릿 예외 처리
 
-순수 서블릿 컨테이너의 예외 처리
+순수 서블릿 컨테이너의 예외 처리 지원 방식
 
-**서블릿의 예외 처리 지원**
+.
 
-### Exception
+**`Exception`**
 
-- WAS는 서버 내부에서 처리할 수 없는 오류가 발생한 것으로 인지하고 HTTP Status Code 500 error return
+```java
+@GetMapping("/error-ex")
+    public void errorEx() {
+    throw new RuntimeException("예외 발생!");
+}
+```
 
-- 예외 전달
+자바 직접 실행 시 예외 발생
 
-  - 컨트롤러에서 예외가 발생하면 `WAS 까지 전파` 및 `500 Error` 적용
+- 자바 메인 메서드를 직접 실행할 경우 main 쓰레드 실행
+- main 쓰레드 실행 도중에 예외를 잡지 못하고 예외가 던져지면, `예외 정보를 남기고 해당 쓰레드 종료`
 
-  - `컨트롤러 -> 스프링 인터셉터 -> 서블릿 -> 필터 -> WAS`
+웹 애플리케이션에서 예외 발생
 
-  ```java
-  @GetMapping("/error-ex")
-  public void errorEx() {
-      throw new RuntimeException("예외 발생!");
-  }
+- 사용자 요청별로 별도의 쓰레드가 할당되고, 서블릿 컨테이너 안에서 실행
+- 애플리케이션에서 예외 발생 시, try~catch 로 예외를 잡아서 처리하면 문제가 없음.
+- 하지만, 예외를 잡지 못하고, `서블릿 밖으로 예외가 전달될 경우 WAS(tomcat)까지 예외 전달`
+  ```text
+  WAS <- 필터 <- 서블릿 <- 인터셉터 <- 컨트롤러(예외발생)
+  ```
+- WAS 는 Exception 예외가 올라오면 서버 내부에서 처리할 수 없는 오류가 발생한 것으로 인지하고 `HTTP Status 500 – Internal Server Error 반환`
+  ```properties
+  # 스프링 부트가 제공하는 기본 예외 페이지 OFF
+  server.error.whitelabel.enabled=false
   ```
 
-### response.sendError()
+.
 
-- HttpServletResponse 가 제공
+**`response.sendError(HTTP 상태 코드, 오류 메시지)`**
 
-  - response.sendError(HTTP 상태 코드, 오류 메시지)
+```java
+@GetMapping("/error-404")
+public void error404(HttpServletResponse response) throws IOException {
+    response.sendError(404, "404 오류!"); // HTTP 상태 코드와 오류 메시지 추가 가능
+}
+```
 
-- WAS(Servlet container) 에게 오류 발생 전달
-
+- 오류 발생 시 `HttpServletResponse.sendError` 메서드 사용 가능
+  - sendError 호출 시 바로 예외가 발생하는 것은 아니지만, response 내부에 오류 발생 상태를 저장하여 WAS(Servlet container) 에게 전달
+  - WAS(Servlet container) 는 클라이언트에게 응답 전에 response 에 sendError() 호출 기록 확인 후, 호출되었다면 설정한 오류 코드에 맞는 기본 오류 페이지 출력
 - sendError 흐름
-
-  - 컨트롤러에서 sendError 호출 시 `WAS 에서 sendError 호출 기록 확인`
-    - Servlet Container 는 Client 에게 응답 전 response 에 sendError() 호출 확인 및 설정 `오류 페이지`에 맞는 페이지 출력
-  - `컨트롤러 -> 스프링 인터셉터 -> 서블릿 -> 필터 -> WAS`
-
-  ```java
-  @GetMapping("/error-404")
-  public void error404(HttpServletResponse response) throws IOException {
-      response.sendError(404, "404 오류!");
-  }
+  ```text
+  WAS(sendError 호출 기록 확인) <- 필터 <- 서블릿 <- 인터셉터 <- 컨트롤러
   ```
+
+
+
+
+
+
+
+
+
+
 
 ## 서블릿 오류 페이지
 
