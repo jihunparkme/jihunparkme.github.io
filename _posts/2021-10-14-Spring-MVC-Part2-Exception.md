@@ -68,24 +68,22 @@ public void error404(HttpServletResponse response) throws IOException {
   WAS(sendError 호출 기록 확인) <- 필터 <- 서블릿 <- 인터셉터 <- 컨트롤러
   ```
 
-
-
-
-
-
-
-
-
-
-
 ## 서블릿 오류 페이지
 
-- 서블릿은 Exception 발생 후 서블릿 밖으로 전달되거나 response.sendError() 호출 시 설정된 오류 페이지를 찾음
+서블릿은 `Exception` 이 서블릿 밖으로 전달되거나 `response.sendError()` 호출 시 각 상황에 맞춘 오류 처리 기능 제공
 
-- 오류 페이지 요청 흐름
-  - `컨트롤러(예외 발생) -> 스프링 인터셉터 -> 서블릿 -> 필터 -> WAS`
-  - `WAS(/error-page/500) 요청 -> 필터 -> 서블릿 -> 스프링 인터셉터 -> 컨트롤러(/error-page/500) -> View`
-    - WAS 는 오류 페이지 요청 시 오류 정보를 request attribute 에 추가해서 전달
+.
+
+오류 페이지 요청 흐름
+
+```text
+# 예외 발생
+컨트롤러(예외 발생) ➔ 스프링 인터셉터 ➔ 서블릿 ➔ 필터 ➔ WAS
+
+# 오류 페이지 요청
+WAS(/error-page/500) 요청 ➔ 필터 ➔ 서블릿 ➔ 스프링 인터셉터 ➔ 컨트롤러(/error-page/500) ➔ View
+```
+- WAS 는 오류 페이지 요청 시 오류 정보를 request attribute 에 추가해서 전달
 
 **서블릿 오류 페이지 등록**
 
@@ -96,8 +94,8 @@ public class WebServerCustomizer implements WebServerFactoryCustomizer<Configura
     @Override
     public void customize(ConfigurableWebServerFactory factory) {
 
-        ErrorPage errorPage404 = new ErrorPage(HttpStatus.NOT_FOUND, "/error-page/404"); //response.sendError(404)
-        ErrorPage errorPage500 = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error-page/500"); //response.sendError(500)
+        ErrorPage errorPage404 = new ErrorPage(HttpStatus.NOT_FOUND, "/error-page/404"); // response.sendError(404)
+        ErrorPage errorPage500 = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error-page/500"); // response.sendError(500)
 
         ErrorPage errorPageEx = new ErrorPage(RuntimeException.class, "/error-page/500"); // RuntimeException 또는 그 자식 타입의 예외
 
@@ -105,6 +103,8 @@ public class WebServerCustomizer implements WebServerFactoryCustomizer<Configura
     }
 }
 ```
+
+- 오류 페이지는 예외를 다룰 때 해당 예외와 그 자식 타입의 오류를 함께 처리
 
 **오류 처리 컨트롤러**
 
@@ -126,6 +126,23 @@ public class ErrorPageController {
     }
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 **오류 정보 추가**
 
