@@ -144,11 +144,13 @@ private void printErrorInfo(HttpServletRequest request) {
 }
 ```
 
-### DispatcherType
+### DispatcherType 🌞
 
+클라이언트로 부터 발생한 정상 요청인지, 오류 페이지를 출력하기 위한 내부 요청인지 구분하기 위해 서블릿은 `DispatcherType` 정보 제공 
 - 오류 발생 시 오류 페이지 출력을 위해 WAS 내부에서 필터, 서블릿, 인터셉터를 다시 호출
 - 이미 초기 요청에서 검증이 완료된 부분은 재호출 될 경우 비효율적
-- 클라이언트로 부터 발생한 정상 요청인지, 오류 페이지를 출력하기 위한 내부 요청인지 구분하기 위해 서블릿은 `DispatcherType` 정보 제공
+
+.
 
 **DispatcherType**
 
@@ -290,6 +292,13 @@ public class DispatcherTypeWebConfig implements WebMvcConfigurer {
 4. WAS(/error-page/500, dispatchType=ERROR) ➔ 필터(x) ➔ 서블릿 ➔ 인터셉터(x) ➔
 컨트롤러(/error-page/500) ➔ View
 ```
+
+
+
+
+
+
+
 
 
 
