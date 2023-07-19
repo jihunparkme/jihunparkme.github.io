@@ -168,55 +168,114 @@ public enum DispatcherType {
 
 **필터와 DispatcherType**
 
-DispatcherType 로그 필터
+- DispatcherType 로그 필터
+  ```java
+  @Slf4j
+  public class LogFilter implements Filter {
 
-```java
-@Slf4j
-public class LogFilter implements Filter {
+      @Override
+      public void init(FilterConfig filterConfig) throws ServletException {
+          log.info("log filter init");
+      }
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("log filter init");
-    }
+      @Override
+      public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+          HttpServletRequest httpRequest = (HttpServletRequest) request;
+          String requestURI = httpRequest.getRequestURI();
+          String uuid = UUID.randomUUID().toString();
+          try {
+              log.info("REQUEST [{}][{}][{}]", uuid, request.getDispatcherType(), requestURI);
+              chain.doFilter(request, response);
+          } catch (Exception e) {
+              throw e;
+          } finally {
+              log.info("RESPONSE [{}][{}][{}]", uuid, request.getDispatcherType(), requestURI);
+          }
+      }
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String requestURI = httpRequest.getRequestURI();
-        String uuid = UUID.randomUUID().toString();
-        try {
-            log.info("REQUEST [{}][{}][{}]", uuid, request.getDispatcherType(), requestURI);
-            chain.doFilter(request, response);
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            log.info("RESPONSE [{}][{}][{}]", uuid, request.getDispatcherType(), requestURI);
-        }
-    }
+      @Override
+      public void destroy() {
+          log.info("log filter destroy");
+      }
+  }
+  ```
 
-    @Override
-    public void destroy() {
-        log.info("log filter destroy");
-    }
-}
+- 로그 필터 등록
+  ```java
+  @Configuration
+  public class DispatcherTypeWebConfig implements WebMvcConfigurer {
 
-```
+      @Bean
+      public FilterRegistrationBean logFilter() {
+          FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
+          filterRegistrationBean.setFilter(new LogFilter());
+          filterRegistrationBean.setOrder(1);
+          filterRegistrationBean.addUrlPatterns("/*");
+          // default: REQUEST. 클라이언트 요청 시에만 필터 적용
+          filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.ERROR);
+          return filterRegistrationBean;
+      }
+  }
+  ```
 
-**로그 필터 등록**
+.
+
+**필터와 Interceptor**
+
+- DispatcherType 로그 인터셉터
+
+  ```java
+  @Slf4j
+  public class LogInterceptor implements HandlerInterceptor {
+      public static final String LOG_ID = "logId";
+
+      @Override
+      public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+          String requestURI = request.getRequestURI();
+          String uuid = UUID.randomUUID().toString();
+          request.setAttribute(LOG_ID, uuid);
+          log.info("REQUEST [{}][{}][{}][{}]", uuid, request.getDispatcherType(), requestURI, handler);
+          return true;
+      }
+
+      @Override
+      public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+          log.info("postHandle [{}]", modelAndView);
+      }
+
+      @Override
+      public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+          String requestURI = request.getRequestURI();
+          String logId = (String) request.getAttribute(LOG_ID);
+          log.info("RESPONSE [{}][{}][{}]", logId, request.getDispatcherType(), requestURI);
+          if (ex != null) {
+              log.error("afterCompletion error!!", ex);
+          }
+      }
+  }
+  ```
+
+- 로그 인터셉터 등록
 
 ```java
 @Configuration
 public class DispatcherTypeWebConfig implements WebMvcConfigurer {
 
-    @Bean
-    public FilterRegistrationBean logFilter() {
-        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new LogFilter());
-        filterRegistrationBean.setOrder(1);
-        filterRegistrationBean.addUrlPatterns("/*");
-        // default: REQUEST. 클라이언트 요청 시에만 필터 적용
-        filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.ERROR);
-        return filterRegistrationBean;
+    /**
+     * 필터는 필터 등록 시 특정 DispatcherType 인 경우 필터가 적용되도록 설정이 가능했지만,
+     * 인터셉터는 스프링이 제공하는 기능이라서 DispatcherType 와 무관하게 항상 호출
+     * 
+     * 대신 인터셉터의 excludePathPatterns 를 사용해서 특정 경로 제외 가능
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LogInterceptor())
+                .order(1)
+                .addPathPatterns("/**")
+                .excludePathPatterns(
+                        "/css/**", "/*.ico"
+                        , "/error", "/error-page/**" //오류 페이지 경로
+                );
     }
 }
 ```
@@ -227,9 +286,6 @@ public class DispatcherTypeWebConfig implements WebMvcConfigurer {
 
 
 
-
-
-#### 인터셉터
 
 - <i>excludePathPatterns</i> 경로 설정으로 중복 호출 제거
 
