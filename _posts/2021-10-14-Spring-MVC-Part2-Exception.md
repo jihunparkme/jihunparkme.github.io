@@ -72,19 +72,6 @@ public void error404(HttpServletResponse response) throws IOException {
 
 서블릿은 `Exception` 이 서블릿 밖으로 전달되거나 `response.sendError()` 호출 시 각 상황에 맞춘 오류 처리 기능 제공
 
-.
-
-오류 페이지 요청 흐름
-
-```text
-# 예외 발생
-컨트롤러(예외 발생) ➔ 스프링 인터셉터 ➔ 서블릿 ➔ 필터 ➔ WAS
-
-# 오류 페이지 요청
-WAS(/error-page/500) 요청 ➔ 필터 ➔ 서블릿 ➔ 스프링 인터셉터 ➔ 컨트롤러(/error-page/500) ➔ View
-```
-- WAS 는 오류 페이지 요청 시 오류 정보를 request attribute 에 추가해서 전달
-
 **서블릿 오류 페이지 등록**
 
 ```java
@@ -127,9 +114,35 @@ public class ErrorPageController {
 }
 ```
 
+**오류 페이지 요청 흐름**
 
+```text
+# 예외 발생 흐름
+컨트롤러(예외 발생) ➔ 스프링 인터셉터 ➔ 서블릿 ➔ 필터 ➔ WAS
 
+# sendError 흐름
+컨트롤러(response.sendError()) ➔ 스프링 인터셉터 ➔ 서블릿 ➔ 필터 ➔ WAS(sendError 호출 기록 확인)
 
+---
+
+# 오류 페이지 요청 흐름
+WAS '/error-page/500' 요청 ➔ 필터 ➔ 서블릿 ➔ 스프링 인터셉터 ➔ 컨트롤러(/error-page/500) ➔ View
+```
+
+- WAS 까지 예외가 전파될 경우, WAS 는 해당 예외를 처리하는 `오류 페이지 정보` 확인 후 오류 페이지를 다시 요청
+- WAS 는 오류 페이지 요청 시 오류 정보를 request.attribute 에 추가해서 전달
+
+```java
+private void printErrorInfo(HttpServletRequest request) {
+    log.info("ERROR_EXCEPTION: ex=", request.getAttribute(RequestDispatcher.ERROR_EXCEPTION));
+    log.info("ERROR_EXCEPTION_TYPE: {}", request.getAttribute(RequestDispatcher.ERROR_EXCEPTION_TYPE));
+    log.info("ERROR_MESSAGE: {}", request.getAttribute(RequestDispatcher.ERROR_MESSAGE)); // ex의 경우 NestedServletException 스프링이 한번 감싸서 반환
+    log.info("ERROR_REQUEST_URI: {}", request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI));
+    log.info("ERROR_SERVLET_NAME: {}", request.getAttribute(RequestDispatcher.ERROR_SERVLET_NAME));
+    log.info("ERROR_STATUS_CODE: {}", request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
+    log.info("dispatchType={}", request.getDispatcherType());
+}
+```
 
 
 
