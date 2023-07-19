@@ -279,6 +279,17 @@ public class DispatcherTypeWebConfig implements WebMvcConfigurer {
     }
 }
 ```
+.
+
+**DispatcherType 흐름**
+
+```text
+1. WAS(/error-ex, dispatchType=REQUEST) ➔ 필터 ➔ 서블릿 ➔ 인터셉터 ➔ 컨트롤러
+2. 컨트롤러(예외발생) ➔ 인터셉터 ➔ 서블릿 ➔ 필터 ➔ WAS
+3. WAS 오류 페이지 확인
+4. WAS(/error-page/500, dispatchType=ERROR) ➔ 필터(x) ➔ 서블릿 ➔ 인터셉터(x) ➔
+컨트롤러(/error-page/500) ➔ View
+```
 
 
 
@@ -287,21 +298,8 @@ public class DispatcherTypeWebConfig implements WebMvcConfigurer {
 
 
 
-- <i>excludePathPatterns</i> 경로 설정으로 중복 호출 제거
 
-- [Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/38ea95fa9de3563ebc6a8111a38d2e6059cddcf8)
 
-### DispatcherType 흐름
-
-1\. WAS(/error-ex, dispatchType=REQUEST) -> 필터 -> 서블릿 -> 인터셉터 -> 컨트롤러
-
-- 컨트롤러에서 예외발생
-
-2\. 컨트롤러 -> 인터셉터 -> 서블릿 -> 필터 -> WAS
-
-- WAS 에서 오류 페이지 확인
-
-3\. WAS(/error-page/500, dispatchType=ERROR) -> ~~필터(x)~~ -> 서블릿 -> ~~인터셉터(x)~~ -> 컨트롤러(/error-page/500) -> View
 
 ## 🌞스프링 부트 오류 페이지
 
