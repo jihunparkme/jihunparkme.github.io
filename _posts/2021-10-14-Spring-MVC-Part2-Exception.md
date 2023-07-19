@@ -164,8 +164,62 @@ public enum DispatcherType {
 }
 ```
 
+.
+
 **필터와 DispatcherType**
 
+DispatcherType 로그 필터
+
+```java
+@Slf4j
+public class LogFilter implements Filter {
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        log.info("log filter init");
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String requestURI = httpRequest.getRequestURI();
+        String uuid = UUID.randomUUID().toString();
+        try {
+            log.info("REQUEST [{}][{}][{}]", uuid, request.getDispatcherType(), requestURI);
+            chain.doFilter(request, response);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            log.info("RESPONSE [{}][{}][{}]", uuid, request.getDispatcherType(), requestURI);
+        }
+    }
+
+    @Override
+    public void destroy() {
+        log.info("log filter destroy");
+    }
+}
+
+```
+
+**로그 필터 등록**
+
+```java
+@Configuration
+public class DispatcherTypeWebConfig implements WebMvcConfigurer {
+
+    @Bean
+    public FilterRegistrationBean logFilter() {
+        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(new LogFilter());
+        filterRegistrationBean.setOrder(1);
+        filterRegistrationBean.addUrlPatterns("/*");
+        // default: REQUEST. 클라이언트 요청 시에만 필터 적용
+        filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.ERROR);
+        return filterRegistrationBean;
+    }
+}
+```
 
 
 
@@ -174,12 +228,6 @@ public enum DispatcherType {
 
 
 
-
-- <i>filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.ERROR);</i> DispatcherType 설정으로 중복 호출 제거
-
-  - default : DispatcherType.REQUEST
-
-- [Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/b8723959bbd7be824db14985c834e642fa018fba)
 
 #### 인터셉터
 
