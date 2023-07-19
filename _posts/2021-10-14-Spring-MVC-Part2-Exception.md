@@ -144,39 +144,36 @@ private void printErrorInfo(HttpServletRequest request) {
 }
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-**오류 정보 추가**
-
-- [Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/97855ce96a102b8462dad02d1ae03a267df63787)
-
 ### DispatcherType
 
-- 오류 발생 시 오류페이지 출력을 위해 WAS 내부에서 필터, 서블릿, 인터셉터 등 모두 다시 한 번 호출이 발생
+- 오류 발생 시 오류 페이지 출력을 위해 WAS 내부에서 필터, 서블릿, 인터셉터를 다시 호출
+- 이미 초기 요청에서 검증이 완료된 부분은 재호출 될 경우 비효율적
+- 클라이언트로 부터 발생한 정상 요청인지, 오류 페이지를 출력하기 위한 내부 요청인지 구분하기 위해 서블릿은 `DispatcherType` 정보 제공
 
-- 클라이언트로 부터 발생한 정상 요청(REQUEST)인지, 오류 페이지를 출력하기 위한 내부 요청(ERROR)인지 구분을 위해 서블릿은 `DispatcherType` 정보 제공
+**DispatcherType**
 
-- DispatcherType
-  - `REQUEST` : 클라이언트 요청
-  - `ERROR` : 오류 요청
-  - `FORWARD` : 다른 서블릿이나 JSP를 호출할 경우
-    <i>RequestDispatcher.forward(request, response);</i>
-  - `INCLUDE` : 다른 서블릿이나 JSP의 결과를 포함할 경우
-    <i>RequestDispatcher.include(request, response);</i>
-  - `ASYNC` : 서블릿 비동기 호출
+- 서블릿 스펙은 실제 고객이 요청한 것인지, 서버가 내부에서 오류 페이지를 요청하는 것인지 `DispatcherType` 으로 구분할 수 있는 방법을 제공
 
-#### 필터
+```java
+public enum DispatcherType {
+    FORWARD, // 다른 서블릿이나 JSP 호출 ➔ RequestDispatcher.forward(request, response)
+    INCLUDE, // 다른 서블릿이나 JSP 결과 포함 ➔ RequestDispatcher.include(request, response)
+    REQUEST, // 클라이언트 요청
+    ASYNC, // 서블릿 비동기 호출
+    ERROR // 오류 요청
+}
+```
+
+**필터와 DispatcherType**
+
+
+
+
+
+
+
+
+
 
 - <i>filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.ERROR);</i> DispatcherType 설정으로 중복 호출 제거
 
