@@ -312,39 +312,42 @@ public class DispatcherTypeWebConfig implements WebMvcConfigurer {
 - 개발자는 오류 페이지 화면만 BasicErrorController 가 제공하는 룰과 우선순위에 따라서 등록
   - 정적 HTML 일 경우 정적 리소스, 뷰 템플릿을 사용한 동적 오류 화면일 경우 뷰 템플릿 경로에 오류 페이지 파일 생성
 
+.
 
+**BasicErrorController View 선택 우선순위**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-**BasicErrorController 의 View 선택 순서**
-
-1\. 뷰 템플릿
-
+.1. 뷰 템플릿
 - resources/templates/error/500.html
 - resources/templates/error/5xx.html
 
-2\. 정적 리소스( static , public )
-
+.2. 정적 리소스(static, public)
 - resources/static/error/400.html
 - resources/static/error/404.html
 - resources/static/error/4xx.html
 
-3\. 적용 대상이 없을 때 뷰 이름( error )
-
+.3. 적용 대상이 없을 때 뷰 이름(error)
 - resources/templates/error.html
+
+> 해당 경로 위치에 HTTP 상태 코드 이름의 뷰 파일을 넣어두자.
+>
+> 뷰 템플릿이 정적 리소스보다 우선순위가 높고, 
+> 
+> 404, 500 처럼 구체적인 것이 5xx처럼 덜 구체적인 것 보다 우선순위가 높다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### BasicErrorController
 
