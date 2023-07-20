@@ -293,37 +293,41 @@ public class DispatcherTypeWebConfig implements WebMvcConfigurer {
 컨트롤러(/error-page/500) ➔ View
 ```
 
+## 스프링 부트 오류 페이지 🌞
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## 🌞스프링 부트 오류 페이지
-
-개발자는 오류 페이지 화면만 BasicErrorController 가 제공하는 룰과 우선순위에 따라서 등록하면 끝!
-
-**Spring Boot 제공 오류 페이지**
-
-- ErrorPage 자동 등록
-
-  - /error 경로를 기본 오류 페이지를 설정
-  - ErrorMvcAutoConfiguration 클래스가 오류 페이지 자동 등록 역할
-
-- BasicErrorController 스프링 컨트롤러를 자동 등록
-
+스프링 부트는 서블릿 오류 페이지 호출에 필요했던 아래 복잡한 과정을 기본으로 제공
+- WebServerCustomizer 만들기
+- 예외 종류에 따라 ErrorPage 추가 ➔ ErrorPage 자동 등록
+  - `/error` 경로를 기본 오류 페이지로 설정
+  - 서블릿 밖으로 예외가 던져지거나, `response.sendError(...)` 호출 시 모든 오류는 `/error` 호출
+  - `ErrorMvcAutoConfiguration` 클래스가 오류 페이지를 자동으로 등록하는 역할
+- 예외 처리용 컨트롤러(ErrorPageController) 생성 ➔ 자동 등록(`BasicErrorController`)
   - ErrorPage 에서 등록한 /error 를 매핑해서 처리하는 컨트롤러
+
+.
+
+**BasicErrorController**
+
+- 기본적인 오류 페이지 로직이 모두 구현
+- 개발자는 오류 페이지 화면만 BasicErrorController 가 제공하는 룰과 우선순위에 따라서 등록
+  - 정적 HTML 일 경우 정적 리소스, 뷰 템플릿을 사용한 동적 오류 화면일 경우 뷰 템플릿 경로에 오류 페이지 파일 생성
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 **BasicErrorController 의 View 선택 순서**
 
