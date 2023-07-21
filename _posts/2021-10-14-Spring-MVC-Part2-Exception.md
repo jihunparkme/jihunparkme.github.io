@@ -410,78 +410,31 @@ public ResponseEntity<Map<String, Object>> errorPage500Api(HttpServletRequest re
   - 클라이언트가 요청하는 HTTP Header Accept 값이 application/json 일 때 해당 메서드 호출
 - ResponseEntity 는 메시지 컨버터가 동작하면서 클라이언트에게 JSON 구조로 변환하여 반환
 
-
-
-
-
-1\. 예외 발생
-
-```java
-@Slf4j
-@RestController
-public class ApiExceptionController {
-
-    @GetMapping("/api/members/{id}")
-    public MemberDto getMember(@PathVariable("id") String id) {
-
-        if (id.equals("ex")) {
-            throw new RuntimeException("잘못된 사용자");
-        }
-
-        return new MemberDto(id, "hello " + id);
-    }
-}
-```
-
-2\. 예외에 따른 오류 URL 처리
-
-```java
-@Component
-public class WebServerCustomizer implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
-
-    @Override
-    public void customize(ConfigurableWebServerFactory factory) {
-
-        ErrorPage errorPage404 = new ErrorPage(HttpStatus.NOT_FOUND, "/error-page/404"); //response.sendError(404)
-        ErrorPage errorPage500 = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error-page/500"); //response.sendError(500)
-
-        ErrorPage errorPageEx = new ErrorPage(RuntimeException.class, "/error-page/500"); // RuntimeException 또는 그 자식 타입의 예외
-
-        factory.addErrorPages(errorPage404, errorPage500, errorPageEx);
-    }
-}
-```
-
-3\. 오류 URL 선택
-
-```java
-@RequestMapping(value = "/error-page/500", produces = MediaType.APPLICATION_JSON_VALUE)
-public ResponseEntity<Map<String, Object>> errorPage500Api(
-        HttpServletRequest request, HttpServletResponse response) {
-
-    log.info("API errorPage 500");
-
-    Map<String, Object> result = new HashMap<>();
-    Exception ex = (Exception) request.getAttribute(ERROR_EXCEPTION);
-    result.put("status", request.getAttribute(ERROR_STATUS_CODE));
-    result.put("message", ex.getMessage());
-
-    Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-
-    return new ResponseEntity(result, HttpStatus.valueOf(statusCode));
-}
-
-@RequestMapping("/error-page/500")
-public String errorPage500(HttpServletRequest request, HttpServletResponse response) {
-    log.info("errorPage 500");
-    return "error-page/500";
-}
-```
-
 ## Spring Boot 기본 오류 처리
 
-- Spring Boot 는 기본 설정으로 오류 발생 시 `/error` 를 요류 페이지로 요청
-  - BasicErrorController 는 properties 의 `server.error.path` 를 기본 경로로 받음
+API 예외 처리도 스프링 부트가 제공하는 기본 오류 방식을 사용
+
+BasicErrorController 코드 일부
+
+```java
+// 클라이언트 요청의 Accept 해더 값이 text/html 인 경우 호출(view 제공)
+@RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
+public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) { ... }
+
+// 그외 경우에 호출(ResponseEntity 로 HTTP Body 에 JSON 데이터 반환)
+@RequestMapping
+public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) { ... }
+```
+
+- 스프링 부트의 기본 설정은 오류 발생시 `/error` 를 오류 페이지로 요청
+- `BasicErrorController` 는 `/error` 경로를 기본으로 받음.(`server.error.path` 로 수정 가능
+
+
+
+
+
+
+
 
 **BasicErrorController.java**
 
