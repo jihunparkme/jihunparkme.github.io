@@ -306,7 +306,7 @@ public class DispatcherTypeWebConfig implements WebMvcConfigurer {
 
 .
 
-**BasicErrorController**
+### BasicErrorController
 
 - 기본적인 오류 페이지 로직이 모두 구현
 - 개발자는 오류 페이지 화면만 BasicErrorController 가 제공하는 룰과 우선순위에 따라서 등록
@@ -334,24 +334,11 @@ public class DispatcherTypeWebConfig implements WebMvcConfigurer {
 > 
 > 404, 500 처럼 구체적인 것이 5xx처럼 덜 구체적인 것 보다 우선순위가 높다.
 
+.
 
+**BasicErrorController 제공 기본 정보**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-### BasicErrorController
-
-**BasicErrorController 는 기본 정보를 model에 담아 View 에 제공**
+- 기본 정보를 model 에 담아 View 에 전달
 
 ```console
 timestamp: Fri Feb 05 00:00:00 KST 2021
@@ -364,22 +351,38 @@ errors: Errors(BindingResult)
 trace: 예외 trace
 ```
 
-- message, exception, errors, trace 정보는 보안상 default 로 포함이 되어있지 않다
-- 오류 정보 포함을 위해 properties 설정 필요
+- `message`, `exception`, `errors`, `trace` 정보는 보안상 default 로 포함이 되어있지 않음
+  - properties 설정을 통해 오류 정보를 model 에 포함할지 여부 선택
+  ```properties
+  # exception 포함 여부(true, false)
+  server.error.include-exception=true
+  # message 포함 여부
+  server.error.include-message=always
+  # trace 포함 여부
+  server.error.include-stacktrace=always
+  # errors 포함 여부
+  server.error.include-binding-errors=always
+  ```
+  - `never`: 사용하지 않음
+  - `always`: 항상 사용
+  - `on_param`: 파라미터가 있을 때 해당 정보 노출
+    - HTTP 요청시 파라미터(?message=&errorsa=&trace=)를 전달하면 해당 정보들이 model 에 담겨 뷰 템플릿에 출력
+    - 운영 서버에서는 비권장
 
-```properties
-server.error.include-exception=true
-server.error.include-message=always
-server.error.include-stacktrace=always
-server.error.include-binding-errors=always
-```
+> 실무에서는 이 정보들을 노출하면 안되고, 사용자에게는 깔끔한 오류 페이지와 고객이 이해할 수 있는 간단한 오류 메시지를 보여주고,
+> 
+> 오류는 서버에 로그로 남겨서 로그로 확인하자.
 
-- never : 사용하지 않음
-- always : 항상 사용
-- on_param : 파라미터가 있을 때 사용
-  - ?message=&errors=&trace=
 
-`단, 실무에서 오류는 서버에 로그를 남겨서 확인하자!`
+
+
+
+
+
+
+
+
+
 
 **기능 확장 시**
 
