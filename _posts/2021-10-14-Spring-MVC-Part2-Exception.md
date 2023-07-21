@@ -392,26 +392,27 @@ server.error.path=/error
 
 > 스프링 부트 기본 제공 오류 페이지를 활용하면 오류 페이지 관련 대부분의 문제는 손쉽게 해결 가능하다.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # API 예외 처리
 
-- `produces = MediaType.APPLICATION_JSON_VALUE` 설정
-  - Client 가 요청하는 HTTP Header Accept 값이 application/json 일 때 해당 메서드가 호출
+`오류 페이지`는 단순히 고객에게 오류 화면을 보여주면 되지만, `API` 는 각 오류 상황에 맞는 오류 응답 스펙을 정하고, JSON으로 데이터를 응답해 주어야 한다.
+
+**produces 설정**
+
+```java
+@RequestMapping(value = "/error-page/500", produces = MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<Map<String, Object>> errorPage500Api(HttpServletRequest request, HttpServletResponse response) {
+    // ...
+    return new ResponseEntity(result, HttpStatus.valueOf(statusCode));
+}
+```
+
+- `produces = MediaType.APPLICATION_JSON_VALUE`
+  - 클라이언트가 요청하는 HTTP Header Accept 값이 application/json 일 때 해당 메서드 호출
+- ResponseEntity 는 메시지 컨버터가 동작하면서 클라이언트에게 JSON 구조로 변환하여 반환
+
+
+
+
 
 1\. 예외 발생
 
