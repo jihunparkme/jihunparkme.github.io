@@ -414,7 +414,7 @@ public ResponseEntity<Map<String, Object>> errorPage500Api(HttpServletRequest re
 
 API 예외 처리도 스프링 부트가 제공하는 기본 오류 방식을 사용
 
-BasicErrorController 코드 일부
+`BasicErrorController` 코드 일부
 
 ```java
 // 클라이언트 요청의 Accept 해더 값이 text/html 인 경우 호출(view 제공)
@@ -429,89 +429,121 @@ public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) { .
 - 스프링 부트의 기본 설정은 오류 발생시 `/error` 를 오류 페이지로 요청
 - `BasicErrorController` 는 `/error` 경로를 기본으로 받음.(`server.error.path` 로 수정 가능
 
-
-
-
-
-
-
-
-**BasicErrorController.java**
-
-```java
-@RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
-public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse
-response) {}
-
-@RequestMapping
-public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {}
-```
+> `BasicErrorController` 는 HTML 오류 페이지를 제공하는 경우 매우 편리
+>
+> 단, API 는 각 컨트롤러나 예외마다 서로 다른 응답 결과를 출력해야 하므로 `@ExceptionHandler` 사용 권장
 
 ## ExceptionResolver
 
-`컨트롤러에서 예외가 발생해도 ExceptionResolver 에서 예외를 처리`
+**HandlerExceptionResolver**
 
-- 예외 상태 코드 변환
+```java
+public interface HandlerExceptionResolver {
+    ModelAndView resolveException(
+        HttpServletRequest request, 
+        HttpServletResponse response, 
+        Object handler, // 핸들러(컨트롤러) 정보
+        Exception ex // 핸들러(컨트롤러)에서 발생한 예외
+    ); 
+}
+```
 
-  - 예외를 `response.sendError(xxx)` 호출로 변경 후 상태 코드에 따른 오류를 서블릿이 처리하도록 위임 (이후 WAS는 서블릿 오류 페이지를 찾아서 내부 호출)
-  - ex) 실제 서버에서는 500 에러가 발생하였지만 Client 에게는 4xx 코드 전달
-  - ExceptionResolver 로 예외를 해결해도 postHandle() 은 호출되지 않음
-
-- 뷰 템플릿 처리
-
-  - `ModelAndView` 를 채워서 예외에 따른 새로운 오류 화면을 뷰 렌더링하여 Client 에게 제공
-  - return new ModelAndView("error/400");
-
-- API 응답 처리
-  - HTTP Response Body 에 직접 데이터를 넣어서 전달
-  - `response.getWriter().write(result);`
-
-<center><img src="https://raw.githubusercontent.com/jihunparkme/jihunparkme.github.io/master/assets/img/posts/ExceptionResolver.jpg"></center>
-
-### HandlerExceptionResolver 기본
+- 스프링 MVC 는 컨트롤러(핸들러) 밖으로 예외가 던져진 경우 예외를 해결하고, 동작을 새로 정의할 수 있는 `HandlerExceptionResolver` 제공
+  - ExceptionResolver 적용 전 예외처리
+    ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/before-ExceptionResolver.png?raw=true 'Result')
+  - ExceptionResolver 적용 후 예외처리
+    ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/after-ExceptionResolver.png?raw=true 'Result')
+- ExceptionResolver 로 예외를 해결해도 postHandle() 호출 X
 
 **HandlerExceptionResolver Interface 구현**
 
 ```java
 @Slf4j
 public class MyHandlerExceptionResolver implements HandlerExceptionResolver {
-
+    /**
+     * ModelAndView 를 반환하는 이유는 try-catch 처럼 Exception 을 처리해서 정상 흐름처럼 변경하여 예외를 해결하는 것이 목적
+     */
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-
         try {
+            // IllegalArgumentException 발생 시 예외를 HTTP 상태 코드 400으로 전달
             if (ex instanceof IllegalArgumentException) {
                 log.info("IllegalArgumentException resolver to 400");
-                //예외를 HTTP 상태 코드 400으로 전달
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
-                 //1. 빈 ModelAndView 반환 시 뷰 렌더링을 하지 않고 정상 흐름으로 서블릿 반환
-                 //2. ModelAndView 에 View, Model 정보를 지정하여 반환하면 뷰 렌더링
-                 return new ModelAndView();
+                
+                //1. 빈 ModelAndView 반환 시 뷰 렌더링을 하지 않고 정상 흐름으로 서블릿 반환
+                //2. ModelAndView 에 View, Model 등의 정보를 지정하여 반환하면 뷰 렌더링
+                return new ModelAndView();
             }
         } catch (IOException e) {
             log.error("resolver ex", e);
         }
 
-        //3. null 반환 시
-        //다음 ExceptionResolver 찾아서 실행
+        //3. null 반환 시 다음 ExceptionResolver 찾아서 실행
         //처리 가능한 ExceptionResolver 가 없을 경우 기존 발생한 예외를 서블릿 밖으로 전달
         return null;
     }
 }
 ```
 
-**ExceptionResolver 등록**
+.
+
+**HandlerExceptionResolver 반환 값에 따른 DispatcherServlet 동작 방식**
+
+- `빈 ModelAndView`
+  - new ModelAndView() 처럼 빈 ModelAndView 를 반환하면 뷰를 렌더링 하지않고, 정상 흐름으로 서블릿이 리턴
+- `ModelAndView 지정`
+  - ModelAndView 에 View, Model 등의 정보를 지정해서 반환하면 뷰를 렌더링
+- `nul`
+  - null 을 반환하면, 다음 ExceptionResolver 를 찾아서 실행
+  - 만약 처리할 수 있는 ExceptionResolver 가 없으면 예외 처리가 안되고, 기존에 발생한 예외를 서블릿 밖으로 던짐
+
+.
+
+**ExceptionResolver 활용**
+
+컨트롤러에서 예외가 발생해도 ExceptionResolver 에서 예외를 처리
+
+- `예외 상태 코드 변환`
+  - 예외를 response.sendError(..) 호출로 변경해서 서블릿에서 상태 코드에 따른 오류를 처리하도록 위임
+  - 이후 WAS 는 서블릿 오류 페이지를 찾아서 내부 호출(default. /error)
+  - ex. 실제 서버에서는 500 에러가 발생하였지만 Client 에게는 4xx 코드 전달
+- `뷰 템플릿 처리`
+  - ModelAndView 에 값을 채워서 예외에 따른 새로운 오류 화면을 뷰 렌더링을 통해 고객에게 제공
+  - return new ModelAndView("error/400");
+- `API 응답 처리`
+  - response.getWriter().println("hello"); 처럼 HTTP 응답 바디에 직접 데이터를 넣어서 전달
+  - 여기에 JSON 으로 응답하면 API 응답 처리
+
+.
+
+**WebMvcConfigurer 에 등록**
 
 ```java
-@Configuration
-public class WebConfig implements WebMvcConfigurer {
-
-    @Override
-    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-        resolvers.add(new MyHandlerExceptionResolver());
-    }
+@Override
+public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+    resolvers.add(new MyHandlerExceptionResolver());
 }
 ```
+
+- `configureHandlerExceptionResolvers` 사용 시 스프링이 기본으로 등록하는 `ExceptionResolver` 가 제거되므로 `extendHandlerExceptionResolvers` 를 사용
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### HandlerExceptionResolver 활용
 
