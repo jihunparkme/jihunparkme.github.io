@@ -449,11 +449,11 @@ public interface HandlerExceptionResolver {
 ```
 
 - 스프링 MVC 는 컨트롤러(핸들러) 밖으로 예외가 던져진 경우 예외를 해결하고, 동작을 새로 정의할 수 있는 `HandlerExceptionResolver` 제공
-- **ExceptionResolver 적용 전 예외처리**
-  ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/before-ExceptionResolver.png?raw=true 'Result')
-- **ExceptionResolver 적용 후 예외처리**
-  ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/after-ExceptionResolver.png?raw=true 'Result')
-- ExceptionResolver 로 예외를 해결해도 postHandle() 호출 X
+  - **ExceptionResolver 적용 전 예외처리**
+    ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/before-ExceptionResolver.png?raw=true 'Result')
+  - **ExceptionResolver 적용 후 예외처리**
+    ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/after-ExceptionResolver.png?raw=true 'Result')
+- 참고. ExceptionResolver 로 예외를 해결해도 postHandle() 호출 X
 
 **HandlerExceptionResolver Interface 구현**
 
@@ -526,7 +526,7 @@ public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resol
 
 - `configureHandlerExceptionResolvers` 사용 시 스프링이 기본으로 등록하는 `ExceptionResolver` 가 제거되므로 `extendHandlerExceptionResolvers` 를 사용
 
-### ExceptionResolver 활용
+### ExceptionResolver 적용
 
 **Exception**
 
@@ -552,6 +552,11 @@ public class UserException extends RuntimeException {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }
+
+...
+
+// 예외 생성
+throw new UserException("사용자 오류");
 ```
 
 **HandlerExceptionResolver 구현**
@@ -603,11 +608,13 @@ public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resol
 }
 ```
 
+정리.
+
 > 컨트롤러에서 예외가 발생해도 ExceptionResolver 에서 예외를 처리
 > 
-> 예외가 발생해도 서블릿 컨테이너까지 예외가 전달되지 않고, 스프링 MVC 에서 예외 처리는 종료
+> 예외가 발생해도 서블릿 컨테이너까지 예외가 전달되지 않고(결과적으로 WAS 입장에서는 정상 처리)
 > 
-> 결과적으로 WAS 입장에서는 정상 처리
+> 스프링 MVC 에서 예외 처리는 종료
 
 
 
