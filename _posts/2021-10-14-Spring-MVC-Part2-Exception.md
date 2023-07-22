@@ -449,10 +449,10 @@ public interface HandlerExceptionResolver {
 ```
 
 - 스프링 MVC 는 컨트롤러(핸들러) 밖으로 예외가 던져진 경우 예외를 해결하고, 동작을 새로 정의할 수 있는 `HandlerExceptionResolver` 제공
-  - ExceptionResolver 적용 전 예외처리
-    ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/before-ExceptionResolver.png?raw=true 'Result')
-  - ExceptionResolver 적용 후 예외처리
-    ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/after-ExceptionResolver.png?raw=true 'Result')
+- **ExceptionResolver 적용 전 예외처리**
+  ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/before-ExceptionResolver.png?raw=true 'Result')
+- **ExceptionResolver 적용 후 예외처리**
+  ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring/after-ExceptionResolver.png?raw=true 'Result')
 - ExceptionResolver 로 예외를 해결해도 postHandle() 호출 X
 
 **HandlerExceptionResolver Interface 구현**
@@ -502,8 +502,6 @@ public class MyHandlerExceptionResolver implements HandlerExceptionResolver {
 
 **ExceptionResolver 활용**
 
-컨트롤러에서 예외가 발생해도 ExceptionResolver 에서 예외를 처리
-
 - `예외 상태 코드 변환`
   - 예외를 response.sendError(..) 호출로 변경해서 서블릿에서 상태 코드에 따른 오류를 처리하도록 위임
   - 이후 WAS 는 서블릿 오류 페이지를 찾아서 내부 호출(default. /error)
@@ -528,6 +526,88 @@ public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resol
 
 - `configureHandlerExceptionResolvers` 사용 시 스프링이 기본으로 등록하는 `ExceptionResolver` 가 제거되므로 `extendHandlerExceptionResolvers` 를 사용
 
+### ExceptionResolver 활용
+
+**Exception**
+
+```java
+public class UserException extends RuntimeException {
+    public UserException() {
+        super();
+    }
+
+    public UserException(String message) {
+        super(message);
+    }
+
+    public UserException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public UserException(Throwable cause) {
+        super(cause);
+    }
+
+    protected UserException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+}
+```
+
+**HandlerExceptionResolver 구현**
+
+```java
+@Slf4j
+public class UserHandlerExceptionResolver implements HandlerExceptionResolver {
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Override
+    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+        try {
+            if (ex instanceof UserException) {
+                log.info("UserException resolver to 400");
+                String acceptHeader = request.getHeader("accept");
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
+                // HTTP 요청 해더의 ACCEPT 값이 application/json 일 경우 JSON 응답
+                if ("application/json".equals(acceptHeader)) {
+                    Map<String, Object> errorResult = new HashMap<>();
+                    errorResult.put("ex", ex.getClass());
+                    errorResult.put("message", ex.getMessage());
+                    String result = objectMapper.writeValueAsString(errorResult);
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("utf-8");
+                    response.getWriter().write(result);
+
+                    return new ModelAndView();
+                } else { // 그 외의 경우에는 TEXT/HTML 오류 페이지 노출
+                    return new ModelAndView("error/500");
+                }
+            }
+        } catch (IOException e) {
+            log.error("resolver ex", e);
+        }
+
+        return null;
+    }
+}
+```
+
+**WebConfig 에 HandlerExceptionResolver 등록**
+
+```java
+@Override
+public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+    resolvers.add(new MyHandlerExceptionResolver());
+    resolvers.add(new UserHandlerExceptionResolver());
+}
+```
+
+> 컨트롤러에서 예외가 발생해도 ExceptionResolver 에서 예외를 처리
+> 
+> 예외가 발생해도 서블릿 컨테이너까지 예외가 전달되지 않고, 스프링 MVC 에서 예외 처리는 종료
+> 
+> 결과적으로 WAS 입장에서는 정상 처리
 
 
 
@@ -541,13 +621,6 @@ public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resol
 
 
 
-
-
-
-
-### HandlerExceptionResolver 활용
-
-[Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/034fb3bcfa609fc0e4d0b7b155a03b2a090963b7)
 
 ## Spring ExceptionResolver
 
