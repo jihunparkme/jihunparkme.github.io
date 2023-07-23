@@ -622,7 +622,8 @@ Spring Boot 기본적으로 제공하는 ExceptionResolver
 
 `HandlerExceptionResolverComposite` 에 아래 순서로 등록
 - `ExceptionHandlerExceptionResolver`
-  - @ExceptionHandler 처리. API 예외 처리는 대부분 이 기능으로 해결
+  - `@ExceptionHandler` 처리
+  - API 예외 처리는 대부분 이 기능으로 해결
 - `ResponseStatusExceptionResolver`
   - HTTP 상태 코드 변경
 - `DefaultHandlerExceptionResolver`
@@ -735,7 +736,6 @@ public ResponseEntity<ErrorResult> userExHandle(UserException e) {
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 @ExceptionHandler
 public ErrorResult exHandle(Exception e) {
-    log.error("[exceptionHandle] ex", e);
     return new ErrorResult("EX", "내부 오류");
 }
 
@@ -744,59 +744,63 @@ public ErrorResult exHandle(Exception e) {
  */
 @ExceptionHandler(ViewException.class)
 public ModelAndView ex(ViewException e) {
-    log.info("exception e", e);
     return new ModelAndView("error");
 }
 ```
 
+### @ControllerAdvice 🌞
 
+여러 컨트롤러에서 발생하는 오류를 모아서 처리
 
+- `@ExceptionHandler` 를 사용해서 예외를 깔끔하게 처리가 가능하지만, 정상 코드와 예외 처리 코드가 하나의 컨트롤러에 섞여 있는 단점이 존재
+- `@ControllerAdvice` 또는 `@RestControllerAdvice` 를 사용해서 분리해 보자.
 
+**`@ControllerAdvice`**
 
+```java
+@RestControllerAdvice
+public class ExControllerAdvice {
 
-
-
-
-
-
-
-
-
-
-#### @ControllerAdvice 🌞
-
-- 여러 컨트롤러에서 발생하는 오류를 모아서 처리
-- 대상으로 지정한 컨트롤러에 `@ExceptionHandler`, `@InitBinder` 기능 부여
-
-  - 대상을 지정하지 않으면 모든 컨트롤러에 적용
-
-    ```java
-    @Slf4j
-    @RestControllerAdvice
-    public class ExControllerAdvice {
-    // ..
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ErrorResult illegalExHandle(IllegalArgumentException e) {
+        return new ErrorResult("BAD", e.getMessage());
     }
-    ```
 
-  - 특정 컨트롤러에만 지정
+    @ExceptionHandler
+    public ResponseEntity<ErrorResult> userExHandle(UserException e) {
+        ErrorResult errorResult = new ErrorResult("USER-EX", e.getMessage());
+        return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
+    }
 
-    - 보통 패키지명 정도는 지정
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler
+    public ErrorResult exHandle(Exception e) {
+        return new ErrorResult("EX", "내부 오류");
+    }
+}
+```
 
+- 대상으로 지정한 여러 컨트롤러에 `@ExceptionHandler`, `@InitBinder` 기능을 부여
+  - [대상 컨트롤러 지정](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-advice.html) ➔ 보통 패키지명 정도 지정
     ```java
-    // Target all Controllers "annotated" with @RestController
+    // Target all Controllers annotated with @RestController
     @ControllerAdvice(annotations = RestController.class)
     public class ExampleAdvice1 {}
 
-    // Target all Controllers within "specific packages"
+    // Target all Controllers within specific packages
     @ControllerAdvice("org.example.controllers")
     public class ExampleAdvice2 {}
-
-    // Target all Controllers assignable to "specific classes"
+    
+    // Target all Controllers assignable to specific classes
     @ControllerAdvice(assignableTypes = {ControllerInterface.class, AbstractController.class})
     public class ExampleAdvice3 {}
     ```
+- @ControllerAdvice 에 대상을 지정하지 않으면 모든 컨트롤러에 적용(글로벌 적용)
+- `@RestControllerAdvice` 는 @ControllerAdvice 와 동일하고, @ResponseBody 가 추가
+  - @Controller, @RestController 차이와 동일
 
-[Reference](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-controller-advice)
+> @ExceptionHandler 와 @ControllerAdvice 를 조합하면 예외를 깔끔하게 해결 가능
 
 ### ResponseStatusExceptionResolver
 
