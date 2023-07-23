@@ -624,60 +624,113 @@ Spring Boot 기본적으로 제공하는 ExceptionResolver
 - `ExceptionHandlerExceptionResolver`
   - @ExceptionHandler 처리. API 예외 처리는 대부분 이 기능으로 해결
 - `ResponseStatusExceptionResolver`
-  - HTTP 상태 코드 지정
+  - HTTP 상태 코드 변경
 - `DefaultHandlerExceptionResolver`
   - 스프링 내부 기본 예외 처리
 
 ### ExceptionHandlerExceptionResolver 🌞
 
-- API 예외 처리 문제 해결을 위한 핸들러
+스프링은 API 예외 처리 문제를 해결하기 위해 `@ExceptionHandler` 를 사용한 편리한 예외 처리 기능 제공
+- 각 시스템마다 다른 응답 모양과 스펙
+- 예외에 따른 각기 다른 데이터 응답
+- 컨트롤러에 따라 다른 예외 응답
+- ModelAndView 가 아닌 Json 형태로 반환
+- 등.. 세밀한 제어 필요
 
-  - 같은 예외라도 컨트롤러마다 따라 각기 다른 예외 응답을 처리하는 세밀한 제어
-  - ModelAndView 가 아닌 Json 형태로 바로 반환
+.
 
-- `@ExceptionHandler`
+**`@ExceptionHandler` 예외 처리 방법**
 
-  - @ExceptionHandler 애노테이션에 해당 컨트롤러에서 처리하고 싶은 예외를 지정
-  - 해당 컨트롤러에서 특정 예외가 발생하면 이 메서드가 호출
-    - 지정한 예외 또는 그 예외의 자식 클래스를 모두 처리
+- @ExceptionHandler 선언 후 해당 컨트롤러에서 처리하고 싶은 예외 지정
+- 해당 컨트롤러에서 예외 발생 시 해당 메서드가 호출
+- 지정한 예외 또는 하위 자식 클래스 모두 처리
+  ```java
+  /**
+   * 부모, 자식 클래스 모두 지정되어 있을 경우 자세한 것이 우선권
+   */
+  @ExceptionHandler(부모예외.class)
+  public String 부모예외처리()(부모예외 e) {}
+  
+  @ExceptionHandler(자식예외.class)
+  public String 자식예외처리()(자식예외 e) {}
+  ```
+- 다양한 예외를 한 번에 처리 가능
+  ```java
+  @ExceptionHandler({AException.class, BException.class})
+  public String ex(Exception e) {
+      log.info("exception e", e);
+  }
+  ```
+- 예외 생략
+  ```java
+  /**
+   * 예외 생략 시 메서드 파라미터의 예외(UserException)가 지정
+   */
+  @ExceptionHandler
+  public ResponseEntity<ErrorResult> userExHandle(UserException e) {}
+  ```
+- 파라미터와 응답
+  - 다양한 파라미터와 응답 지정 가능
+  - [@ExceptionHandler's Method Arguments And Return Values](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-exceptionhandler.html#mvc-ann-exceptionhandler-args)
 
-- 동작 흐름
+.
 
-  1\. Controller 에서 Exception 발생
+**`@ExceptionHandler` 실행 흐름**
 
-  2\. `DispatcherServlet` 을 거쳐 `ExceptionResolver`가 동작하고 등록된 예외 처리 조회
+```java
+throw new IllegalArgumentException("잘못된 입력 값");
 
-  3\. 가장 먼저 `ExceptionHandlerExceptionResolver` 실행
+...
 
-  - 해당 Controller 에 발생한 예외를 처리할 수 있는 `@ExceptionHandler` 가 있는지 확인 후 호출
-  - Servlet Container 까지 내려가지 않고 정상 흐름으로 반환
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+@ExceptionHandler(IllegalArgumentException.class)
+public ErrorResult illegalExHandle(IllegalArgumentException e) {
+    return new ErrorResult("BAD", e.getMessage());
+}
+```
+
+- 컨트롤러 호출 결과로 예외(IllegalArgumentException)가 컨트롤러 밖으로 던져짐
+- DispatcherServlet 을 거쳐 예외 발생으로 `ExceptionResolver` 작동
+  - 가장 우선순위가 높은 `ExceptionHandlerExceptionResolver` 실행
+- `ExceptionHandlerExceptionResolver` 는 해당 컨트롤러에 `IllegalArgumentException` 을 처리할 수 있는 `@ExceptionHandler` 가 있는지 확인
+- `@ExceptionHandler` 선언 메서드 실행
+  - @RestController 이므로 @ResponseBody 적용 ➔ HTTP 컨버터가 사용되고 JSON 응답
+- @ResponseStatus(HttpStatus.BAD_REQUEST) 를 지정했으므로 HTTP 상태 코드 400 응답
+  - 서블릿 컨테이너까지 내려가지 않고 정상 흐름으로 반환
+
+.
+
+**상황에 따른 `@ExceptionHandler` 활용**
 
 ```java
 /**
  * 에외 처리용 클래스를 만들어서 사용하는 경우
  * 현재 Controller 에서 IllegalArgumentException 발생 시 호출
+ * 
+ * @ResponseStatus 는 애노테이션이므로 HTTP 응답 코드를 동적으로 변경 불가
  */
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 @ExceptionHandler(IllegalArgumentException.class)
 public ErrorResult illegalExHandle(IllegalArgumentException e) {
-    log.error("[exceptionHandle] ex", e);
     return new ErrorResult("BAD", e.getMessage());
 }
 
 /**
- * ResponseEntity 를 사용하는 경우
  * 현재 Controller 에서 UserException 발생 시 호출
- * (@ExceptionHandler 에 예외를 지정하지 않으면 해당 메서드 파라미터 예외를 사용한)
+ * 
+ * ResponseEntity 를 사용해서 HTTP 메시지 바디에 직접 응답(HTTP 컨버터 사용)
+ * HTTP 응답 코드를 프로그래밍해서 동적으로 변경 가능
  */
 @ExceptionHandler
 public ResponseEntity<ErrorResult> userExHandle(UserException e) {
-    log.error("[exceptionHandle] ex", e);
     ErrorResult errorResult = new ErrorResult("USER-EX", e.getMessage());
     return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
 }
 
 /**
- * 위에서 처리하지 못한 예외를 처리
+ * 현재 Controller 에서 RuntimeException(Exception 의 자식 클래스) 발생 시 호출
+ * 
+ * 처리되지 못한 남은 예외를 처리
  */
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 @ExceptionHandler
@@ -687,34 +740,28 @@ public ErrorResult exHandle(Exception e) {
 }
 
 /**
- * 다양한 예외 처리 (부모 예외를 파라미터로 사용)
+ * ModelAndView 를 사용해서 오류 화면(HTML) 응답
  */
-@ExceptionHandler({AException.class, BException.class})
-public String ex(Exception e) {
+@ExceptionHandler(ViewException.class)
+public ModelAndView ex(ViewException e) {
     log.info("exception e", e);
+    return new ModelAndView("error");
 }
 ```
 
-```java
-@Data
-@AllArgsConstructor
-public class ErrorResult {
-  private String code;
-  private String message;
-}
-```
 
-```java
-public class UserException extends RuntimeException {
-  //...
-}
-```
 
-[Code](https://github.com/jihunparkme/Inflearn_Spring_MVC_Part-2/commit/910b09204e9c0f93e60fbbc86167ebbb67bc9e17)
 
-**@ExceptionHandler's Method Arguments And Return Values**
 
-<https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-exceptionhandler-args>
+
+
+
+
+
+
+
+
+
 
 #### @ControllerAdvice 🌞
 
