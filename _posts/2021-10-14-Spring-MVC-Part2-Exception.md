@@ -629,7 +629,9 @@ Spring Boot 기본적으로 제공하는 ExceptionResolver
 - `DefaultHandlerExceptionResolver`
   - 스프링 내부 기본 예외 처리
 
-### ExceptionHandlerExceptionResolver 🌞
+### ExceptionHandler 🌞
+
+**ExceptionHandlerExceptionResolver**
 
 스프링은 API 예외 처리 문제를 해결하기 위해 `@ExceptionHandler` 를 사용한 편리한 예외 처리 기능 제공
 - 각 시스템마다 다른 응답 모양과 스펙
