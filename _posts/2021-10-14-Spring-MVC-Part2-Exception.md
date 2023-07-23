@@ -764,6 +764,10 @@ public class UserException extends RuntimeException {
 ```java
 @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "잘못된 요청 오류")
 public class BadRequestException extends RuntimeException { }
+
+...
+
+throw new BadRequestException();
 ```
 
 - 해당 예외가 컨트롤러 밖으로 넘어가면 ResponseStatusExceptionResolver 예외가 해당 애노테이션을 확인해서 `HTTP 상태 코드를 변경`(HttpStatus.BAD_REQUEST(400))하고, 메시지 포함
@@ -776,10 +780,7 @@ public class BadRequestException extends RuntimeException { }
 **ResponseStatusException 예외**
 
 ```java
-@GetMapping("/api/response-status-ex2")
-public String responseStatusEx2() {
-    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "error.bad", new IllegalArgumentException());
-}
+throw new ResponseStatusException(HttpStatus.NOT_FOUND, "error.bad", new IllegalArgumentException());
 ```
 
 - 직접 변경할 수 없는 예외에 `ResponseStatusException` 적용
@@ -787,15 +788,16 @@ public String responseStatusEx2() {
 
 ### DefaultHandlerExceptionResolver
 
-- 스프링 내부에서 발생하는 스프링 예외를 해결
+- 스프링 내부에서 발생하는 스프링 예외 처리
+  - 스프링 내부 오류를 어떻게 처리할지에 대한 많은 내용이 정의
 - `TypeMismatchException` 으로 발생하는 500 오류를 `DefaultHandlerExceptionResolver` 가 400 오류로 변경
 
-**DefaultHandlerExceptionResolver.java**
+**DefaultHandlerExceptionResolver.handleTypeMismatch**
 
 ```java
-protected ModelAndView handleTypeMismatch(TypeMismatchException ex,
-    HttpServletRequest request, HttpServletResponse response, @Nullable Object handler) throws IOException {
-
+protected ModelAndView handleTypeMismatch(TypeMismatchException ex, HttpServletRequest request, HttpServletResponse response, @Nullable Object handler) throws IOException {
+  // response.sendError() 를 통해 문제 해결.
+  // sendError(400) 를 호출했으므로 WAS 에서 다시 오류 페이지(/error) 내부 요청
   response.sendError(HttpServletResponse.SC_BAD_REQUEST);
   return new ModelAndView();
 }
