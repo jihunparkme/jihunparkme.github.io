@@ -616,32 +616,19 @@ public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resol
 > 
 > 스프링 MVC 에서 예외 처리는 종료
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Spring ExceptionResolver
 
-**Spring Boot 기본적으로 제공하는 ExceptionResolver**
+Spring Boot 기본적으로 제공하는 ExceptionResolver
 
-- `HandlerExceptionResolverComposite` 에 아래 순서로 등록
+`HandlerExceptionResolverComposite` 에 아래 순서로 등록
+- `ExceptionHandlerExceptionResolver`
+  - @ExceptionHandler 처리. API 예외 처리는 대부분 이 기능으로 해결
+- `ResponseStatusExceptionResolver`
+  - HTTP 상태 코드 지정
+- `DefaultHandlerExceptionResolver`
+  - 스프링 내부 기본 예외 처리
 
-1\. `ExceptionHandlerExceptionResolver`
-
-2\. `ResponseStatusExceptionResolver`
-
-3\. `DefaultHandlerExceptionResolver`
-
-### 🌞ExceptionHandlerExceptionResolver
+### ExceptionHandlerExceptionResolver 🌞
 
 - API 예외 처리 문제 해결을 위한 핸들러
 
@@ -729,7 +716,7 @@ public class UserException extends RuntimeException {
 
 <https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-exceptionhandler-args>
 
-#### 🌞@ControllerAdvice
+#### @ControllerAdvice 🌞
 
 - 여러 컨트롤러에서 발생하는 오류를 모아서 처리
 - 대상으로 지정한 컨트롤러에 `@ExceptionHandler`, `@InitBinder` 기능 부여
@@ -766,27 +753,37 @@ public class UserException extends RuntimeException {
 
 ### ResponseStatusExceptionResolver
 
-- 예외에 따라 HTTP 상태 코드 지정 역할
-- 메시지 기능 제공
-- response.sendError() 를 호출했기 때문에 WAS에서 다시 오류 페이지(/error)를 내부 요청
-- @ResponseStatus
+예외에 따라 HTTP 상태 코드 지정
+- `@ResponseStatus` 가 달려있는 예외
+- `ResponseStatusException` 예외
 
-  ```java
-  @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "잘못된 요청 오류")
-  public class BadRequestException extends RuntimeException {
-  }
-  ```
+.
 
-- ResponseStatusException
+**@ResponseStatus 예외**
 
-  - 개발자가 직접 변경할 수 없는 예외에 적용
+```java
+@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "잘못된 요청 오류")
+public class BadRequestException extends RuntimeException { }
+```
 
-  ```java
-  @GetMapping("/api/response-status-ex2")
-  public String responseStatusEx2() {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "error.bad", new IllegalArgumentException());
-  }
-  ```
+- 해당 예외가 컨트롤러 밖으로 넘어가면 ResponseStatusExceptionResolver 예외가 해당 애노테이션을 확인해서 `HTTP 상태 코드를 변경`(HttpStatus.BAD_REQUEST(400))하고, 메시지 포함
+  - ResponseStatusExceptionResolver 에서 response.sendError(statusCode, resolvedReason) 호출
+- sendError(400) 호출로 WAS 에서 다시 `오류 페이지`(/error) `내부 요청`
+- reason 을 MessageSource 에서 찾는 `메세지 기능` 제공 ➔ `reason = "error.bad"`
+
+`
+
+**ResponseStatusException 예외**
+
+```java
+@GetMapping("/api/response-status-ex2")
+public String responseStatusEx2() {
+    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "error.bad", new IllegalArgumentException());
+}
+```
+
+- 직접 변경할 수 없는 예외에 `ResponseStatusException` 적용
+  - @ResponseStatus 는 애노테이션을 사용하므로 직접 (조건에 따라 동적으로)변경할 수 없는 예외에는 적용 불가
 
 ### DefaultHandlerExceptionResolver
 
