@@ -459,7 +459,7 @@ Timeout trying to lock table {0}; SQL statement:
   - JDBC 구현 기술이 서비스 계층에 누수되는 문제
 - **[예외 누수 문제](https://jihunparkme.github.io/Spring-DB-Part1/#java-excaption)**
   - 데이터 접근 계층의 JDBC 구현 기술 예외가 서비스 계층으로 전파
-- **[JDBC 반복 문제]((https://jihunparkme.github.io/Spring-DB-Part1/#jdbc-repetitive-problem))**
+- **[JDBC 반복 문제]((https://jihunparkme.github.io/Spring-DB-Part1/#spring-exception))**
   - try, catch, finally .. 유사한 코드의 반복
 
 ---
