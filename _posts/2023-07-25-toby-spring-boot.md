@@ -61,3 +61,15 @@ featured-img: toby-spring-boot
   - 해당 디렉토리에서 특정 버전의 java 사용 ➔ `sdk use java {id}`
 - [jabba](https://github.com/shyiko/jabba)
   - Java 버전 관리자
+
+.
+
+**API Test Method**
+
+- 웹 브라우저 개발자 도구 - Network
+- curl
+- [HTTPie](https://httpie.io/)
+- Intellij IDEA Ultimate- http request
+- [Postman API Platform](https://www.postman.com/)
+- JUnit Test
+- 각종 API 테스트 도구
