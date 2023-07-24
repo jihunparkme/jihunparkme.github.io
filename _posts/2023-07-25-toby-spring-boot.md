@@ -49,3 +49,15 @@ featured-img: toby-spring-boot
 - 스프링 부트는 각 라이브러리의 버전마다 사용할 기술의 종류 선정
   - 사전 검증된 추천 기술, 라이브러리 구성, 의존 관계와 적용 버전, 세부 구성(DI)과 디폴트 설정 등 제공
   - 디폴트 구성을 커스터마이징 할 수 있는 유연한 방법 제공
+
+## Start to Develop
+
+**`JDK`**
+
+- [SDK-MAN(The Software Development Kit Manager)](https://sdkman.io/)
+  - Unix 기반 시스템에서 여러 소프트웨어 개발 키트의 병렬 버전을 관리하기 위한 도구
+  - java 버전 확인 ➔ `sdk list java`
+  - 특정 identifier 설치 ➔ `sdk install java {id}`
+  - 해당 디렉토리에서 특정 버전의 java 사용 ➔ `sdk use java {id}`
+- [jabba](https://github.com/shyiko/jabba)
+  - Java 버전 관리자
