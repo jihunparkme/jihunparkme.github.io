@@ -75,3 +75,25 @@ featured-img: toby-spring-boot
 - [Postman API Platform](https://www.postman.com/)
 - JUnit Test
 - ...
+
+.
+
+**HTTP Request and Response**
+
+```http
+❯ http -v ":8080/hello?name=Spring"
+GET /hello?name=Spring HTTP/1.1
+Accept: */* --> 클라이언트가 선호하는 미디어 타입
+Accept-Encoding: gzip, deflate --> 클라이언트가 선호하는 압축 인코딩
+Connection: keep-alive
+Host: localhost:8080
+User-Agent: HTTPie/3.2.1
+
+HTTP/1.1 200
+Connection: keep-alive
+Content-Length: 12
+Content-Type: text/plain;charset=UTF-8 --> 표현 데이터의 형식
+Date: Thu, 01 Dec 2022 01:45:15 GMT
+Keep-Alive: timeout=60
+Hello Spring
+```
