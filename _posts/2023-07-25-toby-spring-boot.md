@@ -34,6 +34,8 @@ featured-img: toby-spring-boot
 - 독립실행형(standalone) 자바 애플리케이션으로 동작
   - main 메서드 실행만으로 Servlet Container 관련 모든 필요 작업이 수행
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/Containerless.png?raw=true 'Result')
+
 .
 
 **`Opinionated Tool`**
@@ -72,4 +74,4 @@ featured-img: toby-spring-boot
 - Intellij IDEA Ultimate- http request
 - [Postman API Platform](https://www.postman.com/)
 - JUnit Test
-- 각종 API 테스트 도구
+- ...
