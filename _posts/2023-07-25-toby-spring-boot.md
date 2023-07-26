@@ -124,11 +124,13 @@ ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
 			servletContext.addServlet("hello", new HttpServlet() {
 				@Override
 				protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-					resp.setStatus(200);
-					resp.setHeader("Content-Type", "text/plain");
-					resp.getWriter().println("Hello Servlet");
+					String name = req.getParameter("name");
+
+					resp.setStatus(HttpStatus.OK.value());
+					resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
+					resp.getWriter().println("hello " + name);
 				}
-			}).addMapping("/hello");
+			}).addMapping("/servlet/hello");
 		});
 		webServer.start();
 ```
