@@ -139,6 +139,9 @@ ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
 
 - 여러 요청을 처리하는데 반복적으로 등장하는 공통 작업을 하나의 오브젝트에서 일괄적으로 처리하게 만드는 방식
 - 모든 요청, 혹은 일정 패턴을 가진 요청을 하나의 서블릿이 담당하도록 매핑
+- 프론트 컨트롤러의 두 가지 중요한 기능은 매핑과 바인딩
+  - 매핑:프론트 컨트롤러가 HTTP 요청을 처리할 핸들러를 결정하고 연동하는 작업
+  - 바인딩: 핸들러에게 웹 요청 정보를 추출하고 의미있는 오브젝트에 담아서 전달하는 작업
 - 프론트 컨트롤러로 전환
   ```java
   ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
@@ -170,3 +173,5 @@ ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
 		});
 		webServer.start();
   ```
+
+  ## Standalone Spring Application
