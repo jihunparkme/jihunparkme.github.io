@@ -139,3 +139,30 @@ ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
 
 - 여러 요청을 처리하는데 반복적으로 등장하는 공통 작업을 하나의 오브젝트에서 일괄적으로 처리하게 만드는 방식
 - 모든 요청, 혹은 일정 패턴을 가진 요청을 하나의 서블릿이 담당하도록 매핑
+- 프론트 컨트롤러로 전환
+  ```java
+  ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
+		WebServer webServer = serverFactory.getWebServer(servletContext -> {
+			servletContext.addServlet("frontController", new HttpServlet() {
+				@Override
+				protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+					// 인증, 보안, 다국어, 공통 기능 ..
+					if (req.getRequestURI().equals("/servlet/hello") && req.getMethod().equals(HttpMethod.GET.name())) {
+						String name = req.getParameter("name");
+
+						resp.setStatus(HttpStatus.OK.value());
+						resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
+						resp.getWriter().println("hello " + name);
+					}
+					else if (req.getRequestURI().equals("/user")) {
+
+					}
+				 	else {
+						resp.setStatus(HttpStatus.NOT_FOUND.value());
+					}
+
+				}
+			}).addMapping("/*");
+		});
+		webServer.start();
+  ```
