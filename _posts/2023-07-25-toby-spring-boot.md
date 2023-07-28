@@ -174,4 +174,20 @@ ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
 		webServer.start();
   ```
 
-  ## Standalone Spring Application
+## Standalone Spring Application
+
+스프링 컨테이너는 애플리케이션 로직이 담긴 평범한 자바 오브젝트(POJO)와 구성 정보(Configuration Metadata)를 런타임에 조합해서 동작하는 최종 애플리케이션을 생성
+
+```java
+// 스프링 컨테이너 생성
+GenericApplicationContext applicationContext = new GenericApplicationContext(); 
+// 빈 오브젝트 클래스 정보 등록
+applicationContext.registerBean(HelloController.class); 
+// 구성 정보로 컨테이너 초기화(빈 오브젝트를 직접 생성)
+applicationContext.refresh(); 
+
+...
+
+// 컨테이너가 관리하는 빈 오브젝트 획득
+HelloController helloController = applicationContext.getBean(HelloController.class); 
+```
