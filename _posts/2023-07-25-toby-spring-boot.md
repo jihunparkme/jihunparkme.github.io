@@ -219,3 +219,34 @@ HelloController helloController = applicationContext.getBean(HelloController.cla
 - 컨트롤러 메소드의 리턴값을 웹 요청의 바디에 적용하도록 @ResponseBody 선언
   - 그렇지 않으면 String 타입의 응답은 뷰 이름으로 해석하고 Thymeleaf 같은 뷰 템플릿을 탐색(이 경우 404 에러 발생)
   - @RestController 는 @ResponseBody 를 포함하고 있으므로 메소드 레벨의  @ResponseBody 를 넣지 않아도 적용된 것처럼 동작
+  ```java
+  @RequestMapping("/hello")
+  public class HelloController {
+      ...
+      @GetMapping
+      @ResponseBody
+      public String hello(String name) {
+          return helloService.sayHello(Objects.requireNonNull(name));
+      }
+  }
+  ```
+
+**스프링 컨테이너로 통합**
+- 스프링 컨테이너의 초기화 작업 중에 호출되는 훅 메소드에 서블릿 컨테이너(톰캣)을 초기화하고 띄우는 코드 삽입
+
+```java
+GenericWebApplicationContext applicationContext = new GenericWebApplicationContext() {
+    @Override
+    protected void onRefresh() {
+        super.onRefresh();
+
+        ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
+        WebServer webServer = serverFactory.getWebServer(servletContext -> {
+            servletContext.addServlet("dispatcherServlet",
+                    new DispatcherServlet(this)
+            ).addMapping("/*");
+        });
+        webServer.start();
+    }
+}; 
+```
