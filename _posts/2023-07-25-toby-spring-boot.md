@@ -206,5 +206,8 @@ HelloController helloController = applicationContext.getBean(HelloController.cla
   - 생성된 오브젝트가 사용할 다른 의존 오브젝트가 있다면 의존성 주입
   - 의존성 주입 방법으로는 생성자 주입, 팩터리 메서드 등 존재
 
+**DispatcherServlet**
 
-
+- 스프링은 프론트 컨트롤러와 같은 역할을 담당하는 DispatcherServlet 을 가지고 있다.
+- DispatcherServlet 은 서블릿으로 등록되어서 동작하면서, 스프링 컨테이너를 이용해서 요청을 전달할 핸들러인 컨트롤러 오브젝트를 가져와 사용
+- DispatcherServlet 이 사용하는 스프링 컨테이너는 GenericWebApplicationContext 를 이용해서 작성
