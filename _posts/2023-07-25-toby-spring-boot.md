@@ -211,3 +211,11 @@ HelloController helloController = applicationContext.getBean(HelloController.cla
 - 스프링은 프론트 컨트롤러와 같은 역할을 담당하는 DispatcherServlet 을 가지고 있다.
 - DispatcherServlet 은 서블릿으로 등록되어서 동작하면서, 스프링 컨테이너를 이용해서 요청을 전달할 핸들러인 컨트롤러 오브젝트를 가져와 사용
 - DispatcherServlet 이 사용하는 스프링 컨테이너는 GenericWebApplicationContext 를 이용해서 작성
+
+**애노테이션 매핑 정보**
+
+- DispatcherServlet 은 스프링 컨테이너에 등록된 빈 클래스에 있는 매핑 애노테이션 정보를 참고해서 웹 요청을 전달할 오브젝트와 메소드를 선정
+- 클래스 레벨의 @RequestMapping 과 메소드 레벨의 @GetMapping 두 가지의 정보를 조합해서 매핑에 사용할 최종 정보 생성
+- 컨트롤러 메소드의 리턴값을 웹 요청의 바디에 적용하도록 @ResponseBody 선언
+  - 그렇지 않으면 String 타입의 응답은 뷰 이름으로 해석하고 Thymeleaf 같은 뷰 템플릿을 탐색(이 경우 404 에러 발생)
+  - @RestController 는 @ResponseBody 를 포함하고 있으므로 메소드 레벨의  @ResponseBody 를 넣지 않아도 적용된 것처럼 동작
