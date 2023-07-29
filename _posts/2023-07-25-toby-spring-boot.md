@@ -191,3 +191,20 @@ applicationContext.refresh();
 // 컨테이너가 관리하는 빈 오브젝트 획득
 HelloController helloController = applicationContext.getBean(HelloController.class); 
 ```
+
+스프링 컨테이너는 `싱글톤 레지스트리`라고도 불린다.
+- 싱글톤 패턴과 유사하게 애플리케이션이 동작하는 동안 단 하나의 오브젝트만을 만들고 사용되도록 지원
+
+**Dependency Injection**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/assembler.png?raw=true 'Result')
+
+- `DI`를 위해 N개의 오브젝트(인터페이스 구현체)가 동적으로 의존관계를 가지도록 도와주는 `어셈블러`가 필요
+- `스프링 컨테이너`(어셈블러)는 DI를 가능하도록 도와주는 `어셈블러`로 동작
+  - 의존관계가 없는 클래스들의 오브젝트로 서로 관계를 연결시켜주고 사용할 수 있도록 설정
+- 스프링 컨데이너는 메타 정보를 가지고 클래스에 싱글톤 오브젝트를 생성
+  - 생성된 오브젝트가 사용할 다른 의존 오브젝트가 있다면 의존성 주입
+  - 의존성 주입 방법으로는 생성자 주입, 팩터리 메서드 등 존재
+
+
+
