@@ -263,3 +263,11 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
   - @Controller 는 @Component를 메타 애노테이션으로
   - 이 경우 @RestController 는 @Component 애노테이션이 붙은 것과 같은 효과
   - @RestController 가 붙은 경우 DispatcherServlet 의 매핑 정보 탐색 대상이 되므로 클래스 레벨에 매핑 애노테이션(@RequestMapping) 불필요
+  ```java
+  @Target(ElementType.TYPE)
+  @Retention(RetentionPolicy.RUNTIME)
+  @Documented
+  @Controller
+  @ResponseBody
+  public @interface RestController {
+  ```
