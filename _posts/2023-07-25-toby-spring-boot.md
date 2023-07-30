@@ -250,3 +250,16 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
     }
 }; 
 ```
+
+**@Component Scan**
+
+- 클래스에 애노테이션을 선언하고, 이를 스캔해서 스프링 컨테이너의 빈으로 자동 등록
+  - 애플리케이션의 메인 클래스에는 @ComponentScan 선언
+  - 등록 대상이 될 클래스에는 @Component 선언
+  - @Component 는 메타 애노테이션으로 가지고 있는 애노테이션도 사용 가능
+    - @Controller, @RestController, @Service 등..
+- @RestController
+  - @RestController 는 @Controller 를 메타 애노테이션으로 가지고 있고, 
+  - @Controller 는 @Component를 메타 애노테이션으로
+  - 이 경우 @RestController 는 @Component 애노테이션이 붙은 것과 같은 효과
+  - @RestController 가 붙은 경우 DispatcherServlet 의 매핑 정보 탐색 대상이 되므로 클래스 레벨에 매핑 애노테이션(@RequestMapping) 불필요
