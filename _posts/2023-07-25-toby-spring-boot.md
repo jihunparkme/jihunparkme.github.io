@@ -9,6 +9,13 @@ featured-img: toby-spring-boot
 
 # Spring Boot
 
+토비님의 [토비의 스프링 부트 - 이해와 원리](https://www.inflearn.com/course/%ED%86%A0%EB%B9%84-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-%EC%9D%B4%ED%95%B4%EC%99%80%EC%9B%90%EB%A6%AC/dashboard) 강의 노트
+
+[Project](https://github.com/jihunparkme/inflearn-toby-spring-boot)
+
+---
+
+
 [Spring Boot Documentation](https://spring.io/projects/spring-boot)
 
 > 스프링 부트는 **스프링 기반**으로 실무 환경에 사용 가능한 수준의 **독립실행형 애플리케이션**을 
