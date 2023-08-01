@@ -314,3 +314,22 @@ public DispatcherServlet dispatcherServlet() {
   a custom init-method definition,
   postProcessAfterInitialization methods of BeanPostProcessors
   ```
+
+  ## TEST
+
+  **TestRestTemplate**
+
+  - 웹 서버에 HTTP 요청을 보내고 응답을 받아서 검증하는 테스트에서는 `TestRestTemplate` 를 사용해 보자.
+    ```java
+    @Test
+    void hello() {
+        TestRestTemplate restTemplate = new TestRestTemplate();
+
+        ResponseEntity<String> res =
+                restTemplate.getForEntity("http://localhost:8080/hello?name={name}", String.class, "Spring");
+
+        assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(res.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE).startsWith(MediaType.TEXT_PLAIN_VALUE)).isTrue();
+        assertThat(res.getBody().trim()).isEqualTo("Hello Spring");
+    }
+    ```
