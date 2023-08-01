@@ -276,5 +276,41 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
   @Documented
   @Controller
   @ResponseBody
-  public @interface RestController {
+  public @interface RestController {}
+  ```
+
+**Bean의 생명주기 메소드**
+
+```java
+/** 
+ * @Bean 메소드에서 독립적으로 생성
+ * 
+ * DispatcherServlet 이 필요로 하는 WebApplicationContext 타입 컨테이너 오브젝트는 -> dispatcherServlet.setApplicationContext(this);
+ * 스프링 컨테이너의 빈 생애주기 메소드를 이용해서 주입 빋게 된다.
+ */
+@Bean
+public DispatcherServlet dispatcherServlet() {
+    return new DispatcherServlet();
+}
+```
+
+- DispatcherServlet 은 `ApplicationContextAware` 라는 스프링 컨테이너를 setter 메소드로 주입해주는 메소드를 가진 인터페이스를 구현
+- 이러한 `생애주기 빈 메소드`를 가진 빈이 등록되면 스프링은 자신을 직접 주입
+- `빈 생애주기 메소드`를 통해 주입되는 오브젝트는 스프링 컨테이너가 스스로 빈으로 등록해서 빈으로 가져와 사용할 수도 있도록 지원
+- 그밖에 스프링이 제공하는 생애주기 메소드
+  ```text
+  BeanNameAware's setBeanName,
+  BeanClassLoaderAware's setBeanClassLoader,
+  BeanFactoryAware's setBeanFactory,
+  EnvironmentAware's setEnvironment,
+  EmbeddedValueResolverAware's setEmbeddedValueResolver,
+  ResourceLoaderAware's setResourceLoader (only applicable when running in an application context),
+  ApplicationEventPublisherAware's setApplicationEventPublisher (only applicable when running in an application context),
+  MessageSourceAware's setMessageSource (only applicable when running in an application context),
+  ApplicationContextAware's setApplicationContext (only applicable when running in an application context),
+  ServletContextAware's setServletContext (only applicable when running in a web application context),
+  postProcessBeforeInitialization methods of BeanPostProcessors,
+  InitializingBean's afterPropertiesSet,
+  a custom init-method definition,
+  postProcessAfterInitialization methods of BeanPostProcessors
   ```
