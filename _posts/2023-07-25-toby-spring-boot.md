@@ -349,13 +349,16 @@ void helloController() {
 
 **Decorator Pattern and Proxy Pattern**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/proxy-pattern.png?raw=true 'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/decorator-pattern.png?raw=true 'Result')
 
 - Decorator Pattern
   - 기존 코드에 동적으로 책임을 추가할 때 사용하는 패턴
   - 오브젝트 합성 구조로 확장이 가능하도록 설계
   - DI를 적용해서 의존관계를 런타임에 주입할 수 있다면 의존 오브젝트와 동일한 인터페이스를 구현한 확장기능(데코레이터)을 동적으로 추가 가능
   - 재귀적인 구조로 여러 개의 책임을 부가하는 것도 가능
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/proxy-pattern.png?raw=true 'Result')
+
 - Proxy Pattern
   - 프록시는 다른 오브젝트의 대리자 혹은 플레이스 홀더 역할
   - 프록시는 리모트 오브젝트에 대한 로컬 접근이 가능하게 하거나, 필요가 있을 때만 대상 오브젝트를 생성
