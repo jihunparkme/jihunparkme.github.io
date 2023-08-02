@@ -315,21 +315,34 @@ public DispatcherServlet dispatcherServlet() {
   postProcessAfterInitialization methods of BeanPostProcessors
   ```
 
-  ## TEST
+## TEST
 
-  **TestRestTemplate**
+**TestRestTemplate**
 
-  - 웹 서버에 HTTP 요청을 보내고 응답을 받아서 검증하는 테스트에서는 `TestRestTemplate` 를 사용해 보자.
-    ```java
-    @Test
-    void hello() {
-        TestRestTemplate restTemplate = new TestRestTemplate();
+- 웹 서버에 HTTP 요청을 보내고 응답을 받아서 검증하는 테스트에서는 `TestRestTemplate` 를 사용해 보자.
+```java
+@Test
+void hello() {
+    TestRestTemplate restTemplate = new TestRestTemplate();
 
-        ResponseEntity<String> res =
-                restTemplate.getForEntity("http://localhost:8080/hello?name={name}", String.class, "Spring");
+    ResponseEntity<String> res =
+            restTemplate.getForEntity("http://localhost:8080/hello?name={name}", String.class, "Spring");
 
-        assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(res.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE).startsWith(MediaType.TEXT_PLAIN_VALUE)).isTrue();
-        assertThat(res.getBody().trim()).isEqualTo("Hello Spring");
-    }
-    ```
+    assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(res.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE).startsWith(MediaType.TEXT_PLAIN_VALUE)).isTrue();
+    assertThat(res.getBody().trim()).isEqualTo("Hello Spring");
+}
+```
+
+**단위 테스트**
+
+- 의존 오브젝트가 있는 경우, 테스트가 실행되는 동안에 수행될 최소한의 기능을 가진 의존 오브젝트 코드를 테스트용으로 만들어서 사용
+
+```java
+@Test
+void helloController() {
+    HelloController helloController = new HelloController(name -> name);
+    String ret = helloController.hello("Test");
+    Assertions.assertThat(ret).isEqualTo("Test");
+}
+```
