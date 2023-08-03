@@ -453,3 +453,56 @@ public String[] selectImports(AnnotationMetadata importingClassMetadata) {
 - @MyAutoConfiguration 애노테이션 생성
 - `tobyspring.config.MyAutoConfiguration.imports` 파일을 `META-INF/spring` 폴더 아래 생성
 - selectImports() 에서 파일에 작성된 클래스 정보를 가져와 컨테이너에 등록시킬 @Configuration 클래스 목록 저장
+
+**@Configuration 동작 방식**
+
+```java
+@Configuration(proxyBeanMethods = false)
+```
+
+- `proxyBeanMethods = true` (default, 스프링 5.2 버전부터 지원)
+  - true 일 경우, @Configuration 클래스는 CGLib 를 이용해서 프록시 클래스로 확장 후 @Bean 이 붙은 메소드의 동작 방식을 변경
+  - @Bean 메소드를 직접 호출해서 다른 빈의 의존 관계를 설정할 때 여러번 호출되더라도 싱글톤 빈처럼 참조할 수 있도록 매번 같은 오브젝트를 리턴
+    ```java
+    /**
+     * Spring 은 하나의 빈을 두 개 이상의 다른 빈에서 의존하고 있을 경우,
+     * Factory Method 호출 시마다 새로운 빈이 생성되는 문제를 해결하기 위해
+     * @Configuration class 는 기본적으로 proxy 를 만들어서 기능 확장
+     * (proxyBeanMethods = true)
+     */
+    static class MyConfigProxy extends MyConfig {
+        private Common common;
+
+        @Override
+        Common common() {
+            if (this.common == null) {
+                this.common = super.common();
+            }
+
+            return this.common;
+        }
+    }
+
+    ...
+
+    @Configuration
+    static class MyConfig {
+        @Bean
+        Common common() {
+            return new Common();
+        }
+
+        @Bean
+        Bean1 bean1() {
+            return new Bean1(common());
+        }
+
+        @Bean
+        Bean2 bean2() {
+            return new Bean2(common());
+        }
+    }
+    ```
+- 단, @Bean 메소드 직접 호출로 빈 의존관계 주입을 하지 않는다면 굳이 복잡한 프록시를 생성할 할 필요가 없음
+  - 이 경우 `proxyBeanMethods = false` 로 지정해 보자.
+  - @Bean 메소드는 평범한 팩토리 메소드처럼 동작
