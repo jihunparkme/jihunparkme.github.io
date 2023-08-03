@@ -412,3 +412,27 @@ public @interface RestController {
 - 스프링 컨테이너의 기능을 확장해서 빈 등록과 생성, 관계설정, 초기화 등의 작업에 참여하는 빈
 - 컨테이너가 직접 만들고 사용하는 빈이므로 애플리케이션 빈과 구분
 - 필요한 경우 주입 받아서 활용 가능
+
+**자동 구성 정보 동적 등록**
+
+```java
+public interface ImportSelector {
+    String[] selectImports(AnnotationMetadata importingClassMetadata);
+    ...
+}
+
+...
+
+public class MyAutoConfigImportSelector implements DeferredImportSelector {
+    @Override
+    public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+        return new String[] {
+                "tobyspring.config.autoconfig.DispatcherServletConfig",
+                "tobyspring.config.autoconfig.TomcatWebServerConfig"
+        };
+    }
+}
+```
+
+- `ImportSelector` 구현 클래스를 @Import 해주면 `selectImports` 가 리턴하는 클래스 이름으로 @Configuration 클래스를 찾아서 구성 정보로 사용
+- @import 대상을 외부에서 코드로 가져오고 선택할 수 있는 동적인 방법 제공
