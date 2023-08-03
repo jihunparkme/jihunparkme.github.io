@@ -436,3 +436,20 @@ public class MyAutoConfigImportSelector implements DeferredImportSelector {
 
 - `ImportSelector` 구현 클래스를 @Import 해주면 `selectImports` 가 리턴하는 클래스 이름으로 @Configuration 클래스를 찾아서 구성 정보로 사용
 - @import 대상을 외부에서 코드로 가져오고 선택할 수 있는 동적인 방법 제공
+
+**자동 구성 정보 파일 분리**
+
+```java
+@Override
+public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+    ArrayList<Object> autoConfigs = new ArrayList<>();
+
+    ImportCandidates.load(MyAutoConfiguration.class, classLoader).forEach(autoConfigs::add);
+
+    return autoConfigs.toArray(new String[0]);
+}
+```
+
+- @MyAutoConfiguration 애노테이션 생성
+- `tobyspring.config.MyAutoConfiguration.imports` 파일을 `META-INF/spring` 폴더 아래 생성
+- selectImports() 에서 파일에 작성된 클래스 정보를 가져와 컨테이너에 등록시킬 @Configuration 클래스 목록 저장
