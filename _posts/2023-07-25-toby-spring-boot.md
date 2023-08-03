@@ -363,3 +363,35 @@ void helloController() {
   - 프록시는 다른 오브젝트의 대리자 혹은 플레이스 홀더 역할
   - 프록시는 리모트 오브젝트에 대한 로컬 접근이 가능하게 하거나, 필요가 있을 때만 대상 오브젝트를 생성
   - 보안이나 접속 제어 등에 사용
+
+## Auto Configuration
+
+**Meta-annotation**
+
+```java
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Component // Meta Annotation
+public @interface Service {
+}
+```
+
+- 애노테이션에 적용한 애노테이션
+- 스프링은 메타 애노테이션의 효력을 적용
+
+**Composed-annotation**
+
+```java
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Controller // Meta Annotation
+@ResponseBody // Meta Annotation
+public @interface RestController {
+...
+}
+```
+
+- 하나 이상의 메타 애노테이션이 적용된 애노테이션
+- 모든 메타 애노테이션이 적용된 것과 동일한 효과
