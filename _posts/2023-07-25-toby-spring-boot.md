@@ -395,3 +395,20 @@ public @interface RestController {
 
 - 하나 이상의 메타 애노테이션이 적용된 애노테이션
 - 모든 메타 애노테이션이 적용된 것과 동일한 효과
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/bean-object.png?raw=true 'Result')
+
+**Application Logic Bean**
+- 애플리케이션의 `비즈니스 로직`을 담고 있는 빈
+- `컴포넌트 스캐너`에 의해서 빈 구성 정보가 생성되고 빈 오브젝트로 등록
+- ex. HelloController, HelloDecorator ..
+
+**Application Infrastructure Bean**
+- 스프링 부트에서 `자동 구성 정보`에 의해 컨테이너에 등록되는 빈
+- 애플리케이션이 동작하는데 꼭 필요한 기술 기반을 제공하는 빈
+- ex. ServletWebServerFactory, DispatcherServlet..
+
+**Container Infrastructure(Infra) Bean**
+- 스프링 컨테이너의 기능을 확장해서 빈 등록과 생성, 관계설정, 초기화 등의 작업에 참여하는 빈
+- 컨테이너가 직접 만들고 사용하는 빈이므로 애플리케이션 빈과 구분
+- 필요한 경우 주입 받아서 활용 가능
