@@ -506,3 +506,51 @@ public String[] selectImports(AnnotationMetadata importingClassMetadata) {
 - 단, @Bean 메소드 직접 호출로 빈 의존관계 주입을 하지 않는다면 굳이 복잡한 프록시를 생성할 할 필요가 없음
   - 이 경우 `proxyBeanMethods = false` 로 지정해 보자.
   - @Bean 메소드는 평범한 팩토리 메소드처럼 동작
+
+## 조건부 자동 구성
+
+**Spring Boot AutoConfiguration**
+
+```java
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Configuration(proxyBeanMethods = false)
+@AutoConfigureBefore
+@AutoConfigureAfter
+public @interface AutoConfiguration {
+  ...
+}
+```
+
+META-INF.spring.`org.springframework.boot.autoconfigure.AutoConfiguration.imports`
+- 약 144 개의 autoConfiguration 이 Spring Boot 기본 등록
+
+[Spring Boot application starters](https://docs.spring.io/spring-boot/docs/2.7.14/reference/html/using.html#using.build-systems.starters)
+
+**@Conditional과 Condition**
+
+```java
+/**
+ * 스프링 4.0에 추가된 애노테이션으로 모든 조건을 만족하는 경우에만 컨테이너에 빈으로 등록
+ */
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface Conditional {
+    Class<? extends Condition>[] value();
+}
+
+...
+
+/**
+ *  @Conditional 에 지정되어서 구체적인 매칭 조건을 가진 클래스가 구현해야할 인터페이스
+ */
+@FunctionalInterface
+public interface Condition {
+    boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata);
+}
+```
+
+- `@Conditional`은 @Configuration 클래스와 @Bean 메소드에 적용 가능
+- 클래스 조건을 만족하지 못하는 경우 메소드는 무시
