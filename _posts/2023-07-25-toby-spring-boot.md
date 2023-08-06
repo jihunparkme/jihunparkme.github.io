@@ -610,3 +610,5 @@ public ServletWebServerFactory servletWebServerFactory() {
     return new TomcatServletWebServerFactory();
 }
 ```
+
+[자동 구성 정보 대체하기](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/88040a3c503dfc9edeb11040eea56c83c94642a5)
