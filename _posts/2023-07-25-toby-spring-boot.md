@@ -572,3 +572,8 @@ static class BooleanCondition implements Condition {
 - `@Conditional`은 @Configuration 클래스와 @Bean 메소드에 적용 가능
 - 클래스 조건을 만족하지 못하는 경우 메소드는 무시
 - [@Conditional Test](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/9beeb972cbfdc12bbaced3cdeb7daae404444b61)
+
+**Costume @Conditional**
+- `@Conditional` 의 가장 대표적인 방법은 클래스 존재 확인
+- 어떤 기술의 클래스를 애플리케이션이 사용하도록 포함시켰다면, 이 기술을 사용할 의도가 있다는 것으로 보고 관련 자동 구성 클래스를 등록
+- [Costume @Conditional](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/3fa7d3d3aac944089f2054916751c36bd0cab5f0)
