@@ -550,7 +550,25 @@ public @interface Conditional {
 public interface Condition {
     boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata);
 }
+
+...
+
+/**
+ * Condition interface 구현체
+ */
+static class BooleanCondition implements Condition {
+    /**
+     *  @Conditional 애노테이션의 엘리먼트 정보를 가져올 수 있는 AnnotatedTypeMetadata 전달
+     */
+    @Override
+    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        Map<String, Object> annotationAttributes = metadata.getAnnotationAttributes(BooleanConditional.class.getName());
+        Boolean value = (Boolean) annotationAttributes.get("value");
+        return value;
+    }
+}
 ```
 
 - `@Conditional`은 @Configuration 클래스와 @Bean 메소드에 적용 가능
 - 클래스 조건을 만족하지 못하는 경우 메소드는 무시
+- [@Conditional Test](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/9beeb972cbfdc12bbaced3cdeb7daae404444b61)
