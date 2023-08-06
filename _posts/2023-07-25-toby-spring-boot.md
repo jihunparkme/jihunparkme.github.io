@@ -577,3 +577,36 @@ static class BooleanCondition implements Condition {
 - `@Conditional` 의 가장 대표적인 방법은 클래스 존재 확인
 - 어떤 기술의 클래스를 애플리케이션이 사용하도록 포함시켰다면, 이 기술을 사용할 의도가 있다는 것으로 보고 관련 자동 구성 클래스를 등록
 - [Costume @Conditional](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/3fa7d3d3aac944089f2054916751c36bd0cab5f0)
+
+**자동 구성 정보 대체**
+
+- 자동 구성 정보는 다음의 과정으로 등록
+  - imports 파일에서 자동 구성 정보 클래스 후보 로딩
+  - @Conditional 조건 체크를 통해 선택된 클래스가 빈으로 등록
+
+```java
+/**
+ * 자동 구성으로 등록되는 빈과 동일한 타입의 빈을 직접 정의(@Configuration/@Bean)하는 경우,
+ * 직접 정의 빈 구성이 자동 구성을 대체
+ */
+@Configuration(proxyBeanMethods = false)
+public class WebServerConfiguration {
+    @Bean ServletWebServerFactory customerWebServerFactory() {
+        TomcatServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
+        serverFactory.setPort(9090);
+        return serverFactory;
+    }
+}
+
+...
+
+/**
+ * 자동 구성 클래스의 @Bean 메소드에 @ConditionalOnMissingBean 이 정의된 경우,
+ * 유저 구성에 지정한 타입의 빈이 정의되어있으면 자동 구성 빈의 조건이 충족되지 않아 등록되지 않음.
+ */
+@Bean("tomcatWebServerFactory")
+@ConditionalOnMissingBean
+public ServletWebServerFactory servletWebServerFactory() {
+    return new TomcatServletWebServerFactory();
+}
+```
