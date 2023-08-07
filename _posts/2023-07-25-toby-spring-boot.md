@@ -706,3 +706,30 @@ public ServletWebServerFactory servletWebServerFactory() {
   • 스프링 SpEL(스프링 표현식) 처리 결과 기준으로 판단
   • 매우 상세한 조건 설정 가능
   ```
+
+## 외부 설정을 이용한 자동 구성
+
+**스프링의 Environment 추상화**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/spring-environment-abstraction.png?raw=true 'Result')
+
+```java
+Environment.getProperty("property.name")
+```
+
+Environment 타입의 오브젝트를 가져와서 프로퍼티 이름을 제공하여 설정값 조회
+
+- 프로퍼티 우선순위
+  - ServletConfig Parameters
+  - ServletContext Parameters
+  - JNDI
+  - System Properties
+  - System Environment Variables
+  - @PropertySource
+  - xml, yml
+- 제공되는 프로퍼티 이름을 변형해서 확인
+  - property.name
+  - property_name
+  - PROPERTY.NAME
+  - PROPERTY_NAME
+
