@@ -727,7 +727,7 @@ Environment 타입의 오브젝트를 가져와서 프로퍼티 이름을 제공
   - System Environment Variables
   - @PropertySource
   - xml, yml
-- 제공되는 프로퍼티 이름을 변형해서 확인
+- 제공되는 프로퍼티 이름을 변형해서 설정값 탐색
   - property.name
   - property_name
   - PROPERTY.NAME
