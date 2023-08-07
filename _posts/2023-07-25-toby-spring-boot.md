@@ -649,3 +649,60 @@ public ServletWebServerFactory servletWebServerFactory() {
 
 **`Spring Boot @Conditional`**
 
+스프링 부트의 자동 구성은 다양한 @Conditional 을 이용.
+
+**Class Conditions**
+- `@ConditionalOnClass`
+- `@ConditionalOnMissingClass`
+  ```text  
+  • 프로젝트 내 지정한 클래스의 존재를 확인해서 포함 여부 결정
+  • 주로 @Configuration 을 클래스 레벨에서 사용하지만, @Bean 메소드에도 적용 가능
+  • (단, 클래스 레벨의 검증 없이 @Bean 메소드에만 적용하면 불필요한 @Configuration 클래스가 빈으로 등록되기 때문에 클래스 레벨 사용을 우선)
+  ```
+
+**Bean Conditions**
+- `@ConditionalOnBean`
+- `@ConditionalOnMissingBean`
+  ```text
+  • 빈의 존재 여부를 기준으로 포함 여부 결정
+  • 빈의 타입 또는 이름을 지정할 수 있고, 지정된 빈 정보가 없으면 메소드의 리턴 타입을 기준으로 빈 존재 여부 체크
+  • 컨테이너에 등록된 빈 정보를 기준으로 체크하기 때문에 자동 구성 사이에 적용하려면 @Configuration 클래스의 적용 순서가 중요
+  • 개발자가 직접 정의한 커스텀 빈 구성 정보가 자동 구성 정보 처리보다 우선하기 때문에 이 관계에 적용하는 것은 안전하지만, 반대로 커스톰 빈 구성 정보에 적용하는 건 피하자.
+  ```
+
+> @Configuration 클래스 레벨의 `@ConditionalOnClass`
+> 
+> @Bean 메소드 레벨의 `@ConditionalOnMissingBean`
+> 
+> 조합은 가장 대표적으로 사용되는 방식
+> 
+> 클래스 존재로 해당 기술 사용 여부 확인 → 커스텀 빈 구성 존재를 확인해서 자동 구성의 빈 오브젝트를 이용할지 최종 결정
+
+**Property Conditions**
+- `@ConditionalOnProperty`
+  ```text
+  • 스프링의 환경 프로퍼티 정보를 이용
+  • 지정된 프로퍼티가 존재하고 값이 false 가 아니면 포함 대상
+  • 특정 값을 가진 경우를 확인하거나 프로퍼티가 존재하지 않을 때 조건을 만족하도록 설정 가능
+  • 프로퍼티의 존재를 확인해서 빈 오브젝트를 추가하고, 해당 빈 오브젝트에서 프로퍼티 값을 이용해서 세밀하게 빈 구성 가능
+  ```
+**Resource Conditions**
+- `@ConditionalOnResource`
+  ```text
+  • 지정된 리소스(파일) 존재 확인
+  ```
+
+**Web Application Conditions**
+- `@ConditionalOnWebApplication`
+- `@ConditionalOnNotWebApplication`
+  ```text
+  • 웹 애플리케이션 여부 확인
+  • ex. 웹 기술을 사용하지 않는 배치
+  ```
+
+**SpEL Expression Conditions**
+- `@ConditionalOnExpression`
+  ```text
+  • 스프링 SpEL(스프링 표현식) 처리 결과 기준으로 판단
+  • 매우 상세한 조건 설정 가능
+  ```
