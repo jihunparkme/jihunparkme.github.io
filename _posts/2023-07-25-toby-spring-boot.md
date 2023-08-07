@@ -73,7 +73,7 @@ featured-img: toby-spring-boot
 
 .
 
-**API Test Method**
+**`API Test Method`**
 
 - 웹 브라우저 개발자 도구 - Network
 - curl
@@ -85,7 +85,7 @@ featured-img: toby-spring-boot
 
 .
 
-**HTTP Request and Response**
+**`HTTP Request and Response`**
 
 ```http
 ❯ http -v ":8080/hello?name=Spring"
@@ -107,7 +107,7 @@ Hello Spring
 
 ## Standalone Servlet Application
 
-**Start Servlet Container**
+**`Start Servlet Container`**
 
 ```java
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
@@ -123,7 +123,9 @@ public class HellobootApplication {
 }
 ```
 
-**Register Servlet in ServletContext**
+.
+
+**`Register Servlet in ServletContext`**
 
 ```java
 ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
@@ -142,7 +144,9 @@ ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
 		webServer.start();
 ```
 
-**Front Controller Pattern**
+.
+
+**`Front Controller Pattern`**
 
 - 여러 요청을 처리하는데 반복적으로 등장하는 공통 작업을 하나의 오브젝트에서 일괄적으로 처리하게 만드는 방식
 - 모든 요청, 혹은 일정 패턴을 가진 요청을 하나의 서블릿이 담당하도록 매핑
@@ -202,7 +206,9 @@ HelloController helloController = applicationContext.getBean(HelloController.cla
 스프링 컨테이너는 `싱글톤 레지스트리`라고도 불린다.
 - 싱글톤 패턴과 유사하게 애플리케이션이 동작하는 동안 단 하나의 오브젝트만을 만들고 사용되도록 지원
 
-**Dependency Injection**
+.
+
+**`Dependency Injection`**
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/assembler.png?raw=true 'Result')
 
@@ -213,13 +219,17 @@ HelloController helloController = applicationContext.getBean(HelloController.cla
   - 생성된 오브젝트가 사용할 다른 의존 오브젝트가 있다면 의존성 주입
   - 의존성 주입 방법으로는 생성자 주입, 팩터리 메서드 등 존재
 
-**DispatcherServlet**
+.
+
+**`DispatcherServlet`**
 
 - 스프링은 프론트 컨트롤러와 같은 역할을 담당하는 DispatcherServlet 을 가지고 있다.
 - DispatcherServlet 은 서블릿으로 등록되어서 동작하면서, 스프링 컨테이너를 이용해서 요청을 전달할 핸들러인 컨트롤러 오브젝트를 가져와 사용
 - DispatcherServlet 이 사용하는 스프링 컨테이너는 GenericWebApplicationContext 를 이용해서 작성
 
-**애노테이션 매핑 정보**
+.
+
+**`애노테이션 매핑 정보`**
 
 - DispatcherServlet 은 스프링 컨테이너에 등록된 빈 클래스에 있는 매핑 애노테이션 정보를 참고해서 웹 요청을 전달할 오브젝트와 메소드를 선정
 - 클래스 레벨의 @RequestMapping 과 메소드 레벨의 @GetMapping 두 가지의 정보를 조합해서 매핑에 사용할 최종 정보 생성
@@ -238,7 +248,9 @@ HelloController helloController = applicationContext.getBean(HelloController.cla
   }
   ```
 
-**스프링 컨테이너로 통합**
+.
+
+**`스프링 컨테이너로 통합`**
 - 스프링 컨테이너의 초기화 작업 중에 호출되는 훅 메소드에 서블릿 컨테이너(톰캣)을 초기화하고 띄우는 코드 삽입
 
 ```java
@@ -258,7 +270,9 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
 }; 
 ```
 
-**@Component Scan**
+.
+
+**`@Component Scan`**
 
 - 클래스에 애노테이션을 선언하고, 이를 스캔해서 스프링 컨테이너의 빈으로 자동 등록
   - 애플리케이션의 메인 클래스에는 @ComponentScan 선언
@@ -279,7 +293,9 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
   public @interface RestController {}
   ```
 
-**Bean의 생명주기 메소드**
+.
+
+**`Bean의 생명주기 메소드`**
 
 ```java
 /** 
@@ -317,7 +333,7 @@ public DispatcherServlet dispatcherServlet() {
 
 ## TEST
 
-**TestRestTemplate**
+**`TestRestTemplate`**
 
 - 웹 서버에 HTTP 요청을 보내고 응답을 받아서 검증하는 테스트에서는 `TestRestTemplate` 를 사용해 보자.
 ```java
@@ -334,7 +350,9 @@ void hello() {
 }
 ```
 
-**단위 테스트**
+.
+
+**`단위 테스트`**
 
 - 의존 오브젝트가 있는 경우, 테스트가 실행되는 동안에 수행될 최소한의 기능을 가진 의존 오브젝트 코드를 테스트용으로 만들어서 사용
 
@@ -347,7 +365,9 @@ void helloController() {
 }
 ```
 
-**Decorator Pattern and Proxy Pattern**
+.
+
+**`Decorator Pattern and Proxy Pattern`**
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/decorator-pattern.png?raw=true 'Result')
 
@@ -366,7 +386,7 @@ void helloController() {
 
 ## Auto Configuration
 
-**Meta-annotation**
+**`Meta-annotation`**
 
 ```java
 @Target(ElementType.TYPE)
@@ -380,7 +400,7 @@ public @interface Service {
 - 애노테이션에 적용한 애노테이션
 - 스프링은 메타 애노테이션의 효력을 적용
 
-**Composed-annotation**
+**`Composed-annotation`**
 
 ```java
 @Target(ElementType.TYPE)
@@ -413,7 +433,9 @@ public @interface RestController {
 - 컨테이너가 직접 만들고 사용하는 빈이므로 애플리케이션 빈과 구분
 - 필요한 경우 주입 받아서 활용 가능
 
-**자동 구성 정보 동적 등록**
+.
+
+**`자동 구성 정보 동적 등록`**
 
 ```java
 public interface ImportSelector {
@@ -437,7 +459,9 @@ public class MyAutoConfigImportSelector implements DeferredImportSelector {
 - `ImportSelector` 구현 클래스를 @Import 해주면 `selectImports` 가 리턴하는 클래스 이름으로 @Configuration 클래스를 찾아서 구성 정보로 사용
 - @import 대상을 외부에서 코드로 가져오고 선택할 수 있는 동적인 방법 제공
 
-**자동 구성 정보 파일 분리**
+.
+
+**`자동 구성 정보 파일 분리`**
 
 ```java
 @Override
@@ -454,7 +478,9 @@ public String[] selectImports(AnnotationMetadata importingClassMetadata) {
 - `tobyspring.config.MyAutoConfiguration.imports` 파일을 `META-INF/spring` 폴더 아래 생성
 - selectImports() 에서 파일에 작성된 클래스 정보를 가져와 컨테이너에 등록시킬 @Configuration 클래스 목록 저장
 
-**@Configuration 동작 방식**
+.
+
+**`@Configuration 동작 방식`**
 
 ```java
 @Configuration(proxyBeanMethods = false)
@@ -509,7 +535,7 @@ public String[] selectImports(AnnotationMetadata importingClassMetadata) {
 
 ## 조건부 자동 구성
 
-**Spring Boot AutoConfiguration**
+**`Spring Boot AutoConfiguration`**
 
 ```java
 @Target(ElementType.TYPE)
@@ -528,7 +554,9 @@ META-INF.spring.`org.springframework.boot.autoconfigure.AutoConfiguration.import
 
 [Spring Boot application starters](https://docs.spring.io/spring-boot/docs/2.7.14/reference/html/using.html#using.build-systems.starters)
 
-**@Conditional과 Condition**
+.
+
+**`@Conditional과 Condition`**
 
 ```java
 /**
@@ -573,12 +601,16 @@ static class BooleanCondition implements Condition {
 - 클래스 조건을 만족하지 못하는 경우 메소드는 무시
 - [@Conditional Test](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/9beeb972cbfdc12bbaced3cdeb7daae404444b61)
 
-**Costume @Conditional**
+.
+
+**`Costume @Conditional`**
 - `@Conditional` 의 가장 대표적인 방법은 클래스 존재 확인
 - 어떤 기술의 클래스를 애플리케이션이 사용하도록 포함시켰다면, 이 기술을 사용할 의도가 있다는 것으로 보고 관련 자동 구성 클래스를 등록
 - [Costume @Conditional](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/3fa7d3d3aac944089f2054916751c36bd0cab5f0)
 
-**자동 구성 정보 대체**
+.
+
+**`자동 구성 정보 대체`**
 
 - 자동 구성 정보는 다음의 과정으로 등록
   - imports 파일에서 자동 구성 정보 클래스 후보 로딩
@@ -612,3 +644,8 @@ public ServletWebServerFactory servletWebServerFactory() {
 ```
 
 [자동 구성 정보 대체하기](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/88040a3c503dfc9edeb11040eea56c83c94642a5)
+
+.
+
+**`Spring Boot @Conditional`**
+
