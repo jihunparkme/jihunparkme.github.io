@@ -747,3 +747,21 @@ public ServletWebServerFactory servletWebServerFactory(Environment env) {
 
 - 자동 구성 클래스의 메소드에 `Environment` 를 주입 받아서 빈 속성으로 지정할 프로퍼티 값을 가져올 수 있음
 - [commit](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/b15b94d95760907e6b82f5ac25664ea8dfa023a4)
+
+**@Value**
+
+- `@Value` 는 element 로 placeholder(치환자)를 지정하고 컨테이너 초기화시 프로퍼티 값으로 이를 대체
+- 치환자를 프로퍼티 값으로 교체하려면 `PropertySourcesPlaceholderConfigurer` 타입의 빈 등록 필요
+  - 팩토리의 후처리기로 동작해서 초기 구성 정보에서 치환자를 찾아서 교체하는 기능 담당
+- [commit](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/eba19682f56e0bef2c65277ee5f2642b30039592)
+
+
+```java
+@MyAutoConfiguration
+public class PropertyPlaceholderConfig {
+    @Bean
+    PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+}
+```
