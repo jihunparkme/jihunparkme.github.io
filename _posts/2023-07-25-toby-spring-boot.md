@@ -733,3 +733,17 @@ Environment 타입의 오브젝트를 가져와서 프로퍼티 이름을 제공
   - PROPERTY.NAME
   - PROPERTY_NAME
 
+**자동 구성에 Environment 프로퍼티 적용**
+
+```java
+@Bean("tomcatWebServerFactory")
+@ConditionalOnMissingBean
+public ServletWebServerFactory servletWebServerFactory(Environment env) {
+  TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
+  factory.setContextPath(env.getProperty("contextPath"));
+  return factory;
+}
+```
+
+- 자동 구성 클래스의 메소드에 `Environment` 를 주입 받아서 빈 속성으로 지정할 프로퍼티 값을 가져올 수 있음
+- [commit](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/b15b94d95760907e6b82f5ac25664ea8dfa023a4)
