@@ -765,3 +765,10 @@ public class PropertyPlaceholderConfig {
     }
 }
 ```
+
+**프로퍼티 클래스의 분리**
+- [commit](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/7afaa43a4863deddeff0b8864a5df455f61154ad)
+- [commit - using Spring Binder](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/6025ef6c61ddc1034fdf58d119f7ab1760172669)
+
+**프로퍼티 빈의 후처리기 도입**
+- [commit](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/042ece85949d5e1cecdc6a30458ba9482b73fee2)
