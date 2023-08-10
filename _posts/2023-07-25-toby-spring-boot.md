@@ -795,9 +795,8 @@ public class PropertyPlaceholderConfig {
 
 **`DataSource 자동 구성 클래스`**
 
-- [commit](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/f50531f4dafd31b42f04a7988f44713b561fbf2e)
-
-
-application.properties 파일 등록은 스프링 프레임워크 기본 동작 방식은 아니고 스프링 부트 초기화 과정에서 추가해주는 것. 자동으로 포함이 안 되므로 
-@TestPropertySource("classpath:/application.properties")
-로 properties 정보를 읽어오도록
+- @TestPropertySource
+  - application.properties 파일 등록은 스프링 프레임워크 기본 동작 방식이 아님
+  - 스프링 부트 초기화 과정에서 추가해 주는 것이므로 테스트에서 별도 추가 필요
+  - @TestPropertySource("classpath:/application.properties") 로 properties 정보를 읽어오도록 설정
+- [DataSource 자동 구성 클래스 - commit](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/f50531f4dafd31b42f04a7988f44713b561fbf2e)
