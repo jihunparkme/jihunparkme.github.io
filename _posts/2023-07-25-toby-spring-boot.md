@@ -772,3 +772,13 @@ public class PropertyPlaceholderConfig {
 
 **프로퍼티 빈의 후처리기 도입**
 - [commit](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/042ece85949d5e1cecdc6a30458ba9482b73fee2)
+
+## Spring JDBC 자동 구성 구현
+
+**자동 구성 클래스와 빈 설계**
+- 새로운 기술의 자동 구성 클래스를 작성할 경우 자동 구성 클래스에 적용할 조건과 만들어지는 빈 오브젝트 종류 등을 먼저 설계
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/dataSourceConfig.png?raw=true 'Result')
+
+- 두 개의 DataSource 구현 클래스를 조건에 따라 등록
+  - DataSourceProperties 프로퍼티 클래스 이용
