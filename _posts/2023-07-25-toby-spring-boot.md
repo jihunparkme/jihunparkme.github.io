@@ -709,7 +709,7 @@ public ServletWebServerFactory servletWebServerFactory() {
 
 ## 외부 설정을 이용한 자동 구성
 
-**스프링의 Environment 추상화**
+**`스프링의 Environment 추상화`**
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/spring-environment-abstraction.png?raw=true 'Result')
 
@@ -733,7 +733,9 @@ Environment 타입의 오브젝트를 가져와서 프로퍼티 이름을 제공
   - PROPERTY.NAME
   - PROPERTY_NAME
 
-**자동 구성에 Environment 프로퍼티 적용**
+.
+
+**`자동 구성에 Environment 프로퍼티 적용`**
 
 ```java
 @Bean("tomcatWebServerFactory")
@@ -748,7 +750,9 @@ public ServletWebServerFactory servletWebServerFactory(Environment env) {
 - 자동 구성 클래스의 메소드에 `Environment` 를 주입 받아서 빈 속성으로 지정할 프로퍼티 값을 가져올 수 있음
 - [commit](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/b15b94d95760907e6b82f5ac25664ea8dfa023a4)
 
-**@Value**
+.
+
+**`@Value`**
 
 - `@Value` 는 element 로 placeholder(치환자)를 지정하고 컨테이너 초기화시 프로퍼티 값으로 이를 대체
 - 치환자를 프로퍼티 값으로 교체하려면 `PropertySourcesPlaceholderConfigurer` 타입의 빈 등록 필요
@@ -766,19 +770,34 @@ public class PropertyPlaceholderConfig {
 }
 ```
 
-**프로퍼티 클래스의 분리**
+.
+
+**`프로퍼티 클래스의 분리`**
 - [commit](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/7afaa43a4863deddeff0b8864a5df455f61154ad)
 - [commit - using Spring Binder](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/6025ef6c61ddc1034fdf58d119f7ab1760172669)
 
-**프로퍼티 빈의 후처리기 도입**
+.
+
+**`프로퍼티 빈의 후처리기 도입`**
 - [commit](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/042ece85949d5e1cecdc6a30458ba9482b73fee2)
 
 ## Spring JDBC 자동 구성 구현
 
-**자동 구성 클래스와 빈 설계**
+**`자동 구성 클래스와 빈 설계`**
 - 새로운 기술의 자동 구성 클래스를 작성할 경우 자동 구성 클래스에 적용할 조건과 만들어지는 빈 오브젝트 종류 등을 먼저 설계
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/dataSourceConfig.png?raw=true 'Result')
 
 - 두 개의 DataSource 구현 클래스를 조건에 따라 등록
   - DataSourceProperties 프로퍼티 클래스 이용
+
+.
+
+**`DataSource 자동 구성 클래스`**
+
+- [commit](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/f50531f4dafd31b42f04a7988f44713b561fbf2e)
+
+
+application.properties 파일 등록은 스프링 프레임워크 기본 동작 방식은 아니고 스프링 부트 초기화 과정에서 추가해주는 것. 자동으로 포함이 안 되므로 
+@TestPropertySource("classpath:/application.properties")
+로 properties 정보를 읽어오도록
