@@ -800,3 +800,12 @@ public class PropertyPlaceholderConfig {
   - 스프링 부트 초기화 과정에서 추가해 주는 것이므로 테스트에서 별도 추가 필요
   - @TestPropertySource("classpath:/application.properties") 로 properties 정보를 읽어오도록 설정
 - [DataSource 자동 구성 클래스 - commit](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/f50531f4dafd31b42f04a7988f44713b561fbf2e)
+
+.
+
+**`JdbcTemplate과 트랜잭션 매니저 구성`**
+- @ConditionalOnSingleCandidate
+  - 빈 구성정보에 해당 타입 빈이 한 개만 등록되어있는 경우 조건 매칭
+- @EnableTransactionManagement
+  - 애노테이션을 이용하는 트랜잭션 기능을 이용
+- [JdbcTemplate과 트랜잭션 매니저 구성](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/e34e9f3fd785e57405188587eb1238caa8acab6a)
