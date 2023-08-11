@@ -847,4 +847,15 @@ public class PropertyPlaceholderConfig {
   - 자동 구성 빈과 조건에 따라 달라지는 빈 선택 기준
 - 이를 어떻게 활용할 수 있는지 파악
 
+.
 
+**`자동 구성 분석 방법`**
+
+자동 구성 후보 목록과 조건 판단 결과 조회하기
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/spring-boot-research.png?raw=true 'Result')
+
+- `-Ddebug` or `--debug` 인자를 이용해서 스프링 부트 애플리케이션 실행
+- `ConditionEvaluationReport` 타입의 빈을 주입 받고, 필요한 정보만 선택해서 자동 구성 결과 확인
+- `ListableBeanFactory` 타입의 빈을 주입 받고, 빈 이름을 모두 가져와서(필요하면 빈 오브젝트도) 등록된 빈 목록 확인
+- 자동 구성 선정 결과를 기준으로 `스프링 부트 레퍼런스 문서`, `자동 구성 클래스의 소스 코드`, `프로퍼티 클래스`, `Customizer` 등을 살펴보며 어떻게 어떤 조건으로 동작할지 분석
