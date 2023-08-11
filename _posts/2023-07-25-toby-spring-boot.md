@@ -809,3 +809,12 @@ public class PropertyPlaceholderConfig {
 - @EnableTransactionManagement
   - 애노테이션을 이용하는 트랜잭션 기능을 이용
 - [JdbcTemplate과 트랜잭션 매니저 구성](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/e34e9f3fd785e57405188587eb1238caa8acab6a)
+
+.
+
+**`Hello Repository`**
+- [Hello Repository](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/f0deca3857f524f94b69d91d63886e1dc4473b6e)
+
+> 인터페이스에 default, static 메소드를 넣어서 활용하는 방법은 
+> 
+> 자바의 Comparator`<T`> 인터페이스를 참고해 보자.
