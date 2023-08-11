@@ -835,3 +835,16 @@ public class PropertyPlaceholderConfig {
   - 서블릿 컨테이너 환경 여부 설정
     - 웹 환경 세팅 제외: webEnvironment = SpringBootTest.WebEnvironment.NONE
     - 웹 환경 세팅: webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
+
+.
+
+**`스프링 부트 자세히 살펴보기`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/spring-boot/into-spring-boot.png?raw=true 'Result')
+
+- 스프링 부트의 `동작 방식 이해`
+- `사용 기술`과 관련된 `자동 구성 빈`과 `구성`, `속성`, `프로퍼티 설정` 등을 분석
+  - 자동 구성 빈과 조건에 따라 달라지는 빈 선택 기준
+- 이를 어떻게 활용할 수 있는지 파악
+
+
