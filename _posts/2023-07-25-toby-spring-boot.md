@@ -819,3 +819,19 @@ public class PropertyPlaceholderConfig {
 > 인터페이스에 default, static 메소드를 넣어서 활용하는 방법은 
 > 
 > 자바의 Comparator`<T`> 인터페이스를 참고해 보자.
+
+## Spring Boot
+
+**`스프링 부트의 자동 구성과 테스트`**
+
+-  `@SpringBootApplication`
+   -  Spring Boot Main Annotation
+- `@JdbcTest`
+  - Spring Boot Test 준비
+  - 자동구성 중 JDBC 를 이용하기 위해 필요한 빈들만 로딩 ➔ 빠른 테스트
+  - embedded db 로 dataSource 교체 ➔ 프로퍼티로 설정한 DB 접속 정보 사용 X
+- `@SpringBootTest`
+  - 스프링 컨테이너를 띄우고 자동 구성까지 적용해서 테스트
+  - 서블릿 컨테이너 환경 여부 설정
+    - 웹 환경 세팅 제외: webEnvironment = SpringBootTest.WebEnvironment.NONE
+    - 웹 환경 세팅: webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
