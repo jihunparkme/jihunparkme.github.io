@@ -814,6 +814,7 @@ public class PropertyPlaceholderConfig {
 
 **`Hello Repository`**
 - [Hello Repository](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/f0deca3857f524f94b69d91d63886e1dc4473b6e)
+- [리포지토리를 사용하는 HelloService](https://github.com/jihunparkme/inflearn-toby-spring-boot/commit/68d55e7edecc820108af6f9810859ccf99cc25e9)
 
 > 인터페이스에 default, static 메소드를 넣어서 활용하는 방법은 
 > 
