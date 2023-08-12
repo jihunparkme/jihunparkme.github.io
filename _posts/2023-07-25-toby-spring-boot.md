@@ -920,3 +920,22 @@ ApplicationRunner run(ConditionEvaluationReport report) {
     };
 }
 ```
+
+```console
+org.springframework.boot.autoconfigure.aop.AopAutoConfiguration
+	@ConditionalOnProperty (spring.aop.auto=true) matched
+
+org.springframework.boot.autoconfigure.aop.AopAutoConfiguration$ClassProxyingConfiguration
+	@ConditionalOnMissingClass did not find unwanted class 'org.aspectj.weaver.Advice'
+	@ConditionalOnProperty (spring.aop.proxy-target-class=true) matched
+
+org.springframework.boot.autoconfigure.availability.ApplicationAvailabilityAutoConfiguration#applicationAvailability
+	@ConditionalOnMissingBean (types: org.springframework.boot.availability.ApplicationAvailability; SearchStrategy: all) did not find any beans
+
+org.springframework.boot.autoconfigure.cache.GenericCacheConfiguration
+	Cache org.springframework.boot.autoconfigure.cache.GenericCacheConfiguration automatic cache type
+
+...
+
+14 ➔ spring boot code 에서 Jmx 제외하면 14개의 빈이 등록
+```
