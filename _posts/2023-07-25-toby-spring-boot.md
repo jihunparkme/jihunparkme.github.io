@@ -859,3 +859,64 @@ public class PropertyPlaceholderConfig {
 - `ConditionEvaluationReport` 타입의 빈을 주입 받고, 필요한 정보만 선택해서 자동 구성 결과 확인
 - `ListableBeanFactory` 타입의 빈을 주입 받고, 빈 이름을 가져와서(필요 시 빈 오브젝트도) 등록된 빈 목록 확인
 - 자동 구성 선정 결과를 기준으로 `스프링 부트 레퍼런스 문서`, `자동 구성 클래스 소스 코드`, `프로퍼티 클래스`, `Customizer` 등을 살펴보며 어떻게 어떤 조건으로 동작할지 분석
+
+VM options: `-Ddebug`
+
+```console
+Positive matches:
+-----------------
+
+   AopAutoConfiguration matched:
+      - @ConditionalOnProperty (spring.aop.auto=true) matched (OnPropertyCondition)
+
+   AopAutoConfiguration.ClassProxyingConfiguration matched:
+      - @ConditionalOnMissingClass did not find unwanted class 'org.aspectj.weaver.Advice' (OnClassCondition)
+      - @ConditionalOnProperty (spring.aop.proxy-target-class=true) matched (OnPropertyCondition)
+
+   ApplicationAvailabilityAutoConfiguration#applicationAvailability matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.availability.ApplicationAvailability; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+...
+
+Negative matches:
+-----------------
+
+   ActiveMQAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.jms.ConnectionFactory' (OnClassCondition)
+
+   AopAutoConfiguration.AspectJAutoProxyingConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.aspectj.weaver.Advice' (OnClassCondition)
+
+   ArtemisAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.jms.ConnectionFactory' (OnClassCondition)
+
+...
+```
+
+`ConditionEvaluationReport`
+
+- 조건이 매칭된 자동 구성 클래스와 메소드를 출력
+
+```java
+@Bean
+ApplicationRunner run(ConditionEvaluationReport report) {
+    return args -> {
+        long result = report.getConditionAndOutcomesBySource().entrySet().stream()
+                .filter(co -> co.getValue().isFullMatch()) // 컨디션 조건을 모두 통과한 빈 목록
+                .filter(co -> co.getKey().indexOf("Jmx") < 0) // Jmx 관련 구성 정보 제외
+                .map(co -> {
+                    System.out.println(co.getKey());
+                    co.getValue().forEach(c -> {
+                        System.out.println("\t" + c.getOutcome()); // 컨디셔널 통과 조건
+                    });
+                    System.out.println();
+                    return co;
+                }).count();
+
+        System.out.println(result);
+    };
+}
+```
