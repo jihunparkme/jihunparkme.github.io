@@ -922,7 +922,7 @@ ApplicationRunner run(ConditionEvaluationReport report) {
 
 `org.springframework.boot:spring-boot-starter` (springboot core)
 
-- spring boot code 에서 Jmx 제외하면 14개의 빈이 등록
+- spring boot code 에서 Jmx 제외 빈이 목록
 
   <details>
   <summary>등록된 빈 목록 보기</summary>
@@ -1001,197 +1001,236 @@ ApplicationRunner run(ConditionEvaluationReport report) {
 
 `org.springframework.boot:spring-boot-starter-web`
 
-- spring boot web 에서 Jmx 제외하면 63개의 빈이 등록
+- spring boot web 에서 Jmx 제외 빈 목록
 
   <details>
-  <summary>등록된 빈 목록 보기</summary>
-  org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration
-    @ConditionalOnClass found required class 'org.springframework.web.client.RestTemplate'
-    NoneNestedConditions 0 matched 1 did not; NestedCondition on RestTemplateAutoConfiguration.NotReactiveWebApplicationCondition.ReactiveWebApplication did not find reactive web application classes
+    <summary>등록된 빈 목록 보기</summary>
+    ...
+    
+    org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration
+      @ConditionalOnClass found required class 'org.springframework.web.client.RestTemplate'
+      NoneNestedConditions 0 matched 1 did not; NestedCondition on RestTemplateAutoConfiguration.NotReactiveWebApplicationCondition.ReactiveWebApplication did not find reactive web application classes
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration#restTemplateBuilder
-    @ConditionalOnMissingBean (types: org.springframework.boot.web.client.RestTemplateBuilder; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration#restTemplateBuilder
+      @ConditionalOnMissingBean (types: org.springframework.boot.web.client.RestTemplateBuilder; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration#restTemplateBuilderConfigurer
-    @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.web.client.RestTemplateBuilderConfigurer; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration#restTemplateBuilderConfigurer
+      @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.web.client.RestTemplateBuilderConfigurer; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration
-    @ConditionalOnWebApplication (required) found 'session' scope
-    @ConditionalOnWarDeployment the application is not deployed as a WAR file.
+    org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration
+      @ConditionalOnWebApplication (required) found 'session' scope
+      @ConditionalOnWarDeployment the application is not deployed as a WAR file.
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration$TomcatWebServerFactoryCustomizerConfiguration
-    @ConditionalOnClass found required classes 'org.apache.catalina.startup.Tomcat', 'org.apache.coyote.UpgradeProtocol'
+    org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration$TomcatWebServerFactoryCustomizerConfiguration
+      @ConditionalOnClass found required classes 'org.apache.catalina.startup.Tomcat', 'org.apache.coyote.UpgradeProtocol'
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration
-    @ConditionalOnClass found required class 'org.springframework.web.servlet.DispatcherServlet'
-    found 'session' scope
+    org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration
+      @ConditionalOnClass found required class 'org.springframework.web.servlet.DispatcherServlet'
+      found 'session' scope
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletConfiguration
-    @ConditionalOnClass found required class 'javax.servlet.ServletRegistration'
-    Default DispatcherServlet did not find dispatcher servlet beans
+    org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletConfiguration
+      @ConditionalOnClass found required class 'javax.servlet.ServletRegistration'
+      Default DispatcherServlet did not find dispatcher servlet beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration
-    @ConditionalOnClass found required class 'javax.servlet.ServletRegistration'
-    DispatcherServlet Registration did not find servlet registration bean
+    org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration
+      @ConditionalOnClass found required class 'javax.servlet.ServletRegistration'
+      DispatcherServlet Registration did not find servlet registration bean
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration#dispatcherServletRegistration
-    @ConditionalOnBean (names: dispatcherServlet types: org.springframework.web.servlet.DispatcherServlet; SearchStrategy: all) found bean 'dispatcherServlet'
+    org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration#dispatcherServletRegistration
+      @ConditionalOnBean (names: dispatcherServlet types: org.springframework.web.servlet.DispatcherServlet; SearchStrategy: all) found bean 'dispatcherServlet'
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration
-    @ConditionalOnClass found required class 'org.springframework.web.filter.CharacterEncodingFilter'
-    found 'session' scope
-    @ConditionalOnProperty (server.servlet.encoding.enabled) matched
+    org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration
+      @ConditionalOnClass found required class 'org.springframework.web.filter.CharacterEncodingFilter'
+      found 'session' scope
+      @ConditionalOnProperty (server.servlet.encoding.enabled) matched
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration#characterEncodingFilter
-    @ConditionalOnMissingBean (types: org.springframework.web.filter.CharacterEncodingFilter; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration#characterEncodingFilter
+      @ConditionalOnMissingBean (types: org.springframework.web.filter.CharacterEncodingFilter; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration
-    @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.springframework.web.multipart.support.StandardServletMultipartResolver', 'javax.servlet.MultipartConfigElement'
-    found 'session' scope
-    @ConditionalOnProperty (spring.servlet.multipart.enabled) matched
+    org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration
+      @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.springframework.web.multipart.support.StandardServletMultipartResolver', 'javax.servlet.MultipartConfigElement'
+      found 'session' scope
+      @ConditionalOnProperty (spring.servlet.multipart.enabled) matched
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration#multipartConfigElement
-    @ConditionalOnMissingBean (types: javax.servlet.MultipartConfigElement,org.springframework.web.multipart.commons.CommonsMultipartResolver; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration#multipartConfigElement
+      @ConditionalOnMissingBean (types: javax.servlet.MultipartConfigElement,org.springframework.web.multipart.commons.CommonsMultipartResolver; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration#multipartResolver
-    @ConditionalOnMissingBean (types: org.springframework.web.multipart.MultipartResolver; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration#multipartResolver
+      @ConditionalOnMissingBean (types: org.springframework.web.multipart.MultipartResolver; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration
-    @ConditionalOnClass found required class 'javax.servlet.ServletRequest'
-    found 'session' scope
+    org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration
+      @ConditionalOnClass found required class 'javax.servlet.ServletRequest'
+      found 'session' scope
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration#tomcatServletWebServerFactoryCustomizer
-    @ConditionalOnClass found required class 'org.apache.catalina.startup.Tomcat'
+    org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration#tomcatServletWebServerFactoryCustomizer
+      @ConditionalOnClass found required class 'org.apache.catalina.startup.Tomcat'
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryConfiguration$EmbeddedTomcat
-    @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.apache.catalina.startup.Tomcat', 'org.apache.coyote.UpgradeProtocol'
-    @ConditionalOnMissingBean (types: org.springframework.boot.web.servlet.server.ServletWebServerFactory; SearchStrategy: current) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryConfiguration$EmbeddedTomcat
+      @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.apache.catalina.startup.Tomcat', 'org.apache.coyote.UpgradeProtocol'
+      @ConditionalOnMissingBean (types: org.springframework.boot.web.servlet.server.ServletWebServerFactory; SearchStrategy: current) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration
-    @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.springframework.web.servlet.DispatcherServlet', 'org.springframework.web.servlet.config.annotation.WebMvcConfigurer'
-    found 'session' scope
-    @ConditionalOnMissingBean (types: org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration
+      @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.springframework.web.servlet.DispatcherServlet', 'org.springframework.web.servlet.config.annotation.WebMvcConfigurer'
+      found 'session' scope
+      @ConditionalOnMissingBean (types: org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration#formContentFilter
-    @ConditionalOnProperty (spring.mvc.formcontent.filter.enabled) matched
-    @ConditionalOnMissingBean (types: org.springframework.web.filter.FormContentFilter; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration#formContentFilter
+      @ConditionalOnProperty (spring.mvc.formcontent.filter.enabled) matched
+      @ConditionalOnMissingBean (types: org.springframework.web.filter.FormContentFilter; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$EnableWebMvcConfiguration#flashMapManager
-    @ConditionalOnMissingBean (names: flashMapManager; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$EnableWebMvcConfiguration#flashMapManager
+      @ConditionalOnMissingBean (names: flashMapManager; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$EnableWebMvcConfiguration#localeResolver
-    @ConditionalOnMissingBean (names: localeResolver; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$EnableWebMvcConfiguration#localeResolver
+      @ConditionalOnMissingBean (names: localeResolver; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$EnableWebMvcConfiguration#themeResolver
-    @ConditionalOnMissingBean (names: themeResolver; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$EnableWebMvcConfiguration#themeResolver
+      @ConditionalOnMissingBean (names: themeResolver; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter#defaultViewResolver
-    @ConditionalOnMissingBean (types: org.springframework.web.servlet.view.InternalResourceViewResolver; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter#defaultViewResolver
+      @ConditionalOnMissingBean (types: org.springframework.web.servlet.view.InternalResourceViewResolver; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter#requestContextFilter
-    @ConditionalOnMissingBean (types: org.springframework.web.context.request.RequestContextListener,org.springframework.web.filter.RequestContextFilter; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter#requestContextFilter
+      @ConditionalOnMissingBean (types: org.springframework.web.context.request.RequestContextListener,org.springframework.web.filter.RequestContextFilter; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter#viewResolver
-    @ConditionalOnBean (types: org.springframework.web.servlet.ViewResolver; SearchStrategy: all) found beans 'defaultViewResolver', 'beanNameViewResolver', 'mvcViewResolver'; @ConditionalOnMissingBean (names: viewResolver types: org.springframework.web.servlet.view.ContentNegotiatingViewResolver; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter#viewResolver
+      @ConditionalOnBean (types: org.springframework.web.servlet.ViewResolver; SearchStrategy: all) found beans 'defaultViewResolver', 'beanNameViewResolver', 'mvcViewResolver'; @ConditionalOnMissingBean (names: viewResolver types: org.springframework.web.servlet.view.ContentNegotiatingViewResolver; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
-    @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.springframework.web.servlet.DispatcherServlet'
-    found 'session' scope
+    org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+      @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.springframework.web.servlet.DispatcherServlet'
+      found 'session' scope
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration#basicErrorController
-    @ConditionalOnMissingBean (types: org.springframework.boot.web.servlet.error.ErrorController; SearchStrategy: current) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration#basicErrorController
+      @ConditionalOnMissingBean (types: org.springframework.boot.web.servlet.error.ErrorController; SearchStrategy: current) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration#errorAttributes
-    @ConditionalOnMissingBean (types: org.springframework.boot.web.servlet.error.ErrorAttributes; SearchStrategy: current) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration#errorAttributes
+      @ConditionalOnMissingBean (types: org.springframework.boot.web.servlet.error.ErrorAttributes; SearchStrategy: current) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$DefaultErrorViewResolverConfiguration#conventionErrorViewResolver
-    @ConditionalOnBean (types: org.springframework.web.servlet.DispatcherServlet; SearchStrategy: all) found bean 'dispatcherServlet'; @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$DefaultErrorViewResolverConfiguration#conventionErrorViewResolver
+      @ConditionalOnBean (types: org.springframework.web.servlet.DispatcherServlet; SearchStrategy: all) found bean 'dispatcherServlet'; @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration
-    @ConditionalOnProperty (server.error.whitelabel.enabled) matched
-    ErrorTemplate Missing did not find error template view
+    org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration
+      @ConditionalOnProperty (server.error.whitelabel.enabled) matched
+      ErrorTemplate Missing did not find error template view
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration#beanNameViewResolver
-    @ConditionalOnMissingBean (types: org.springframework.web.servlet.view.BeanNameViewResolver; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration#beanNameViewResolver
+      @ConditionalOnMissingBean (types: org.springframework.web.servlet.view.BeanNameViewResolver; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration#defaultErrorView
-    @ConditionalOnMissingBean (names: error; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration#defaultErrorView
+      @ConditionalOnMissingBean (names: error; SearchStrategy: all) did not find any beans
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration
-    @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'javax.websocket.server.ServerContainer'
-    found 'session' scope
+    org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration
+      @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'javax.websocket.server.ServerContainer'
+      found 'session' scope
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration$TomcatWebSocketConfiguration
-    @ConditionalOnClass found required classes 'org.apache.catalina.startup.Tomcat', 'org.apache.tomcat.websocket.server.WsSci'
+    org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration$TomcatWebSocketConfiguration
+      @ConditionalOnClass found required classes 'org.apache.catalina.startup.Tomcat', 'org.apache.tomcat.websocket.server.WsSci'
 
-  ,
+    ,
 
-  org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration$TomcatWebSocketConfiguration#websocketServletWebServerCustomizer
-    @ConditionalOnMissingBean (names: websocketServletWebServerCustomizer; SearchStrategy: all) did not find any beans
+    org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration$TomcatWebSocketConfiguration#websocketServletWebServerCustomizer
+      @ConditionalOnMissingBean (names: websocketServletWebServerCustomizer; SearchStrategy: all) did not find any beans
+  </details>
+
+`org.springframework.boot:spring-boot-starter-jdbc`
+
+- jdbc 관련 빈 목록
+
+  <details>
+    <summary>등록된 빈 목록 보기</summary>
+    ...
+
+    org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration
+      @ConditionalOnClass found required class 'org.springframework.transaction.PlatformTransactionManager'
+
+    ,
+
+    org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration#platformTransactionManagerCustomizers
+      @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers; SearchStrategy: all) did not find any beans
+
+    ,
+
+    org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration$EnableTransactionManagementConfiguration
+      @ConditionalOnBean (types: org.springframework.transaction.TransactionManager; SearchStrategy: all) found bean 'transactionManager'; @ConditionalOnMissingBean (types: org.springframework.transaction.annotation.AbstractTransactionManagementConfiguration; SearchStrategy: all) did not find any beans
+
+    ,
+
+    org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration$EnableTransactionManagementConfiguration$CglibAutoProxyConfiguration
+      @ConditionalOnProperty (spring.aop.proxy-target-class=true) matched
+
+    ,
+
+    org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration$TransactionTemplateConfiguration
+      @ConditionalOnSingleCandidate (types: org.springframework.transaction.PlatformTransactionManager; SearchStrategy: all) found a single bean 'transactionManager'
+
+    ,
+
+    org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration$TransactionTemplateConfiguration#transactionTemplate
+      @ConditionalOnMissingBean (types: org.springframework.transaction.support.TransactionOperations; SearchStrategy: all) did not find any beans
   </details>
