@@ -19,6 +19,10 @@ featured-img: EFF_JAVA
 
 📖
 
+장점1. 
+- 생성자의 시그니처가 중복되는 경우 팩터리 메서드를 통해 표현이 가능하다.
+- 팩터리 메서드를 통해 객체의 특징을 표현한 더 자세한 표현이 가능하다.
+
 ```java
 public class Order {
   private boolean prime;
@@ -67,6 +71,29 @@ public class Order {
 ```
 
 
+```java
+public class Settings {
+    private boolean useAutoSteering;
+
+    private boolean useABS;
+
+    private Difficulty difficulty;
+
+    private Settings() {}
+
+    private static final Settings SETTINGS = new Settings();
+
+    /* 객체 생성을 자신이 컨트롤 */
+    public static Settings getInstance() {
+        return SETTINGS;
+    }
+}
+
+...
+
+Settings settings1 = Settings.getInstance();
+Settings settings2 = Settings.getInstance();
+```
 
 
 
