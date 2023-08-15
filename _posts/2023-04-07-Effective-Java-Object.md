@@ -19,9 +19,9 @@ featured-img: EFF_JAVA
 
 📖
 
-장점1. 
-- 생성자의 시그니처가 중복되는 경우 팩터리 메서드를 통해 표현이 가능하다.
-- 팩터리 메서드를 통해 객체의 특징을 표현한 더 자세한 표현이 가능하다.
+장점 1. 
+- `생성자의 시그니처가 중복되는 경우` 팩터리 메서드를 통해 표현이 가능하다.
+- 팩터리 메서드를 통해 `객체의 특징을 이름으로` 더 자세하게 표현 가능하다.
 
 ```java
 public class Order {
@@ -70,6 +70,9 @@ public class Order {
 }
 ```
 
+장점 2.
+- 호출될 때마다 `인스턴트를 새로 생성하지 않아도 된다.`
+- java.lang.Boolean.valueOf
 
 ```java
 public class Settings {
@@ -95,7 +98,65 @@ Settings settings1 = Settings.getInstance();
 Settings settings2 = Settings.getInstance();
 ```
 
+장점 3.
+- 반환 타입의 `하위 타입 객체를 반환`할 수 있는 능력이 있다.
+  - 인터페이스 기반 프레임워크, 인터페이스에 정적 메소드
 
+장점 4.
+- 입력 매개변수에 따라 `매번 다른 클래스의 객체를 반환`할 수 있다.
+- java.util.EnumSet
+
+```java
+public interface HelloService {
+
+    String hello();
+
+    /**
+     * 장점 3.
+     * 
+     * @return HelloService interface
+     * 리턴 타입은 인터페이스지만 실제 리턴 인스턴스는 인터페이스의 구현체.
+     * 또는 
+     * 리턴 타입은 클래스지만 실제 리턴 인스턴스는 하위 클래스.
+     */
+    static HelloService of(String lang) {
+        /**
+         * 장점 4.
+         * 
+         * 매개변수에 따라 각기 다른 인스턴스 제공
+         */
+        if (lang.equals("ko")) {
+            return new KoreanHelloService();
+        } else {
+            return new EnglishHelloService();
+        }
+    }
+}
+
+...
+
+// 인테스이스 기반 프레임워크를 사용하도록 강제하고, 구현체는 숨길 수 있음
+HelloService ko = HelloServiceFactory.of("ko");
+```
+
+장점 5.
+- 정적 팩터리 메서드를 작성하는 시점에는 반환할 객체의 클래스가 존재하지 않아도 된다.
+- java.util.ServiceLoader (Service Provider Framework)
+
+```java
+ServiceLoader<HelloService> loader = ServiceLoader.load(HelloService.class);
+Optional<HelloService> helloServiceOptional = loader.findFirst();
+helloServiceOptional.ifPresent(h -> {
+    System.out.println(h.hello());
+});
+```
+
+단점 1.
+- 정적 팩터리 메서드만 제공하면 하위 클래스를 만들 수 없다.(`상속 불가`)
+- 상속을 위해 public/protected 생성자 필요
+
+단점 2.
+- 정적 팩터리 메서드는 javadoc 에서 프로그래머가 찾기 어렵다.
 
 
 
