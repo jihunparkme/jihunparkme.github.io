@@ -839,28 +839,29 @@ public int compareTo(PhoneNumber pn) {
 
 **`열거 타입`**
 
-- 열거 타입(Enum)은 인스턴트가 하나만 만들어짐을 보장
-  - 상수 목록을 담을 수 있는 데이터 타입
-  - 특정한 변수가 가질 수 있는 값을 제한(Type-Safety 보장)
-  - 싱글톤 패턴을 구현할 때 사용
-  - 자바 클래스처럼 생성자, 메소드, 필드를 가질 수 있음
-  - Enum 값은 == 연산자로 동일성을 비교(하나의 인스턴스만 있음을 보장)
-  - 특정 enum 타입이 가질 수 있는 모든 값 순회
-    ```java
-    public enum OrderStatus {
-        PREPARING(0), SHIPPED(1), DELIVERING(2), DELIVERED(3);
+열거 타입(Enum)은 인스턴트가 하나만 만들어짐을 보장
 
-        private int number;
+- 상수 목록을 담을 수 있는 데이터 타입
+- 특정한 변수가 가질 수 있는 값을 제한(Type-Safety 보장)
+- 싱글톤 패턴을 구현할 때 사용
+- 자바 클래스처럼 생성자, 메소드, 필드를 가질 수 있음
+- Enum 값은 == 연산자로 동일성을 비교(하나의 인스턴스만 있음을 보장)
+- 특정 enum 타입이 가질 수 있는 모든 값 순회
+  ```java
+  public enum OrderStatus {
+      PREPARING(0), SHIPPED(1), DELIVERING(2), DELIVERED(3);
 
-        OrderStatus(int number) {
-            this.number = number;
-        }
-    }
+      private int number;
 
-    ...
+      OrderStatus(int number) {
+          this.number = number;
+      }
+  }
 
-    Arrays.stream(OrderStatus.values()).forEach(System.out::println);
-    ```
+  ...
+
+  Arrays.stream(OrderStatus.values()).forEach(System.out::println);
+  ```
 - **EnumMap**
   - enum을 키로 가지는 Map의 구현체
   - 특정 열거형에 대한 key-value 쌍을 저장하고 검색하는 데 사용
@@ -888,7 +889,8 @@ public int compareTo(PhoneNumber pn) {
 
 **`Flyweight Pattern`**
 
-- 같은 객체가 자주 요청되는 상황이라면 플라이웨이트 패턴을 사용해 보자.
+같은 객체가 자주 요청되는 상황이라면 플라이웨이트 패턴을 사용해 보자.
+
 - 객체를 가볍게 만들어 메모리 사용을 줄이는 패턴
 - 자주 변하는 속성(외적인 속성, extrinsti)과 변하지 않는 속성(내적인 속성, intrinsit)을 분리하고 재사용하여 메모리 사용을 줄일 수 있음
   
@@ -960,7 +962,7 @@ public interface HelloService {
 
 .
 
-**`서비스 제공자 프레임워크`**
+**`Service Provider Framework`**
 
 확장 가능한 애플리케이션을 만드는 방법
 
@@ -1005,5 +1007,14 @@ public interface HelloService {
 
 .
 
+**`Reflection`**
+
 서비스 제공자 인터페이스가 없다면 각 구현체를 인스턴스로 만들 때 리플렉션을 사용해야 한다.
 
+- 클래스로더를 통해 읽어온 클래스 정보(거울에 반사”된 정보)를 사용하는 기술
+- 리플렉션을 사용해 클래스를 읽어오거나, 인스턴스를 만들거나, 메소드를 실행하거나,필드의 값을 가져오거나 변경하는 것이 가능하다.
+- 언제 사용할까?
+  - 특정 애노테이션이 붙어있는 필드 또는 메소드 읽어오기 (JUnit, Spring)
+  - 특정 이름 패턴에 해당하는 메소드 목록 가져와 호출하기 (getter, setter)
+  - …
+- https://docs.oracle.com/javase/tutorial/reflect/
