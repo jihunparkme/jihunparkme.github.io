@@ -886,7 +886,42 @@ public int compareTo(PhoneNumber pn) {
 
 .
 
-같은 객체가 자주 요청되는 상황이라면 플라이웨이트 패턴을 사용할 수 있다.
+**`Flyweight Pattern`**
+
+- 같은 객체가 자주 요청되는 상황이라면 플라이웨이트 패턴을 사용해 보자.
+- 객체를 가볍게 만들어 메모리 사용을 줄이는 패턴
+- 자주 변하는 속성(외적인 속성, extrinsti)과 변하지 않는 속성(내적인 속성, intrinsit)을 분리하고 재사용하여 메모리 사용을 줄일 수 있음
+  ```java
+  public class Character {
+      private char value;
+      private String color;
+      private Font font;
+  }
+
+  ...
+
+  public class FontFactory {
+      // Factory 클래스에 자주 사용하는 알고리즘을 캐싱
+      private Map<String, Font> cache = new HashMap<>();
+
+      public Font getFont(String font) {
+          if (cache.containsKey(font)) {
+              return cache.get(font);
+          } else {
+              String[] split = font.split(":");
+              Font newFont = new Font(split[0], Integer.paserInt(sptli[1]));
+              cache.put(font, newFont);
+              return newFont;
+          }
+      }
+  }
+  ```
+
+.
+
+
+
+
 
 자바 8부터는 인터페이스가 정적 메서드를 가질 수 없다는 제한이 풀렸기 때문에 인스턴스화 불가 동반 클래스를 둘 이유가 별로 없다.
 
