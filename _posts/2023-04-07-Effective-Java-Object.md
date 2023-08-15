@@ -17,11 +17,11 @@ featured-img: EFF_JAVA
 >
 > 그렇다고 하더라도 정적 팩터리를 사용하는 게 유리한 경우가 더 많으므로 무작정 public 생성자를 제공하던 습관이 있다면 고치자.
 
-📖
+👍
 
-장점 1. 
+**장점 1.**
 - `생성자의 시그니처가 중복되는 경우` 팩터리 메서드를 통해 표현이 가능하다.
-- 팩터리 메서드를 통해 `객체의 특징을 이름으로` 더 자세하게 표현 가능하다.
+- 팩터리 메서드를 통해 `객체의 특징을 이름으로` 더 자세하게 표현(반환될 객체의 특성을 쉽게 묘사) 가능하다.
 
 ```java
 public class Order {
@@ -70,9 +70,16 @@ public class Order {
 }
 ```
 
-장점 2.
+**장점 2.**
 - 호출될 때마다 `인스턴트를 새로 생성하지 않아도 된다.`
-- java.lang.Boolean.valueOf
+  - 불필요한 객체 생성을 피하여 성능을 올려줄 수 있음
+  - 인스턴스 통제 클래스(instance-controlled)
+- java.lang.Boolean.valueOf()
+  ```java
+  public static Boolean valueOf(boolean b) {
+      return b ? Boolean.TRUE : Boolean.FALSE;
+  }
+  ```
 
 ```java
 public class Settings {
@@ -98,13 +105,15 @@ Settings settings1 = Settings.getInstance();
 Settings settings2 = Settings.getInstance();
 ```
 
-장점 3.
+**장점 3.**
 - 반환 타입의 `하위 타입 객체를 반환`할 수 있는 능력이 있다.
-  - 인터페이스 기반 프레임워크, 인터페이스에 정적 메소드
+  - 반환할 객체의 클래스를 자유롭게 선택할 수 있는 유연성 보유
+  - 인터페이스 기반 프레임워크를 만드는 핵심 기술
 
-장점 4.
+**장점 4.**
 - 입력 매개변수에 따라 `매번 다른 클래스의 객체를 반환`할 수 있다.
-- java.util.EnumSet
+  - 클라이언트는 팩터리가 건네주는 객체가 어느 클래스의 인스턴스인지 알 수도 없고 알 필요도 없다.
+- java.util.EnumSet.noneOf()
 
 ```java
 public interface HelloService {
@@ -139,7 +148,7 @@ public interface HelloService {
 HelloService ko = HelloServiceFactory.of("ko");
 ```
 
-장점 5.
+**장점 5.**
 - 정적 팩터리 메서드를 작성하는 시점에는 반환할 객체의 클래스가 존재하지 않아도 된다.
 - java.util.ServiceLoader (Service Provider Framework)
 
@@ -151,66 +160,18 @@ helloServiceOptional.ifPresent(h -> {
 });
 ```
 
-단점 1.
+👎
+
+**단점 1.**
 - 정적 팩터리 메서드만 제공하면 하위 클래스를 만들 수 없다.(`상속 불가`)
 - 상속을 위해 public/protected 생성자 필요
 
-단점 2.
+**단점 2.**
 - 정적 팩터리 메서드는 javadoc 에서 프로그래머가 찾기 어렵다.
 
+📖
 
-
-
-
-
-
-
-
-
-
-
-
-클래스는 생성자와 별도로 정적 팩터리 메서드(static factory method)를 제공할 수 있다.
-
-```java
-public static Boolean valueOf(boolean b) {
-    return b ? Boolean.TRUE : Boolean.FALSE;
-}
-```
-
-**장점**
-
-1. `이름`을 가질 수 있다.
-   - 반환될 객체의 특성을 쉽게 묘사 가능
-2. 호출될 때마다 `인스턴스를 새로 생성하지 않아`도 된다.
-   - 불필요한 객체 생성을 피하여 성능을 올려줄 수 있음
-   - 인스턴스 통제 클래스(instance-controlled)
-3. 반환 타입의 `하위 타입 객체를 반환할 수 있는 능력`이 있다.
-   - 반환할 객체의 클래스를 자유롭게 선택할 수 있는 유연성 보유
-   - 인터페이스 기반 프레임워크를 만드는 핵심 기술
-4. 입력 매개변수에 따라 `매번 다른 클래스의 객체를 반환`할 수 있다.
-   - 클라이언트는 팩터리가 건네주는 객체가 어느 클래스의 인스턴스인지 알 수도 없고 알 필요도 없다.
-   - EnumSet.java
-   ```java
-   public static <E extends Enum<E>> EnumSet<E> noneOf(Class<E> elementType) {
-        Enum<?>[] universe = getUniverse(elementType);
-        if (universe == null)
-            throw new ClassCastException(elementType + " not an enum");
-
-        if (universe.length <= 64)
-            return new RegularEnumSet<>(elementType, universe);
-        else
-            return new JumboEnumSet<>(elementType, universe);
-    }
-   ```
-5. 정적 팩터리 메서드를 작성하는 시점에는 반환할 객체의 클래스가 존재하지 않아도 된다.
-
-**단점**
-
-1. 상속을 하려면 public 이나 protected 생성자가 필요하니 정적 팩터리 메서드만 제공하면 `하위 클래스를 만들 수 없다.`
-2. 정적 팩터리 메서드는 `프로그래머가 찾기 어렵다`.
-
-**정적 팩터리 메서드에 흔히 사용하는 명명 방식**
+참고. **정적 팩터리 메서드에 흔히 사용하는 명명 방식**
 
 - `from` : 매개변수를 하나 받아서 해당 타입의 인스턴스를 반환하는 형변환 메서드
   - `Date d = Date.from(instant);
@@ -871,3 +832,72 @@ public int compareTo(PhoneNumber pn) {
 - [effective-java-3e-source-code (KOR)](https://github.com/WegraLee/effective-java-3e-source-code)
 
 - [effective-java-3e-source-code (EN)](https://github.com/jbloch/effective-java-3e-source-code)
+
+<br>
+
+# 용어 정리
+
+**`열거 타입`**
+
+- 열거 타입(Enum)은 인스턴트가 하나만 만들어짐을 보장
+  - 상수 목록을 담을 수 있는 데이터 타입
+  - 특정한 변수가 가질 수 있는 값을 제한(Type-Safety 보장)
+  - 싱글톤 패턴을 구현할 때 사용
+  - 자바 클래스처럼 생성자, 메소드, 필드를 가질 수 있음
+  - Enum 값은 == 연산자로 동일성을 비교(하나의 인스턴스만 있음을 보장)
+  - 특정 enum 타입이 가질 수 있는 모든 값 순회
+    ```java
+    public enum OrderStatus {
+        PREPARING(0), SHIPPED(1), DELIVERING(2), DELIVERED(3);
+
+        private int number;
+
+        OrderStatus(int number) {
+            this.number = number;
+        }
+    }
+
+    ...
+
+    Arrays.stream(OrderStatus.values()).forEach(System.out::println);
+    ```
+- **EnumMap**
+  - enum을 키로 가지는 Map의 구현체
+  - 특정 열거형에 대한 key-value 쌍을 저장하고 검색하는 데 사용
+  - 내부적으로 배열을 이용하여 빠른 접근 및 메모리 효율성 제공
+  - 열거형 상수의 순서를 이용하여 맵 내부에서 데이터를 저장하므로, 맵의 키 순서는 열거형 상수의 순서와 동일
+    ```java
+    enum Days { MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY }
+
+    EnumMap<Days, String> schedule = new EnumMap<>(Days.class);
+    schedule.put(Days.MONDAY, "Work");
+    schedule.put(Days.FRIDAY, "Party");
+    ```
+- **EnumSet**
+  - enum을 기반으로 한 Set의 구현체
+  - 특정 열거형의 상수를 원소로 가지는 집합
+  - 내부적으로 비트 벡터를 이용하여 빠른 접근 및 메모리 효율성을 제공
+  - 열거형 상수의 순서를 이용하여 집합의 원소를 저장하므로, 집합의 원소 순서는 열거형 상수의 순서와 동일
+  - HashSet보다 더 효율적인 구현을 제공하며, 열거형 상수의 크기가 작을 경우 매우 유용
+    ```java
+    EnumSet<OrderStatus> allOrderStatus = EnumSet.allOf(OrderStatus.class);
+    EnumSet<Days> weekend = EnumSet.of(Days.SATURDAY, Days.SUNDAY);
+    ```
+
+.
+
+같은 객체가 자주 요청되는 상황이라면 플라이웨이트 패턴을 사용할 수 있다.
+
+자바 8부터는 인터페이스가 정적 메서드를 가질 수 없다는 제한이 풀렸기 때문에 인스턴스화 불가 동반 클래스를 둘 이유가 별로 없다.
+
+
+서비스 제공자 프레임워크를 만드는 근간이 된다.
+
+
+서비스 제공자 인터페이스가 없다면 각 구현체를 인스턴스로 만들 때 리플렉션을 사용해야 한다.
+
+
+브리지 패턴
+
+
+의존 객체 주입 프레임워크
