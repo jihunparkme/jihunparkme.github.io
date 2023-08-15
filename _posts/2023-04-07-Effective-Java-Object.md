@@ -920,16 +920,16 @@ public class FontFactory {
 
 .
 
-**Java8 Interface**
+**`Java8 Interface`**
 
 자바 8부터는 인터페이스가 정적 메서드를 가질 수 없다는 제한이 풀렸기 때문에 인스턴스화 불가 동반 클래스를 둘 이유가 별로 없다.
 
-- 기본 메소드(default method)와 정적 메소드를 가질 수 있음
-- 기본 메소드
+- 기본 메소드와 정적 메소드를 가질 수 있음
+- **기본 메소드(default method)**
   - 인터페이스에서 메소드 선언 뿐 아니라, 기본적인 구현체까지 제공 가능
   - 기존의 인터페이스를 구현하는 클래스에 새로운 기능 추가 가능
   - java.util.Comparator.reversed()
-- 정적 메소드
+- **정적 메소드**
   - private static 메소드 사용 가능(java9~)
   - 단, private 필드는 선언 불가
 
@@ -960,13 +960,50 @@ public interface HelloService {
 
 .
 
-서비스 제공자 프레임워크를 만드는 근간이 된다.
+**`서비스 제공자 프레임워크`**
 
+확장 가능한 애플리케이션을 만드는 방법
+
+- 코드를 변경하지 않고, 외적인 무언가를 변경했을 때 애플리케이션이 다르게 동작
+- 주요 구성 요소
+  - **서비스 제공자 인터페이스**(SPI)와 서비스 제공자(서비스 구현체)
+    ```java
+    public interface HelloService {
+        String hello();
+    }
+    ```
+  - **서비스 제공자 등록 API**(서비스 인터페이스의 구현체를 등록하는 방법)
+    ```java
+    @Configuration
+    public class AppConfig {
+        @Bean
+        public HelloService helloService() {
+            return new ChineseHelloService();
+        }
+    }
+    ```
+  - **서비스 접근 API**(서비스의 클라이언트가 서비스 인터페이스의 인스턴스를 가져올 때 사용하는 API)
+    ```java
+    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+    HelloService helloService = applicationContext.getBean(HelloService.class);
+    ```
+- 다양한 변형
+  - **브릿지 패턴**
+    - 구현부에서 추상층을 분리하여 각자 독립적으로 변형이 가능하고 확장이 가능
+    - 기능과 구현에 대해서 두 개를 별도의 클래스로 구현
+      ```java
+      Champion KdaAri = new Ari(new KDA());
+      KdaAri.skillQ();
+      KdaAri.skillW();
+
+      Champion poolPartyAri = new Ari(new PoolParty());
+      poolPartyAri.skillQ();
+      poolPartyAri.skillW();
+      ```
+  - **의존 객체 주입 프레임워크(Dependency Injection, DI)**
+  - [java.util.ServiceLoader](https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html)
+
+.
 
 서비스 제공자 인터페이스가 없다면 각 구현체를 인스턴스로 만들 때 리플렉션을 사용해야 한다.
 
-
-브리지 패턴
-
-
-의존 객체 주입 프레임워크
