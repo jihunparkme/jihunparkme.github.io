@@ -19,6 +19,69 @@ featured-img: EFF_JAVA
 
 📖
 
+```java
+public class Order {
+  private boolean prime;
+
+  private boolean urgent;
+
+  private Product product;
+
+  /* 생성자의 시그니처가 중복되는 경우 */
+  public Order(Product product, boolean prime) {
+      this.product = product;
+      this.prime = prime;
+  }
+
+  // 'Order(Product, boolean)' is already defined in 'Order'
+  public Order(Product product, boolean urgent) {
+      this.product = product;
+      this.urgent = urgent;
+  }
+}
+
+...
+
+public class Order {
+  private boolean prime;
+
+  private boolean urgent;
+
+  private Product product;
+
+  /* 팩터리 메서드로 더 자세한 표현(객체의 특징) 가능 */
+  public static Order primeOrder(Product product) {
+      Order order = new Order();
+      order.prime = true;
+      order.product = product;
+      return order;
+  }
+
+  public static Order urgentOrder(Product product) {
+      Order order = new Order();
+      order.urgent = true;
+      order.product = product;
+      return order;
+  }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 클래스는 생성자와 별도로 정적 팩터리 메서드(static factory method)를 제공할 수 있다.
 
 ```java
