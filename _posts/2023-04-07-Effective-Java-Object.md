@@ -1066,3 +1066,25 @@ public interface HelloService {
   - 특정 애노테이션이 붙어있는 필드 또는 메소드 읽어오기 (JUnit, Spring)
   - 특정 이름 패턴에 해당하는 메소드 목록 가져와 호출하기 (getter, setter)
   - etc..
+
+.
+
+**`자바빈즈``**
+
+.
+
+**`객체 얼리기 (freezing)``**
+
+.
+
+**`빌더 패턴``**
+
+.
+
+**`IllegalArgumentException``**
+
+.
+
+**`가변인수 (varargs) 매개변수를 여러 개 사용할 수 있다.``**
+
+
