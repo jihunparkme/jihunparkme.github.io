@@ -1069,7 +1069,7 @@ public interface HelloService {
 
 .
 
-**`JavaBean``**
+**`JavaBean`**
 
 (주로 GUI에서) 재사용 가능한 소프트웨어 컴포넌트
 
@@ -1081,18 +1081,29 @@ public interface HelloService {
 
 .
 
-**`객체 얼리기 (freezing)``**
+**`Object freezing`**
+
+임의의 객체를 불변 객체로 만들어 주는 javascript 기능
+
+- Object.freeze()에 전달한 객체는 그 뒤로 변경 불가
+  - 새 프로퍼티 추가 불가
+  - 기존 프로퍼티 제거 불가
+  - 기존 프로퍼티 값 변경 불가
+  - 프로토타입 변경 불가
+- strict 모드에서만 동작 (use strict)
+- 비슷한 류의 펑션으로 Object.seal(), Object.preverntExtensions() 존재
+- 어느 시점에 프리징되는지 예측을 못 하므로 잘 사용되지 않는 기능
 
 .
 
-**`빌더 패턴``**
+**`빌더 패턴`**
 
 .
 
-**`IllegalArgumentException``**
+**`IllegalArgumentException`**
 
 .
 
-**`가변인수 (varargs) 매개변수를 여러 개 사용할 수 있다.``**
+**`가변인수 (varargs) 매개변수를 여러 개 사용할 수 있다.`**
 
 
