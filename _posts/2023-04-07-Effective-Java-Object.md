@@ -1127,6 +1127,44 @@ tourPlanBuilder.title("제주 여행")
 
 **`IllegalArgumentException`**
 
+잘못된 인자를 넘겨 받았을 때 사용할 수 있는 기본 런타임 예외
+
+- 어떤 필드가 잘못 되었는지 인자로 전달하는 것을 권장
+  ```java
+  throw new IllegalArgumentException("deliveryDate cant't be earlier than " + LocalDate.now());
+  ```
+- Checked Exception, Unchecked Exception 차이
+  - Checked Exception(Exception): 다시 예외을 던지거나, 예외 처리 필요
+  - Unchecked Exception(RuntimeException): 던지거나 잡을 필요가 없음
+- 메소드 선언부에 Unchecked Exception 을 선언하는 이유
+  - 클라이언트에게 명시적으로 알려주고 싶을 경우 사용
+  - 단, 가독성 이유로 보통은 선언하지 않음
+- Checked Exception 사용 이유
+  - 클라이언트가 해당 오류에 대한 후속 작업을 하길 원하는 경우 사용
+- RuntimeException 상속 클래스
+  ```java
+  AnnotationTypeMismatchException, ArithmeticException, 
+  ArrayStoreException, BufferOverflowException, 
+  BufferUnderflowException, CannotRedoException, 
+  CannotUndoException, ClassCastException, CMMException, 
+  CompletionException, ConcurrentModificationException, DataBindingException, 
+  DateTimeException, DOMException, EmptyStackException, 
+  EnumConstantNotPresentException, EventException, FileSystemAlreadyExistsException, 
+  FileSystemNotFoundException, IllegalArgumentException, IllegalMonitorStateException, 
+  IllegalPathStateException, IllegalStateException, IllformedLocaleException, 
+  ImagingOpException, IncompleteAnnotationException, IndexOutOfBoundsException, 
+  JMRuntimeException, LSException, MalformedParameterizedTypeException, 
+  MalformedParametersException, MirroredTypesException, MissingResourceException, 
+  NegativeArraySizeException, NoSuchElementException, NoSuchMechanismException, 
+  NullPointerException, ProfileDataException, ProviderException, 
+  ProviderNotFoundException, RasterFormatException, RejectedExecutionException, 
+  SecurityException, SystemException, TypeConstraintException, TypeNotPresentException, 
+  UncheckedIOException, UndeclaredThrowableException, UnknownEntityException, 
+  UnmodifiableSetException, UnsupportedOperationException, 
+  WebServiceException, WrongMethodTypeException
+  ```
+- [Unchecked Exceptions](https://docs.oracle.com/javase/tutorial/essential/exceptions/runtime.html)
+
 .
 
 **`가변인수 (varargs) 매개변수를 여러 개 사용할 수 있다.`**
