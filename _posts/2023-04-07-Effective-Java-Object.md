@@ -1167,6 +1167,18 @@ tourPlanBuilder.title("제주 여행")
 
 .
 
-**`가변인수 (varargs) 매개변수를 여러 개 사용할 수 있다.`**
+**`가변인수`**
 
+빌더를 사용하면 (빌더의 각 메소드에 나눠서) 가변인수(varargs) 매개변수를 여러 개 사용할 수 있다.
 
+```java
+public void printNumbers(int... numbers) {
+    System.out.println(numbers.getClass().getCanonicalName()); // int[]
+    System.out.println(numbers.getClass().getComponentType()); // int
+    Arrays.stream(numbers).forEach(System.out::println);
+}
+```
+
+- 여러 인자를 받을 수 있는 가변적인 Argument (Var+args)
+- 메소드에 오직 하나만 선언 가능
+- 메소드의 가장 마지막 매개변수가 되어야 함
