@@ -1096,7 +1096,32 @@ public interface HelloService {
 
 .
 
-**`빌더 패턴`**
+**`Builder Pattern`**
+
+동일한 프로세스를 거쳐 다양한 구성의 인스턴스를 만드는 방법
+
+- 복잡한 객체를 만드는 프로세스를 독립적으로 분리 가능
+
+```java
+public interface TourPlanBuilder {
+  TourPlanBuilder nightsAndDays(int nights, int days);
+  TourPlanBuilder title(String title);
+  TourPlanBuilder startDate(LocalDate localDate);
+  TourPlanBuilder whereToStay(String whereToStay);
+  TourPlanBuilder addPlan(int day, String plan);
+  TourPlan getPlan();
+}
+
+...
+
+tourPlanBuilder.title("제주 여행")
+    .nightsAndDays(2, 3)
+    .startDate(LocalDate.of(2023,08,20))
+    .whereToStay("리조트")
+    .addPlan(0, "체크인 후 짐 풀기")
+    .addPlan(0, "저녁 식사")
+    .getPlan();
+```
 
 .
 
