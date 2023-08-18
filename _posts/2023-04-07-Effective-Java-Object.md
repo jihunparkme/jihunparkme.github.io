@@ -308,6 +308,7 @@ elvis.leaveTheBuilding();
 - (인터페이스가 없다면) 싱글톤을 사용하는 클라이언트가 **테스트하기 어려움**
   - 인터페이스를 생성해서 Mock 객체로 테스트 가능
 - 리플렉션으로 private 생성자 호출 가능
+  - 생성자 두 번째 호출 시 인스턴스 생성 막는 방법 필요
   ```java
   // 선언 되어 있는 기본 생성자에 접근(접근 지시자에 상관 없이 접근 가능)
   Constructor<Elvis> defaultConstructor = Elvis.class.getDeclaredConstructor();
@@ -328,6 +329,7 @@ elvis.leaveTheBuilding();
   }
   ```
 - 역직렬화 시 새로운 인스턴스가 생성될 수 있음
+  - 역직렬화 시 새로운 인스턴스가아닌 기존 인스턴스 리턴하도록 재정의
   ```java
   // 직렬화
   try (ObjectOutput out = new ObjectOutputStream(new FileOutputStream("elvis.obj"))) {
@@ -350,6 +352,7 @@ elvis.leaveTheBuilding();
     //...
 
     // 역직렬화 시 새로운 인스턴스가아닌 기존 인스턴스 리턴하도록 재정의
+    // 진짜 Elvis를 반환하고, 가짜 Elvis는 가비지 컬렉터에
     private Object readResolve() {
         return INSTANCE;
     }
@@ -358,11 +361,7 @@ elvis.leaveTheBuilding();
 
 .
 
-**`정적 팩터리 방식의 싱글턴`**
-
-- API 변경 없이 싱글턴이 아니도록 변경 가능
-- 정적 팩터리를 제네릭 싱글턴 팩터리로 만들 수 있음
-- 정적 팩터리의 메서드 참조를 공급자(Supplier<>)로 사용할 수 있음
+**`private 생성자 + 정적 팩터리 방식의 싱글턴`**
 
 ```java
 public class Elvis {
@@ -379,17 +378,49 @@ Elvis elvis = Elvis.getInstance();
 elvis.leaveTheBuilding();
 ```
 
-참고.
+장점
 
-- 위 두 방식으로 싱글턴 클래스를 직렬화하려면 모든 인스턴스 필드를 일시적이라고 선언하고 readResolve 메서드를 제공 필요
-  - 이렇게 하지 않을 경우 직렬화된 인스턴스를 역직렬화할 때마다 새로운 인스턴스가 생성.
+- API 변경 없이 싱글턴이 아니도록 변경 가능
+  - 클라이언트 코드는 유지하면서 내부 코드 변경 가능
+- 정적 팩터리를 제네릭 싱글턴 팩터리로 만들 수 있음
+  - 클라이언트가 원하는 타입을 사용할 수 있도록 지원
+  ```java
+  public class MetaElvis<T> {
+      private static final MetaElvis<Object> INSTANCE = new MetaElvis<>();
+      private MetaElvis() { }
 
-```java
-private Object readResolve() {
-    // 진짜 Elvis를 반환하고, 가짜 Elvis는 가비지 컬렉터에..
-    return INSTANCE;
-}
-```
+      @SuppressWarnings("unchecked")
+      public static <E> MetaElvis<E> getInstance() { return (MetaElvis<E>) INSTANCE; }
+
+      public void say(T t) { ... }
+
+      public void leaveTheBuilding() { ... }
+
+      public static void main(String[] args) {
+          MetaElvis<String> elvis1 = MetaElvis.getInstance();
+          MetaElvis<Integer> elvis2 = MetaElvis.getInstance();
+          elvis1.say("hello");
+          elvis2.say(100);
+      }
+  }
+  ```
+- 정적 팩터리의 메서드 참조를 공급자(Supplier<>)로 사용 가능
+  ```java
+  public class Concert {
+      public void start(Supplier<Singer> singerSupplier) {
+          Singer singer = singerSupplier.get();
+          singer.sing();
+      }
+      public static void main(String[] args) {
+          Concert concert = new Concert();
+          concert.start(Elvis::getInstance);
+      }
+  }
+  ```
+
+단점
+
+- private 생성자 + public static final 필드 방식의 싱글턴과 동일한 단점
 
 .
 
