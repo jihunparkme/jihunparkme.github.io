@@ -275,13 +275,11 @@ new NutritionFacts.NutritionFactsBuilder()
 
 📖
 
-싱클턴을 만드는 방식
+싱클턴을 만드는 세 가지 방법
 
-**public static final 방식의 싱글턴**
+.
 
-- public, protected 생성자가 없으므로 클래스 초기화 시 만들어진 인스턴스가 전체 시스템에서 하나뿐임을 보장
- - 해당 클래스가 싱글턴인 것이 API에 명백히 드러남(final 이므로 다른 객체 참조 불가)
- - 간결함
+**`private 생성자 + public static final 필드 방식의 싱글턴`**
 
 ```java
 public class Elvis {
@@ -289,15 +287,31 @@ public class Elvis {
     private Elvis() { }
 
     public void leaveTheBuilding() { ... }
+
+    public void sing() { ... }
 }
 
-..
+...
 
 Elvis elvis = Elvis.INSTANCE;
 elvis.leaveTheBuilding();
 ```
 
-**정적 팩터리 방식의 싱글턴**
+장점.
+
+- public, protected 생성자가 없으므로 클래스 초기화 시 만들어진 인스턴스가 전체 시스템에서 **하나뿐임을 보장**
+- 간결하고 해당 클래스가 싱글턴인 것이 API(javadocs)에 명백히 드러남
+  - final 이므로 **다른 객체 참조 불가**
+
+단점.
+
+- (인터페이스가 없다면) 싱글톤을 사용하는 클라이언트가 **테스트하기 어려움**
+- 리플렉션으로 private 생성자 호출 가능
+- 역직렬화 시 새로운 인스턴스가 생성될 수 있음
+
+.
+
+**`정적 팩터리 방식의 싱글턴`**
 
 - API 변경 없이 싱글턴이 아니도록 변경 가능
 - 정적 팩터리를 제네릭 싱글턴 팩터리로 만들 수 있음
@@ -330,7 +344,9 @@ private Object readResolve() {
 }
 ```
 
-**원소가 하나인 열거 타입을 선언**
+.
+
+**`원소가 하나인 열거 타입을 선언`**
 
  - public 필드 방식과 비슷하지만, 더 간결하고, 추가 노력 없이 직렬화 가능.
  - 아주 복잡한 직렬화 상황이나 리플렉션 공격에서도 제 2의 인스턴스가 생기는 일을 완벽하게 방어
