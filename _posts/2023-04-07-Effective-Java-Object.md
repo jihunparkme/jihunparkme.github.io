@@ -1283,12 +1283,65 @@ public void printNumbers(int... numbers) {
 
 **`메서드 참조`**
 
+메소드 하나만 호출하는 람다 표현식을 줄여쓰는 방법
+
+```java
+// 익명 내부클래스 적용
+people.sort(new Comparator<Person>() {
+    @Override
+    public int compare(Person a, Person b) {
+        return a.birthday.compareTo(b.birthday);
+    }
+});
+
+...
+
+// 람다 표현식 적용
+people.sort((a, b) -> a.birthday.compareTo(b.birthday));
+```
+- 스태틱 메소드 레퍼런스
+  ```java
+  public static int compareByAge(Person a, Person b) {
+      return a.birthday.compareTo(b.birthday);
+  }
+
+  people.sort(Person::compareByAge);
+  ```
+- 인스턴스 메소드 레퍼런스
+  ```java
+  public int compareByAge(Person a, Person b) {
+      return a.birthday.compareTo(b.birthday);
+  }
+
+  Person person = new Person();
+  people.sort(person::compareByAge);
+  ```
+- 임의 객체의 인스턴스 메소드 레퍼런스
+  - 첫 번째 인자를 자기 자신으로 인식(Person a 생략 가능)
+  ```java
+  public int compareByAge(Person b) {
+      return this.birthday.compareTo(b.birthday);
+  }
+
+  people.sort(Person::compareByAge);
+  ```
+- 생성자 레퍼런스
+  ```java
+  dates.stream().map(Person::new)
+          .collect(Collectors.toList());
+  ```
+- [Method References](https://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html)
+
 .
 
 **`함수형 인터페이스`**
 
+Supplier<T>, 함수형 인터페이스
+
 .
 
 **`직렬화`**
+
+직렬화, 역직렬화, Serializable, transient
 
 .
