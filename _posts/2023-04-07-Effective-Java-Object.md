@@ -1373,8 +1373,66 @@ List<Integer> before2000 = dates.stream()
 
 .
 
-**`직렬화`**
+**`객체 직렬화`**
 
-직렬화, 역직렬화, Serializable, transient
+**객체를 바이트스트림으로** 상호 변환하는 기술
 
-.
+```java
+public class Book implements Serializable {
+    private static final long serialVersionUID = 1L; // serialVersionUID 선언
+    private String isbn;
+    private String title;
+    private LocalDate published;
+    private String name;
+    private transient int numberOfSold; // transient: 직렬화 제외
+
+    // constructor..
+
+    @Override
+    public String toString() {
+        //...
+    }
+}
+
+...
+
+private void serialize(Book book) {
+    try (ObjectOutput out = new ObjectOutputStream(new FileOutputStream("book.obj"))) {
+        out.writeObject(book);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+}
+
+private Book deserialize() {
+    try (ObjectInput in = new ObjectInputStream(new FileInputStream("book.obj"))) {
+        return (Book) in.readObject();
+    } catch (IOException | ClassNotFoundException e) {
+        throw new RuntimeException(e);
+    }
+}
+
+public static void main(String[] args) {
+    Book book = new Book("12345", "이팩티브 자바 완벽 공략", "백기선",
+            LocalDate.of(2022, 3, 21));
+    book.setNumberOfSold(200);
+
+    SerializationExample example = new SerializationExample();
+
+    example.serialize(book);
+    System.out.println(book);
+
+    Book deserializedBook = example.deserialize();  
+    System.out.println(deserializedBook);
+}
+```
+
+- Serializable 인터페이스 구현 필요
+- 바이트스트림으로 변환한 객체를 파일로 저장하거나 네트워트를 통해 다른 시스템으로 전송 가능
+- transient를 사용해서 직렬화 하지 않을 필드 선언
+- **serialVersionUID**
+  - 미선언 시 JVM 런타임 시점에 자동으로 임의 UID 생성
+  - 직렬화 후 클래스가 변경되어도 역직렬화를 허용하려면 serialVersionUID 선언 필요
+    - 미선언 시 클래스가 변경될 경우 serialVersionUID도 자동으로 변경
+- [객체 직렬화 스팩](https://docs.oracle.com/javase/8/docs/platform/serialization/spec/serialTOC.html)
+- [Difference between Externalizable and Serializable in Java](https://www.geeksforgeeks.org/difference-between-serializable-and-externalizable-in-java-serialization/)
