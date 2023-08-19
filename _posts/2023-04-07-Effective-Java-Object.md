@@ -1349,17 +1349,17 @@ List<Integer> before2000 = dates.stream()
 
 - 함수형 인터페이스는 람다 표현식과 메소드 참조에 대한 **타겟 타입**을 제공
 - 타겟 타입은 변수 할당, 메소드 호출, 타입 변환에 활용 가능
-- 자바에서 제공하는 기본 함수형 인터페이스([java.util.function package](https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html))
-  - 함수형 핵심 인터페이스
+- 자바에서 제공하는 기본 함수형 인터페이스([**java.util.function package**](https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html))
+  - 핵심 인터페이스 → 나머지는 대부분 여기서 파생
     ```java
     // input:Integer, output: String
     Function<Integer, String> intToString = (i) -> "hello";
     Function<Integer, String> intToString = Object::toString;
 
-    // output: Object (기본 생성자 )
+    /* 인터페이스 타입에 따라 각기 다른 생성자 참조 */
+    // output: Object (기본 생성자)
     Supplier<Person> personSupplier = Person::new;
     // input: LocalDate, output: Person (LocalDate 를 파라미터로 받는 생성자)
-    // 함수형 인터페이스 타입에 따라 각기 다른 생성자 참조
     Function<LocalDate, Person> personFunction = Person::new;
     
     // input: Integer
