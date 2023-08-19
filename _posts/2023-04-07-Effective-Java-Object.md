@@ -1318,13 +1318,13 @@ people.sort((a, b) -> a.birthday.compareTo(b.birthday));
   ```
 - 임의 객체의 인스턴스 메소드 레퍼런스
   - 첫 번째 인자를 자기 자신으로 인식(Person a 생략 가능)
-  ```java
-  public int compareByAge(Person b) {
-      return this.birthday.compareTo(b.birthday);
-  }
+    ```java
+    public int compareByAge(Person b) {
+        return this.birthday.compareTo(b.birthday);
+    }
 
-  people.sort(Person::compareByAge);
-  ```
+    people.sort(Person::compareByAge);
+    ```
 - 생성자 레퍼런스
   ```java
   dates.stream().map(Person::new)
