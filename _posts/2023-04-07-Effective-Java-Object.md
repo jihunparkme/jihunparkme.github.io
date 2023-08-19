@@ -309,55 +309,55 @@ elvis.leaveTheBuilding();
   - 인터페이스를 생성해서 Mock 객체로 테스트 가능
 - 리플렉션으로 private 생성자 호출 가능
   - 생성자 두 번째 호출 시 인스턴스 생성 막는 방법 필요
-  ```java
-  // 선언 되어 있는 기본 생성자에 접근(접근 지시자에 상관 없이 접근 가능)
-  Constructor<Elvis> defaultConstructor = Elvis.class.getDeclaredConstructor();
-  defaultConstructor.setAccessible(true);
-  Elvis elvis1 = defaultConstructor.newInstance();
-  Elvis elvis2 = defaultConstructor.newInstance();
+    ```java
+    // 선언 되어 있는 기본 생성자에 접근(접근 지시자에 상관 없이 접근 가능)
+    Constructor<Elvis> defaultConstructor = Elvis.class.getDeclaredConstructor();
+    defaultConstructor.setAccessible(true);
+    Elvis elvis1 = defaultConstructor.newInstance();
+    Elvis elvis2 = defaultConstructor.newInstance();
 
-  ...
+    ...
 
-  // 생성자 두 번째 호출 시 인스턴스 생성 막는 방법 필요
-  private static boolean created;
+    // 생성자 두 번째 호출 시 인스턴스 생성 막는 방법 필요
+    private static boolean created;
 
-  private Elvis() {
-      if (created) {
-          throw new UnsupportedOperationException("can't be created by constructor.");
-      }
-      created = true;
-  }
-  ```
+    private Elvis() {
+        if (created) {
+            throw new UnsupportedOperationException("can't be created by constructor.");
+        }
+        created = true;
+    }
+    ```
 - 역직렬화 시 새로운 인스턴스가 생성될 수 있음
   - 역직렬화 시 새로운 인스턴스가아닌 기존 인스턴스 리턴하도록 재정의
-  ```java
-  // 직렬화
-  try (ObjectOutput out = new ObjectOutputStream(new FileOutputStream("elvis.obj"))) {
-      out.writeObject(Elvis.INSTANCE);
-  } catch (IOException e) {
-      e.printStackTrace();
-  }
-
-  // 역직렬화
-  try (ObjectInput in = new ObjectInputStream(new FileInputStream("elvis.obj"))) {
-      Elvis elvis3 = (Elvis) in.readObject();
-      System.out.println(elvis3 == Elvis.INSTANCE);
-  } catch (IOException | ClassNotFoundException e) {
-      e.printStackTrace();
-  }
-
-  ...
-
-  public class Elvis implements IElvis, Serializable {
-    //...
-
-    // 역직렬화 시 새로운 인스턴스가아닌 기존 인스턴스 리턴하도록 재정의
-    // 진짜 Elvis를 반환하고, 가짜 Elvis는 가비지 컬렉터에
-    private Object readResolve() {
-        return INSTANCE;
+    ```java
+    // 직렬화
+    try (ObjectOutput out = new ObjectOutputStream(new FileOutputStream("elvis.obj"))) {
+        out.writeObject(Elvis.INSTANCE);
+    } catch (IOException e) {
+        e.printStackTrace();
     }
-  }
-  ```
+
+    // 역직렬화
+    try (ObjectInput in = new ObjectInputStream(new FileInputStream("elvis.obj"))) {
+        Elvis elvis3 = (Elvis) in.readObject();
+        System.out.println(elvis3 == Elvis.INSTANCE);
+    } catch (IOException | ClassNotFoundException e) {
+        e.printStackTrace();
+    }
+
+    ...
+
+    public class Elvis implements IElvis, Serializable {
+      //...
+
+      // 역직렬화 시 새로운 인스턴스가아닌 기존 인스턴스 리턴하도록 재정의
+      // 진짜 Elvis를 반환하고, 가짜 Elvis는 가비지 컬렉터에
+      private Object readResolve() {
+          return INSTANCE;
+      }
+    }
+    ```
 
 .
 
