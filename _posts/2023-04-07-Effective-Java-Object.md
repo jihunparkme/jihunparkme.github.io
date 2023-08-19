@@ -466,7 +466,7 @@ public class UtilityClass {
 - 추상(abstract) 클래스로 만드는 것으로는 인스턴스화를 막을 수 없다
   - 기본 생성자가 자동으로 생성
   - 상속받은 자식 클래스의 인스턴스 생성 시 상위 클래스의 생성자를 자동으로 호출하는 자바 특성
-- 컴파일러가 기본 생성자를 만드는 경우는 오직 명시된 생성자가 없을 때뿐이니 <u>*private 생성자를 추가하면 클래스의 인스턴스화를 막을 수 있다.*</u>
+- 컴파일러가 기본 생성자를 만드는 경우는 오직 명시된 생성자가 없을 때뿐이니 `private 생성자를 추가하면 클래스의 인스턴스화를 막을 수 있다.`
   - 생성자에 주석으로 인스턴스화 불가한 이유를 설명하는 것이 좋다
   - 상속을 방지할 때도 같은 방법을 사용할 수 있다
 - ex. 인스턴스를 만들 수 없는 유틸리스 클래스
@@ -487,16 +487,18 @@ public class UtilityClass {
 
 📖
 
-- 사용하는 자원에 따라 동작이 달라지는 클래스에는 정적 유틸리티 클래스나 싱글턴 방식이 비적합
-- 대신 클래스가 `여러 자원 인스턴스를 지원`해야 하며, `클라이언트가 원하는 자원`을 사용해야 한다.
-- 이 패턴은 바로! <u>*인스턴스를 생성할 때 생성자에 필요한 자원을 넘겨주는 방식*</u>의 `의존 객체 주입 패턴`
-- 의존 객체 주입 프레임워크(Dagger, Guice, Spring)를 사용하면 큰 프로젝트에서 코드가 어지러워지는 단점 개선 가능
-
 ```java
+// 자원을 직접 명시하지 말고
+private static final Dictionary dictionary = new Dictionary();
+
+...
+
+// 의존 객체 주입 사용
 public class SpellChecker {
-    private final Lexicon dictionary;
+    // Dictionary interface 를 주입받아서 코드의 재사용성을 높일 수 있음
+    private final Dictionary dictionary; 
     // 생성자에 필요한 자원을 넘겨준다.
-    public SpellChecker(Lexicon dictionary) {
+    public SpellChecker(Dictionary dictionary) {
         this.dictionary = Object.requireNonNull(dictionary);
     }
     
@@ -504,6 +506,12 @@ public class SpellChecker {
     public List<String> suggestions(String typo) { ... }
 }
 ```
+- 사용하는 자원에 따라 동작이 달라지는 클래스에는 정적 유틸리티 클래스나 싱글턴 방식이 비적합
+- 대신 클래스가 `여러 자원 인스턴스를 지원`해야 하며, `클라이언트가 원하는 자원`을 사용해야 한다.
+- `의존 객체 주입 패턴`: <u>*인스턴스를 생성할 때 생성자에 필요한 자원을 넘겨주는 방식*</u>
+  - 변형 방식으로 생성자에 자원 팩터리를 넘겨줄 수 있음
+  - 의존 객체 주입 통해 클래스의 유연성, 재사용성, 테스트 용이성 개선 가능
+- 의존 객체 주입 프레임워크(Dagger, Guice, Spring)를 사용하면 큰 프로젝트에서 코드가 어지러워지는 단점 개선 가능
 
 <br>
 
