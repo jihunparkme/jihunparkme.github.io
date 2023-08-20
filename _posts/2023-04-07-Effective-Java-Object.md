@@ -1457,12 +1457,16 @@ public static void main(String[] args) {
 
 **`생성자에 자원 팩터리를 넘겨주는 방식`**
 
+자원을 만들어주는 팩토리를 통해서 자원을 가져오는 방식
+- 만들어지는 과정이 복잡한 인스턴스일 경우 팩토리를 통해 생성
+- Supplier Interface 가 팩토리를 표현한 완벽한 예
+
 ```java
 public class SpellChecker {
     private final Dictionary dictionary;
 
     // 생성자에 자원 팩터리를 전달
-    // 한정적 와일드 카드를 타입을 사용해 팩터리의 타입 매개변수를 제한
+    // 한정적 와일드카드 타입을 사용해 팩터리의 타입 매개변수를 제한
     public SpellChecker(Supplier<? extends Dictionary> dictionarySupplier) {
         this.dictionary = dictionarySupplier.get();
     }
@@ -1484,14 +1488,50 @@ public class DictionaryFactory {
 
 SpellChecker spellChecker = new SpellChecker(DefaultDictionary::get);
 ```
+.
+
+**`팩터리 메소드 패턴`**
+
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/effective-java/factory-method-pattern.png?raw=true 'Result')
+
+```java
+public class SpellChecker {
+    private Dictionary dictionary; // Dictionary Interface
+
+    public SpellChecker(DictionaryFactory dictionaryFactory) {
+        // 새로운 Product를 제공하는 팩토리(TempDictionaryFactory)를 추가해도
+        // 팩토리를 사용하는 클라이언트 코드는 변경할 필요가 없음
+        this.dictionary = dictionaryFactory.getDictionary();
+    }
+    //..
+}
+
+...
+
+public interface DictionaryFactory {
+    Dictionary getDictionary();
+}
+
+...
+
+public class DefaultDictionaryFactory implements DictionaryFactory {
+    // 구체적으로 어떤 인스턴스를 만들지는 서브 클래스가 결정
+    @Override
+    public Dictionary getDictionary() {
+        return new DefaultDictionary();
+    }
+}
+
+```
+
+- 개방-폐쇄 원칙(Open-Closed Principle, **OCP**)
+  - 확장에 대해 열려 있고, 변경에 대해 닫혀있는 구조
+- Spring IOC 핵심인 **Bean Factory**가 대표전인 팩터리 메소드 패턴
 
 
 .
 
-이 패턴의 쓸만한 변형으로 생성자에 자원 팩터리를 넘겨주는 방식이 있다.
-
 자바 8에서 소개한 Supplier<T> 인터페이스가 팩터리를 표현한 완벽한 예다.
-
-한정적 와일드카드 타입을 사용해 팩터리의 타입 매개변수를 제한해야 한다.
 
 의존 객체가 많은 경우에 Dagger, Guice, 스프링 같은 의존 객체 주입 프레임워크 도입을 고려할 수 있다
