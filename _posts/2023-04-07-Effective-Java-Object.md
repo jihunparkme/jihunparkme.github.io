@@ -1452,3 +1452,46 @@ public static void main(String[] args) {
     - 미선언 시 클래스가 변경될 경우 serialVersionUID도 자동으로 변경
 - [객체 직렬화 스팩](https://docs.oracle.com/javase/8/docs/platform/serialization/spec/serialTOC.html)
 - [Difference between Externalizable and Serializable in Java](https://www.geeksforgeeks.org/difference-between-serializable-and-externalizable-in-java-serialization/)
+
+.
+
+**`생성자에 자원 팩터리를 넘겨주는 방식`**
+
+```java
+public class SpellChecker {
+    private final Dictionary dictionary;
+
+    // 생성자에 자원 팩터리를 전달
+    // 한정적 와일드 카드를 타입을 사용해 팩터리의 타입 매개변수를 제한
+    public SpellChecker(Supplier<? extends Dictionary> dictionarySupplier) {
+        this.dictionary = dictionarySupplier.get();
+    }
+
+    //..
+}
+
+
+...
+
+public class DictionaryFactory {
+    public static DefaultDictionary get() {
+        // Dictionary 구현체
+        return new DefaultDictionary();
+    }
+}
+
+...
+
+SpellChecker spellChecker = new SpellChecker(DefaultDictionary::get);
+```
+
+
+.
+
+이 패턴의 쓸만한 변형으로 생성자에 자원 팩터리를 넘겨주는 방식이 있다.
+
+자바 8에서 소개한 Supplier<T> 인터페이스가 팩터리를 표현한 완벽한 예다.
+
+한정적 와일드카드 타입을 사용해 팩터리의 타입 매개변수를 제한해야 한다.
+
+의존 객체가 많은 경우에 Dagger, Guice, 스프링 같은 의존 객체 주입 프레임워크 도입을 고려할 수 있다
