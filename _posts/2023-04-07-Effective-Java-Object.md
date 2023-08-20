@@ -1532,6 +1532,14 @@ public class DefaultDictionaryFactory implements DictionaryFactory {
 
 .
 
-자바 8에서 소개한 Supplier<T> 인터페이스가 팩터리를 표현한 완벽한 예다.
+**`Spring Ioc`**
 
-의존 객체가 많은 경우에 Dagger, Guice, 스프링 같은 의존 객체 주입 프레임워크 도입을 고려할 수 있다
+**BeanFactory** 또는 **ApplicationContext**
+
+- Ioc(Inversion of Control): 뒤짚힌 제어권
+  - 코드에 대한 제어권(인스턴스 생성, 메소드 실행, 의존성을 주입 등)을 자기 자신이 가지고 있지 않고 외부에서 제어하는 경우
+- Spring IoC Container 사용 장점
+  - 많은 개발자에게 검증되었으며 자바 표준 스팩(@Inject)도 지원
+  - 손쉽게 싱글톤 Scope 사용
+  - 객체 생성(Bean) 관련 라이프사이클 인터페이스 제공
+- [Spring Ioc](https://github.com/jihunparkme/Effective-JAVA/tree/main/effective-java/src/main/java/me/whiteship/chapter01/item05/springioc)
