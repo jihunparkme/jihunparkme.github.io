@@ -1565,3 +1565,18 @@ public class DefaultDictionaryFactory implements DictionaryFactory {
   - 손쉽게 싱글톤 Scope 사용
   - 객체 생성(Bean) 관련 라이프사이클 인터페이스 제공
 - [Spring Ioc](https://github.com/jihunparkme/Effective-JAVA/tree/main/effective-java/src/main/java/me/whiteship/chapter01/item05/springioc)
+
+.
+
+**`Deprecation` (사용 자제 API)**
+
+.
+
+**`정규 표현식`**
+
+.
+
+**`가비지 컬렉션`**
+
+.
+
