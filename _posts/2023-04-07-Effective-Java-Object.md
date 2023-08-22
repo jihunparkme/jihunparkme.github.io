@@ -1613,5 +1613,15 @@ public Deprecation(String name) {
 
 **`가비지 컬렉션`**
 
-.
-
+- 기본 개념
+  - Mark: 필요한 자원인지 아닌지 마킹
+  - Sweep: 필요없는 오브젝트를 힙에서 제거
+  - Compact: 흩어져있는 메모리 공간을 모아서 큰 공간을 확보
+- 인스턴스 영역
+  - Young Generation(Eden, S0, S1): 금방 제거되는 객체 
+  - Old Generation: 오래 살아 남는 객체
+- Minor GC, Full GC
+- Full GC 알고리즘: Serial, Parallel, CMS, G1, ZGC, Shenandoah
+- GC 알고리즘 관점: Throughput, Latency(Stop-The-World), Footprint
+- 기본 개념, 옵션, 모니터링툴 학습 필요
+- [How to choose the best Java garbage collector](https://developers.redhat.com/articles/2021/11/02/how-choose-best-java-garbage-collector#)
