@@ -1598,6 +1598,17 @@ public Deprecation(String name) {
 
 **`정규 표현식`**
 
+내부적으로 Pattern이 사용되는 곳
+
+- String.matches(String regex)
+- String.split(String regex)
+  - Pattern.compile(regex).split(str)
+- String.replace*(String regex, String replacement)
+  - Pattern.compile(regex).matcher(str).replaceAll(repl)
+- [java.util.regex](https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html)
+- [Regular Expressions](https://docs.oracle.com/javase/tutorial/essential/regex/)
+- [regex101](https://regex101.com/), [regexr](https://regexr.com/)
+
 .
 
 **`가비지 컬렉션`**
