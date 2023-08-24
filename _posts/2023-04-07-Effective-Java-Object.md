@@ -582,22 +582,56 @@ private static long sum() {
 📖
 
 가비지 컬렉션 언어에서는 메모리 누수를 찾기가 아주 까다로움
-
 - 메모리 누수로 단 몇 개의 객체가 매우 많은 객체를 회수되지 못하게 할 수 있고, 잠재적으로 성능에 악영향을 줄 수 있음
-- 해법은 해당 참조를 다 썻을 때 null 처리(참조 해제)
-- 참조 해제의 더 좋은 방법은 <u>*그 참조를 담은 변수를 유효 범위 밖으로 밀어내는 것*</u>
+- 어떤 객체에 대한 레퍼런스가 남아있다면 해당 객체는 가비지 컬렉션의 대상이 되지 않음
+- 해법은 해당 참조를 다 썻을 때 **null 처리(참조 해제)하기**
+- 참조 해제의 가장 좋은 방법은 <u>*그 참조를 담은 변수를 유효 범위 밖으로 밀어내는 것*</u>
+- 자기 메모리를 직접 관리하는 클래스(Stack, Cache, Listener/Callback)라면 항시 메모리 누수에 주의
+  - cache. LinkedHashMap 의 removeEldestEntry 메서드로 처리
 
-자기 메모리를 직접 관리하는 클래스(ex. Stack)라면 항시 메모리 누수에 주의
+.
 
-- 해당 참조를 다 썻을 때 `null 처리(참조 해제)`
+참조 해제 방법
 
-메모리 누수의 두 번째 주범은 캐시
+해당 참조를 다 사용했을 경우 `null 처리`
+```java
+public Object pop() {
+    if (size == 0) {
+        throw new EmptyStackException();
+    }
+    Object result = elements[--size];
+    elements[size] = null; // 다 쓴 참조 해제
 
-- LinkedHashMap 의 removeEldestEntry 메서드로 처리
+    return result;
+}
+```
 
-메모리 누수의 세 번째 주범은 리스너(listener) 혹은 콜백(callback)
+`WeakHashMap` 자료구조 사용
+- 약한 참조로 저장(WeakHashMap에 Key로 저장) 시 가비지 컬렉터가 즉시 수거
+```java
+private Map<CacheKey, Post> cache;
 
-- 약한 참조로 저장(WeakHashMap에 Key로 저장)하면 가비지 컬렉터가 즉시 수거
+public PostRepository() {
+    this.cache = new WeakHashMap<>();
+}
+
+public Post getPostById(int id) {
+    CacheKey key = new CacheKey(id);
+    if (cache.containsKey(key)) {
+        return cache.get(key);
+    } else {
+        // DB 또는 REST API를 통해 조회
+        Post post = new Post();
+        cache.put(key, post);
+        return post;
+    }
+}
+```
+
+`LRU Cache` 사용하기
+
+백그래운드 스레드
+
 
 <br>
 
