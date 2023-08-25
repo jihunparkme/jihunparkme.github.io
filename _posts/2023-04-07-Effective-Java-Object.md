@@ -1782,8 +1782,21 @@ Optional(Java 8)을 활용해서 NPE를 최대한 피하자
 
 .
 
-`백그라운드 쓰레드`
-- ScheduledThreadPoolExecutor
+`ScheduledThreadPoolExecutor`
+
+- Thread, Runnable, ExecutorService
+- ThreadPool 개수 선정 시 주의점
+  - CPU: 최대 CPU 개수만큼만 할당 가능(*Runtime.getRuntime().availableProcessors()*)
+  - I/O: 딜레이 발생 시 응답을 기다리는 동안 CPU 리소스가 놀게 되므로, 기본적으로 많은 스레드 필요
+- 쓰레드툴의 종류
+  - **Single**: 쓰레드 하나로 모든 작업을 수행
+  - **Fixed**: 내부적으로 Blocking Queue 사용(동시성 안전 보장). 스레드 개수 설정 가능.
+  - **Cached**: 필요한 만큼 스레드 생성. 작업을 위한 큐가 하나 존재.
+    - 사용 가능한 스레드 존재 시 재사용, 부족 시 추가 생성, 미사용 스레드는 60초 지나면 제거
+  - **Scheduled**: 스케줄을 감안해서 스케줄 순서 변경 가능. 작업을 몇초 뒤 혹은 주기적으로 실행
+- Runnable, Callable, Future
+- CompletableFuture, ForkJoinPool
+- 백그라운드 쓰레드
 
 .
 
