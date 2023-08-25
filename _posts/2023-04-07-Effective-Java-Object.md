@@ -581,19 +581,18 @@ private static long sum() {
 
 📖
 
-가비지 컬렉션 언어에서는 메모리 누수를 찾기가 아주 까다로움
+CG(가비지 컬렉션) 언어에서는 메모리 누수를 찾기가 아주 까다로움
 - 메모리 누수로 단 몇 개의 객체가 매우 많은 객체를 회수되지 못하게 할 수 있고, 잠재적으로 성능에 악영향을 줄 수 있음
-- 어떤 객체에 대한 레퍼런스가 남아있다면 해당 객체는 가비지 컬렉션의 대상이 되지 않음
-- 해법은 해당 참조를 다 썻을 때 **null 처리(참조 해제)하기**
-- 참조 해제의 가장 좋은 방법은 <u>*그 참조를 담은 변수를 유효 범위 밖으로 밀어내는 것*</u>
+  - 어떤 객체에 대한 레퍼런스가 남아있다면 해당 객체는 가비지 컬렉션의 대상이 되지 않음
+- 해법은 해당 참조를 다 썻을 때 **참조 해제(null 처리)하기**
+  - 참조 해제의 가장 좋은 방법은 <u>*그 참조를 담은 변수를 유효 범위 밖으로 밀어내는 것*</u>
 - 자기 메모리를 직접 관리하는 클래스(Stack, Cache, Listener/Callback)라면 항시 메모리 누수에 주의
-  - cache. LinkedHashMap 의 removeEldestEntry 메서드로 처리
-
+  
 .
 
-참조 해제 방법
+**`참조 해제 방법`**
 
-해당 참조를 다 사용했을 경우 `null 처리`
+(1) 해당 참조를 다 사용했을 경우 `null 처리`
 ```java
 public Object pop() {
     if (size == 0) {
@@ -601,37 +600,100 @@ public Object pop() {
     }
     Object result = elements[--size];
     elements[size] = null; // 다 쓴 참조 해제
-
     return result;
 }
 ```
 
-`WeakHashMap` 자료구조 사용
-- 약한 참조로 저장(WeakHashMap에 Key로 저장) 시 가비지 컬렉터가 즉시 수거
+(2) `WeakHashMap` 자료구조
+- 약한 참조로 저장(WeakHashMap애 Key로 저장) 시 가비지 컬렉터가 즉시 수거
 ```java
-private Map<CacheKey, Post> cache;
+public class PostRepository {
+    private Map<CacheKey, Post> cache;
 
-public PostRepository() {
-    this.cache = new WeakHashMap<>();
-}
-
-public Post getPostById(int id) {
-    CacheKey key = new CacheKey(id);
-    if (cache.containsKey(key)) {
-        return cache.get(key);
-    } else {
-        // DB 또는 REST API를 통해 조회
-        Post post = new Post();
-        cache.put(key, post);
-        return post;
+    public PostRepository() {
+        this.cache = new WeakHashMap<>();
     }
+
+    public Post getPostById(int id) {
+      CacheKey key = new CacheKey(id);
+        if (cache.containsKey(key)) {
+            return cache.get(key);
+        } else {
+            // DB, REST API를 통한 조회
+            Post post = new Post();
+            cache.put(key, post);
+            return post;
+        }
+    }
+    //...
 }
+
+...
+
+PostRepository postRepository = new PostRepository();
+postRepository.getPostById(1);
+
+assertFalse(postRepository.getCache().isEmpty());
+
+// WeakHashMap Key 는 GC가 즉시 수거
+System.out.println("run gc");
+System.gc();
+System.out.println("wait");
+Thread.sleep(3000L);
+
+assertTrue(postRepository.getCache().isEmpty());
 ```
 
-`LRU Cache` 사용하기
+(3) `Background Threads` & `LRU Cache`
+- LRU(Least Recently Used) cache
+- 가장 오랫동안 사용되지 않은 캐시 제거
 
-백그래운드 스레드
+```java
+public class PostRepository {
+    private Map<CacheKey, Post> cache;
 
+    public PostRepository() {
+        this.cache = new WeakHashMap<>();
+    }
+
+    public Post getPostById(CacheKey key) {
+        if (cache.containsKey(key)) {
+            return cache.get(key);
+        } else {
+            // DB, REST API를 통한 조회
+            Post post = new Post();
+            cache.put(key, post);
+            return post;
+        }
+    }
+    //...
+}
+
+...
+
+ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+PostRepository postRepository = new PostRepository();
+CacheKey key1 = new CacheKey(1);
+postRepository.getPostById(key1);
+
+// 백그라운드 스레드에서 가장 오랫동안 사용되지 않은 캐시 제거
+Runnable removeOldCache = () -> {
+    System.out.println("running removeOldCache task");
+    Map<CacheKey, Post> cache = postRepository.getCache();
+    Set<CacheKey> cacheKeys = cache.keySet();
+    Optional<CacheKey> key = cacheKeys.stream().min(Comparator.comparing(CacheKey::getCreated));
+    key.ifPresent((k) -> {
+        System.out.println("removing " + k);
+        cache.remove(k);
+    });
+};
+
+// 처음에 1초 있다가 3초마다 러너 실행
+executor.scheduleAtFixedRate(removeOldCache, 1, 3, TimeUnit.SECONDS);
+// 20초동안 애플리케이션을 돌리는 동안 별도의 스레드기 수행
+Thread.sleep(20000L);
+executor.shutdown();
+```
 
 <br>
 
@@ -1659,3 +1721,7 @@ public Deprecation(String name) {
 - GC 알고리즘 관점: Throughput, Latency(Stop-The-World), Footprint
 - 기본 개념, 옵션, 모니터링툴 학습 필요
 - [How to choose the best Java garbage collector](https://developers.redhat.com/articles/2021/11/02/how-choose-best-java-garbage-collector#)
+
+.
+
+- cache. LinkedHashMap 의 removeEldestEntry 메서드로 처리
