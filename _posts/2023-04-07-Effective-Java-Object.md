@@ -683,16 +683,58 @@ executor.shutdown();
 
 📖
 
-자바는 두 가지 객체 소멸자를 제공
+자바는 두 가지 객체 소멸자(finalizer, cleaner)를 제공
 
 - finalizer는 예측할 수 없고, 상황에 따라 위험할 수 있어 일반적으로 불필요
 - cleaner는 finalizer보다는 덜 위험하지만, 여전히 예측할 수 없고, 느리고, 일반적으로 불필요
 - finalizer와 cleaner로는 제때 수행되어야 하는 작업은 절대 할 수 없음
-  - 즉시 수행된다는 보장이 없고, 가비지 컬렉터 알고리즘에 달려있어 가비지 컬렉터 구현마다 천차만별
+  - 즉시 수행된다는 보장이 없고, GC 알고리즘에 달려있어 GC 구현마다 천차만별
 - 상태를 영구적으로 수정하는 작업에서는 절대 finalizer, cleaner에 의존하지 말자
 - finalizer와 cleaner는 심각한 성능 문제도 동반
 - finalizer를 사용한 클래스는 finalizer 공격에 노출되어 심각한 보안 문제를 일으킬 수도 있음
   - final이 아닌 클래스를 finalizer 공격으로부터 방어하려면 아무 일도 하지 않는 finalize 메서드를 만들고 final로 선언하기
+
+.
+
+반납할 자원이 있는 클래스는 `AutoCloseable`을 구현하고 클라이언트에서 `close()`를 호출하거나 `try-with-resource`를 사용하도록 하자.
+
+```java
+public class AutoClosableIsGood implements Closeable {
+
+    private BufferedReader reader;
+
+    //...
+
+    @Override
+    public void close() {
+        try {
+            reader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+...
+
+try (AutoClosableIsGood good = new AutoClosableIsGood()) {
+    //...
+}
+```
+
+cleaner와 finalizer 사용을 권장하지않음. AutoCloseable try-with-resource 사용 권장
+
+굳이 cleaner 를 사용하자면. 안전망으로 사용. 사용자가 try-with-resource 를 사용하지 않는 경우를 대비해서 기회를 주려면 cleaner 를 Runnabel 로 활용
+
+
+
+
+
+
+
+
+
+
 
 .
 
@@ -1813,11 +1855,12 @@ static class Task implements Runnable {
   - CPU: 최대 CPU 개수만큼만 할당 가능(*Runtime.getRuntime().availableProcessors()*)
   - I/O: 딜레이 발생 시 응답을 기다리는 동안 CPU 리소스가 놀게 되므로, 기본적으로 많은 스레드 필요
 - ThreadPool 종류
-  - **Single**: 쓰레드 하나로 모든 작업을 수행
-  - **Fixed**: 내부적으로 Blocking Queue 사용(동시성 안전 보장). 스레드 개수 설정 가능.
-  - **Cached**: 작업을 위한 큐가 하나 존재. 필요한 만큼 스레드 생성.
+  - **SingleThreadPool**: 쓰레드 하나로 모든 작업을 수행(여러 작업 수행 시 많은 시간 소요)
+  - **FixedThreadPool**: 내부적으로 Blocking Queue 사용(동시성 안전 보장). 스레드 개수 설정 가능.
+  - **CachedThreadPool**: 작업을 위한 큐가 하나 존재. 필요한 만큼 스레드 생성.
     - 사용 가능한 스레드 존재 시 재사용, 부족 시 추가 생성, 미사용 스레드는 60초 지나면 제거
-  - **Scheduled**: 스케줄을 감안해서 스레드 실행 순서 변경 가능. 작업을 몇초 뒤 혹은 주기적으로 실행
+  - **ScheduledThreadPool**: 스케줄을 감안해서 스레드 실행 순서 변경 가능
+    - 작업을 몇초 뒤 혹은 주기적으로 실행하도록 설정 가능
 - FunctionalInterface
   - Runnable
   - Callable
@@ -1844,9 +1887,3 @@ static class Task implements Runnable {
 
     ```
 - CompletableFuture, ForkJoinPool
-- 백그라운드 쓰레드
-
-.
-
-
-- cache. LinkedHashMap 의 removeEldestEntry 메서드로 처리
