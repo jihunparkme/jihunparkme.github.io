@@ -1724,4 +1724,45 @@ public Deprecation(String name) {
 
 .
 
+`NullPointerException`
+- Optional(Java 8)을 활용해서 NPE를 최대한 피하자
+- 메소드에서 적절한 값을 리턴할 수 없는 경우에 선택할 수 있는 대안
+  - 예외 던지기
+    ```java
+    throw new IllegalArgumentException();
+    ```
+  - null 리턴
+    ```java
+    return null;
+    ```
+  - Optional 리턴
+    ```java
+    public Optional<MemberShip> defaultMemberShip() {
+        if (this.numOfSubscribers < 2000) {
+            return Optional.empty();
+        } else {
+            return Optional.of(new MemberShip());
+        }
+    }
+
+    ...
+
+    Channel channel = new Channel();
+    Optional<MemberShip> optional = channel.defaultMemberShip();
+    optional.ifPresent(MemberShip::hello);
+    ```
+
+.
+
+`WeakHashMap`
+- 약한 참조 (weak reference)
+
+.
+
+`백그라운드 쓰레드`
+- ScheduledThreadPoolExecutor
+
+.
+
+
 - cache. LinkedHashMap 의 removeEldestEntry 메서드로 처리
