@@ -614,8 +614,7 @@ public class PostRepository {
         this.cache = new WeakHashMap<>();
     }
 
-    public Post getPostById(int id) {
-      CacheKey key = new CacheKey(id);
+    public Post getPostById(CacheKey key) {
         if (cache.containsKey(key)) {
             return cache.get(key);
         } else {
@@ -627,14 +626,15 @@ public class PostRepository {
     }
     //...
 }
-
 ...
 
 PostRepository postRepository = new PostRepository();
-postRepository.getPostById(1);
+CacheKey key1 = new CacheKey(1);
+postRepository.getPostById(key1);
 
 assertFalse(postRepository.getCache().isEmpty());
 
+key1 = null;
 // WeakHashMap Key 는 GC가 즉시 수거
 System.out.println("run gc");
 System.gc();
@@ -649,28 +649,6 @@ assertTrue(postRepository.getCache().isEmpty());
 - 가장 오랫동안 사용되지 않은 캐시 제거
 
 ```java
-public class PostRepository {
-    private Map<CacheKey, Post> cache;
-
-    public PostRepository() {
-        this.cache = new WeakHashMap<>();
-    }
-
-    public Post getPostById(CacheKey key) {
-        if (cache.containsKey(key)) {
-            return cache.get(key);
-        } else {
-            // DB, REST API를 통한 조회
-            Post post = new Post();
-            cache.put(key, post);
-            return post;
-        }
-    }
-    //...
-}
-
-...
-
 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 PostRepository postRepository = new PostRepository();
 CacheKey key1 = new CacheKey(1);
@@ -1725,7 +1703,9 @@ public Deprecation(String name) {
 .
 
 `NullPointerException`
-- Optional(Java 8)을 활용해서 NPE를 최대한 피하자
+
+Optional(Java 8)을 활용해서 NPE를 최대한 피하자
+
 - 메소드에서 적절한 값을 리턴할 수 없는 경우에 선택할 수 있는 대안
   - 예외 던지기
     ```java
@@ -1755,7 +1735,50 @@ public Deprecation(String name) {
 .
 
 `WeakHashMap`
-- 약한 참조 (weak reference)
+
+더이상 사용하지 않는 객체를 GC 동작 시 자동으로 삭제해주는 Map
+
+- Key 가 더이상 강한 참조(Strong Reference)되는 곳이 없다면 해당 엔트리를 제거
+  - 단, Key 값을 Wrapper type(Integer, String)으로 사용할 경우 JVM 내부에 캐시가 되어 GC 대상으로 선정되지 않으므로 Reference Type(Object) 사용 권장 
+- Map의 엔트리를 Value 가 아니라 Key 에 의존해야 하는 경우 사용
+- 캐시 구현에 사용할 수 있지만, 직접 구현하는 것은 권장하지 않음
+- 레퍼런스 종류
+  - Strong Reference
+    ```java
+    // 일반적인 참조
+    ChatRoom localRoom = new ChatRoom();
+    ```
+  - [Soft Reference](https://docs.oracle.com/javase/8/docs/api/java/lang/ref/SoftReference.html)
+    - Strong Reference 가 없어지고 Soft Reference 만 남았다면, GC 대상이 되고 GC 공간에 메모리가 필요한 상황에 GC 동작
+    ```java
+    Object strong = new Object(); // Strong Reference
+    SoftReference<Object> soft = new SoftReference<>(strong); // Soft Reference
+    strong = null; // remove Strong Reference
+    ```
+  - [Weak Reference](https://docs.oracle.com/javase/8/docs/api/java/lang/ref/WeakReference.html)
+    - GC 동작 시 무조건 제거
+    ```java
+    Object strong = new Object(); // Strong Reference
+    WeakReference<Object> weak = new WeakReference<>(strong); // Weak Reference
+    strong = null; // remove Strong Reference
+    ```
+  - [Phantom Reference](https://docs.oracle.com/javase/8/docs/api/java/lang/ref/PhantomReference.html)
+    - Phantom Reference 만 남은 경우 GC 동작 시 원본은 정리되고 Reference Queue에 삽입
+    ```java
+    BigObject strong = new BigObject(); // Strong Reference
+    ReferenceQueue<BigObject> rq = new ReferenceQueue<>(); // Phantom Reference 사용을 위한 Queue
+    BigObjectReference<BigObject> phantom = new BigObjectReference<>(strong, rq);
+    strong = null; // remove Strong Reference
+
+    System.gc();
+    Thread.sleep(3000L);
+    System.out.println(phantom.enqueue()); // GC 동작으로 자원이 반납되고, Reference Queue 에 삽입
+
+    Reference<? extends BigObject> reference = rq.poll();
+    reference.clear(); // Phantom Reference 참조 해제
+    ```
+- Soft, Weak Reference 를 사용해서 자원을 반납하는 방법은 언제 해당 객체가 없어질지 불확실한 단점이 존재하여 권장하지 않음
+  - Phantom Reference 또한 자원 반납 용도로 사용하기에 너무 복잡한 방법
 
 .
 
