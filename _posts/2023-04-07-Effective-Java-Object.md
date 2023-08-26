@@ -1173,7 +1173,7 @@ public int compareTo(PhoneNumber pn) {
 
 .
 
-**`Flyweight Pattern`**
+**`Flyweight Pattern`** / Item 01
 
 같은 객체가 자주 요청되는 상황이라면 플라이웨이트 패턴을 사용해 보자.
 
@@ -1208,7 +1208,7 @@ public class FontFactory {
 
 .
 
-**`Java8 Interface`**
+**`Java8 Interface`** / Item 01
 
 자바 8부터는 인터페이스가 정적 메서드를 가질 수 없다는 제한이 풀렸기 때문에 인스턴스화 불가 동반 클래스를 둘 이유가 별로 없다.
 
@@ -1248,7 +1248,7 @@ public interface HelloService {
 
 .
 
-**`Service Provider Framework`**
+**`Service Provider Framework`** / Item 01
 
 확장 가능한 애플리케이션을 만드는 방법
 
@@ -1293,7 +1293,7 @@ public interface HelloService {
 
 .
 
-**`Reflection`**
+**`Reflection`** / Item 01
 
 서비스 제공자 인터페이스가 없다면 각 구현체를 인스턴스로 만들 때 [리플렉션](https://docs.oracle.com/javase/tutorial/reflect/)을 사용해야 한다.
 
@@ -1310,7 +1310,7 @@ public interface HelloService {
 
 .
 
-**`JavaBean`**
+**`JavaBean`** / Item 02
 
 (주로 GUI에서) 재사용 가능한 소프트웨어 컴포넌트
 
@@ -1322,7 +1322,7 @@ public interface HelloService {
 
 .
 
-**`Object freezing`**
+**`Object freezing`** / Item 02
 
 임의의 객체를 불변 객체로 만들어 주는 javascript 기능
 
@@ -1337,7 +1337,7 @@ public interface HelloService {
 
 .
 
-**`Builder Pattern`**
+**`Builder Pattern`** / Item 02
 
 동일한 프로세스를 거쳐 다양한 구성의 인스턴스를 만드는 방법
 
@@ -1366,7 +1366,7 @@ tourPlanBuilder.title("제주 여행")
 
 .
 
-**`IllegalArgumentException`**
+**`IllegalArgumentException`** / Item 02
 
 잘못된 인자를 넘겨 받았을 때 사용할 수 있는 기본 런타임 예외
 
@@ -1408,7 +1408,7 @@ tourPlanBuilder.title("제주 여행")
 
 .
 
-**`가변인수`**
+**`가변인수`** / Item 02
 
 빌더를 사용하면 (빌더의 각 메소드에 나눠서) 가변인수(varargs) 매개변수를 여러 개 사용할 수 있다.
 
@@ -1426,7 +1426,7 @@ public void printNumbers(int... numbers) {
 
 .
 
-**`메서드 참조`**
+**`메서드 참조`** / Item 03
 
 메소드 하나만 호출하는 람다 표현식을 줄여쓰는 방법
 
@@ -1479,7 +1479,7 @@ people.sort((a, b) -> a.birthday.compareTo(b.birthday));
 
 .
 
-**`함수형 인터페이스`**
+**`함수형 인터페이스`** / Item 03
 
 자바가 제공하는 기본 함수형 인터페이스
 
@@ -1518,7 +1518,7 @@ List<Integer> before2000 = dates.stream()
 
 .
 
-**`객체 직렬화`**
+**`객체 직렬화`** / Item 03
 
 **객체를 바이트스트림으로** 상호 변환하는 기술
 
@@ -1584,7 +1584,7 @@ public static void main(String[] args) {
 
 .
 
-**`생성자에 자원 팩터리를 넘겨주는 방식`**
+**`생성자에 자원 팩터리를 넘겨주는 방식`** / Item 04
 
 자원을 만들어주는 팩토리를 통해서 자원을 가져오는 방식
 - 만들어지는 과정이 복잡한 인스턴스일 경우 팩토리를 통해 생성
@@ -1619,7 +1619,7 @@ SpellChecker spellChecker = new SpellChecker(DefaultDictionary::get);
 ```
 .
 
-**`팩터리 메소드 패턴`**
+**`팩터리 메소드 패턴`** / Item 04
 
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/effective-java/factory-method-pattern.png?raw=true 'Result')
@@ -1661,7 +1661,7 @@ public class DefaultDictionaryFactory implements DictionaryFactory {
 
 .
 
-**`Spring Ioc`**
+**`Spring Ioc`** / Item 04
 
 **BeanFactory** 또는 **ApplicationContext**
 
@@ -1675,7 +1675,7 @@ public class DefaultDictionaryFactory implements DictionaryFactory {
 
 .
 
-**`Deprecation` (사용 자제 API)**
+**`Deprecation` (사용 자제 API)** / Item 05
 
 클라이언트가 사용하지 않길 바라는 코드가 있다면 적용
 
@@ -1703,7 +1703,7 @@ public Deprecation(String name) {
 
 .
 
-**`정규 표현식`**
+**`정규 표현식`** / Item 05
 
 내부적으로 Pattern이 사용되는 곳
 
@@ -1718,7 +1718,7 @@ public Deprecation(String name) {
 
 .
 
-**`가비지 컬렉션`**
+**`가비지 컬렉션`** / Item 05
 
 - 기본 개념
   - Mark: 필요한 자원인지 아닌지 마킹
@@ -1735,7 +1735,7 @@ public Deprecation(String name) {
 
 .
 
-`NullPointerException`
+`NullPointerException` / Item 06
 
 Optional(Java 8)을 활용해서 NPE를 최대한 피하자
 
@@ -1767,7 +1767,7 @@ Optional(Java 8)을 활용해서 NPE를 최대한 피하자
 
 .
 
-`WeakHashMap`
+`WeakHashMap` / Item 06
 
 더이상 사용하지 않는 객체를 GC 동작 시 자동으로 삭제해주는 Map
 
@@ -1815,7 +1815,7 @@ Optional(Java 8)을 활용해서 NPE를 최대한 피하자
 
 .
 
-`ScheduledThreadPoolExecutor`
+`ScheduledThreadPoolExecutor` / Item 06
 
 ```java
 public static void main(String[] args) throws ExecutionException, InterruptedException {
@@ -1881,15 +1881,15 @@ static class Task implements Runnable {
 
 .
 
-`Finalizer 공격`
+`Finalizer 공격` / Item 07
 
 .
 
-`AutoClosable`
+`AutoClosable` / Item 07
 
 .
 
-`정적이 아닌 중첩 클래스는 자동으로 바깥 객체의 참조를 갖는다.`
+`정적이 아닌 중첩 클래스는 자동으로 바깥 객체의 참조를 갖는다.` / Item 07
 
 - 중첩 클래스는 static 으로 생성하자.
 - 그렇지 않을 경우, 중첩 클래스는 바깥 객체를 참조하므로 바깥 객체가 GC를 통한 자원 반납이 제대로 이루어지지 않음.
@@ -1931,7 +1931,7 @@ public class OuterClass {
 
 .
 
-`람다 역시 바깥 객체의 참조를 갖기 쉽다.`
+`람다 역시 바깥 객체의 참조를 갖기 쉽다.` / Item 07
 - 클래스 내부의 람다가 바깥 객체의 필드를 참조할 경우 순환참조가 발생
 - 바깥 객체가 GC를 통한 자원 반납이 제대로 이루어지지 않음.
 
