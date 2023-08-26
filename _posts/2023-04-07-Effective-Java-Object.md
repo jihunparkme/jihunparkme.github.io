@@ -1878,3 +1878,59 @@ static class Task implements Runnable {
 
     ```
 - CompletableFuture, ForkJoinPool
+
+.
+
+`Finalizer 공격`
+
+.
+
+`AutoClosable`
+
+.
+
+`정적이 아닌 중첩 클래스는 자동으로 바깥 객체의 참조를 갖는다.`
+
+- 중첩 클래스로 Runnable 구현 시 static 으로 생성하자.
+- 그렇지 않을 경우, 중첩 클래스는 바깥 객체를 참조하므로 GC를 통한 자원 반납이 이루어지지 않음.
+
+```java
+public class OuterClass {
+
+    private void hi() {  }
+
+    /*
+     * 정적이 아닌 중첩 클래스
+     */ 
+    class InnerClass {
+        public void hello() {
+            // InnerClass 에서 OuterClass 메서드 호출
+            OuterClass.this.hi();
+        }
+    }
+
+    public static void main(String[] args) {
+        OuterClass outerClass = new OuterClass();
+        InnerClass innerClass = outerClass.new InnerClass(); // OuterClass 의 인스턴스로 InnerClass 생성
+
+        System.out.println(innerClass);
+
+        outerClass.printFiled();
+    }
+
+    private void printFiled() {
+        Field[] declaredFields = InnerClass.class.getDeclaredFields();
+        for(Field field : declaredFields) {
+            // InnerClass 는 자동으로 OuterClass 의 참조를 가지고 있음
+            System.out.println("field type:" + field.getType()); // class me.whiteship.chapter01.item08.outerclass.OuterClass
+            System.out.println("field name:" + field.getName()); // this$0
+        }
+    }
+}
+```
+
+.
+
+`람다 역시 바깥 객체의 참조를 갖기 쉽다`
+
+.
