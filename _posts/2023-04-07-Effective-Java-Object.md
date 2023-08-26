@@ -683,7 +683,7 @@ executor.shutdown();
 
 📖
 
-자바는 두 가지 객체 소멸자(finalizer, cleaner)를 제공
+자바는 두 가지 객체 소멸자(`finalizer`, `cleaner`)를 제공
 
 - finalizer는 예측할 수 없고, 상황에 따라 위험할 수 있어 일반적으로 불필요
 - cleaner는 finalizer보다는 덜 위험하지만, 여전히 예측할 수 없고, 느리고, 일반적으로 불필요
@@ -696,7 +696,7 @@ executor.shutdown();
 
 .
 
-반납할 자원이 있는 클래스는 `AutoCloseable`을 구현하고 클라이언트에서 `close()`를 호출하거나 `try-with-resource`를 사용하도록 하자.
+반납할 자원이 있는 클래스는 `AutoCloseable`을 구현하고, 클라이언트에서 `close()`를 호출하거나 `try-with-resource`를 사용하도록 하자.
 
 ```java
 public class AutoClosableIsGood implements Closeable {
@@ -722,29 +722,20 @@ try (AutoClosableIsGood good = new AutoClosableIsGood()) {
 }
 ```
 
-cleaner와 finalizer 사용을 권장하지않음. AutoCloseable try-with-resource 사용 권장
-
-굳이 cleaner 를 사용하자면. 안전망으로 사용. 사용자가 try-with-resource 를 사용하지 않는 경우를 대비해서 기회를 주려면 cleaner 를 Runnabel 로 활용
-
-
-
-
-
-
-
-
-
-
-
 .
 
-cleaner와 finalizer의 사용
+cleaner 와 finalizer 의 사용
 
-1. 자원의 소유자가 close 메서드를 호출하지 않는 것에 대비한 안전망 역할
-2. Native peer와 연결된 객체에서 자원을 즉시 회수해야 한다면 close 메서드를 사용 (Native peer는 자바 객체가 아니라 가비지 컬렉터는 그 존재를 알지 못함)
+(1). 자원의 소유자가 close 메서드를 호출하지 않는 것에 대비한 `안전망 역할`
+- PhantomReference 사용
+- 호출되리라는 보장이 없지만 없는 것 보다는 나을 수 있음
+
+(2). `Native peer` 와 연결된 객체에서 자원을 즉시 회수해야 한다면 close 메서드를 사용
+- 성능 저하를 감당할 수 있고 네이티브 피어가 심각한 자원을 가지고 있지 않을 때에만 해당
+- 네이티브 피어는 자바 객체가 아니라 가비지 컬렉터는 그 존재를 알지 못함
+
 
 [📝 cleaner를 안전망으로 활용하는 AutoCloseable Class](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter2/item8/Room.java)
-- cleaner 동작은 구현하기 나름이고 청소가 이뤄질지는 보장하지 않음
 
 [📝 cleaner 안전망을 갖춘 자원을 제대로 활용하는 클라이언트](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter2/item8/Adult.java)
 
