@@ -1891,8 +1891,8 @@ static class Task implements Runnable {
 
 `정적이 아닌 중첩 클래스는 자동으로 바깥 객체의 참조를 갖는다.`
 
-- 중첩 클래스로 Runnable 구현 시 static 으로 생성하자.
-- 그렇지 않을 경우, 중첩 클래스는 바깥 객체를 참조하므로 GC를 통한 자원 반납이 이루어지지 않음.
+- 중첩 클래스는 static 으로 생성하자.
+- 그렇지 않을 경우, 중첩 클래스는 바깥 객체를 참조하므로 바깥 객체가 GC를 통한 자원 반납이 제대로 이루어지지 않음.
 
 ```java
 public class OuterClass {
@@ -1900,7 +1900,7 @@ public class OuterClass {
     private void hi() {  }
 
     /*
-     * 정적이 아닌 중첩 클래스
+     * 정적이 아닌 중첩 클래스(static 선언 필요)
      */ 
     class InnerClass {
         public void hello() {
@@ -1911,19 +1911,19 @@ public class OuterClass {
 
     public static void main(String[] args) {
         OuterClass outerClass = new OuterClass();
-        InnerClass innerClass = outerClass.new InnerClass(); // OuterClass 의 인스턴스로 InnerClass 생성
-
-        System.out.println(innerClass);
-
+        // OuterClass 의 인스턴스로 InnerClass 생성
+        InnerClass innerClass = outerClass.new InnerClass(); 
         outerClass.printFiled();
     }
 
     private void printFiled() {
         Field[] declaredFields = InnerClass.class.getDeclaredFields();
+        // InnerClass 는 자동으로 OuterClass 의 참조를 가지고 있음
         for(Field field : declaredFields) {
-            // InnerClass 는 자동으로 OuterClass 의 참조를 가지고 있음
-            System.out.println("field type:" + field.getType()); // class me.whiteship.chapter01.item08.outerclass.OuterClass
-            System.out.println("field name:" + field.getName()); // this$0
+            // class me.whiteship.chapter01.item08.outerclass.OuterClass
+            System.out.println("field type:" + field.getType()); 
+            // this$0
+            System.out.println("field name:" + field.getName()); 
         }
     }
 }
@@ -1931,6 +1931,29 @@ public class OuterClass {
 
 .
 
-`람다 역시 바깥 객체의 참조를 갖기 쉽다`
+`람다 역시 바깥 객체의 참조를 갖기 쉽다.`
+- 클래스 내부의 람다가 바깥 객체의 필드를 참조할 경우 순환참조가 발생
+- 바깥 객체가 GC를 통한 자원 반납이 제대로 이루어지지 않음.
 
-.
+```java
+public class LambdaExample {
+    // 해당 필드가 static 이라면 람다가 참조하지 않음
+    private int value = 10;
+
+    private Runnable instanceLambda = () -> {
+        // 바깥 객체의 필드를 참조
+        System.out.println(value);
+    };
+
+    public static void main(String[] args) {
+        LambdaExample example = new LambdaExample();
+        Field[] declaredFields = example.instanceLambda.getClass().getDeclaredFields();
+        for (Field field : declaredFields) {
+            // class me.whiteship.chapter01.item08.outerclass.LambdaExample
+            System.out.println("field type: " + field.getType()); 
+            // arg$1
+            System.out.println("field name: " + field.getName()); 
+        }
+    }
+}
+```
