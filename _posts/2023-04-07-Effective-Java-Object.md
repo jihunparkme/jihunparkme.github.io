@@ -745,34 +745,60 @@ cleaner 와 finalizer 의 사용
 
 ## item 9. try-finally 보다는 try-with-resources를 사용하라.
 
-> 꼭 회수해야 하는 자원을 다룰 때는 try-finally 말고, try-with-resources를 사용하자.
+> 꼭 회수해야 하는 자원을 다룰 때는 try-finally 말고, try-with-resources 를 사용하자.
 > 
 > 예외는 없다. 코드는 더 짧고 분명해지고, 만들어지는 예외 정보도 훨씬 유용하다.
 > 
-> try-finally로 작성하면 실용적이지 못할 만큼 코드가 지저분해지는 경우라도, 
-> try-with-resources로 정확하고 쉽게 자원을 회수할 수 있다.
+> try-finally 로 작성하면 실용적이지 못할 만큼 코드가 지저분해지는 경우라도,
+> 
+> try-with-resources 로 정확하고 쉽게 자원을 회수할 수 있다.
 
 📖
 
-- 자원 닫기는 클라이언트가 놓치기 쉬워서 예측할 수 없는 성능 문제로 이어지기도 한다.
-- try-with-resources 구조를 사용하려면 해당 자원이 AutoCloseable 인터페이스를 구현해야 한다.
+자원 닫기는 클라이언트가 놓치기 쉬워서 예측할 수 없는 성능 문제로 이어지기도 한다.
 
-📝복수의 자원을 처리하는  try-with-resources 짧고 매혹적
-- 프로그래머에게 보여줄 예외 하나만 보존되고 여러 개의 다른 예외가 숨겨짐
+📝 복수의 자원을 처리하는 try-with-resources 는 짧고 매혹적
+
+- try-with-resources 구조를 사용하려면 해당 자원이 AutoCloseable 인터페이스를 구현해야 한다.
+- 프로그래머에게 보여줄 예외 하나만 보존되고 여러 개의 다른 예외는 숨겨짐
 - 숨겨진 예외들도 스택 추적 내역에 숨겨졌다는 꼬리표를 달고 출력
+  - try-finally 는 마지막 발생 예외만 보여주고 숨겨진 예외는 알 수 없음
 - catch 절을 사용해서 다수 예외 처리 가능
 
 ```java
-static void copy(String src, String dst) throws IOException {
-    try (InputStream   in = new FileInputStream(src);
-         OutputStream out = new FileOutputStream(dst)) {
+/**
+ * try-finally
+ */
+InputStream in = new FileInputStream(src);
+try {
+    OutputStream out = new FileOutputStream(dst);
+    try {
         byte[] buf = new byte[BUFFER_SIZE];
         int n;
         while ((n = in.read(buf)) >= 0)
             out.write(buf, 0, n);
+    } finally {
+        out.close();
     }
+} finally {
+    in.close();
+}
+
+...
+
+/**
+ * try-with-resources
+ */
+try (InputStream   in = new FileInputStream(src);
+      OutputStream out = new FileOutputStream(dst)) {
+    byte[] buf = new byte[BUFFER_SIZE];
+    int n;
+    while ((n = in.read(buf)) >= 0)
+        out.write(buf, 0, n);
 }
 ```
+
+<br>
 
 # 3장. 모든 객체의 공통 메서드
 
