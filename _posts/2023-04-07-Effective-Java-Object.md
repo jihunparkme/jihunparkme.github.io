@@ -1883,6 +1883,64 @@ static class Task implements Runnable {
 
 `Finalizer 공격` / Item 07
 
+```java
+public class Account {
+    private String accountId;
+
+    public Account(String accountId) {
+        this.accountId = accountId;
+
+        if (accountId.equals("푸틴")) {
+            throw new IllegalArgumentException("푸틴은 계정을 막습니다.");
+        }
+    }
+
+    public void transfer(BigDecimal amount, String to) {
+        System.out.printf("transfer %f from %s to %s\n", amount, accountId, to);
+    }
+}
+
+...
+
+public class BrokenAccount extends Account {
+
+    public BrokenAccount(String accountId) {
+        super(accountId);
+    }
+
+    /**
+     * finalize() 재정의
+     * - GC 동작 시 finalize() 메서드가 실행되어 finalizer 공격
+     */
+    @Override
+    protected void finalize() throws Throwable {
+        this.transfer(BigDecimal.valueOf(100), "keesun");
+    }
+}
+
+...
+
+Account account = null;
+try {
+    account = new BrokenAccount("푸틴");
+} catch (Exception exception) {} 
+
+System.gc();
+```
+
+- Finalizer 공격을 방어하는 방법
+  - 상속이 불가하도록 final 클래스로 만들기
+    ```java
+    public final class Account { )
+    ```
+  - 부모 클래스에서 finalize() 메소드를 오버라이딩하고 final 선언을 통해 하위 클래스에서 오버라이딩 불가하도록 설정
+    ```java
+    ...
+    @Override
+    protected final void finalize() throws Throwable {
+    }
+    ```
+
 .
 
 `AutoClosable` / Item 07
@@ -1932,6 +1990,7 @@ public class OuterClass {
 .
 
 `람다 역시 바깥 객체의 참조를 갖기 쉽다.` / Item 07
+
 - 클래스 내부의 람다가 바깥 객체의 필드를 참조할 경우 순환참조가 발생
 - 바깥 객체가 GC를 통한 자원 반납이 제대로 이루어지지 않음.
 
@@ -1957,3 +2016,5 @@ public class LambdaExample {
     }
 }
 ```
+
+.
