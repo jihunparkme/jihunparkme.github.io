@@ -1610,7 +1610,7 @@ public static void main(String[] args) {
 
 .
 
-**`생성자에 자원 팩터리를 넘겨주는 방식`** / Item 04
+**`생성자에 자원 팩터리를 넘겨주는 방식`** / Item 05
 
 자원을 만들어주는 팩토리를 통해서 자원을 가져오는 방식
 - 만들어지는 과정이 복잡한 인스턴스일 경우 팩토리를 통해 생성
@@ -1645,7 +1645,7 @@ SpellChecker spellChecker = new SpellChecker(DefaultDictionary::get);
 ```
 .
 
-**`팩터리 메소드 패턴`** / Item 04
+**`팩터리 메소드 패턴`** / Item 05
 
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/effective-java/factory-method-pattern.png?raw=true 'Result')
@@ -1687,7 +1687,7 @@ public class DefaultDictionaryFactory implements DictionaryFactory {
 
 .
 
-**`Spring Ioc`** / Item 04
+**`Spring Ioc`** / Item 05
 
 **BeanFactory** 또는 **ApplicationContext**
 
@@ -1701,7 +1701,7 @@ public class DefaultDictionaryFactory implements DictionaryFactory {
 
 .
 
-**`Deprecation` (사용 자제 API)** / Item 05
+**`Deprecation` (사용 자제 API)** / Item 06
 
 클라이언트가 사용하지 않길 바라는 코드가 있다면 적용
 
@@ -1729,7 +1729,7 @@ public Deprecation(String name) {
 
 .
 
-**`정규 표현식`** / Item 05
+**`정규 표현식`** / Item 06
 
 내부적으로 Pattern이 사용되는 곳
 
@@ -1744,7 +1744,7 @@ public Deprecation(String name) {
 
 .
 
-**`가비지 컬렉션`** / Item 05
+**`가비지 컬렉션`** / Item 06
 
 - 기본 개념
   - Mark: 필요한 자원인지 아닌지 마킹
@@ -1761,7 +1761,7 @@ public Deprecation(String name) {
 
 .
 
-`NullPointerException` / Item 06
+`NullPointerException` / Item 07
 
 Optional(Java 8)을 활용해서 NPE를 최대한 피하자
 
@@ -1793,7 +1793,7 @@ Optional(Java 8)을 활용해서 NPE를 최대한 피하자
 
 .
 
-`WeakHashMap` / Item 06
+`WeakHashMap` / Item 07
 
 더이상 사용하지 않는 객체를 GC 동작 시 자동으로 삭제해주는 Map
 
@@ -1841,7 +1841,7 @@ Optional(Java 8)을 활용해서 NPE를 최대한 피하자
 
 .
 
-`ScheduledThreadPoolExecutor` / Item 06
+`ScheduledThreadPoolExecutor` / Item07
 
 ```java
 public static void main(String[] args) throws ExecutionException, InterruptedException {
@@ -1907,7 +1907,7 @@ static class Task implements Runnable {
 
 .
 
-`Finalizer 공격` / Item 07
+`Finalizer 공격` / Item 08
 
 ```java
 public class Account {
@@ -1969,7 +1969,7 @@ System.gc();
 
 .
 
-`AutoClosable` / Item 07
+`AutoClosable` / Item 08
 
 try-with-resource 를 지원하는 인터페이스
 ```java
@@ -1987,7 +1987,7 @@ public void close() throws IOException;
 
 .
 
-`정적이 아닌 중첩 클래스는 자동으로 바깥 객체의 참조를 갖는다.` / Item 07
+`정적이 아닌 중첩 클래스는 자동으로 바깥 객체의 참조를 갖는다.` / Item 08
 
 - 중첩 클래스는 static 으로 생성하자.
 - 그렇지 않을 경우, 중첩 클래스는 바깥 객체를 참조하므로 바깥 객체가 GC를 통한 자원 반납이 제대로 이루어지지 않음.
@@ -2029,7 +2029,7 @@ public class OuterClass {
 
 .
 
-`람다 역시 바깥 객체의 참조를 갖기 쉽다.` / Item 07
+`람다 역시 바깥 객체의 참조를 갖기 쉽다.` / Item 08
 
 - 클래스 내부의 람다가 바깥 객체의 필드를 참조할 경우 순환참조가 발생
 - 바깥 객체가 GC를 통한 자원 반납이 제대로 이루어지지 않음.
@@ -2056,5 +2056,14 @@ public class LambdaExample {
     }
 }
 ```
+
+.
+
+`자바 퍼즐러 예외 처리 코드의 실수` / Item 09
+
+.
+
+
+`try-with-resources 바이트코드` / Item 09
 
 .
