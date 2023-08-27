@@ -1949,7 +1949,7 @@ try-with-resource 를 지원하는 인터페이스
 ```java
 void close() throws Exception
 ```
-- 인터페이스에 정의된 메서드에서 Exception 타입으로 예외를 던지지만
+- 인터페이스에 정의된 close() 메서드는 Exception 타입으로 예외를 던지지만
 - 실제 구현체에서는 구체적인 예외를 던지는 것을 추천하며, 가능하다면 예외를 던지지 않는 것도 권장
 
 Closeable 클래스와 차이점
@@ -1957,7 +1957,7 @@ Closeable 클래스와 차이점
 public void close() throws IOException;
 ```
 - IOException을 던지며, 반드시 idempotent(멱등성)가 지켜져야 함
-  - 연산을 여러 번 적용하더라도 결과가 달라지지 않는 성질
+  - 멱등법칙: 연산을 여러 번 적용하더라도 결과가 달라지지 않는 성질
 
 .
 
