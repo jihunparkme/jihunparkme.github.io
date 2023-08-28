@@ -2059,11 +2059,44 @@ public class LambdaExample {
 
 .
 
-`자바 퍼즐러 예외 처리 코드의 실수` / Item 09
-
-.
-
-
 `try-with-resources 바이트코드` / Item 09
+- try-with-resources 가 코드를 만들어 주는 방법
+- 중첩 try-catch 로 예외 처리
+
+```java
+try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+    return br.readLine();
+} catch (IOException e) {
+    return defaultVal;
+}
+
+...
+
+/**
+ * try-with-resources 바이트코(target..)
+ */
+try {
+    BufferedReader br = new BufferedReader(new FileReader(path));
+
+    String var3;
+    try {
+        var3 = br.readLine();
+    } catch (Throwable var6) {
+        try {
+            br.close();
+        } catch (Throwable var5) {
+            // 예외를 던지기 전에 suppressed 에 추가
+            var6.addSuppressed(var5);
+        }
+
+        throw var6;
+    }
+
+    br.close();
+    return var3;
+} catch (IOException var7) {
+    return defaultVal;
+}
+```
 
 .
