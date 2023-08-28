@@ -802,13 +802,13 @@ try (InputStream   in = new FileInputStream(src);
 
 # 3장. 모든 객체의 공통 메서드
 
-final이 아닌 Object 메서드(equals, hashCode, toString, clone, finalize)들을 언제, 어떻게 재정의해야 하는지.
+final이 아닌 Object 메서드(equals, hashCode, toString, clone, finalize)들을 언제, 어떻게 재정의해야 하는지 알아보자.
 
 ## item 10. equals는 일반 규약을 지켜 재정의하라.
 
-> 꼭 필요한 경우가 아니면 equals를 재정의하지 말자.
+> 꼭 필요한 경우가 아니면 equals 를 재정의하지 말자.
 > 
-> 많은 경우에 Object의 equals가 여러분이 원하는 비교를 정확히 수행해준다.
+> 많은 경우에 Object 의 equals 가 원하는 비교를 정확히 수행해준다.
 > 
 > 재정의해야 할 때는 그 클래스의 핵심 필드 모두를 빠짐없이, 다섯 가지 규약을 확실히 지켜가며 비교해야 한다.
 
@@ -816,23 +816,28 @@ final이 아닌 Object 메서드(equals, hashCode, toString, clone, finalize)들
 
 equals 메서드의 재정의에는 함정이 도사리고 있는데, 이 문제를 회피하는 가장 쉬운 길은 아예 재정의를 하지 않는 것.
 
-🔍아래 상황 중 하나에 해당한다면 equals 메서드를 재정의하지 않는 것이 최선
+.
 
-- **각 인스턴스가 본질적으로 고유할 경우**
-    - 값을 표현하는 것이 아닌 동작하는 개체를 표현하는 클래스(ex. Thread)
-- **인스턴스의 '논리적 동치성'을 검사할 일이 없을 경우**
-- **상위 클래스에서 재정의한 equals가 하위 클래스에도 딱 들어맞을 경우**
-    - Set, List, Map 구현체들은 상속을 받아 그대로 사용
-- **클래스가 private, package-private이고 equals 메서드를 호출할 일이 없을 경우**
-    - equals가 실수로라도 호출되는 것을 막고 싶다면 아래와 같이 구현해두자.
+🔍 아래 상황 중 하나에 해당한다면 equals 메서드를 재정의하지 않는 것이 최선
 
-```java
-@Override public boolean equals(Object o) {
-    throw new AssertioniError(); // 호출 금지!
-}
-```
+- **각 `인스턴스가 본질적으로 고유`할 경우**
+  - 인스턴스가 단 하나 존재하는 클래스 (ex. 싱글톤, Enum)
+  - 값을 표현하는 것이 아닌 동작하는 개체를 표현하는 클래스 (ex. Thread)
+- **인스턴스의 `'논리적 동치성'을 검사할 일이 없을` 경우**
+  - 인스턴스의 동치성 만으로 충분할 경우 (ex. 문자열)
+- **상위 클래스에서 `재정의한 equals 가 하위 클래스에도 적절`할 경우**
+  - Set, List, Map 구현체들은 상속을 받아 그대로 사용
+- **클래스가 `private, package-private` 이고 equals 메서드를 호출할 일이 없을 경우**
+  - equals 가 실수로라도 호출되는 것을 막고 싶다면 아래와 같이 구현해두자.
+    ```java
+    @Override public boolean equals(Object o) {
+        throw new AssertioniError(); // 호출 금지!
+    }
+    ```
 
-🔍equals를 재정의해야 하는 경우
+.
+
+🔍 equals를 재정의해야 하는 경우
 
 - 객체 식별성이 아닌 논리적 동치성을 확인해야 하는데, 상위 클래스의 equals가 논리적 동치성을 비교하도록 재정의되지 않았을 경우
   - (ex. 주로 값 클래스. Integer, String ..)
