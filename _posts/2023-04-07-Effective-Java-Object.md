@@ -963,7 +963,7 @@ equals 메서드 자동 생성
 - [lombok](https://projectlombok.org/)
   - [@EqualsAndHashCode](https://projectlombok.org/features/EqualsAndHashCode)
   - [@ToString](https://projectlombok.org/features/ToString)
-- [Record Class](https://docs.oracle.com/en/java/javase/14/docs/api/java.base/java/lang/Record.html)
+- [Record Class](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Record.html)
   - [Java 14 Record Keyword](https://www.baeldung.com/java-record-keyword)
 
 <br>
@@ -2128,5 +2128,40 @@ try {
     return defaultVal;
 }
 ```
+
+.
+
+`Value Object` / Item 10
+
+값을 갖는 클래스
+
+```java
+@ToString
+@EqualsAndHashCode
+public class Point {
+    private final int x;
+    private final int y;
+    // ...
+}
+```
+
+- 식별자가 없고 불변(Point, Address, Country, Street, State, Name, Money ..)
+- 식별자(id, reference)가 아니라 인스턴스가 가지고 있는 상태 기반으로 equals, hashCode, toString 구현
+- == 오퍼레이션이 아니라 equals를 사용해서 동등성 비교
+- 동일한(equals) 객체는 상호교환 가능
+- [Value-based Classes](https://docs.oracle.com/javase/8/docs/api/java/lang/doc-files/ValueBased.html)
+- [State of the Values](https://cr.openjdk.org/~jrose/values/values-0.html)
+
+.
+
+`StackOverflowError` / Item 10
+
+.
+
+`리스코프 치환 원칙` / Item 10
+
+.
+
+`상속 대신 컴포지션을 사용하라. (아이템 18)` / Item 10
 
 .
