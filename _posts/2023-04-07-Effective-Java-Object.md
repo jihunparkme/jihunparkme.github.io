@@ -2156,6 +2156,13 @@ public class Point {
 
 `StackOverflowError` / Item 10
 
+- Stack: 스레드들이 사용하는 메모리 공간
+  - 메소드 호출 시 스택에 스택 프레임이 쌓임 → 더이상 스택 프레임을 쌓을 수 없다면 StackOverflowError 발생
+  - 스택 프레임에는 메소드에 전달하는 매개변수, 메소드 실행 후 돌아갈 곳, 힙에 들어있는 객채에 대한 레퍼런스 등의 정보들이 존재
+- Heap: 객체(인스턴스)들이 있는 공간
+- 스택의 사이즈를 조정하고 싶다면? **-Xss1M**
+  - [-X Command-line Options](https://docs.oracle.com/cd/E13150_01/jrockit_jvm/jrockit/jrdocs/refman/optionX.html)
+
 .
 
 `리스코프 치환 원칙` / Item 10
