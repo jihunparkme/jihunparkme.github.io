@@ -2167,8 +2167,7 @@ public class Point {
 
 `리스코프 치환 원칙` / Item 10
 
-.
-
-`상속 대신 컴포지션을 사용하라. (아이템 18)` / Item 10
-
-.
+객체 지향 5대 원칙 SO(**L**)ID 중에 하나
+- 1994년, 바바라 리스코프의 논문 "[A Behavioral Notion of Subtyping](https://www.cs.cmu.edu/~wing/publications/LiskovWing94.pdf)" 에서 기원한 객체 지향 원칙.
+- ‘하위 클래스의 객체’가 ‘상위 클래스 객체’를 대체하더라도 소프트웨어의 기능을 깨트리지 않아야 한다.
+  - semantic over syntacic, 구문 보다는 의미
