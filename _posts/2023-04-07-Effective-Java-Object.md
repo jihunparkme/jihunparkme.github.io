@@ -957,7 +957,7 @@ A.equals(null) == false
 
 .
 
-equals 메서드 자동 생성
+equals, hashCode 메서드 자동 생성
 
 - [Google AutoValue](https://github.com/google/auto/blob/main/value/userguide/index.md)
 - [lombok](https://projectlombok.org/)
@@ -973,20 +973,21 @@ equals 메서드 자동 생성
 > equals를 재정의할 때는 hashCode도 반드시 재정의해야 한다. 그렇지 않으면 프로그램이 제대로 동작하지 않을 것이다.
 > 
 > 재정의한 hashCode는 Object의 API 문서에 기술된 일반 규약을 따라야 하며, 서로 다른 인스턴스라면 되도록 해시코드도 서로 다르게 구현해야 한다.
-> 
-> 구현하기가 어렵지는 않지만 조금 따분한 일이긴 하다. 하지만 AutoValue 프레임워크를 사용하면 멋진 equals와 hashCode를 자동으로 만들어준다.
 
 📖
 
-equals를 재정의한 클래스 모두에서 hashCode도 재정의해야 한다.
-
-- 그렇지 않으면 hashCode 일반 규약을 어기게 되어 해당 클래스의 인스턴스를 HashMap 이나 HashSet 같은 컬렉션의 원소로 사용할 때 문제를 일으키게 된다.
+equals 를 재정의한 클래스 모두에서 hashCode 도 재정의해야 한다.
+- 그렇지 않을 경우, hashCode 일반 규약을 어기게 되어 해당 클래스의 인스턴스를 HashMap 이나 HashSet 같은 컬렉션의 원소로 사용할 때 문제를 유발
 
 **Object 명세에서 발췌한 규약**
 
-- equals 비교에 사용되는 정보가 변경되지 않았다면, 애플리케이션이 실행되는 동안 그 객체의 hashCode 메서드는 몇 번을 호출해도 일관되게 항상 같은 값을 반환해야 한다.
-- equals(Object)가 두 객체를 같다고 판단했다면, 두 객체의 hashCode는 똑같은 값을 반환해야 한다.
-- equals(Object)가 두 객체를 다르다고 판단했더라도, 두 객체의 hashCode가 서로 다른 값을 반환할 필요는 없다. 단, 다른 객체에 대해서는 다른 값을 반환해야 해시테이블의 성능이 좋아진다.
+- equals 비교에 사용하는 정보가 `변경되지 않았다면`, hashCode 는 `매번 같은 값을 리턴`해야 한다.
+  - equals 가 변경되거나, 애플리케이션을 다시 실행했다면 달라질 수 있다.
+- 두 객체에 대한 `equals 가 같다`면, `hashCode 값도 같아`야 한다.
+- 두 객체에 대한 `equals 가 다르`더라도, hashCode 값은 같을 수 있지만 해시 테이블 성능을 고려해 `다른 값을 리턴`하는 것이 좋다.
+  - 해시 충돌이 발생하면 해시는 Object 가 아닌 LinkedList 를 저장
+  - 해시 조회 시 LinkedList 를 순회하면서 equals 비교로 같은 인스턴스를 탐색
+  - 해시맵의 장점(`O(1)`) 이 없어지고 LinkedList 를 사용하는 것과 동일(`O(N)`)
 
 📝 [hashCode 메서드](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter3/item11/PhoneNumber.java)
 
@@ -2171,5 +2172,3 @@ public class Point {
 - 1994년, 바바라 리스코프의 논문 "[A Behavioral Notion of Subtyping](https://www.cs.cmu.edu/~wing/publications/LiskovWing94.pdf)" 에서 기원한 객체 지향 원칙.
 - ‘하위 클래스의 객체’가 ‘상위 클래스 객체’를 대체하더라도 소프트웨어의 기능을 깨트리지 않아야 한다.
   - semantic over syntacic, 구문 보다는 의미
-
-
