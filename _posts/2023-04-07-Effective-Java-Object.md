@@ -1147,7 +1147,7 @@ Cloneable을 구현한 클래스는 clone 메서드를 public으로 제공
 
 - x.clone() != x (clone은 원본과 다른 인스턴스)
 - x.clone().getClass() == x.getClass()
-- x.clone().equals(x) true가 아닐 수 있음 (객체마다 다른 식별자가 있을 경우)
+- x.clone().equals(x) true가 아닐 수 있음 (객체마다 고유 식별자가 있을 경우)
 
 .
 
@@ -1211,18 +1211,28 @@ public class Stack implements Cloneable {
   - 상속용 클래스(abstract class)는 Cloneable을 구현하지 않기
   - Cloneable을 구현한 스레드 안전 클래스를 작성할 때는 clone 메서드에 synchronized 선언으로 동기화
 - 단점  
-  - 필드에 final 사용 불가(clone 과정에서 필드 값 할당이 필요)
-  - 생성자를 사용하지 않다보니 생성자에 있는 필드 검증 작업을 거치지 않을 수 있음
   - 모호한 규약
+  - 필드에 final 사용 불가(clone 과정에서 필드 값 할당이 필요)
+  - 생성자를 사용하지 않다보니 생성자에 있는 필드 검증 작업을 거치지 않음
+  - 형변환 필요
 
 .
 
-복사 생성자(변환 생성자)와 복사 팩터리(변환 팩터리)를 통한 복사를 권장
+`복사 생성자`와 `복사 팩터리`를 사용한 복사를 권장
 - 문서화된 규약에 기대지 않고, 정상적인 final 필드 용법과 충돌하지 않고, 불필요한 검사 예외를 던지지 않고, 형변환도 필요하지 않음
   - 해당 클래스가 구현한 interface 타입의 인스턴스를 인수로 받을 수 있음
   - 클라이언트는 원본의 구현 타입에 얽매이지 않고 복제본의 타입을 직접 결정 가능
+    ```java
+    public TreeSet(Comparator<? super E> comparator) {
+        this(new TreeMap<>(comparator));
+    }
 
-📝 복사 생성자 (변환 생성자, conversion constructor)
+    ...
+
+    TreeSet<PhoneNumber> numbers = new TreeSet<>(Comparator.comparingInt(PhoneNumber::hashCode));
+    ```
+
+📝 `복사 생성자` (변환 생성자, conversion constructor)
 
 ```java
 // 자신과 같은 클래스의 인스턴스를 인수로 받는 생성자
@@ -1231,7 +1241,7 @@ public PhoneNumber(PhoneNumber phoneNumber) {
 }
 ```
 
-📝 복사 팩터리 (변환 팩터리, conversion factory)
+📝 `복사 팩터리` (변환 팩터리, conversion factory)
 
 ```java
 // 복사 생성자를 모방한 정적 팩터리
