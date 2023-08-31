@@ -985,11 +985,18 @@ equals 를 재정의한 클래스 모두에서 hashCode 도 재정의해야 한�
   - equals 가 변경되거나, 애플리케이션을 다시 실행했다면 달라질 수 있다.
 - 두 객체에 대한 `equals 가 같다`면, `hashCode 값도 같아`야 한다.
 - 두 객체에 대한 `equals 가 다르`더라도, hashCode 값은 같을 수 있지만 해시 테이블 성능을 고려해 `다른 값을 리턴`하는 것이 좋다.
-  - 해시 충돌이 발생하면 해시는 Object 가 아닌 LinkedList 를 저장
-  - 해시 조회 시 LinkedList 를 순회하면서 equals 비교로 같은 인스턴스를 탐색
-  - 해시맵의 장점(`O(1)`) 이 없어지고 LinkedList 를 사용하는 것과 동일(`O(N)`)
+  
+**참고. 해시 충돌**
+
+- 다른 두 객체가 같은 hashCode를 가지고 Hash Collection에 저장될 때 해시 충돌 발생
+- 해시 충돌이 발생하면 Hash는 값을 Object가 아닌 LinkedList로 저장
+- 해시 조회 시 LinkedList를 순회하면서 equals 비교로 같은 인스턴스를 탐색
+- 해시맵의 장점(`O(1)`)이 없어지고 LinkedList를 사용하는 것과 동일(`O(N)`)한 성능
+- java 8 에서 해시 충돌 개수가 8개를 넘어가면 LinkedList 대신 이진 트리(`O(logN)`)를 사용하도록 개선
+  - [HashMap Performance Improvements in Java 8](https://dzone.com/articles/hashmap-performance)
 
 **재정의 시 주의사항**
+
 - 성능 때문에 핵심 필드를 해시코드 계산할 시 제외하면 안 된다.
 - 해시코드 계산 규칙을 API에 노출하지 않는 것이 좋다.
 
@@ -1037,7 +1044,7 @@ public class PhoneNumber {
 }
 ```
 
-📝 [hashCode 메서드](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter3/item11/PhoneNumber.java)
+📝 [hashCode 메서드 재정의](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter3/item11/PhoneNumber.java)
 
 <br>
 
