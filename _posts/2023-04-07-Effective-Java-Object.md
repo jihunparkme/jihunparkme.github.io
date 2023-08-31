@@ -1077,18 +1077,20 @@ private volatile int hashCode;
 
 ## item 12. toString을 항상 재정의하라.
 
-> 모든 구체 클래스에서 Object의 toString을 재정의하자.
+> 모든 구체 클래스에서 Object의 toString을 재정의하자(상위 클래스에서 이미 알맞게 재정의한 경우는 예외)
 > 
-> 상위 클래스에서 이미 알맞게 재정의한 경우는 예외다. toString을 재정의한 클래스는 사용하기도 즐겁고 그 클래스를 사용한 시스템을 디버깅하기 쉽게 해준다.
+> toString을 재정의한 클래스는 사용하기도 즐겁고, 그 클래스를 사용한 시스템을 디버깅하기 쉽게 해준다.
 > 
-> toString은 해당 객체에 관한 명확하고 유용한 정보를 읽기 좋은 형태로 반환해야 한다.
+> toString은 해당 객체에 관한 명확하고 유용한 정보를 간결하고 읽기 좋은 형태로 반환해야 한다.
 
 📖
 
-- toString을 잘 구현한 클래스는 사용하기에 훨씬 즐겁고, 그 클래스를 사용한 시스템은 디버깅하기 쉽다.
-- 실전에서 toString은 그 객체가 가진 주요 정보 모두를 반환하는 게 좋다.
-- 포맷을 명시하든 아니든 의도는 명확히 밝혀야 한다.
-- toString이 반환한 값에 포함된 정보를 얻어올 수 있는 API를 제공하자.
+- Object의 toString은 *클래스이름@16진수*로 표시한 해시 코드
+- 객체가 가진 보여줄 수 있는 모든 정보를 보여주는 것이 좋다.
+- 값 클래스라면 포맷을 문서에 명시하는 것이 좋으며, 해당 포맷으로 객체를 생성할 수 있는 정적 팩터리나 생성자를 제공하는 것이 좋다.
+- toString이 반환한 값에 포함된 정보를 얻어올 수 있는 API(Getter)를 제공하는 것이 좋다.
+- 경우에 따라 AutoValue, 롬복 또는 IDE를 사용하지 않는게 적절할 수 있다.
+  - ex. 전화번호, 주소, 좌표, 위도, 경도 등 특정 포맷이 정해져있는 경우
 
 📝 포맷을 명시한 경우
 
@@ -1097,8 +1099,6 @@ public final class PhoneNumber {
     //..
 
     /**
-     * 단점은 평생 이 포맷에 얽매이는 점.
-     *
      * 이 전화번호의 문자열 표현을 반환한다.
      * 이 문자열은 "XXX-YYY-ZZZZ" 형태의 12글자로 구성된다.
      * XXX는 지역 코드, YYY는 프리픽스, ZZZZ는 가입자 번호다.
@@ -1110,6 +1110,16 @@ public final class PhoneNumber {
      */
     @Override public String toString() {
         return String.format("%03d-%03d-%04d", areaCode, prefix, lineNum);
+    }
+
+    // 특정 포맷으로 객체를 생성할 수 있는 정적 팩터리나 생성자
+    public static PhoneNumber of(String phoneNumberString) {
+        String[] split = phoneNumberString.split("-");
+        PhoneNumber phoneNumber = new PhoneNumber(
+                Short.parseShort(split[0]),
+                Short.parseShort(split[1]),
+                Short.parseShort(split[2]));
+        return phoneNumber;
     }
 }
 ```
