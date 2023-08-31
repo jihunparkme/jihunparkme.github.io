@@ -989,21 +989,39 @@ equals 를 재정의한 클래스 모두에서 hashCode 도 재정의해야 한�
   - 해시 조회 시 LinkedList 를 순회하면서 equals 비교로 같은 인스턴스를 탐색
   - 해시맵의 장점(`O(1)`) 이 없어지고 LinkedList 를 사용하는 것과 동일(`O(N)`)
 
+**재정의 시 주의사항**
+- 성능 때문에 핵심 필드를 해시코드 계산할 시 제외하면 안 된다.
+- 해시코드 계산 규칙을 API에 노출하지 않는 것이 좋다.
+
+**hashCode 메서드 재정의**
+
 ```java
 /**
  * 전형적인 hashCode 메서드
- * - 사전의 모든 단어에 31 이라는 소수를 사용했을 때, 해시 충돌이 가장 적었다는 연구 결과를 반영
+ * - 사전의 모든 단어에 31 을 사용했을 때, 해시 충돌이 가장 적었다는 연구 결과를 반영
  */
 @Override public int hashCode() {
-    // 1. 핵심 필드 하나의 해쉬값 계산
+    // 핵심 필드 하나의 해쉬값 계산
     int result = Short.hashCode(areaCode);
-    result = 31 * result + Short.hashCode(prefix); // 2
-    result = 31 * result + Short.hashCode(lineNum); // 3
+    result = 31 * result + Short.hashCode(prefix);
+    result = 31 * result + Short.hashCode(lineNum);
     return result;
 }
 
 /**
+ * 구글 구아바의 com.google.common.hash.Hashing
+ * - 좋은 성능을 가지고 있지만 hashCode 구현을 위해 라이브러리 추가 필요
+ * - https://mvnrepository.com/artifact/com.google.guava/guava
+ */
+@Override public int hashCode() {
+    return Hashing.goodFastHash(32)
+            .hashObject(this, PhoneNumberFunnel.INSTANCE)
+            .hashCode();
+}
+
+/**
  * IDE 에서 제공해 주는 hashCode 메서드
+ * - Objects 클래스의 hash 메서드
  */
 @Override public int hashCode() {
     return Objects.hash(lineNum, prefix, areaCode);
@@ -1015,6 +1033,8 @@ equals 를 재정의한 클래스 모두에서 hashCode 도 재정의해야 한�
  * - 이미 테스트를 거친 상태이므로 테스트 불필요
  */
 @EqualsAndHashCode
+public class PhoneNumber {
+}
 ```
 
 📝 [hashCode 메서드](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter3/item11/PhoneNumber.java)
