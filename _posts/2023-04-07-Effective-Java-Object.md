@@ -1138,23 +1138,59 @@ public final class PhoneNumber {
 
 📖
 
-- Cloneable을 구현한 클래스는 clone 메서드를 public으로 제공하며, 사용자는 당연히 복제가 제대로 이뤄지리라 기대하지만, 깨지기 쉽고, 위험하고, 모순적인 매커니즘이 탄생한다..
+Cloneable을 구현한 클래스는 clone 메서드를 public으로 제공
+- 사용자는 당연히 복제가 제대로 이뤄지리라 기대하지만, 깨지기 쉽고, 위험하고, 모순적인 매커니즘이 탄생..
+
+.
+
+**clone 규약**
+
+- x.clone() != x (clone은 원본과 다른 인스턴스)
+- x.clone().getClass() == x.getClass()
+- x.clone().equals(x) true가 아닐 수 있음 (객체마다 다른 식별자가 있을 경우)
+- 불변 객체라면 다음으로 충분
+  - Cloenable 인터페이스를 구현하고
+  - clone 메서드를 재정의한다. 이때 super.clone()을 사용해야 한다.
+
+.
 
 📝 가변 상태를 참조하지 않는 클래스용 clone 메서드
 
 ```java
-@Override public PhoneNumber clone() {
-    try {
-        // 재정의한 메서드의 반환 타입은 상위 클래스의 메서드가 반환하는 타입의 하위 타입일 수 있다.
-        return (PhoneNumber) super.clone();
-    } catch (CloneNotSupportedException e) {
-        throw new AssertionError();  // 일어날 수 없는 일이다.
+public class PhoneNumber implements Cloneable {
+    // ...
+
+    @Override public PhoneNumber clone() {
+        try {
+            // 재정의한 메서드의 반환 타입은 상위 클래스의 메서드가 반환하는 타입의 하위 타입일 수 있다.
+            return (PhoneNumber) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // checkedException → UncheckedException 변환
+            throw new AssertionError();
+        }
     }
 }
 ```
-
-- clone 메서드는 사실상 생성자와 같은 효과를 낸다.
+- clone 메서드를 재정의하려면, Cloneable 인터페이스 구현이 필수
+  - 구현하지 않으면 CloneNotSupportedException 발생
+- clone 메서드는 사실상 생성자와 같은 효과
   - clone은 원본 객체에 아무런 해를 끼치지 않는 동시에 복제된 객체의 불변식을 보장해야 한다.
+  - 하지만 정말 생성자를 사용하여 만든 객체를 반환하면 규약이 깨지게 된다.
+    - 하위 타입이 상위 타입을 받을 수 없는 cannot be cast to class 예외 발생
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 📝 가변 상태를 참조하는 클래스용 clone 메서드
 
