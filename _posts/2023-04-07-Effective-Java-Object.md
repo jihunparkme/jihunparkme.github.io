@@ -1004,12 +1004,28 @@ equals 를 재정의한 클래스 모두에서 hashCode 도 재정의해야 한�
 
 ```java
 /**
+ * lombok @EqualsAndHashCode
+ * - 사용 편의성 관점에서 권장하는 방법
+ * - 이미 테스트를 거친 상태이므로 테스트 불필요
+ */
+@EqualsAndHashCode
+public class PhoneNumber {
+}
+
+/**
+ * IDE 에서 제공해 주는 hashCode 메서드
+ * - Objects 클래스의 hash 메서드
+ */
+@Override public int hashCode() {
+    return Objects.hash(lineNum, prefix, areaCode);
+}
+
+/**
  * 전형적인 hashCode 메서드
  * - 사전의 모든 단어에 31 을 사용했을 때, 해시 충돌이 가장 적었다는 연구 결과를 반영
  */
 @Override public int hashCode() {
-    // 핵심 필드 하나의 해쉬값 계산
-    int result = Short.hashCode(areaCode);
+    int result = Short.hashCode(areaCode); // 핵심 필드 하나의 해쉬값 계산
     result = 31 * result + Short.hashCode(prefix);
     result = 31 * result + Short.hashCode(lineNum);
     return result;
@@ -1027,20 +1043,31 @@ equals 를 재정의한 클래스 모두에서 hashCode 도 재정의해야 한�
 }
 
 /**
- * IDE 에서 제공해 주는 hashCode 메서드
- * - Objects 클래스의 hash 메서드
+ * 해시코드를 지연 초기화하는 hashCode 메서드
+ * - 스레드 안정성을 위해 Double Checked Locking 기법 적용
+ * - volatile field: Thread-safety 한 변수
+ *   - 보통 변수를 CPU cache 에 저장해서 예전 캐시 값을 읽어올 수도 있지만,
+ *   - volatile 는 변수를 Main Memory 에 저장해서 가장 최근에 업데이터된 데이터를 참조
  */
-@Override public int hashCode() {
-    return Objects.hash(lineNum, prefix, areaCode);
-}
+private volatile int hashCode;
 
-/**
- * lombok @EqualsAndHashCode
- * - 사용 편의성 관점에서 권장하는 방법
- * - 이미 테스트를 거친 상태이므로 테스트 불필요
- */
-@EqualsAndHashCode
-public class PhoneNumber {
+@Override public int hashCode() {
+    // First check outside synchronized
+    if (this.hashCode != 0) {
+        return hashCode;
+    }
+
+    synchronized (this) {
+        int result = hashCode;
+        // Second check in synchronized
+        if (result == 0) {
+            result = Short.hashCode(areaCode);
+            result = 31 * result + Short.hashCode(prefix);
+            result = 31 * result + Short.hashCode(lineNum);
+            this.hashCode = result;
+        }
+        return result;
+    }
 }
 ```
 
@@ -2227,3 +2254,18 @@ public class Point {
 - 1994년, 바바라 리스코프의 논문 "[A Behavioral Notion of Subtyping](https://www.cs.cmu.edu/~wing/publications/LiskovWing94.pdf)" 에서 기원한 객체 지향 원칙.
 - ‘하위 클래스의 객체’가 ‘상위 클래스 객체’를 대체하더라도 소프트웨어의 기능을 깨트리지 않아야 한다.
   - semantic over syntacic, 구문 보다는 의미
+
+.
+
+`Thread-safety` / Item 11
+
+멀티 스레드 환경에서 안전한 코드
+
+- 가장 안전한 방법은 여러 스레드 간에 공유하는 데이터가 없는 것
+- 공유하는 데이터가 있다면
+  - Synchronization
+  - ThreadLocal
+  - 불변 객체 사용
+  - Synchronized 데이터(ex. Hashtable)
+  - Concurrent 데이터
+  - ...
