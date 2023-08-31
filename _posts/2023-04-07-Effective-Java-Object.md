@@ -1148,16 +1148,13 @@ Cloneable을 구현한 클래스는 clone 메서드를 public으로 제공
 - x.clone() != x (clone은 원본과 다른 인스턴스)
 - x.clone().getClass() == x.getClass()
 - x.clone().equals(x) true가 아닐 수 있음 (객체마다 다른 식별자가 있을 경우)
-- 불변 객체라면 다음으로 충분
-  - Cloenable 인터페이스를 구현하고
-  - clone 메서드를 재정의한다. 이때 super.clone()을 사용해야 한다.
 
 .
 
-📝 가변 상태를 참조하지 않는 클래스용 clone 메서드
+📝 불변 상태를 참조하는 클래스용 clone 메서드
 
 ```java
-public class PhoneNumber implements Cloneable {
+public final class PhoneNumber implements Cloneable {
     // ...
 
     @Override public PhoneNumber clone() {
@@ -1171,55 +1168,66 @@ public class PhoneNumber implements Cloneable {
     }
 }
 ```
-- clone 메서드를 재정의하려면, Cloneable 인터페이스 구현이 필수
-  - 구현하지 않으면 CloneNotSupportedException 발생
+- 불변 객체라면 Cloenable 인터페이스를 구현하고, super.clone()를 사용해서 clone 메서드를 재정의하면 충분
+  - 접근 제한자는 public, 반환 타입은 자신의 클래스로 변경
+  - Cloenable 인터페이스를 구현하지 않으면 CloneNotSupportedException 발생
 - clone 메서드는 사실상 생성자와 같은 효과
   - clone은 원본 객체에 아무런 해를 끼치지 않는 동시에 복제된 객체의 불변식을 보장해야 한다.
-  - 하지만 정말 생성자를 사용하여 만든 객체를 반환하면 규약이 깨지게 된다.
+  - 하지만, 정말 생성자를 사용하여 만든 객체를 반환하면 규약이 깨지게 된다.
     - 하위 타입이 상위 타입을 받을 수 없는 cannot be cast to class 예외 발생
 
-
-
-
-
-
-
-
-
-
-
-
-
+.
 
 
 📝 가변 상태를 참조하는 클래스용 clone 메서드
 
 ```java
-@Override public Stack clone() {
-    try {
-        Stack result = (Stack) super.clone();
-        // elements 필드가 복사본과 같은 메모리를 참조하지 않도록 배열의 clone을 재귀적으로 호출
-        result.elements = elements.clone();
-        return result;
-    } catch (CloneNotSupportedException e) {
-        throw new AssertionError();
+public class Stack implements Cloneable {
+    private Object[] elements;
+    private int size = 0;
+
+    //...
+
+    @Override public Stack clone() {
+        try {
+            Stack result = (Stack) super.clone();
+            // elements 필드가 복사본과 같은 메모리를 참조하지 않도록 배열의 clone을 재귀적으로 호출
+            // 배열은 깊은 복사를 해주지 않으면 원본, 복사본 두 인스턴스가 동일한 배열을 참조
+            result.elements = elements.clone();
+            return result;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
 ```
 
-- 상속용 클래스는 Cloneable을 구형해서는 안 된다.
-- Cloneable을 구현하는 모든 클래스는 clone을 재정의해야 한다.
-- 복사 생성자와 복사 팩터리는 더 나은 객체 복사 방식을 제공할 수 있다.
-  - 문서화된 규약에 기대지 않고, 정상적인 final 필드 용법과 충돌하지 않고, 불필요한 검사 예외를 던지지 않고, 형변환도 필요하지 않음
+- 불변 상태를 참조하는 클래스용 clone 메서드와 기본적으로 동일
+- 추가로, super.clone() 호출 후 필요한 필드를 적절히 수정
+  - 배열 복제 시 배열의 clone 메서드 사용, 필요 시 deep copy
+  - public 고수준 메서드(get, put)를 호출하는 방법 존재
+  - clone 메서드 내에서 하위 클래스가 재정의할 수 있는 메서드는 사용하지 않기
+    - 사용해야 한다면 재정의 불가능하도록 final 선언
+  - 상속용 클래스(abstract class)는 Cloneable을 구현하지 않기
+  - Cloneable을 구현한 스레드 안전 클래스를 작성할 때는 clone 메서드에 synchronized 선언으로 동기화
+- 단점  
+  - 필드에 final 사용 불가(clone 과정에서 필드 값 할당이 필요)
+  - 생성자를 사용하지 않다보니 생성자에 있는 필드 검증 작업을 거치지 않을 수 있음
+  - 모호한 규약
+
+.
+
+복사 생성자(변환 생성자)와 복사 팩터리(변환 팩터리)를 통한 복사를 권장
+- 문서화된 규약에 기대지 않고, 정상적인 final 필드 용법과 충돌하지 않고, 불필요한 검사 예외를 던지지 않고, 형변환도 필요하지 않음
   - 해당 클래스가 구현한 interface 타입의 인스턴스를 인수로 받을 수 있음
-  - 클라이언트는 원본의 구현 타입에 얽매이지 않고 복제본의 타입을 직접 선택할 수 있음
+  - 클라이언트는 원본의 구현 타입에 얽매이지 않고 복제본의 타입을 직접 결정 가능
 
 📝 복사 생성자 (변환 생성자, conversion constructor)
 
 ```java
 // 자신과 같은 클래스의 인스턴스를 인수로 받는 생성자
-public Yum(Yum yum) {
-    //..
+public PhoneNumber(PhoneNumber phoneNumber) {
+    this(phoneNumber.areaCode, phoneNumber.prefix, phoneNumber.lineNum);
 }
 ```
 
@@ -1227,8 +1235,8 @@ public Yum(Yum yum) {
 
 ```java
 // 복사 생성자를 모방한 정적 팩터리
-public static Yum newInstance(Yum yum) {
-    // ..
+public static PhoneNumber newInstance(PhoneNumber phoneNumber) {
+    return new PhoneNumber(phoneNumber.areaCode, phoneNumber.prefix, phoneNumber.lineNum);
 }
 ```
 
