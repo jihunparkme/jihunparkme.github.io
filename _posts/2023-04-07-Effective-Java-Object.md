@@ -2333,3 +2333,30 @@ public class Point {
   - Synchronized 데이터(ex. Hashtable)
   - Concurrent 데이터
   - ...
+
+.
+
+`비검사 예외(UnChecked Exception)였어야 했다는 신호다.` / Item 13
+
+.
+
+`HashTable과 LinkedList` / Item 13
+
+.
+
+`깊은 복사(deep copy)` / Item 13
+
+.
+
+`리스트가 길면 스택 오버플로를 일으킬 위험이 있기 때문이다.` / Item 13
+
+.
+
+`clone 메서드 역시 적절히 동기화해줘야 한다.` / Item 13
+
+.
+
+`TreeSet` / Item 13
+
+.
+
