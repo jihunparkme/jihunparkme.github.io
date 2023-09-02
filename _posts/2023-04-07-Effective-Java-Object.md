@@ -1938,7 +1938,7 @@ public Deprecation(String name) {
 
 .
 
-`NullPointerException` / Item 07
+**`NullPointerException`** / Item 07
 
 Optional(Java 8)을 활용해서 NPE를 최대한 피하자
 
@@ -1970,7 +1970,7 @@ Optional(Java 8)을 활용해서 NPE를 최대한 피하자
 
 .
 
-`WeakHashMap` / Item 07
+**`WeakHashMap`** / Item 07
 
 더이상 사용하지 않는 객체를 GC 동작 시 자동으로 삭제해주는 Map
 
@@ -2018,7 +2018,7 @@ Optional(Java 8)을 활용해서 NPE를 최대한 피하자
 
 .
 
-`ScheduledThreadPoolExecutor` / Item07
+**`ScheduledThreadPoolExecutor`** / Item07
 
 ```java
 public static void main(String[] args) throws ExecutionException, InterruptedException {
@@ -2084,7 +2084,7 @@ static class Task implements Runnable {
 
 .
 
-`Finalizer 공격` / Item 08
+**`Finalizer 공격`** / Item 08
 
 ```java
 public class Account {
@@ -2146,7 +2146,7 @@ System.gc();
 
 .
 
-`AutoClosable` / Item 08
+**`AutoClosable`** / Item 08
 
 try-with-resource 를 지원하는 인터페이스
 ```java
@@ -2164,7 +2164,7 @@ public void close() throws IOException;
 
 .
 
-`정적이 아닌 중첩 클래스는 자동으로 바깥 객체의 참조를 갖는다.` / Item 08
+**`정적이 아닌 중첩 클래스는 자동으로 바깥 객체의 참조를 갖는다.`** / Item 08
 
 - 중첩 클래스는 static 으로 생성하자.
 - 그렇지 않을 경우, 중첩 클래스는 바깥 객체를 참조하므로 바깥 객체가 GC를 통한 자원 반납이 제대로 이루어지지 않음.
@@ -2206,8 +2206,7 @@ public class OuterClass {
 
 .
 
-`람다 역시 바깥 객체의 참조를 갖기 쉽다.` / Item 08
-
+**`람다 역시 바깥 객체의 참조를 갖기 쉽다.`** / Item 08
 - 클래스 내부의 람다가 바깥 객체의 필드를 참조할 경우 순환참조가 발생
 - 바깥 객체가 GC를 통한 자원 반납이 제대로 이루어지지 않음.
 
@@ -2236,7 +2235,7 @@ public class LambdaExample {
 
 .
 
-`try-with-resources 바이트코드` / Item 09
+**`try-with-resources 바이트코드`** / Item 09
 - try-with-resources 가 코드를 만들어 주는 방법
 - 중첩 try-catch 로 예외 처리
 
@@ -2278,7 +2277,7 @@ try {
 
 .
 
-`Value Object` / Item 10
+**`Value Object`** / Item 10
 
 값을 갖는 클래스
 
@@ -2301,7 +2300,7 @@ public class Point {
 
 .
 
-`StackOverflowError` / Item 10
+**`StackOverflowError`** / Item 10
 
 - Stack: 스레드들이 사용하는 메모리 공간
   - 메소드 호출 시 스택에 스택 프레임이 쌓임 → 더이상 스택 프레임을 쌓을 수 없다면 StackOverflowError 발생
@@ -2312,7 +2311,7 @@ public class Point {
 
 .
 
-`리스코프 치환 원칙` / Item 10
+**`리스코프 치환 원칙`** / Item 10
 
 객체 지향 5대 원칙 SO(**L**)ID 중에 하나
 - 1994년, 바바라 리스코프의 논문 "[A Behavioral Notion of Subtyping](https://www.cs.cmu.edu/~wing/publications/LiskovWing94.pdf)" 에서 기원한 객체 지향 원칙.
@@ -2321,7 +2320,7 @@ public class Point {
 
 .
 
-`Thread-safety` / Item 11
+**`Thread-safety`** / Item 11
 
 멀티 스레드 환경에서 안전한 코드
 
@@ -2336,27 +2335,49 @@ public class Point {
 
 .
 
-`비검사 예외(UnChecked Exception)였어야 했다는 신호다.` / Item 13
+**`UnChecked Exception`** / Item 13
+
+비검사 예외(UnChecked Exception)는 컴파일 에러를 신경쓰지 않아도 되고, try-catch로 감싸거나 메서드 선언부에 선언하지 않아도 되므로 선호하는 예외 방식
 
 .
 
-`HashTable과 LinkedList` / Item 13
+잡지 않은 (체크)예외를 메서드에 선언하는 이유.
+- 메서드에 선언한 예외는 프로그래밍 인터페이스의 일부(클라이언트가 반드시 알아야 하는 정보)
+- 예외 정보를 알아야만 해당 예외가 발생했을 때 대처하는 코드 작성이 가능
+
+비검사 예외는 메서드에 선언하지 않아도 되는 이유.
+- 비검사 예외는 어떤 방법으로도 처리나 복구가 불가능 할 경우에 사용하는 예외
+  - 숫자를 0으로 나누기, null 레퍼런스에 메서드 호는 등..
+- 이러한 예외는 프로그램 전반에 걸쳐 어디서든 발생할 수 있기 때문에 이 모든 비검사 예외를 메서드에 선언하도록 강제한다면 프로그램의 명확도가 감소
 
 .
 
-`깊은 복사(deep copy)` / Item 13
+예외의 사용
+- 단순히 처리하기 쉽고 편하다는 이유만으로 RuntimeException을 선택하지 말자
+- 클라이언트가 해당 예외 상황을 `복구할 수 있다`면, `검사 예외`를 사용
+- 해당 예외가 발생했을 때 `아무것도 할 수 없다`면, `비검사 예외`를 사용
+
+[Unchecked Exceptions](https://docs.oracle.com/javase/tutorial/essential/exceptions/runtime.html)
 
 .
 
-`리스트가 길면 스택 오버플로를 일으킬 위험이 있기 때문이다.` / Item 13
+**`HashTable과 LinkedList`** / Item 13
 
 .
 
-`clone 메서드 역시 적절히 동기화해줘야 한다.` / Item 13
+**`깊은 복사(deep copy)`** / Item 13
 
 .
 
-`TreeSet` / Item 13
+**`리스트가 길면 스택 오버플로를 일으킬 위험이 있기 때문이다.`** / Item 13
+
+.
+
+**`clone 메서드 역시 적절히 동기화해줘야 한다.`** / Item 13
+
+.
+
+**`TreeSet`** / Item 13
 
 .
 
