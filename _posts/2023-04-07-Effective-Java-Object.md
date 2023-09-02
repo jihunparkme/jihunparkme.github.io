@@ -1262,6 +1262,52 @@ public static PhoneNumber newInstance(PhoneNumber phoneNumber) {
 
 📖
 
+compareTo 규약은 equals 규약과 유사
+
+- Object.equals에 더해 `순서 비교`가 가능하며 `Generic 지원`
+  - 자기 자신(this)이 compareTo에 전달된 객체보다 `작으면 음수`, `같으면 0`, `크다면 양수` 반환
+  - 비교할 수 없는 타입일 경우 ClassCastException
+- 반사성, 대칭성, 추이성, 일관성을 만족해야 한다.
+  ```java
+  // 반사성
+  n1.compareTo(n1)
+
+  // 대칭성
+  // x.compareTo(y)는 y.compareTo(x)가 예외를 던질 때에 한해 예외를 던져야 한다.
+  x.compareTo(y) == -y.compareTo(x)
+
+  // 추이성
+  n1.compareTo(n2) > 0
+  n2.compareTo(n3) > 0
+  n1.compareTo(n3) > 0
+
+  // 일관성
+  x.compareTo(y) == 0 이면 sgn(x.compareTo(z)) == sgn(y.compareTo(z))
+  ```
+- 반드시 따라야 하는 것은 아니지만 x.compareTo(y) == 0 이라면 x.equals(y) == true
+  ```java
+  BigDecimal oneZero = new BigDecimal("1.0");
+  BigDecimal oneZeroZero = new BigDecimal("1.00");
+  System.out.println(oneZero.compareTo(oneZeroZero)); // 0(Tree, TreeMap)
+  System.out.println(oneZero.equals(oneZeroZero)); // false(순서가 없는 콜렉션)
+  ```
+- compareTo 규약을 지키지 못하면 비교를 활용하는 클래스와 어울리지 못함
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 알파벳, 숫자, 연대 같이 순서가 명확한 값 클래스를 작성한다면 반드시 Comparable 인터페이스를 구현하자.
 - compareTo는 단순 동치성 비교에 더해 순서까지 비교하고, 제네릭하다.
 - Compareable 구현으로 수많은 제네릭 알고리즘과 컬렉션의 힘을 누릴 수 있다.
@@ -1271,18 +1317,6 @@ public interface Comparable<T> {
     int compareTo(T t);
 }
 ```
-
-compareTo 메서드의 일반 규약은 equals의 규약과 비슷
-
-주어진 객체와 순서를 비교. 작으면 음수, 같으면 0, 크면 양수 반환. 비교할 수 없는 타입일 경우 ClassCastException
-
-- Comparable을 구현한 클래스는 모든 x,y에 대한 sgn(x.compareTo(y)) == -sgn(y.compareTo(x))여야 한다.
-  - x.compareTo(y)는 y.compareTo(x)가 예외를 던질 때에 한해 예외를 던져야 한다.
-- Comparable을 구현한 클래스는 추이성을 보장해야 한다.
-- Comparable을 구현한 클래스는 모든 z에 대해 x.compareTo(y) == 0 이면 sgn(x.compareTo(z)) == sgn(y.compareTo(z))
-- (x.compareTo(y) == 0) == (x.equals(y))여야 한다.
-
-compareTo 규약을 지키지 못하면 비교를 활용하는 클래스와 어울리지 못함
 
 📝 기본 타입 필드가 여럿일 때의 비교자
 
@@ -2371,7 +2405,7 @@ AbstractSet을 확장한 `정렬된 컬렉션`
   - Thread safety 하려면 synchronizedSet 활용
   ```java
   TreeSet<PhoneNumber> numbers = new TreeSet<>(Comparator.comparingInt(PhoneNumber::hashCode));
-  
+
   Set<PhoneNumber> phoneNumbers = Collections.synchronizedSet(numbers);
   phoneNumbers.add(new PhoneNumber(123, 456, 780));
   phoneNumbers.add(new PhoneNumber(123, 456, 7890));
