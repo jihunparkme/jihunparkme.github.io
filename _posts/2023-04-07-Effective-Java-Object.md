@@ -1254,17 +1254,32 @@ public static PhoneNumber newInstance(PhoneNumber phoneNumber) {
 
 ## item 14. Comparable을 구현할지 고려하라.
 
-> 순서를 고려해야 하는 값 클래스를 작성한다면 꼭 Compareable 인터페이스를 구현하여, 그 인스턴스들을 쉽게 정렬하고, 검색하고, 비교 기능을 제공하는 컬렉션과 어우러지도록 해야 한다.
+> 순서를 고려해야 하는 값 클래스를 작성한다면 반드시 Compareable 인터페이스를 구현하여, 
+> 
+> 그 인스턴스들을 쉽게 정렬하고, 검색하고, 비교 기능을 제공하는 컬렉션과 어우러지도록 하자.
 >
-> compareTo 메서드에서 필드의 값을 비교할 때, <와 > 연산자는 쓰지 말자.
+> compareTo 메서드에서 필드의 값을 비교할 때, < 와 > 연산자는 쓰지 말자.
 >
-> 그 대신 박싱된 기본 타입 클래스가 제공하는 정적 compare 메서드나 Comarator 인터페이스가 제공하는 비교자 생성 메서드를 사용하자.
+> 그 대신 박싱된 기본 타입 클래스가 제공하는 정적 compare 메서드나 
+> 
+> Comarator 인터페이스가 제공하는 비교자 생성 메서드를 사용하자.
 
 📖
 
-compareTo 규약은 equals 규약과 유사
+알파벳, 숫자, 연대 같이 순서가 명확한 값 클래스를 작성한다면 반드시 Comparable 인터페이스를 구현하자.
+- Compareable 구현으로 수많은 제네릭 알고리즘과 컬렉션의 힘을 누릴 수 있다.
 
-- Object.equals에 더해 `순서 비교`가 가능하며 `Generic 지원`
+```java
+public interface Comparable<T> {
+    int compareTo(T t);
+}
+```
+
+.
+
+**compareTo 규약은 equals 규약과 유사**
+
+- 단순 동치성 비교(Object.equals)에 더해 `순서 비교`가 가능하며 `Generic 지원`
   - 자기 자신(this)이 compareTo에 전달된 객체보다 `작으면 음수`, `같으면 0`, `크다면 양수` 반환
   - 비교할 수 없는 타입일 경우 ClassCastException
 - 반사성, 대칭성, 추이성, 일관성을 만족해야 한다.
@@ -1293,45 +1308,94 @@ compareTo 규약은 equals 규약과 유사
   ```
 - compareTo 규약을 지키지 못하면 비교를 활용하는 클래스와 어울리지 못함
 
+.
 
+**compareTo 구현 방법 01**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-알파벳, 숫자, 연대 같이 순서가 명확한 값 클래스를 작성한다면 반드시 Comparable 인터페이스를 구현하자.
-- compareTo는 단순 동치성 비교에 더해 순서까지 비교하고, 제네릭하다.
-- Compareable 구현으로 수많은 제네릭 알고리즘과 컬렉션의 힘을 누릴 수 있다.
+- (1) 자연적인 순서를 제공할 클래스에 implements Compratable<T> 선언
+- (2) compareTo 메서드를 재정의
+- (3) comprareTo 메서드 안에서 기본 타입은 박싱된 기본 타입의 compare을 사용해 비교
+- (4) 핵심 필드가 여러 개라면 비교 순서가 중요
+  - 순서를 결정하는데 있어서 가장 중요한 필드를 비교하고, 그 값이 0이라면 다음 필드를 비교
 
 ```java
-public interface Comparable<T> {
-    int compareTo(T t);
-}
+// (1) 자연적인 순서를 제공할 클래스에 implements Compratable<T> 선언
+public final class PhoneNumber implements Comparable<PhoneNumber> {
+    private final short areaCode, prefix, lineNum;
+
+    //...
+
+    // (2) compareTo 메서드를 재정의
+    @Override
+    public int compareTo(PhoneNumber pn) {
+        // (3) comprareTo 메서드 안에서 기본 타입은 박싱된 기본 타입의 compare을 사용해 비교
+        int result = Short.compare(areaCode, pn.areaCode);
+        // (4) 핵심 필드가 여러 개라면 비교 순서가 중요
+        if (result == 0)  {
+            result = Short.compare(prefix, pn.prefix);
+            if (result == 0)
+                result = Short.compare(lineNum, pn.lineNum);
+        }
+        return result;
+    }
 ```
 
-📝 기본 타입 필드가 여럿일 때의 비교자
+- 기존 클래스를 확장하고 필드를 추가하는 경우 compareTo 규약을 지킬 수 없음
+  - 자식 클래스에서 Compratable 구현 불가
+  - 이 경우, Composition 활용
+    ```java
+    public class NamedPoint implements Comparable<NamedPoint> {
 
-```java
-public int compareTo (PhoneNumber pn) {
-    int result = Short.compare(areaCode, pn.areaCode);	// 가장 중요한 필드
-    if (result == 0) {
-        result = Short.compare(prefix, pn.prefix);	// 두 번째로 중요한 필드
-        if (result == 0) {
-         	result = Short.compare(lineNum, pn.lineNum);	// 세 번째로 중요한 필드
+        private final Point point;
+        private final String name;
+
+        // ...
+
+        @Override
+        public int compareTo(NamedPoint namedPoint) {
+            // Point 비교는 Point 클래스에서 재정의한 compareTo 사용
+            int result = this.point.compareTo(namedPoint.point);
+            if (result == 0) {
+                result = this.name.compareTo(namedPoint.name);
+            }
+            return result;
         }
     }
-    return result;
-}
-```
+
+    ...
+
+    public class Point implements Comparable<Point>{
+        // ...
+        @Override
+        public int compareTo(Point point) {
+            int result = Integer.compare(this.x, point.x);
+            if (result == 0) {
+                result = Integer.compare(this.y, point.y);
+            }
+            return result;
+        }
+    }
+    ```
+
+.
+
+**compareTo 구현 방법 02**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 📝 비교자 생성 메서드를 활용한 비교자
 
