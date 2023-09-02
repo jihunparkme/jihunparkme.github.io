@@ -986,7 +986,7 @@ equals 를 재정의한 클래스 모두에서 hashCode 도 재정의해야 한�
 - 두 객체에 대한 `equals 가 같다`면, `hashCode 값도 같아`야 한다.
 - 두 객체에 대한 `equals 가 다르`더라도, hashCode 값은 같을 수 있지만 해시 테이블 성능을 고려해 `다른 값을 리턴`하는 것이 좋다.
   
-**참고. 해시 충돌**
+참고. **`해시 충돌`**
 
 - 다른 두 객체가 같은 hashCode를 가지고 Hash Collection에 저장될 때 해시 충돌 발생
 - 해시 충돌이 발생하면 Hash는 값을 Object가 아닌 LinkedList로 저장
@@ -2361,23 +2361,20 @@ public class Point {
 
 .
 
-**`HashTable과 LinkedList`** / Item 13
-
-.
-
-**`깊은 복사(deep copy)`** / Item 13
-
-.
-
-**`리스트가 길면 스택 오버플로를 일으킬 위험이 있기 때문이다.`** / Item 13
-
-.
-
-**`clone 메서드 역시 적절히 동기화해줘야 한다.`** / Item 13
-
-.
-
 **`TreeSet`** / Item 13
 
-.
+AbstractSet을 확장한 `정렬된 컬렉션`
 
+- 오름차순으로 정렬(엘리먼트를 추가한 순서는 중요하지 않음)
+- 엘리먼트가 지닌 자연적인 순서(natural order, Comparable interface)에 따라 정렬 
+- NTS(Non-Thread safety)
+  - Thread safety 하려면 synchronizedSet 활용
+  ```java
+  TreeSet<PhoneNumber> numbers = new TreeSet<>(Comparator.comparingInt(PhoneNumber::hashCode));
+  
+  Set<PhoneNumber> phoneNumbers = Collections.synchronizedSet(numbers);
+  phoneNumbers.add(new PhoneNumber(123, 456, 780));
+  phoneNumbers.add(new PhoneNumber(123, 456, 7890));
+  phoneNumbers.add(new PhoneNumber(123, 456, 789));
+  ```
+- HashSet은 이진 검색 트리(O(logn))/레드 블랙 트리 사용
