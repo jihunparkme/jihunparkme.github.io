@@ -1310,7 +1310,7 @@ public interface Comparable<T> {
 
 .
 
-**compareTo 구현 방법 01**
+**compareTo 구현 방법 (Compratable 구현)**
 
 - (1) 자연적인 순서를 제공할 클래스에 implements Compratable<T> 선언
 - (2) compareTo 메서드를 재정의
@@ -1379,46 +1379,39 @@ public final class PhoneNumber implements Comparable<PhoneNumber> {
 
 .
 
-**compareTo 구현 방법 02**
+**compareTo 구현 방법 (Comprator 구현)**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-📝 비교자 생성 메서드를 활용한 비교자
-
-- 자바의 정적 임포트 기능을 이용하면 정적 비교자 생성 메서드들을 그 이름만으로 사용할 수 있어 코드가 훨씬 깔끔해진다.
+- 자바 8부터 `함수형 인터페이스, 람다, 메서드 레퍼런스`와 Comprator가 제공하는 `기본 메서드, static 메서드`를 사용해서 Comprator 구현 가능
+- 자바의 정적 임포트 기능을 이용하면 정적 비교자 생성 메서드들을 그 이름만으로 사용할 수 있어 코드가 간결
+- Comparator가 제공하는 메서드 사용하는 방법
+  - (1) Comparator의 static 메서드를 사용해서 Comparator 인스턴스 만들기
+  - (2) 인스턴스를 만들었다면 default 메서드를 사용해서 메서드 호출(체이닝) 이어가기
+    - static, default 메소드의 매개변수로는 람다 표현식 또는 메서드 레퍼런스 사용 가능
 
 ```java
+// (1) Comparator가 제공하는 static 메서드를 사용하여 Comparator 인스턴스 생성
 private static final Comparator<PhoneNumber> COMPARATOR =
-    	comparingInt((PhoneNumber pn) -> pn.areaCode)
-    		.thenComparingInt(pn -> pn.prefix)
-    		.thenComparingInt(pn -> pn.lineNum);
+        comparingInt((PhoneNumber pn) -> pn.areaCode)
+          // (2) 인스턴스를 만들었다면 default 메서드를 사용해서 메서드 호출(체이닝) 이어가기
+          .thenComparingInt(pn -> pn.prefix)
+          // static, default 메소드의 매개변수로는 람다 표현식 또는 메서드 레퍼런스 사용 가능
+          .thenComparingInt(PhoneNumber::getLineNum);
 
+@Override
 public int compareTo(PhoneNumber pn) {
     return COMPARATOR.compare(this, pn);
 }
-```
 
 ...
 
-**Reference**
-
-- [effective-java-3e-source-code (KOR)](https://github.com/WegraLee/effective-java-3e-source-code)
-
-- [effective-java-3e-source-code (EN)](https://github.com/jbloch/effective-java-3e-source-code)
+@FunctionalInterface
+public interface Comparator<T> {
+    // ...
+   default Comparator<T> thenComparingInt(ToIntFunction<? super T> keyExtractor) {
+        return thenComparing(comparingInt(keyExtractor));
+    }
+}
+```
 
 <br>
 
@@ -2476,3 +2469,11 @@ AbstractSet을 확장한 `정렬된 컬렉션`
   phoneNumbers.add(new PhoneNumber(123, 456, 789));
   ```
 - HashSet은 이진 검색 트리(O(logn))/레드 블랙 트리 사용
+
+...
+
+**Reference**
+
+- [effective-java-3e-source-code (KOR)](https://github.com/WegraLee/effective-java-3e-source-code)
+
+- [effective-java-3e-source-code (EN)](https://github.com/jbloch/effective-java-3e-source-code)
