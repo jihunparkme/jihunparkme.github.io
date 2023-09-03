@@ -2470,7 +2470,32 @@ AbstractSet을 확장한 `정렬된 컬렉션`
   ```
 - HashSet은 이진 검색 트리(O(logn))/레드 블랙 트리 사용
 
-...
+.
+
+**`정수 오버플로`**
+- 기본 타입의 compare 메서드 사용 권장
+
+```java
+System.out.println(-2147483648 - 10); // 2147483638
+
+System.out.println(Integer.compare(-2147483648, 10)); // -1
+```
+
+.
+
+**`IEEE 754 부동소수점 계산 방식에 따른 오류`**
+- BigDecimal 사용 권장
+
+```java
+int i = 1;
+double d = 0.1;
+System.out.println(i - d * 9); // 0.09999999999999998
+
+BigDecimal bd = BigDecimal.valueOf(0.1);
+System.out.println(BigDecimal.valueOf(1).min(bd.multiply(BigDecimal.valueOf(9)))); // 0.9
+```
+
+---
 
 **Reference**
 
