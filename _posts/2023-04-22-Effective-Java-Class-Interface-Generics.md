@@ -62,6 +62,21 @@ featured-img: EFF_JAVA
   - 독립적인 중첩 클래스는 private static이 적합
   - private 클래스는 외부 클래스의 인스턴스를 참조
 
+.
+
+**멤버(필드, 메서드, 중첩 클래스/인터페이스)의 접근 제한자 원칙**
+
+- private, package-private 멤버는 `내부 구현`(정보 은닉)
+- public 클래스의 public, protected 멤버는 `공개 API`
+- 테스트 코드를 위해 클래스, 인터페이스, 멤버의 접근 범위를 넓히는 것은 적당한 수준까지만 허용. 공개 API로 만들어서는 안 된다.
+  - private → package-private으로 풀어주는 정도는 허용
+  - 테스트를 같은 패키지에 만든다면 공개 API로 만들 필요가 없어진다.
+- public 클래스의 인스턴스 필드는 되도록 public이 아니어야 한다.(아이템16)
+- public 가변 필드를 갖는 클래스는 일반적으로 스레드 안전하지 않다
+- 클래스에서 public static final 배열 필드를 두거나 이 필드를 반환하는 접근자 메서드를 제공해서는 안 된다.
+  - 배열은 외부에서 변경이 가능한 레퍼런스 필드이므로
+  - public 배열을 private으로 만들고 public 불변 리스트를 추가하거나
+  - 배열을 private으로 만들고 public으로 그 복사본을 반환하자.
 
 <br>
 
