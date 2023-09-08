@@ -125,17 +125,46 @@ featured-img: EFF_JAVA
 - 객체의 `상테를 변경하는 메서드`(변경자)를 제공하지 않기
 - `클래스를 확장`(상속)할 수 없도록 하기
   - final 클래스로 선언하기
-  - 생성자를 숨기고 정적 팩터리 제공하기 
+  - 생성자를 숨기고(private, package-private) 정적 팩터리 제공하기 
     ```java
+    private Complex(double re, double im) {
+        this.re = re;
+        this.im = im;
+    }
+
+    // 내부에서 확장 가능
+    private static class MyComplex extends Complex {
+        private MyComplex(double re, double im) {
+            super(re, im);
+        }
+    }
+
     /**
-     * 정적 팩터리 방식은 다수의 구현 클래스를 활용한 유연성을 제공하고
-     * 객체 캐싱 기능을 추가해 성능 향상이 가능
+     * 정적 팩터리 방식은 다수의 구현 클래스를 활용한 유연성을 제공
+     * - 내부에서 확장된 중첩 클래스를 리턴해줄 수도 있음
+     * - 객체 캐싱 기능을 추가해 성능 개선 가능
      */
     public static Complex valueOf(double re, double im) {
         return new Complex(re, im);
     }
+
+    public static Complex myValueOf(double re, double im) {
+        return new MyComplex(re, im);
+    }
+
+    ...
+
+    Complex complex = Complex.valueOf(1, 0.222);
+
+    /**
+     * 확장이 가능한 클래스는 안전한 사용을 위해 방어적인 복사 사용
+     */
+    public static BigInteger safeInstance(BigInteger val) {
+        return val.getClass() == BigInteger.class ? val : new BigInteger(val.toByteArray());
+    }
     ```
-- 모든 `필드를 final로` 선언하기
+- 모든 (외부에 공개하는) `필드를 final로` 선언하기
+  - 계산 비용이 큰 값은 해당 값이 필요한 시점에 계산하여 final이 아닌 필(private)에 캐시해서 사용 가능
 - 모든 `필드를 private으로` 선언하기
 - 자신 외에는 `내부의 가변 컴포넌트에 접근할 수 없도록` 하기
   - 필요하다면 방어적인 복사를 통해 제공
