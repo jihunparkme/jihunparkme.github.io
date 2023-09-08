@@ -120,13 +120,17 @@ featured-img: EFF_JAVA
 
 .
 
-클래스를 불변으로 만들기 위한 규칙
+**클래스를 불변으로 만들기 위한 규칙**
 
 - 객체의 `상테를 변경하는 메서드`(변경자)를 제공하지 않기
 - `클래스를 확장`(상속)할 수 없도록 하기
   - final 클래스로 선언하기
   - 생성자를 숨기고 정적 팩터리 제공하기 
     ```java
+    /**
+     * 정적 팩터리 방식은 다수의 구현 클래스를 활용한 유연성을 제공하고
+     * 객체 캐싱 기능을 추가해 성능 향상이 가능
+     */
     public static Complex valueOf(double re, double im) {
         return new Complex(re, im);
     }
@@ -136,10 +140,45 @@ featured-img: EFF_JAVA
 - 자신 외에는 `내부의 가변 컴포넌트에 접근할 수 없도록` 하기
   - 필요하다면 방어적인 복사를 통해 제공
 
+.
+
+**불변 클래스의 장점과 단점**
+
 [불변 복소수 클래스(Complex.java)](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter4/item17/Complex.java)
 
-- 각 메서드에서 인스턴스 자신은 수정하지 않고 새로운 Complex 인스턴스를 만들어 반환하고 있다.
-- 정적 팩터리 방식은 다수의 구현 클래스를 활용한 유연성을 제공하고, 객체 캐싱 기능을 추가해 성능을 끌어올릴 수도 있다.
+```java
+// 불변 객체는 안심하고 공유 가능
+public static final Complex ZERO = new Complex(0, 0);
+
+/**
+ * 피연산자가 변경되지 않으면서 새로운 인스턴스를 생성하여 반환(함수형 프로그래밍의 특징)
+ * 전달된 파라미터가 변경되지 않으므로 클라이언트도 안전하고 단순하게 사용 가능
+ * 값이 다르다면 별도의 객체로 만들어야 하는 비용을 줄이기 위해 다단계 연산 제공
+ */
+public Complex plus(Complex c) {
+    return new Complex(re + c.re, im + c.im);
+}
+
+public Complex minus(Complex c) {
+    return new Complex(re - c.re, im - c.im);
+}
+```
+
+장점
+
+- 함수형 프로그래밍에 적합(피연산자에 함수를 적용한 결과를 반환하지만 피연산자가 변경되지는 않음)
+- 불변 객체는 단순
+- 불변 객체는 근본적으로 스레드 안전하여 따로 동기화할 필요 없음
+- 불변 객체는 안심하고 공유 가능(상수, public static final)
+- 불변 객체 끼리는 내부 데이터 공유 가능
+- 객체를 만들 때 불변 객체로 구성하면 이점이 많음(Collection에서도 불변 유지)
+- 실패 원자성을 제공(아이템 76, p407)
+  - 연산이 실패하더라도 원자성을 보장(데이터 보존)
+
+단점
+
+- 값이 다르다면 반드시 별도의 객체로 만들어야 한다.
+  - "다단계 연산"을 제공하거나, "가변 동반 클래스"(StringBuilder)를 제공하여 대처 가능
 
 <br>
 
