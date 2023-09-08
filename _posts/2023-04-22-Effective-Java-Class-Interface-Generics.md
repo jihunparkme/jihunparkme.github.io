@@ -1173,19 +1173,28 @@ JPMS(Java Platform Module System)
 
 .
 
-**`새로 생성된 불변 인스턴스를 동기화 없이 다른 스레드로 건네도 문제없이동작 (JLS 17.5)`**
+**`final과 자바 메모리 모델(JMM)`** / Item 17
+
+final 사용 시 안전한 초기화 가능
+
+- JMM(java memory model)
+  - JMM, final의 완벽한 이해를 위해 [JLS 17.4](https://docs.oracle.com/javase/specs/jls/se14/html/jls-17.html#jls-17.4), [JLS 17.5](https://docs.oracle.com/javase/specs/jls/se14/html/jls-17.html#jls-17.5) 참고
+  - 메모리 모델이 허용하는 범위 내에서 프로그램을 어떻게 실행하든 구현체(JVM)의 자유
+    - 이 과정에서 실행 순서가 바뀔 수도 있음
+- final 변수를 초기화 하기 전까지 해당 인스턴스를 참조하는 모든 쓰레스는 기다려야(freeze) 한다.
+  - 즉, final 변수가 초기화가 되어야만 다른 스레드가 사용 가능하므로 안전한 초기화가 가능
 
 .
 
-**`readObject 메서드 (아이템 88)에서 방어적 복사를 수행하라.`**
+**`readObject 메서드 (아이템 88)에서 방어적 복사를 수행하라.`** / Item 17
 
 .
 
-**`불변 클래스의 내부에 가변 객체를 참조하는 필드가 있다면… (아이템 88)`**
+**`불변 클래스의 내부에 가변 객체를 참조하는 필드가 있다면… (아이템 88)`** / Item 17
 
 .
 
-**`java.util.concurrnet 패키지의 CountDownLatch 클래스`**
+**`java.util.concurrnet 패키지의 CountDownLatch 클래스`** / Item 17
 
 .
 
