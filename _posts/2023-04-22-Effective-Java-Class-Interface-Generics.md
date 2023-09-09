@@ -1199,7 +1199,24 @@ final 사용 시 안전한 초기화 가능
 
 .
 
-**`java.util.concurrnet 패키지의 CountDownLatch 클래스`** / Item 17
+**`CountDownLatch 클래스`** / Item 17
+
+다른 여러 스레드로 실행하는 여러 오퍼레이션이 마칠 때까지 기다릴 때 사용할 수 있는 유틸리티
+
+- java.util.concurrnet 패키지
+- 초기화 할 때 숫자를 입력하고, await() 메서드를 사용해서 숫자가 0이 될때까지 대기
+  ```java
+  CountDownLatch startSignal = new CountDownLatch(1);
+  ...
+  startSignal.await();
+  ```
+- 숫자를 셀 때는 countDown() 메서드 사용
+  ```java
+  startSignal.countDown();
+  ```
+- 재사용할 수 있는 인스턴스가 아니고, 숫자를 리셋해서 재사용하려면 CyclicBarrier 사용
+- 시작 또는 종료 신호로 사용 가능
+- [ConcurrentExample.java](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter04/item17/concurrent/ConcurrentExample.java)
 
 .
 
