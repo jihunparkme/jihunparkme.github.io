@@ -1220,13 +1220,9 @@ final 사용 시 안전한 초기화 가능
 
 .
 
-
-
----
-
 📝🔔🔍
 
-**Reference**
+# Reference
 
 - [effective-java-3e-source-code (KOR)](https://github.com/WegraLee/effective-java-3e-source-code)
 
