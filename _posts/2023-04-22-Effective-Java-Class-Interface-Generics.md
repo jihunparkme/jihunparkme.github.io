@@ -1186,11 +1186,16 @@ final 사용 시 안전한 초기화 가능
 
 .
 
-**`readObject 메서드 (아이템 88)에서 방어적 복사를 수행하라.`** / Item 17
+**`java.util.concurrnet 패키지`** / Item 17
 
-.
+병행(concurrency) 프로그래밍에 유용하게 사용할 수 있는 유틸리티 묶음
 
-**`불변 클래스의 내부에 가변 객체를 참조하는 필드가 있다면… (아이템 88)`** / Item 17
+- `병행`은 여러 작업을 번갈아 가며 실행
+  - 마치 동시에 여러 작업을 처리하듯 보이지만, 실제로는 한번에 오직 한 작업만 실행
+- `병렬`은 여러 작업을 동시에 처리
+  - CPU가 여러개 있어야 가능
+- 자바의 concurrent 패키지는 병행 애플리케이션에 유용한 다양한 툴을 제공
+  - BlockingQueue, Callable, ConcurrrentMap, Executor, ExecutorService, Future, ...
 
 .
 
