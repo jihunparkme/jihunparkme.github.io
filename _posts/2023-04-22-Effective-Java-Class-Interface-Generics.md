@@ -227,14 +227,27 @@ public Complex minus(Complex c) {
 
 📖
 
-- 다른 패키지의 구체 클래스를 상속하는 일은 위험하다.
-- 메서드 호출과 달리 상속은 캡슐화를 깨뜨린다.
-  - 상위 클래스는 릴리스마다 내부 구현이 달라질 수 있고, 그로 인해 하위 클래스가 오동작할 수 있다.
+다른 패키지의 구체 클래스를 상속하는 일은 위험
+
+- 메서드 호출과 달리 상속은 캡슐화를 깨뜨림
+- 상위 클래스는 릴리스마다 내부 구현이 달라질 수 있고, 그로 인해 하위 클래스가 오동작할 수 있다.
+  - 상위 클래스에서 제공하는 메서드 구현이 바뀐다면, 모든 하위 클래스의 구현도 변경되어야 함
+  - 상위 클래스에서 새로운 메서드가 생긴다면, 알 수 없을 뿐더러 오버라이딩이 필요
+
+.
+
+`컴포지션`(Composition): 기존 클래스가 새로운 클래스의 구성요소로 쓰이는 설계
+
 - 새로운 클래스를 만들고 private 필드로 기존 클래스의 인스턴스를 참조하게 하자.
-- 컴포지션: 기존 클래스가 새로운 클래스의 구성요소로 쓰이는 설계
-  - 기존 클래스의 대응하는 메서드를 호출해 그 결과를 반환
-  - [래퍼 클래스. 상속 대신 컴포지션 사용](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter4/item18/InstrumentedSet.java)
+- 기존 클래스의 구현이 바뀌거나, 새로운 메서드가 생기더라도 아무런 영향을 받지 않는다.
+- 기존 클래스의 대응하는 메서드를 호출해 그 결과를 반환
 - 상속은 반드시 하위 클래스가 상위 클래스의 '진짜' 하위 타입인 상황에서만 쓰여아 한다.
+- Example
+  - [잘못된 예](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter4/item18/InstrumentedHashSet.java)
+  - [래퍼 클래스. 상속 대신 컴포지션 사용](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter4/item18/InstrumentedSet.java)
+  - [전달 클래스](https://github.com/WegraLee/effective-java-3e-source-code/blob/master/src/effectivejava/chapter4/item18/ForwardingSet.java)
+
+.
 
 컴포지션 대신 상속을 사용하기로 경정하기 전에 자문해야 할 질문
 
