@@ -2495,9 +2495,7 @@ BigDecimal bd = BigDecimal.valueOf(0.1);
 System.out.println(BigDecimal.valueOf(1).min(bd.multiply(BigDecimal.valueOf(9)))); // 0.9
 ```
 
----
-
-**Reference**
+# Reference
 
 - [effective-java-3e-source-code (KOR)](https://github.com/WegraLee/effective-java-3e-source-code)
 
