@@ -1233,7 +1233,7 @@ final 사용 시 안전한 초기화 가능
 
 .
 
-`**데코레이터 패턴**` / Item 18
+**`데코레이터 패턴`** / Item 18
 
 기존 코드를 변경하지 않고 부가 기능을 추가하는 패턴
 
@@ -1242,7 +1242,18 @@ final 사용 시 안전한 초기화 가능
 
 .
 
-`**콜백 프레임워크와 셀프 문제**` / Item 18
+**`콜백 프레임워크와 셀프 문제`** / Item 18
+
+콜백 프레임워크와 래퍼를 같이 사용했을 때 발생할 수 있는 문제
+
+콜백 함수
+- 함수(A)의 인자로 전달된 함수(B)
+- 함수(B)는 함수(A) 내부에서 필요한 시점에 호출 가능
+
+SELF 문제
+- 래퍼로 감싸고 있는 내부 객체가 클래스(A)의 콜백(B)으로 사용되는 경우
+- this를 전달한다면, 해당 클래스(A)는 래퍼가 아닌 내부 객체를 호출
+- [example](https://github.com/jihunparkme/Effective-JAVA/tree/main/effective-java-part2/src/main/java/me/whiteship/chapter04/item18/callback)
 
 .
 
