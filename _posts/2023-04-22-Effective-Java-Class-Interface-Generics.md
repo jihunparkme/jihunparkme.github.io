@@ -337,10 +337,6 @@ public Complex minus(Complex c) {
 
 
 
-
-
-
-
 .
 
 골격 구현 클래스
