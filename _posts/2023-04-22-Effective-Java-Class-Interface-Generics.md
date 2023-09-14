@@ -1246,8 +1246,8 @@ SELF 문제
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/effective-java/template-method-pattern.png?raw=true 'Result')
 
-알고리듬 구조를 서브 클래스가 확장할 수 있도록 템플릿으로 제공하는 방법
-- 추상 클래스는 템플릿을 제공하고 하위 클래스는 구체적인 알고리듬을 제공
+알고리즘 구조를 서브 클래스가 확장할 수 있도록 템플릿으로 제공하는 패턴
+- 추상 클래스는 템플릿을 제공하고, 하위 클래스는 구체적인 알고리즘을 제공
 
 Template Method Pattern
 
@@ -1267,7 +1267,7 @@ public abstract class FileProcessor {
             int result = 0;
             String line = null;
             while((line = reader.readLine()) != null) {
-                // 일부 메소드를 서브클래스로 확장 가능하도록
+                // 일부 메소드를 서브클래스로 확장 가능하도록 템플릿으로 제공
                 result = getResult(result, Integer.parseInt(line));
             }
             return result;
@@ -1277,7 +1277,7 @@ public abstract class FileProcessor {
     }
 
     /**
-     * Step (서브 클래스에서 기능을 확장)
+     * Step (서브 클래스에서 구체적인 기능을 확장)
      */
     protected abstract int getResult(int result, int number);
 }
@@ -1288,11 +1288,7 @@ Template Callback Pattern
 ```java
 public class FileProcessor {
 
-    private String path;
-
-    public FileProcessor(String path) {
-        this.path = path;
-    }
+    // ...
 
     public final int process(BiFunction<Integer, Integer, Integer> operator) {
         try(BufferedReader reader = new BufferedReader(new FileReader(path))) {
@@ -1302,9 +1298,7 @@ public class FileProcessor {
                 result = operator.apply(result, Integer.parseInt(line));
             }
             return result;
-        } catch (IOException e) {
-            throw new IllegalArgumentException(path + "에 해당하는 파일이 없습니다.", e);
-        }
+        // ...
     }
 }
 
