@@ -341,7 +341,8 @@ public Complex minus(Complex c) {
   - 인터페이스 → 디폴트 메서드 구현
   - 추상 골격 클래스 → 나머지 메서드 구현
   - 템플릿 메서드 패턴
-- [시뮬레이트한 다중 상속]((https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter04/item20/multipleinheritance/MyCat.java))
+- [시뮬레이트한 다중 상속](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter04/item20/multipleinheritance/MyCat.java)
+  - 인터페이스의 구현체에서 추상 클래스의 메서드 호출
 - 골격 구현은 상속용 클래스이기 때문에 아이템 19를 따라야 한다.
 - 단순 구현(simple implementation)은 골격 구현의 작은 변종으로, AbstractMap.SimpleEntry가 좋은 예
 
