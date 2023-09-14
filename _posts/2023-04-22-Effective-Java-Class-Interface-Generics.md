@@ -1242,6 +1242,81 @@ SELF 문제
 
 .
 
+**`템플릿 메서드 패턴`** / Item 20
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/effective-java/template-method-pattern.png?raw=true 'Result')
+
+알고리듬 구조를 서브 클래스가 확장할 수 있도록 템플릿으로 제공하는 방법
+- 추상 클래스는 템플릿을 제공하고 하위 클래스는 구체적인 알고리듬을 제공
+
+Template Method Pattern
+
+```java
+public abstract class FileProcessor {
+    private String path;
+
+    public FileProcessor(String path) {
+        this.path = path;
+    }
+
+    /**
+     * Template  Method
+     */
+    public final int process() {
+        try(BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            int result = 0;
+            String line = null;
+            while((line = reader.readLine()) != null) {
+                // 일부 메소드를 서브클래스로 확장 가능하도록
+                result = getResult(result, Integer.parseInt(line));
+            }
+            return result;
+        } catch (IOException e) {
+            throw new IllegalArgumentException(path + "에 해당하는 파일이 없습니다.", e);
+        }
+    }
+
+    /**
+     * Step (서브 클래스에서 기능을 확장)
+     */
+    protected abstract int getResult(int result, int number);
+}
+```
+
+Template Callback Pattern
+
+```java
+public class FileProcessor {
+
+    private String path;
+
+    public FileProcessor(String path) {
+        this.path = path;
+    }
+
+    public final int process(BiFunction<Integer, Integer, Integer> operator) {
+        try(BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            int result = 0;
+            String line = null;
+            while((line = reader.readLine()) != null) {
+                result = operator.apply(result, Integer.parseInt(line));
+            }
+            return result;
+        } catch (IOException e) {
+            throw new IllegalArgumentException(path + "에 해당하는 파일이 없습니다.", e);
+        }
+    }
+}
+
+...
+
+FileProcessor fileProcessor = new FileProcessor("number.txt");
+System.out.println(fileProcessor.process(Integer::sum));
+```
+
+.
+
+
 📝🔔🔍
 
 # Reference
