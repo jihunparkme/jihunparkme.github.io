@@ -419,21 +419,23 @@ public class PhysicalConstants {
 
 📖
 
-태그 달린 클래스는 쓸데없는 코드가 많다.
-- 열거 타입
-- 태그 필드
-- switch 문
-- 여러 구현이 혼합
-- 불필요한 코드
+태그 달린 클래스의 단점
+- 쓸데없이 많은 코드
+  - 열거 타입, 태그 필드, switch 문, 여러 구현 혼합, 불필요한 코드
+- 나쁜 가독성, 다량의 메모리 사용, 장황하고, 오류를 내기 쉽고, 비효율적
+- 필드를 final로 선언하려면 불필요한 필드까지 초기화 필요
+- 인스턴스 타입만으로는 현재 나타내는 의미를 알 방법이 없음
 
-태그 달린 클래스는 장황하고, 오류를 내기 쉽고, 비효율적이다.
+클래스 `계층 구조`로 바꾸면 모든 단점 해결
 
-태그 달린 클래스를 클래스 계층구조를 변환해주자.
+- [before](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter04/item23/taggedclass/Figure.java)
 
 ```java
 abstract class Figure {
     abstract double area();
 }
+
+...
 
 class Circle extends Figure {
     final double radius;
@@ -442,6 +444,8 @@ class Circle extends Figure {
 
     @Override double area() { return Math.PI * (radius * radius); }
 }
+
+...
 
 class Rectangle extends Figure {
     final double length;
@@ -453,6 +457,8 @@ class Rectangle extends Figure {
     }
     @Override double area() { return length * width; }
 }
+
+...
 
 class Square extends Rectangle {
     Square(double side) {
