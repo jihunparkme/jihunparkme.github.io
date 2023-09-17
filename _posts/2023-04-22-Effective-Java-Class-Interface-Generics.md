@@ -469,7 +469,7 @@ class Square extends Rectangle {
 
 <br>
 
-## item 24. 멤버 클래스는 되도록 static으로 만들라.
+## item 24. 멤버 클래스는 되도록 static(정적 멤버 클래스)으로 만들라.
 
 > 중첩 클래스에서는 네 가지가 있으며, 각각의 쓰임이 다르다.
 > 
@@ -477,31 +477,34 @@ class Square extends Rectangle {
 >
 > 멤버 클래스: 메서드 밖에서도 사용해야 하거나 메서드 안에 정의하기엔 너무 길 경우
 >
-> 비정적 멤버 클래스: 멤버 클래스의 인스턴스 각각이 바깥 인스턴스를 참조할 경우
-> 
 > 정적 멤버 클래스: 멤버 클래스의 인스턴스 각각이 바깥 인스턴스를 참조하지 않을 경우
+> 
+> 비정적 멤버 클래스: 멤버 클래스의 인스턴스 각각이 바깥 인스턴스를 참조할 경우
 >
 > 익명 클래스: 중첩 클래스가 한 메서드 안에서만 쓰이면서 그 인스턴스를 생성하는 지점이 단 한 곳이고, 해당 타입으로 쓰기에 적합한 클래스나 인터페이스가 이미 있을 경우
 > 
-> 지역 클래스: 그 외의 경우.. (가장 드물게 사용)
+> 지역 클래스: 그 외의 경우.. 가장 드물게 사용
 
 📖
 
-**중첩 클래스는 자신을 감싼 바깥 클래스에서만 쓰여야 하며, 그 외에 쓰임새가 있다면 톱레벨 클래스로 만들어야 한다.**
+**중첩 클래스는 바깥 클래스에서만 쓰여야 하며, 그 외에 쓰임새가 있다면 톱레벨 클래스로 만들자.**
 
-- 중첩 클래스의 종류
-  - 정적 멤버 클래스(정적 멤버 클래스를 제외한 클래스들은 내부 클래스(inner class))
-  - 비정적 멤버 클래스
-  - 익명 클래스
-  - 지역 클래스
+- 정적 멤버 클래스(그외 클래스들은 내부 클래스(inner class))
+- 비정적 멤버 클래스
+- 익명 클래스
+- 지역 클래스
 
-`정적 멤버 클래스`
+.
+
+**`정적 멤버 클래스`**
+
+바깥 클래스와 함께 쓰일 때만 유용한 public 도우미 클래스. (ex. Calculator.Operation.PLUS)
 
 ```java
 public class OuterClass {
     private String name = "name";
 
-    public enum Kinds { // 열거타입은 암시적으로 static 선언
+    public enum Kinds { // 열거타입은 암시적으로 static
         A, B, C, D, E
     }
 
@@ -516,13 +519,15 @@ public class OuterClass {
 }
 ```
 
-- 클래스 내부에 static 으로 선언
-- 바깥 클래스의 private 멤버에 접근 가능
-- private 선언 시 바깥 클래스에서만 접근 가능
-- 버깥 인스턴스와 독립적으로 존재할 수 있을 경우 사용
-  - priate 정적 멤버 클래스는 바깥 클래스가 표현하는 객체의 한 구성요소일 때 사용
+- 클래스 내부에 **static** 으로 선언
+- 바깥 클래스의 **private 멤버에 접근** 가능
+- private 선언 시 **바깥 클래스에서만 접근** 가능
+- 바깥 인스턴스와 **독립적**으로 존재할 수 있을 경우 사용
+  - private 정적 멤버 클래스는 바깥 클래스가 표현하는 객체의 한 구성요소일 때 사용
 
-`비정적 멤버 클래스`
+.
+
+**`비정적 멤버 클래스`**
 
 ```java
 public class OuterClass {
@@ -538,8 +543,9 @@ public class OuterClass {
     }
 
     public class InnerClass {
-        public void printName() {              
-            System.out.println(name); // 바깥 클래스 private 멤버
+        public void printName() {
+            // 바깥 클래스 private 멤버 참조         
+            System.out.println(name); 
         }
 
         public void callOuterClassMethod() {  
@@ -548,19 +554,29 @@ public class OuterClass {
         }
     }
 }
+
+...
+
+// 인스턴스 생성 방법
+InnerClass innerClass = new OutterClass().new InnerClass();
+
+// 바깥 클래스의 인스턴스 메서드에서 비정적 멤버 클래스의 생성자 호출
+OuterClass outerClass = new OuterClass();
+InnerClass innerClass = outerClass.createInnerClass();
+
+// 멤버 클래스를 인스턴스화
+InnerClass publicSample2 = outerClass.new InnerClass();
 ```
 
-- 멤버 클래스에 static이 붙지 않은 형태
-- 바깥 클래스의 인스턴스와 암묵적으로 연결
+- 멤버 클래스에 **static이 붙지 않은** 형태
+- 바깥 클래스의 인스턴스와 **암묵적으로 연결**
   - 클래스명.this 형태로 바깥 인스턴스의 메서드, 인스턴스 참조 접근 가능
   - 바깥 인스턴스 없이는 생성 불가
 - 어댑터 정의에 자주 사용
   - 어떤 클래스의 인스턴스를 감싸 다른 인스턴스처럼 보이게 하는 뷰로 사용
     ```java
     public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Cloneable, Serializable {
-
       /* Map 인터페이스의 구현체들은 보통 자신의 컬섹션 뷰를 구현할 때 비정적 멤버 클래스를 사용 */
-
       final class EntrySet extends AbstractSet<Map.Entry<K, V>> {
           // size(), clear(), contains(), remove(), ...
       }
@@ -574,21 +590,15 @@ public class OuterClass {
       }
     }
     ```
-- 주의❗️ 멤버 클래스에서 바깥 인스턴스에 접근할 일이 없으면 무조건 static을 붙여서 정적 멤버 클래스로 만들자
-  - static 생략 시
+- 주의❗️ 멤버 클래스에서 바깥 인스턴스에 접근할 일이 없으면 무조건 정적 멤버 클래스로 만들자
+  - static 생략 시.
   - 바깥 인스턴스로 숨은 외부 참조를 갖고, 멤버 클래스 관계를 위한 시간과 공간 소모
-  - 가비지 컬렉션이 바깥 클래스의 인스턴스 수거 불가로 메모리 누수 발생
+  - GC가 바깥 클래스의 인스턴스 수거 불가로 메모리 누수 발생
   - 참조가 눈에 보이지 않아 문제의 원인을 찾기 어렵고 심각한 상황을 초래
-- 인스턴스 생성(멤버 클래스가 인스턴스화될 때 확립)
-  ```java
-  TestClass test = new TestClass();
-  // 바깥 클래스의 인스턴스 메서드에서 비정적 멤버 클래스의 생성자 호출
-  PublicSample publicSample1 = test.createPublicSample();
-  // 바깥 인스턴스 클래스.new 멤버클래스()
-  PublicSample publicSample2 = test.new InnerClass();
-  ```
 
-`익명 클래스`
+.
+
+**`익명 클래스`**
 
 ```java
 Collections.sort(list, new Comparator<Integer>() {
@@ -599,9 +609,9 @@ Collections.sort(list, new Comparator<Integer>() {
 });
 ```
 
+- 비정적인 문맥에서 사용될 때만 바깥 클래스의 인스턴스를 참조할 수 있다.
 - 이름이 없는 클래스
-- 바깥 클래스의 멤버가 아님
-- 쓰이는 시점에 선언과 동시에 인스턴스 생성
+- 바깥 클래스의 멤버가 아니며, 쓰이는 시점에 선언과 동시에 인스턴스 생성
 - 제약사항
   - 선언한 지점에서만 인스턴스 생성 가능
   - instanceof 검사나 클래스 이름이 필요한 작업은 수행 불가
@@ -609,7 +619,7 @@ Collections.sort(list, new Comparator<Integer>() {
   - 익명 클래스의 상위 타입에서 상속한 멤버 외에는 호출 불가
   - 10줄 이하로 짧지 않으면 가독성 감소
 - 과거에는 즉석으로 작은 함수 객체나 처리 객체를 만드는 데 주로 사용했지만, 람다 등장 이후로 람다가 이 역할을 대체
-- 정적 팩토리 메소드 구현 시 사용
+- 정적 팩터리 메서드 구현 시 사용
   ```java
   static List<Integer> intArrayAsList(int[] a) {
       Objects.requiredNonNull(a);
@@ -622,7 +632,9 @@ Collections.sort(list, new Comparator<Integer>() {
   }
   ```
 
-`지역 클래스`
+.
+
+**`지역 클래스`**
 
 ```java
 public class SampleClass {
@@ -656,6 +668,7 @@ public class SampleClass {
 - 다른 세 중첩 클래스와 공통점을 하나씩 보유
   - 멤버 클래스처럼 이름이 있고 반복 사용 가능
   - 익명 클래스처럼 비정적 문맥에서 사용될 떄만 바깥 인스턴스를 참조 가능, 정적 멤버는 가질 수 없으며, 가독성을 위해 짧게 작성 필요
+- 가장 드물게 사용
 
 [reference](https://yeonyeon.tistory.com/205)
 
