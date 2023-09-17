@@ -607,30 +607,30 @@ Collections.sort(list, new Comparator<Integer>() {
         return n1 - n2;
     }
 });
+
+...
+
+// 정적 팩터리 메서드 구현 시 사용
+static List<Integer> intArrayAsList(int[] a) {
+    Objects.requiredNonNull(a);
+    
+    return new AbstracktList<>() {
+        @Override public Integer get(int i) {
+            return a[i];
+        }
+    }
+}
 ```
 
-- 비정적인 문맥에서 사용될 때만 바깥 클래스의 인스턴스를 참조할 수 있다.
 - 이름이 없는 클래스
 - 바깥 클래스의 멤버가 아니며, 쓰이는 시점에 선언과 동시에 인스턴스 생성
 - 제약사항
   - 선언한 지점에서만 인스턴스 생성 가능
   - instanceof 검사나 클래스 이름이 필요한 작업은 수행 불가
-  - 여러 인터페이스 구현 불가 + 동시에 다른 클래스 상속 불가
+  - 여러 인터페이스 구현 불가, 동시에 다른 클래스 상속 불가
   - 익명 클래스의 상위 타입에서 상속한 멤버 외에는 호출 불가
   - 10줄 이하로 짧지 않으면 가독성 감소
-- 과거에는 즉석으로 작은 함수 객체나 처리 객체를 만드는 데 주로 사용했지만, 람다 등장 이후로 람다가 이 역할을 대체
-- 정적 팩터리 메서드 구현 시 사용
-  ```java
-  static List<Integer> intArrayAsList(int[] a) {
-      Objects.requiredNonNull(a);
-      
-      return new AbstracktList<>() {
-          @Override public Integer get(int i) {
-              return a[i];
-          }
-      }
-  }
-  ```
+- 람다, 메서드 레퍼런스가 역할을 대체
 
 .
 
@@ -642,8 +642,8 @@ public class SampleClass {
     public SampleClass() {}
 
     public void foo() {
-        
-        class LocalClass { // 지역변수 클래스
+        // 지역변수 클래스
+        class LocalClass { 
             private String name;
             // private static int staticNumber; // 정적 멤버 가질 수 없음
 
@@ -652,7 +652,8 @@ public class SampleClass {
             }
 
             public void print() {
-                // 비정적 문맥에선 바깥 인스턴스를 참조 가능(foo()가 static이면 number에서 컴파일 에러)
+                // 비정적 문맥에선 바깥 인스턴스를 참조 가능
+                // 단, foo()가 static이면 number에서 컴파일 에러 발생
                 System.out.println(number + name);
             }
         }
