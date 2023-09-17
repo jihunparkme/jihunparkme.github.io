@@ -1405,6 +1405,45 @@ for (int i = 0; i < numbers.size() ; i++) {
 numbers.removeIf(number -> number == 3);
 ```
 
+.
+
+**`Adapter Pattern`** / Item 24
+
+기존 코드를 클라이언트가 사용하는 인터페이스의 구현체로 변경해주는 패턴
+- 클라이언트가 사용하는 인터페이스를 따르지 않는 기존 코드를 재사용할 수 있도록 도움
+
+```java
+public class MySet<E> extends AbstractSet<E> {
+    /**
+     * 클라이언트가 사용하는 인터페이스(Iterator)를 구현하고
+     * 해당 타입(Iterator<E>)으로 사용할 수 있도록 도움
+     */
+    @Override
+    public Iterator<E> iterator() {
+        return new MyIterator();
+    }
+
+    @Override
+    public int size() {
+        return 0;
+    }
+
+    // 클라이언트가 사용하는 인터페이스의 구현체로 변경(Adapter)
+    private class MyIterator implements Iterator<E> {
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public E next() {
+            return null;
+        }
+    }
+}
+```
+
+.
 
 📝🔔🔍
 
