@@ -1460,6 +1460,41 @@ public class MySet<E> extends AbstractSet<E> {
 
 .
 
+**`GenericRepository`** / Item 26
+
+자바 Generic을 활용한 중복 코드 제거
+
+- [as-is](https://github.com/jihunparkme/Effective-JAVA/tree/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item26/genericdao)
+- to-be
+  ```java
+  public class GenericRepository<E extends Entity> {
+
+      private Set<E> entities;
+
+      public GenericRepository() {
+          this.entities = new HashSet<>();
+      }
+
+      public Optional<E> findById(Long id) {
+          return entities.stream().filter(a -> a.getId().equals(id)).findAny();
+      }
+
+      public void add(E entity) {
+          this.entities.add(entity);
+      }
+  }
+
+  ...
+
+  public class MessageRepository extends GenericRepository<Message> {}
+
+  ...
+
+  public class AccountRepository extends GenericRepository<Account> {}
+  ```
+
+.
+
 📝🔔🔍
 
 # Reference
