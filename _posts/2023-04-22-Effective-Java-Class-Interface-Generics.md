@@ -838,17 +838,18 @@ public class Sample {
 
 **`공변`과 `비공변`**
   
-- 배열은 공변(covariant): 함께 변함
+- 배열은 `공변`(covariant): 함께 변함
   - Sub가 Super의 하위 타입일 때, Sub[]는 Super[]의 하위 타입이 된다.
     ```java
     Object[] objectArray = new Long[1];
-    // 런타임 시점에 실패(ArrayStoreException)
+    // "런타임" 시점에 실패(ArrayStoreException)
     objectArray[0] = "타입이 달라 넣을 수 없음.";
     ``` 
-- 제네릭은 불공면(invariant)
-  - 서로 다른 타입의 Type1, Type2, List\<Type1\>은 List\<Type2\>의 하위 타입도, 상위 타입도 아니다.
+- 제네릭은 `불공면`(invariant)
+  - 서로 다른 타입의 Type1, Type2
+  - List\<Type1\>은 List\<Type2\>의 하위 타입도, 상위 타입도 아니다.
     ```java 
-    // 컴파일 시점에 실패
+    // "컴파일" 시점에 실패
     List<Object> ol = new ArrayList<Long>();
     ol.add("타입이 달라 넣을 수 없음.")
     ```
@@ -859,61 +860,21 @@ public class Sample {
 
 실체화: 타입이 런타임에 유지가 되는지 여부
 
-- 배열은 실체화(reify)되어 Long 배열에 String을 넣으려 하면 ArrayStoreException 발생
-- 제네릭은 타입 정보가 컴파일하면 소거(erasure)
+- 배열은 `실체화`(reify)되어 Long 배열에 String을 넣으려 하면 ArrayStoreException 발생  
+- 제네릭은 타입 정보가 컴파일되면 `소거`(erasure)
+  - 원소의 타입을 컴파일 타임에만 검사하며 런타임에는 알 수 없음
   - 하위버전 호환성 때문에 소거 선택
 
-배열은 제네릭 타입, 매개변수화 타입, 타입 매개변수로 사용할 수 없다.
+.
 
-```java
-/**
- * 배열 적용
- * choose 메서드 호출 때마다 반환된 Object를 타입 형변환해야 한다.
- * 다른 타입의 원소가 들어 있었다면 런타임에 형변환 오류가 발생
- */
-public class Chooser<T> {
-    private final Object choiceArray;
+Chooser class
 
-    public Chooser(Collection choices) {
-        choiceArray = choices.toArray();
-    }
-
-    public Object choose() {
-        Random rnd = ThreadLocalRandom.current();
-        return choiceArray[rnd.nextInt(choiceArray.length)];
-    }
-}
-
-...
-
-/**
- * 리스트 기반
- * 타입 안전성 확보
- */
-public class Chooser<T> {
-    private final List<T> choiceList;
-
-    public Chooser(Collection<T> choices) {
-        choiceList = new ArrayList<>(choices);
-    }
-
-    public T choose() {
-        Random rnd = ThreadLocalRandom.current();
-        return choiceList.get(rnd.nextInt(choiceList.size()));
-    }
-
-    public static void main(String[] args) {
-        List<Integer> intList = List.of(1, 2, 3, 4, 5, 6);
-
-        Chooser<Integer> chooser = new Chooser<>(intList);
-
-        for (int i = 0; i < 10; i++) {
-            Number choice = chooser.choose();
-            System.out.println(choice);
-        }
-    }
-}
-```
+- [배열 기반](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item28/array_to_list/Chooser_Array.java)
+  - 메서드 호출마다 반환된 타입 형변환 필요
+  - 다른 타입의 원소가 들어 있었다면 런타임에 형변환 오류 발생
+  - 배열은 제네릭 타입, 매개변수화 타입, 타입 매개변수로 사용 불가
+- [리스트 기반](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item28/array_to_list/Chooser.java)
+  - 타입 안전성 확보
 
 <br>
 
