@@ -1505,11 +1505,32 @@ public class MySet<E> extends AbstractSet<E> {
 
 생성자와 메서드의 제네릭 가변인자에 사용할 수 있는 애노테이션
 
-- 제네릭 가변인자는 근본적으로 타입 안전하지 않다. (가변인자가 배열이니까, 제네릭 배열과 같은 문제)
-- 가변 인자 (배열)의 내부 데이터가 오염될 가능성이 있다.
-- @SafeVarargs를 사용하면 가변 인자에 대한 해당 오염에 대한 경고를 숨길 수있다.
+- 제네릭 가변인자는 근본적으로 타입 안전하지 않다.
+  - 가변인자가 배열이니까, 제네릭 배열과 같은 문제
+- 가변 인자(배열)의 내부 데이터가 오염될 가능성이 있다.
+- @SafeVarargs를 사용하면 가변 인자에 대한 해당 오염에 대한 경고를 숨길 수 있다.
 - 아이템 32. 제네릭과 가변인수를 함께 쓸 때는 신중하라
 - [Annotation Type SafeVarargs](https://docs.oracle.com/javase/7/docs/api/java/lang/SafeVarargs.html)
+
+```java
+/**
+ * 단순 출력이 아닌 변수 할당이 일어날 경우
+ * @SafeVarargs 을 선언하더라도 런타임 예외는 막을 수 없음
+ */
+static void notSafe(List<String>... stringLists) {
+    Object[] array = stringLists; // List<String>... == List[]. 배열은 공변이니까 Object로 할당 가능
+    List<Integer> tmpList = List.of(42);
+    array[0] = tmpList; // 리스트를 Object 배열에 삽입(문법적으로는 문제가 없음)
+    String s = stringLists[0].get(0); // 런타임에서 값을 꺼낼 때 ClassCastException 발생
+}
+
+@SafeVarargs
+static <T> void safe(T... values) {
+    for (T value: values) {
+        System.out.println(value);
+    }
+}
+```
 
 .
 
