@@ -892,113 +892,101 @@ Chooser class
 
 📖
 
-일반 클래스를 제네릭 클래스로 만들기
-- 클래스 선언에 타입 매개변수를 추가하기.
-- 배열 타입을 적절한 타입 매개변수로 바꾸기.
-  - 방법1. E와 같이 실체화 불가 타입으로 배열을 만들 수 없으므로 Obejct 배열을 생성한 후 제네릭 배열로 형변환하기
-    - 가독성이 좋고, 형병환을 배열 생성 시 단 합 번만 수행. 
-    - 단, 힙 오염(배열의 런타임 타입이 컴파일타임 타입과 달라서 발생하는 현상)을 일으키는 단점이 존재
-    ```java
-    @SuppressWarnings("unchecked")
-    public Stack() {
-        elements = (E[]) new Object[DEFAULT_INITIAL_CAPACITY];
-    }
-    ```
-  - 방법2. E[] 타입에서 Object[] 타입으로 바꾸기
-    - 배열에서 원소를 읽을 때마다 해줘야 형변환 필요
-    - 힙 오염이 밣생하지 않음
-    ```java
-    private Object[] elements;
-
-    ...
-
-    @SuppressWarnings("unchecked") E result = (E) elements[--size];
-    ```
-
-Before
-
-```java
-public class Stack {
+[Object를 이용한 제네릭 스택](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item29/object/Stack.java)
+  - pop() 호출 시 형변환 필요
+  ```java
+  public class Stack {
     private Object[] elements;
     private int size = 0;
     private static final int DEFAULT_INITIAL_CAPACITY = 16;
-    
-    public Stack() {
-        elements = new Object[DEFAULT_INITIAL_CAPACITY];
-    }
-
-    public void push(Object e) {
-        ensureCapacity();
-        elements[size++] = e;
-    }
+    //...
 
     public Object pop() {
         if (size == 0)
             throw new EmptyStackException();
-
-        result = elements[--size];
-        elements[size] = null; 
-        return result;
-    }
-
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    private void ensureCapacity() {
-        if (elements.length == size)
-            elements = Arrays.copyOf(elements, 2 * size + 1);
-    }
-}
-```
-
-After
-
-```java
-public class Stack<E> {
-    private E[] elements;
-    private int size = 0;
-    private static final int DEFAULT_INITIAL_CAPACITY = 16;
-
-    // 배열 elements는 push(E)로 넘어온 E 인스턴스만 담는다.
-    // 따라서 타입 안전성을 보장하지만, 이 배열의 런타임 타입은 E[]가 아닌 Object[]
-    @SuppressWarnings("unchecked")
-    public Stack() {
-        elements = (E[]) new Object[DEFAULT_INITIAL_CAPACITY];
-    }
-
-    public void push(E e) {
-        ensureCapacity();
-        elements[size++] = e;
-    }
-
-    public E pop() {
-        if (size == 0)
-            throw new EmptyStackException();
-        E result = elements[--size];
+        Object result = elements[--size];
         elements[size] = null; // 다 쓴 참조 해제
         return result;
     }
+  }
 
-    public boolean isEmpty() {
-        return size == 0;
+  ...
+
+  (String) stack.pop();
+  ```
+
+.
+
+배열을 사용하는 코드를 제네릭으로 만들기
+- 클래스 선언에 타입 매개변수 추가 -> 배열 타입을 적절한 타입 매개변수로 수정
+- [E\[\]를 이용한 제네릭 스택](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item29/technqiue1/Stack.java)
+  - 실체화 불가 타입(ex. E)으로 배열을 만들 수 없으므로, Obejct 배열 생성 후 제네릭 배열로 형변환하는 방법
+  - 가독성이 좋고, 형병환을 배열 생성 시 단 합 번만 수행
+  - 단, 힙 오염(배열의 런타임 타입이 컴파일타임 타입과 달라서 발생하는 현상)을 일으키는 단점이 존재
+  - 힙 오염만 주의하면 가장 좋은 방법 
+    ```java
+    public class Stack<E> {
+        private E[] elements;
+
+        // elements는 push(E)로 넘어온 E 인스턴스만 담으므로, 타입 안전성을 보장하지만
+        // elements의 런타임 타입은 E[]가 아닌 Object[]
+        @SuppressWarnings("unchecked")
+        public Stack() {
+            // Obejct 배열 생성 후 제네릭 배열로 형변환
+            elements = (E[]) new Object[DEFAULT_INITIAL_CAPACITY];
+        }
+
+        public void push(E e) {
+            ensureCapacity();
+            elements[size++] = e;
+        }
+
+        public E pop() {
+            if (size == 0)
+                throw new EmptyStackException();
+            E result = elements[--size];
+            elements[size] = null; // 다 쓴 참조 해제
+            return result;
+        }
     }
 
-    private void ensureCapacity() {
-        if (elements.length == size)
-            elements = Arrays.copyOf(elements, 2 * size + 1);
+    ...
+
+    stack.pop();
+    ```
+- [Object[]를 이용한 제네릭 Stack](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item29/technqiue2/Stack.java)
+  - 배열에서 원소를 읽을 때마다 E로 형변환 필요
+  - 힙 오염이 밣생하지 않음
+    ```java
+    public class Stack<E> {
+        private Object[] elements;
+        
+        public Stack() {
+            elements = new Object[DEFAULT_INITIAL_CAPACITY];
+        }
+
+        public void push(E e) {
+            ensureCapacity();
+            elements[size++] = e;
+        }
+
+        public E pop() {
+            if (size == 0)
+                throw new EmptyStackException();
+
+            // push에서 E 타입만 허용하므로 이 형변환은 안전
+            @SuppressWarnings("unchecked")
+            E result = (E) elements[--size];
+
+            elements[size] = null; // 다 쓴 참조 해제
+            return result;
+        }
     }
 
-    // 코드 29-5 제네릭 Stack을 사용하는 맛보기 프로그램 (174쪽)
-    public static void main(String[] args) {
-        Stack<String> stack = new Stack<>();
-        for (String arg : args)
-            stack.push(arg);
-        while (!stack.isEmpty())
-            System.out.println(stack.pop().toUpperCase());
-    }
-}
-```
+    ...
+
+    stack.pop();
+    ```
 
 <br>
 
