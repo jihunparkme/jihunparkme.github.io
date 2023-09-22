@@ -1524,6 +1524,22 @@ static <T> void safe(T... values) {
 
 .
 
+**`한정적 타입 매개변수`** / Item 29
+
+[Bounded Type Parameters](https://docs.oracle.com/javase/tutorial/java/generics/bounded.html)
+
+- 매개변수화 타입을 특정한 타입으로 한정짓고 싶을 경우 사용
+  - `<E extends Number>`
+  - 선언할 수 있는 제네릭 타입을 Number를 상속(extends)했거나 구현한(implements)한 클래스로 제한
+  - 제한한 타입의 인스턴스를 만들거나, 메서드 호출도 가능
+    - Number 타입이 제공하는 메서드 사용 가능
+- 다수의 타입으로 한정 가능
+  - `<E extedns Numebr & Serializable>`
+  - 클래스 타입을 가장 먼저 선언
+  - 선언할 제네릭 타입은 Number, Serializable를 모두 상속 또는 구현한 타입으로 제한
+
+.
+
 📝🔔🔍
 
 # Reference
