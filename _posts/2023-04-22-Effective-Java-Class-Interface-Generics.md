@@ -893,7 +893,7 @@ Chooser class
 📖
 
 [Object를 이용한 제네릭 스택](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item29/object/Stack.java)
-  - pop() 호출 시 형변환 필요
+  - pop() 호출마다 형변환 필요
   ```java
   public class Stack {
     private Object[] elements;
@@ -920,10 +920,10 @@ Chooser class
 배열을 사용하는 코드를 제네릭으로 만들기
 - 클래스 선언에 타입 매개변수 추가 -> 배열 타입을 적절한 타입 매개변수로 수정
 - [E\[\]를 이용한 제네릭 스택](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item29/technqiue1/Stack.java)
-  - 실체화 불가 타입(ex. E)으로 배열을 만들 수 없으므로, Obejct 배열 생성 후 제네릭 배열로 형변환하는 방법
-  - 가독성이 좋고, 형병환을 배열 생성 시 단 합 번만 수행
+  - 실체화 불가 타입(ex. E)으로 배열을 만들 수 없으므로, Obejct 배열 생성 후 제네릭 배열로 형변환
+  - 가독성이 좋고, `형병환을 배열 생성 시 단 합 번만 수행`
   - 단, 힙 오염(배열의 런타임 타입이 컴파일타임 타입과 달라서 발생하는 현상)을 일으키는 단점이 존재
-  - 힙 오염만 주의하면 가장 좋은 방법 
+  - `힙 오염만 주의하면 가장 좋은 방법` 
     ```java
     public class Stack<E> {
         private E[] elements;
@@ -956,7 +956,7 @@ Chooser class
     ```
 - [Object[]를 이용한 제네릭 Stack](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item29/technqiue2/Stack.java)
   - 배열에서 원소를 읽을 때마다 E로 형변환 필요
-  - 힙 오염이 밣생하지 않음
+  - 힙 오염이 밣생하지 않는 장점
     ```java
     public class Stack<E> {
         private Object[] elements;
@@ -975,6 +975,7 @@ Chooser class
                 throw new EmptyStackException();
 
             // push에서 E 타입만 허용하므로 이 형변환은 안전
+            // 단, 원소를 읽을 때마다 형변환 필요
             @SuppressWarnings("unchecked")
             E result = (E) elements[--size];
 
