@@ -1010,9 +1010,45 @@ public static <E> Set<E> union(Set<E> s1, Set<E> s2) {
     return result;
 }
 ```
-제네릭 메서드는 형변환 경고 없이 컴파일되며, 타입 안전하고, 쓰기 쉽다.
-- 한정적 와일드카드 타입(`List<? extends Number>`)을 사용하면 더 유연하게 개선할 수 있다.
-- 
+제네릭 메서드는 형변환 경고 없이 컴파일되며, 타입 안전하고, 사용하기 쉽다.
+
+- 매개변수화 타입(`List<String>`)을 받는 정적 유틸리티 메서드
+  - 한정적 와일드카드 타입(`List<? extends Number>`)을 사용하면 더 유연하게 개선 가능
+- 제네릭 싱글턴 팩터리 패턴
+  - (소거 방식이기 때문에) 불변 객체 하나를 어떤 타입으로든 매개변수화 가능
+    ```java
+    private static UnaryOperator<Object> IDENTITY_FN = (t) -> t; // 항등함수
+
+    // 원하는 제네릭 타입 싱글톤 객체로 리턴
+    @SuppressWarnings("unchecked")
+    public static <T> UnaryOperator<T> identityFunction() {
+        return (UnaryOperator<T>) IDENTITY_FN;
+    }
+
+    ...
+    
+    // 클라이언트는 타입만 명시
+    UnaryOperator<String> sameString = identityFunction();
+    UnaryOperator<Number> sameNumber = identityFunction();
+    ```
+- 재귀적 타입 한정
+  - 자기 자신이 들어간 표현식을 사용하여 타입 매개변수의 허용 범위를 한정
+  - `<E extends Comparable<E>>`
+    ```java
+    public static <E extends Comparable<E>> E max(Collection<E> c) {
+        if (c.isEmpty())
+            throw new IllegalArgumentException("컬렉션이 비어 있습니다.");
+
+        E result = null;
+        for (E e : c)
+            if (result == null || e.compareTo(result) > 0)
+                result = Objects.requireNonNull(e);
+
+        return result;
+    }
+    ```
+  
+.
 
 <br>
 
