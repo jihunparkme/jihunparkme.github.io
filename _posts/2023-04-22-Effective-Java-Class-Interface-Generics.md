@@ -1066,31 +1066,54 @@ public static <E> Set<E> union(Set<E> s1, Set<E> s2) {
 
 📖
 
-E 생산자(producer) 매개변수에 와일드카드 타입 적용
+**유연성을 극대화하려면 원소의 생산자나 소비자용 입력 매개변수에 와일드카드 타입을 사용하자.**
+- 입력 매개변수가 생산자와 소비자 역할을 동시에 한다면 타입을 정확히 지정해야 하는 상황으로, 이 경우 와일드카드 타입을 사용하지 않아야 한다.
+- 반환 타입에는 한정적 와일드카드 타입을 사용하면 안 된다. 유연성은 커녕 클라이언트 코드에서도 와일드카드 타입을 써야 한다.
+- 클래스 사용자가 와일드카드 타입을 신경 써야 한다면 그 API에 어떠한 문제가 있을 가능성이 크다.
 
 ```java
+/*
+ * 제네릭 타입
+ */
+public void pushAll(Iterable<E> src) {
+    for (E e : src)
+        push(e);
+}
+
+Stack<Number> numberStack = new Stack<>();
+Iterable<Integer> integers = Arrays.asList(3, 1, 4, 1, 5, 9);
+numberStack.pushAll(integers); // Integer 불허
+
+...
+
+/*
+ * E 생산자(producer) 매개변수에 와일드카드 타입 적용(하위 한정)
+ */
 public void pushAll(Iterable<? extends E> src) {
     for (E e : src)
         push(e);
 }
-```
 
-E 소비자(consumer) 매개변수에 와일드카드 타입 적용
-```java
+Stack<Number> numberStack = new Stack<>();
+Iterable<Integer> integers = Arrays.asList(3, 1, 4, 1, 5, 9);
+numberStack.pushAll(integers); // Number 하위 타입 허용
+
+...
+
+/*
+ * E 소비자(consumer) 매개변수에 와일드카드 타입 적용(상위 한정)
+ */
 public void popAll(Collection<? super E> dst) {
     while (!isEmpty())
         dst.add(pop());
 }
+
+Stack<Number> numberStack = new Stack<>();
+Collection<Object> objects = new ArrayList<>();
+numberStack.popAll(objects); // Number 상위 타입 허용
 ```
 
-**유연성을 극대화하려면 원소의 생산자나 소비자용 입력 매개변수에 와일드카드 타입을 사용하자.**
-- 입력 매개변수가 생산자와 소비자 역할을 동시에 한다면 타입을 정확히 지정해야 하는 상황으로, 이 경우 와일드카드 타입을 사용하지 말아야 한다.
-- 단, 반환 타입에는 한정적 와일드카드 타입을 사용하면 안 된다. 유연성은 커녕 클라이언트 코드에서도 와일드카드 타입을 써야 한다.
-- 클래스 사용자가 와일드카드 타입을 신경 써야 한다면 그 API에 어떠한 문제가 있을 가능성이 크다.
-
-`펙스(PECS): producer-extends, consumer-super`
-
-- PECS 공식은 와일드카드 타입을 사용하는 기본 원칙
+.
   
 **참고.** 매개변수(parameteR)와 인수(argument)의 차이
 - 매개변수: 메서드 선언에 정의한 변수
@@ -1100,7 +1123,20 @@ public void popAll(Collection<? super E> dst) {
     add(10) // 10 = 인수
     ```
 
-.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Comparable, Comparator은 언제나 소비자이므로, 일반적으로 `Compareable<E>` 보다는 `Compareable<? super E>` 를 사용하는 편이 낫다.
 
