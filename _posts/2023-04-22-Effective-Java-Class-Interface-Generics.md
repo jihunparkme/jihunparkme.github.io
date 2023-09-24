@@ -1166,54 +1166,26 @@ public class RecursiveTypeBound {
 
 **`와일드카드(?) 활용`**
 
+- public API 라면 간단한 비한정적 와일드카드를 사용하는 방법이 유리
 - 메서드 선언에 타입 매개변수가 한 번만 나오면 와일드카드로 대체하자.
-  - `한정적 타입`이라면 `한정적 와일드카드`로
-  - `비한정적 타입`이라면 `비한정적 와일드카드`로
-- 주의❗️ 비한정적 와일드카드(?)로 정의한 타입에는 null만 넣을 수 있음
-  - Get은 가능하나 Set은 불가 
-- 와일드카드 하나만 사용하는 것은 권장하지 않고, PECS 원칙을 따를 때만 사용할 것을 권장
+  - `한정적 타입`이라면 `한정적 와일드카드 List<? extends Number>`로
+  - `비한정적 타입`이라면 `비한정적 와일드카드 List<?>`로
+- 주의❗️ 비한정적 와일드카드로 정의한 타입에는 null만 허용
+  - Get은 가능하나 Set은 null만 허용
+- 비한정적 와일드카드 사용은 권장하지 않고, PECS 원칙을 따를 경우 한정적 와일드카드로 사용 권장
+  - 비한정적 와일드카드 사용 시 와일드카드 타입을 실제 타입으로 변경해주는 private 도우미 메서드가 추가로 필요
   
 ```java
 // 특정한 타입을 알고 있을 경우
-public static <E> void swap(List<E> list, int i, int j) { ... }
+public static <E> void swap(List<E> list, int i, int j) {
+    list.set(i, list.set(j, list.get(i)));
+}
 
 // 타입을 모를 경우(특정할 수 없는 임의의 타입, 불특정 타입)
-public static void swap(List<?> list, int i, int j) { ... }
+public static void swap(List<?> list, int i, int j) {
+    list.set(i, list.set(j, null)); // null 만 허용
+}
 ```
-
-
-
-
-
-
-
-
-
-.
-
-
-타입 매개변수와 와일드카드에는 공통되는 부분이 있어서, 메서드를 정의할 때 둘 중 어느 것을 사용해도 괜찮을 때가 많다.
-- 비한정적 타입 매개변수
-  ```java
-  public static <E> void swap(List<E> list, int i, int j);
-  ```
-- 비한정적 와일드카드
-  - public API 라면 간단한 비한정적 와일드카드를 사용하는 방법이 유리하다.
-  - 메서드 선언에 타입 매개변수가 한 번만 나오면 와일드카드로 대체하자.
-    ```java
-    public static void swap(List<?> list, int i, int j);
-    ```
-  - List<?> 에는 null 외에 어떤 값도 넣을 수 없는 단점이 존재하는데, 이 경우 와일드카드 타입의 실제 타입을 알려주는 메서드를 private 도우미 메서드로 따로 작성하여 활용하자.
-    ```java
-    public static void swap(List<?> list, int i, int j) {
-        swapHelper(list, i, j);
-    }
-
-    // 와일드카드 타입을 실제 타입으로 바꿔주는 private 도우미 메서드
-    private static <E> void swapHelper(List<E> list, int i, int j) {
-        list.set(i, list.set(j, list.get(i)));
-    }
-    ```
 
 <br>
 
