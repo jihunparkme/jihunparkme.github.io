@@ -1071,10 +1071,14 @@ public static <E> Set<E> union(Set<E> s1, Set<E> s2) {
 - 반환 타입에는 한정적 와일드카드 타입을 사용하면 안 된다. 유연성은 커녕 클라이언트 코드에서도 와일드카드 타입을 써야 한다.
 - 클래스 사용자가 와일드카드 타입을 신경 써야 한다면 그 API에 어떠한 문제가 있을 가능성이 크다.
 
+.
+
+**`PECS`(Producer-Extends, Consumer-Super)**
+
 ```java
 /*
- * 제네릭 타입
- */
+* 제네릭 타입
+*/
 public void pushAll(Iterable<E> src) {
     for (E e : src)
         push(e);
@@ -1087,8 +1091,8 @@ numberStack.pushAll(integers); // Integer 불허
 ...
 
 /*
- * E 생산자(producer) 매개변수에 와일드카드 타입 적용(하위 한정)
- */
+* E 생산자(producer) 매개변수에 와일드카드 타입 적용(하위 한정)
+*/
 public void pushAll(Iterable<? extends E> src) {
     for (E e : src)
         push(e);
@@ -1101,8 +1105,8 @@ numberStack.pushAll(integers); // Number 하위 타입 허용
 ...
 
 /*
- * E 소비자(consumer) 매개변수에 와일드카드 타입 적용(상위 한정)
- */
+* E 소비자(consumer) 매개변수에 와일드카드 타입 적용(상위 한정)
+*/
 public void popAll(Collection<? super E> dst) {
     while (!isEmpty())
         dst.add(pop());
@@ -1115,10 +1119,11 @@ numberStack.popAll(objects); // Number 상위 타입 허용
 
 .
   
-Comparable, Comparator은 언제나 소비자이므로, 일반적으로 `Compareable<E>` 보다는 `Compareable<? super E>` 를 사용하는 편이 낫다.
-
+`Comparable`, `Comparator`은 언제나 소비자
+- 일반적으로 `Compareable<E>` 보다는 `Compareable<? super E>` 를 사용하는 편이 낫다.
 - [Box.java](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item31/exmaple/Box.java)
 - [IntegerBox.java](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item31/exmaple/IntegerBox.java)
+- [RecursiveTypeBound.java](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item31/RecursiveTypeBound.java)
 
 ```java
 public class RecursiveTypeBound {
@@ -1140,48 +1145,36 @@ public class RecursiveTypeBound {
 
         return result;
     }
-
-    public static void main(String[] args) {
-        List<IntegerBox> list = new ArrayList<>();
-        list.add(new IntegerBox(10, "jihun"));
-        list.add(new IntegerBox(2, "aaron"));
-
-        System.out.println(max(list));
-    }
 }
 ```
 
+- 직접 구현한 다른 타입을 확장한 타입을 지원하기 위해 와일드카드가 필요
+  ```java
+  // ScheduledFuture<V> -> Delayed -> Comparable<E>
+  public interface Comparable<E>
+  public interface Delayed extends Comparable<Delayed>
+  public interface ScheduledFuture<V> extends Delayed, Future<V>
+
+  ...
+
+  public static <E extends Comparable<? super E>> E max(List<? extends E> list)
+  // Comparable 를 직접 구현하지 않고, 직접 구현한 다른 타입(Delayed)을 확장한 타입을 지원하기 위해 와일드 카드가 필요
+  List<ScheduledFuture<?>> scheduledFutures = max(...);
+  ```
+
+.
+
+**`와일드카드 활용`**
 
 
 
-직접 구현한 다른 타입을 확장한 타입을 지원하기 위해 와일드카드가 필요하기도 하다.
 
-```java
-/*
-ScheduledFuture는 Delayed의 하위 인터페이스고, Delayed는 Comparable<Delayed>를 확장
 
-<<interface>>
-Comparable<E>
 
-<<interface>>
-Delayed
 
-<<interface>>
-ScheduledFuture<V>
-*/
 
-...
 
-public interface Comparable<E>
-public interface Delayed extends Comparable<Delayed>
-public interface ScheduledFuture<V> extends Delayed, Future<V>
 
-...
-
-public static <E extends Comparable<? super E>> E max(List<? extends E> list)
-// Comparable 를 직접 구현하지 않고, 직접 구현한 다른 타입(Delayed)을 확장한 타입을 지원하기 위해 와일드 카드가 필요
-List<ScheduledFuture<?>> scheduledFutures = max(...);
-```
 
 타입 매개변수와 와일드카드에는 공통되는 부분이 있어서, 메서드를 정의할 때 둘 중 어느 것을 사용해도 괜찮을 때가 많다.
 - 비한정적 타입 매개변수
