@@ -1626,14 +1626,13 @@ static <T> void safe(T... values) {
 
 [Type Inference](https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html)
 
-```java
-List<IntegerBox> list = new ArrayList<>();
-```
-
 - 타입을 추론하는 컴파일러의 기능
 - 모든 인자의 가장 구체적인 공통 타입
 - 제네릭 메서드와 타입 추론: 메서드 매개변수를 기반으로 타입 매개변수 추론
 - 제네릭 클래스 생성자를 호출할 때 다이아몬드 연산자 <>를 사용하면 타입을 추론
+  ```java
+  List<IntegerBox> list = new ArrayList<>();
+  ```
 - 자바 컴파일러는 "타겟 타입" 기반으로 호출하는 제네릭 메서드의 타입 매개변수를 추론
   ```java
   List<String> stringlist = Collections.emptyList();
@@ -1642,8 +1641,6 @@ List<IntegerBox> list = new ArrayList<>();
 - 자바 8에서 "타겟 타입"이 "메서드의 인자"까지 확장되면서 이전에 비해 타입 추론이 강화
   ```java
   private static void processStringList(List<String> stringList) { ... }
-
-  ...
   
   BoxExample.processStringList(Collections.emptyList());
   ```
