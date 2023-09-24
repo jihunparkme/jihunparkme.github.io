@@ -1060,7 +1060,7 @@ public static <E> Set<E> union(Set<E> s1, Set<E> s2) {
 >
 > PECS 공식을 기억하자.
 >
-> 즉, 생산자(produce)는 extends를 소비자(consumer)는 super를 사용한다.
+> 즉, 생산자(Produce)는 Extends를 소비자(Consumer)는 Super를 사용한다.
 >
 > Comparable과 Comparator는 모두 소비자라는 사실도 잊지 말자.
 
@@ -1115,32 +1115,44 @@ numberStack.popAll(objects); // Number 상위 타입 허용
 
 .
   
-**참고.** 매개변수(parameteR)와 인수(argument)의 차이
-- 매개변수: 메서드 선언에 정의한 변수
-- 인수: 메서드 호출 시 넘기는 실젯값
-    ```java
-    void add(int value) { ... } // value = 매개변수
-    add(10) // 10 = 인수
-    ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Comparable, Comparator은 언제나 소비자이므로, 일반적으로 `Compareable<E>` 보다는 `Compareable<? super E>` 를 사용하는 편이 낫다.
 
-.
+- [Box.java](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item31/exmaple/Box.java)
+- [IntegerBox.java](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item31/exmaple/IntegerBox.java)
+
+```java
+public class RecursiveTypeBound {
+    /**
+     * 리스트를 다양하게 허용하려면 List<? extends E> 적용(생성자)
+     * Comparable를 유연하게 정의하려면 Comparable<? super E> 적용(소비자)'
+     * 
+     * <E>: IntegerBox
+     * <? super E>: Box
+     */
+    public static <E extends Comparable<? super E>> E max(List<? extends E> list) {
+        if (list.isEmpty())
+            throw new IllegalArgumentException("빈 리스트");
+
+        E result = null;
+        for (E e : list)
+            if (result == null || e.compareTo(result) > 0)
+                result = e;
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        List<IntegerBox> list = new ArrayList<>();
+        list.add(new IntegerBox(10, "jihun"));
+        list.add(new IntegerBox(2, "aaron"));
+
+        System.out.println(max(list));
+    }
+}
+```
+
+
+
 
 직접 구현한 다른 타입을 확장한 타입을 지원하기 위해 와일드카드가 필요하기도 하다.
 
@@ -1609,6 +1621,23 @@ static <T> void safe(T... values) {
   - `<E extedns Numebr & Serializable>`
   - 클래스 타입을 가장 먼저 선언
   - 선언할 제네릭 타입은 Number, Serializable를 모두 상속 또는 구현한 타입으로 제한
+
+.
+
+
+**`매개변수(parameteR)와 인수(argument)`** / Item 31
+
+- 매개변수: 메서드 선언에 정의한 변수
+- 인수: 메서드 호출 시 넘기는 실젯값
+  ```java
+  // value = 매개변수
+  void add(int value) { ... } 
+
+  ...
+
+  // 10 = 인수
+  add(10)
+  ```
 
 .
 
