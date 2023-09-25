@@ -1731,6 +1731,27 @@ static <T> void safe(T... values) {
 
 .
 
+**`ThreadLocal`** / Item 32
+
+[Class ThreadLocal\<T\>](https://docs.oracle.com/javase/8/docs/api/java/lang/ThreadLocal.html)
+
+```java
+private static final ThreadLocal<SimpleDateFormat> formatter = 
+  ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HHmm"));
+```
+
+- Thread Scope Variable
+- 모든 멤버 변수는 기본적으로 여러 쓰레드에서 공유해서 사용 가능
+  - 이때 쓰레드 안전성과 관련된 여러 문제 발생
+  - 경합 또는 경쟁조건(Race-Condition): 어떤 스레드가 먼저 실행되느냐에 따라 다른 결과 도출
+  - 교착상태(deadlock): 스레드들이 서로 상대방이 가진 자원을 기다리는 상황
+  - Livelock: 두 스레드가 락의 해제와 획득을 무한 반복하는 상황
+- ThreadLocal 을 사용하면 동기화하지 않아도 한 쓰레드에서만 접근 가능한 값이므로 안전하게 사용 가능
+- 한 쓰레드 내에서 공유하는 데이터로 메서드 매개변수에 매번 전달하지 않고 전역 변수처럼 사용 가능
+
+.
+
+
 📝🔔🔍
 
 # Reference
