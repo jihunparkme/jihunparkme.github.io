@@ -1191,9 +1191,56 @@ public static void swap(List<?> list, int i, int j) {
 
 ## item 32. 제네릭과 가변인수를 함께 쓸 때는 신중하라.
 
-> --
+> 가변인수와 제네릭은 궁합이 좋지 않다.
+>
+> 가변인수 기능은 배열을 노출하여 추상화가 완벽하지 못하고, 배열과 제네릭의 타입 규칙이 서로 다르기 때문이다.
+>
+> 제네릭 varargs 매개변수는 타입 안전하지는 않지만, 허용된다.
+>
+> 메서드에 제네릭(혹은 매개변수화된) varargs 매개변수를 사용하고자 한다면,
+>
+> 먼저 그 메서드가 타입안전하지 확인한 다음 @SafeVarargs 를 달아 사용하는데 불펴함이 없게 하자.
 
 📖
+
+가변인수 메서드를 호출하면 가변인수를 담기 위한 배열이 자동으로 하나 만들어진다.
+- 그런데 내부로 감춰야 했을 이 배열을 그만 클라이언트에 노출하는 문제가 생겼다.
+- 이러첨 타입 안전성이 꺠지니 제네릭 varargs 배열 매개변수에 값을 저장하는 것은 안전하지 않다.
+- @SafeVarargs 는 메서드 작성자가 그 메서드가 타입 안전함을 보장하는 것이다.
+- 가변인수 메서드를 호출할 때 varargs 매개변수를 담는 제네릭 배열이 만들어진다는 사실을 기억하자.
+
+제네릭 varargs 매개변수 배열에 다른 메서드가 접근하도록 하용하면 안전하지 않다.
+- @SafeVarargs로 제대로 애노테이트된 또 다른 varargs 메서드에 넘기는 것이 안전
+- 그저 이 배열 내용의 일부 함수를 호출만 하는 일반 메서드에 넘기는 것도 안전
+
+```java
+@SafeVarargs
+static <T> List<T> flatten(List<? extends T>... lists) {
+    List<T> result = new ArrayList<>();
+    for (List<? extends T> list : lists)
+        result.addAll(list);
+    return result;
+}
+```
+제네릭이나 매개변수화 팅ㅂ의 varags 매개변수를 받는 모든 메서드에 @SafeVarags 를 달자.
+- 안전하지 않은 varargs 메서드는 절대 작성해서는 안 된다.
+- 다음 두 조건을 만족하는 제네릭 varargs 메서드는 안전하다. 하나라고 어겼다면 수정하자.
+  - varargs 매개변수 배열에 아무것도 저장하지 않는다.
+  - 그 배열(or 복제본)을 신뢰할 수 없느 ㄴ코드에 노출하지 말자.
+
+
+```java
+static <T> List<T> pickTwo(T a, T b, T c) {
+    switch(ThreadLocalRandom.current().nextInt(3)) {
+        case 0: return List.of(a, b);
+        case 1: return List.of(a, c);
+        case 2: return List.of(b, c);
+    }
+    throw new AssertionError();
+}
+```
+
+배열 없이 제네릭만 사용하므로 타입 안전
 
 <br>
 
