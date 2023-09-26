@@ -1343,6 +1343,26 @@ int favoriteInteger = f.getFavorite(Integer.class);
 Class<?> favoriteClass = f.getFavorite(Class.class);
 ```
 
+.
+
+한정적 타입 토큰을 사용한다면, 이종 컨테이너에 사용할 수 있는 타입 제한 가능
+
+```java
+static Annotation getAnnotation(AnnotatedElement element,
+                                    String annotationTypeName) {
+    Class<?> annotationType = null; // 비한정적 타입 토큰
+    try {
+        annotationType = Class.forName(annotationTypeName);
+    } catch (Exception ex) {
+        throw new IllegalArgumentException(ex);
+    }
+
+    // Class.asSubclass() : 메서드를 호출하는 Class 인스턴스를 인수로 명시한 클래스로 형변환
+    Class<? extends Annotation> aClass = annotationType.asSubclass(Annotation.class);
+    return element.getAnnotation(aClass);
+}
+```
+
 <br>
 
 ## 용어 정리
