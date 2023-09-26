@@ -1295,55 +1295,56 @@ List<Integer> flatList = flatten(List.of(
 
 📖
 
-컨테이너 대신 키를 매개변수화한 다음, 컨테이너에 값을 넣어거나 뺄 때 매개변수화한 키를 함께 제공
+`타입 안전 이종 컨테이너`
+- 한 타입의 객체만 담을 수 있는 컨테이너가 아니라 여러 다른 타입(이종)을 담을 수 있는 타입 안전한 컨테이너
+- 컨테이너: Map, Set, Optional ...
+- 타입 토큰 : `String.class` 또는 `Class<String>`
+- 타입 안전 이종 컨테이너 구현 방법 : 컨테이너가 아니라 `키(Class)`를 매개변수화
+  - 컨테이너에 값을 넣어거나 뺄 때 매개변수화한 키를 함께 제공
 
-이렇게 하면 제네릭 타입 시스템이 값의 타입이 키와 같음을 보장-> 타입 안전 이종 컨테이너 패턴(type safe heterogeneous container pattern)
+.
 
-타입 안전 이종 컨테이너 패턴 API
-
-```java
-public class Favorites {
-  public <T> void putFavorite(Class<T> type, T instance);
-  public <T> T getFavorite(Class<T> type);
-```
-
-타입 안전 이종 컨테이너 패턴 - 클라이언트
-
-```java
-public static void main(String[] args) {
-    Favorites f = new Favorites();
-    
-    f.putFavorite(String.class, "Java");
-    f.putFavorite(Integer.class, 0xcafebabe);
-    f.putFavorite(Class.class, Favorites.class);
-    
-    String favoriteString = f.getFavorite(String.class);
-    int favoriteInteger = f.getFavorite(Integer.class);
-    Class<?> favoriteClass = f.getFavorite(Class.class);
-    
-    System.out.printf("%s %x %s%n", favoriteString,
-            favoriteInteger, favoriteClass.getName());
-}
-```
-
-- 타입 안전
-- 모든 키의 타입이 제각각
-- 일반적인 맵과 달리 여러 가지 타입의 원소를 담을 수 있음
+타입 안전 이종 컨테이너 패턴 / API
+- type safe heterogeneous container pattern
+- 제네릭 타입 시스템이 값의 타입이 키와 같음을 보장
+- 단점 1. no type 을 넘길 경우 타입 안정성 보장 불가
+  ```java
+  favorites.put((Class)String.class, 1);
+  ```
+- 단점 2. 키가 중복될 경우 덮어쓰기
 
 ```java
 public class Favorites {
-    // 코드 33-3 타입 안전 이종 컨테이너 패턴 - 구현 (200쪽)
-    private Map<Class<?>, Object> favorites = new HashMap<>();
+  private Map<Class<?>, Object> favorites = new HashMap<>();
 
     public <T> void putFavorite(Class<T> type, T instance) {
-        favorites.put(Objects.requireNonNull(type), instance);
+        favorites.put(Objects.requireNonNull(type), type.cast(instance));
     }
 
+    // @SuppressWarnings("unchecked") 대신 cast()로 검사 후 형변환
     public <T> T getFavorite(Class<T> type) {
         return type.cast(favorites.get(type));
     }
 }
+
+...
+
+Favorites f = new Favorites();
+
+f.putFavorite(String.class, "Java");
+f.putFavorite(Integer.class, 0xcafebabe);
+f.putFavorite(Class.class, Favorites.class);
+
+String favoriteString = f.getFavorite(String.class);
+int favoriteInteger = f.getFavorite(Integer.class);
+Class<?> favoriteClass = f.getFavorite(Class.class);
 ```
+
+.
+
+
+
+
 
 - 키가 와일드카드 타입
 - 모든 키가 서로 다른 매개변수화 타입일 수 있다.
