@@ -1300,16 +1300,16 @@ List<Integer> flatList = flatten(List.of(
 - 컨테이너: Map, Set, Optional ...
 - 타입 토큰 : `String.class` 또는 `Class<String>`
 - 타입 안전 이종 컨테이너 구현 방법 : 컨테이너가 아니라 `키(Class)`를 매개변수화
-  - 컨테이너에 값을 넣어거나 뺄 때 매개변수화한 키를 함께 제공
+  - 컨테이너에 값을 넣거나 뺄 때 매개변수화한 키를 함께 제공
 
 .
 
-타입 안전 이종 컨테이너 패턴 / API
-- type safe heterogeneous container pattern
-- 제네릭 타입 시스템이 값의 타입이 키와 같음을 보장
-- 단점 1. no type 을 넘길 경우 타입 안정성 보장 불가
+`타입 안전 이종 컨테이너 패턴`(type safe heterogeneous container pattern)
+- 제네릭 타입 시스템이 값의 타입이 와일드카드 키와 같음을 보장
+- 모든 키가 서로 다른 매개변수화 타입일 수 있음
+- 단점 1. 타입이 없는 Class 객체를 넘길 경우 타입 안정성 보장 불가
   ```java
-  favorites.put((Class)String.class, 1);
+  favorites.putFavorite((Class)String.class, 1);
   ```
 - 단점 2. 키가 중복될 경우 덮어쓰기
 
@@ -1318,10 +1318,13 @@ public class Favorites {
   private Map<Class<?>, Object> favorites = new HashMap<>();
 
     public <T> void putFavorite(Class<T> type, T instance) {
+        // 단점 1. 동적 형변환으로 런타임 타입 안전성 확보
+        // put 과정에서 ClassCastException
         favorites.put(Objects.requireNonNull(type), type.cast(instance));
     }
 
-    // @SuppressWarnings("unchecked") 대신 cast()로 검사 후 형변환
+    // @SuppressWarnings("unchecked") 대신 Class.cast 메서드 사용
+    // 타입 검사 후 객체 참조를 Class 객체가 가리키는 타입으로 동적 형변환
     public <T> T getFavorite(Class<T> type) {
         return type.cast(favorites.get(type));
     }
@@ -1339,23 +1342,6 @@ String favoriteString = f.getFavorite(String.class);
 int favoriteInteger = f.getFavorite(Integer.class);
 Class<?> favoriteClass = f.getFavorite(Class.class);
 ```
-
-.
-
-
-
-
-
-- 키가 와일드카드 타입
-- 모든 키가 서로 다른 매개변수화 타입일 수 있다.
-- 이 맵은 키와 값 사이의 타입 관계를 보증하지 않는다.
-- 모든 값이 키로 명시한 타입임을 보증하지 않는다.
-- Class cast 메서드를 사용해 이 객체 참조를 Class 객체가 가리키는 타입으로 동적 형변환
-- cast 메서드는 형변환 연산자의 동적 버전
-
-첫 번째, 악의적인 클라이언트가 Class 객체를 로 타입으로 넘기면 Favorites 인스턴스의 타입 안전성이 쉽게 깨짐.
-
-두 번째, 실체화 불가 타입에는 사용 불가.
 
 <br>
 
