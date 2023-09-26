@@ -1851,6 +1851,33 @@ Lock
     - 버전이 일치하면 업데이트를 허용하고, 일치하지 않으면 충돌로 간주하고 클라이언트에게 오류 반환
   - 읽기 연산에 락을 거의 사용하지 않기 때문에 다중 사용자 환경에서 동시성이 높아질 수 있음
 
+.
+
+**`Super Type Tokens`**  / Item 33
+
+[Super Type Tokens](https://gafter.blogspot.com/search?q=super+type+token)
+
+- 익명 클래스와 제네릭 클래스 상속을 사용한 타입 토큰
+- 상속을 사용한 경우, 제네릭 타입이 제거되지 않기 때문에 제네릭 타입을 알아낼 수 있음
+- [A Limitation of Super Type Tokens](https://gafter.blogspot.com/2007/05/limitation-of-super-type-tokens.html)
+
+```java
+static class Super<T> {
+    T value;
+}
+
+public static void main(String[] args) throws NoSuchFieldException {
+    // 상속을 사용하지 않고 제네릭 타입을 알아낼 수 없음
+    Super<String> stringSuper = new Super<>();
+    stringSuper.getClass().getDeclaredField("value").getType(); // class java.lang.Object
+
+    // 상속(익명 내부 클래스)을 사용한 경우 하위 타입으로부터 제네릭 타입을 알아낼 수 있음
+    Type type = (new Super<String>(){}).getClass().getGenericSuperclass();
+    ParameterizedType pType = (ParameterizedType) type;
+    Type actualTypeArgument = pType.getActualTypeArguments()[0]; // class java.lang.String
+}
+```
+
 📝🔔🔍
 
 # Reference
