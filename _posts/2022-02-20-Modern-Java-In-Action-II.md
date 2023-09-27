@@ -2,7 +2,7 @@
 layout: post
 title: Modern Java In Action II
 summary: Modern Java In Action II
-categories: Modern-Java-In-Action
+categories: Modern-Java-In-Action JAVA
 featured-img: modern-java
 # mathjax: true
 ---
