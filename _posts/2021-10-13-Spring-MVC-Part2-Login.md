@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Login
-summary: Spring MVC Part 2. 백엔드 웹 개발 활용 기술
+summary: Cookie, Session, Filter, Interceptor
 categories: Spring-Conquest
 featured-img: spring_mvc_2
 # mathjax: true

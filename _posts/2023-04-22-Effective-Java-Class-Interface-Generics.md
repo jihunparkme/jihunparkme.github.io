@@ -2,7 +2,7 @@
 layout: post
 title: 클래스, 인터페이스, 제네릭
 summary: 클래스와 인터페이스, 제네릭
-categories: (Book)Effective-JAVA-3/E JAVA
+categories: (Book)Effective-JAVA-3/E
 featured-img: EFF_JAVA
 # mathjax: true
 ---

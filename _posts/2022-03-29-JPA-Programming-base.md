@@ -1,8 +1,8 @@
 ---
 layout: post
 title: JPA Programming Basic
-summary: JPA Programming Part 1. 자바 ORM 표준 JPA 프로그래밍 - 기본편
-categories: JPA 영속성-관리 엔티티-연관관계-매핑 프록시
+summary: 영속성 관리, 엔티티 매핑, 연관관계 매핑, 프록시, JPA Data Type
+categories: JPA-Conquest
 featured-img: jpa-base
 # mathjax: true
 ---

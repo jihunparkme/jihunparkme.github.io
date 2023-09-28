@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Spring Core Principles Advanced
-summary: 스프링 핵심 원리 고급편
-categories: Spring-Conquest Pattern ThreadLocal Proxy AOP
+summary: Pattern, ThreadLocal, Proxy, AOP
+categories: Spring-Conquest
 featured-img: spring-core-advanced
 # mathjax: true
 ---

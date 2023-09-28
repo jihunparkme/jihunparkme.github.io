@@ -1,7 +1,7 @@
 ---
 layout: post
 title: MVC
-summary: Spring MVC Part 1. 백엔드 웹 개발 핵심 기술
+summary: Spring MVC, HTTP Request, HTTP Response
 categories: Spring-Conquest
 featured-img: spring_mvc
 # mathjax: true

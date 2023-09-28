@@ -1,8 +1,8 @@
 ---
 layout: post
 title: 데이터 접근 활용 기술
-summary: Spring DB Part 2. 데이터 접근 활용 기술
-categories: Spring-Conquest Transaction
+summary: Spring JdbcTemplate, MyBatis, JPA, QueryDSL, Transaction
+categories: Spring-Conquest
 featured-img: spring-db-part-2
 # mathjax: true
 ---

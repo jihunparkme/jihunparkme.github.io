@@ -1,8 +1,8 @@
 ---
 layout: post
 title: JAP API and Performance Otimization
-summary: JPA Programming Part 3. API 개발과 성능 최적화
-categories: JPA 최적화
+summary: 지연 로딩과 조회 성능 최적화, 컬렉션 조회 최적화, 조회 쿼리 권장 순서, OSIV와 성능 최적화
+categories: JPA-Conquest
 featured-img: jpa-spring-uses-2
 # mathjax: true
 ---

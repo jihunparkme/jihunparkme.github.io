@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Exception
-summary: Spring MVC Part 2. 백엔드 웹 개발 활용 기술
+summary: 예외 처리와 오류 페이지
 categories: Spring-Conquest
 featured-img: spring_mvc_2
 # mathjax: true

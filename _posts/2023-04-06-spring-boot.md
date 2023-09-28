@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Spring Boot
-summary: Spring Boot 핵심 원리와 활용
-categories: Spring-Conquest 자동구성 외부설정 모니터링
+summary: SpringBoot, AutoConfiguration, 외부설정, 모니터링
+categories: Spring-Conquest
 featured-img: spring
 # mathjax: true
 ---

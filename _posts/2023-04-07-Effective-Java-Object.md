@@ -2,7 +2,7 @@
 layout: post
 title: 객체, 공통 메서드
 summary: 객체 생성과 파괴, 모든 객체의 공통 메서드
-categories: (Book)Effective-JAVA-3/E JAVA
+categories: (Book)Effective-JAVA-3/E
 featured-img: EFF_JAVA
 # mathjax: true
 ---

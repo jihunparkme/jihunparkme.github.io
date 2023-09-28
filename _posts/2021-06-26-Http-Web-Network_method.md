@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Method
-summary: 모든 개발자를 위한 HTTP 웹 기본 지식
-categories: Spring-Conquest HTTP
+summary: HTTP Method
+categories: Spring-Conquest
 featured-img: http
 # mathjax: true
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Validation
-summary: Spring MVC Part 2. 백엔드 웹 개발 활용 기술
+summary: Verification, BindingResult, Error Message, Validator
 categories: Spring-Conquest
 featured-img: spring_mvc_2
 # mathjax: true

@@ -1,8 +1,8 @@
 ---
 layout: post
 title: ETC
-summary: Spring MVC Part 2. 메시지, 국제화, 스프링 타입 컨버터, 파일 업로드
-categories: Spring-Conquest Message Converter Formatter
+summary: 메시지, 국제화, Type Converter, Formatter, File Upload
+categories: Spring-Conquest
 featured-img: spring_mvc_2
 # mathjax: true
 ---

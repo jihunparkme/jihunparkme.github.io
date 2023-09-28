@@ -1,8 +1,8 @@
 ---
 layout: post
 title: 데이터 접근 핵심 원리
-summary: Spring DB Part 1. 데이터 접근 핵심 원리
-categories: Spring-Conquest JDBC Transaction Exception
+summary: Connection Pool & DataSource, Transaction, Excaption
+categories: Spring-Conquest
 featured-img: spring-db-part-1
 # mathjax: true
 ---
