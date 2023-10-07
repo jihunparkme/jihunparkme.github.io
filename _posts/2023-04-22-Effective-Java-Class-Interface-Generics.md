@@ -276,6 +276,7 @@ public Complex minus(Complex c) {
 `@implSpec`
 - 내부 동작 방식을 설명
 - 메서드 주석에 @implSpec 태그를 붙여주면 자바독 도구가 생성
+    
     ```java
     /** java.util.AbstractCollection#remove
      * 
@@ -291,6 +292,7 @@ public Complex minus(Complex c) {
      */
     public boolean remove(Object o) {...}
     ```
+   
     ```shell
     javadoc -d {target-path} {source-path}/* -tag "implSpec:a:Implementation Requirements:
     ```
@@ -894,6 +896,7 @@ Chooser class
 
 [Object를 이용한 제네릭 스택](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item29/object/Stack.java)
   - pop() 호출마다 형변환 필요
+  
   ```java
   public class Stack {
     private Object[] elements;
@@ -924,6 +927,7 @@ Chooser class
   - 가독성이 좋고, `형병환을 배열 생성 시 단 합 번만 수행`
   - 단, 힙 오염(배열의 런타임 타입이 컴파일타임 타입과 달라서 발생하는 현상)을 일으키는 단점이 존재
   - `힙 오염만 주의하면 가장 좋은 방법` 
+    
     ```java
     public class Stack<E> {
         private E[] elements;
@@ -957,6 +961,7 @@ Chooser class
 - [Object[]를 이용한 제네릭 Stack](https://github.com/jihunparkme/Effective-JAVA/blob/main/effective-java-part2/src/main/java/me/whiteship/chapter05/item29/technqiue2/Stack.java)
   - 배열에서 원소를 읽을 때마다 E로 형변환 필요
   - 힙 오염이 밣생하지 않는 장점
+    
     ```java
     public class Stack<E> {
         private Object[] elements;

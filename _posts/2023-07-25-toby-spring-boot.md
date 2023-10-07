@@ -491,6 +491,7 @@ public String[] selectImports(AnnotationMetadata importingClassMetadata) {
 - `proxyBeanMethods = true` (default, 스프링 5.2 버전부터 지원)
   - true 일 경우, @Configuration 클래스는 CGLib 를 이용해서 프록시 클래스로 확장 후 @Bean 이 붙은 메소드의 동작 방식을 변경
   - @Bean 메소드를 직접 호출해서 다른 빈의 의존 관계를 설정할 때 여러번 호출되더라도 싱글톤 빈처럼 참조할 수 있도록 매번 같은 오브젝트를 리턴
+    
     ```java
     /**
      * Spring 은 하나의 빈을 두 개 이상의 다른 빈에서 의존하고 있을 경우,

@@ -647,6 +647,7 @@ Spring Boot 기본적으로 제공하는 ExceptionResolver
 - @ExceptionHandler 선언 후 해당 컨트롤러에서 처리하고 싶은 예외 지정
 - 해당 컨트롤러에서 예외 발생 시 해당 메서드가 호출
 - 지정한 예외 또는 하위 자식 클래스 모두 처리
+  
   ```java
   /**
    * 부모, 자식 클래스 모두 지정되어 있을 경우 자세한 것이 우선권
@@ -665,6 +666,7 @@ Spring Boot 기본적으로 제공하는 ExceptionResolver
   }
   ```
 - 예외 생략
+  
   ```java
   /**
    * 예외 생략 시 메서드 파라미터의 예외(UserException)가 지정

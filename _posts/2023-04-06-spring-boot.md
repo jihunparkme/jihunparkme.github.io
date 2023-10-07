@@ -392,6 +392,7 @@ public class JdbcTemplateAutoConfiguration {
 
 - 특정 상황일 때만 특정 빈들을 등록해서 사용하도록 도와주는 기능
 - Condition 인터페이스를 구현해서 사용
+  
   ```java
   /**
    * ConditionContext : 스프링 컨테이너, 환경 정보등이 담은 클래스
@@ -1019,6 +1020,7 @@ http://localhost:9090/
     - `!=` : 제공된 문자열과 같지 않은 레이블 선택
     - `=~` : 제공된 문자열과 정규식 일치하는 레이블 선택
     - `!~` : 제공된 문자열과 정규식 일치하지 않는 레이블 선택
+    
     ```text
     example.
     

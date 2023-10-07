@@ -182,6 +182,7 @@ void enLang() {
   - `XML Spring Bean 정보 변환`
   - `View Rendering` 
   - ...
+
   ```java
   // @RequestParam
   @GetMapping("/hello")
@@ -539,6 +540,7 @@ public class WebConfig implements WebMvcConfigurer {
 
 - `application/x-www-form-urlencoded`
 - HTML Form
+
   ```html
   <form action="/save" method="post">
     <inpout type="text" name="username" />
@@ -563,6 +565,7 @@ public class WebConfig implements WebMvcConfigurer {
 - `multipart/form-data`
 - HTML Form
   - form tag 에 enctype="multipart/form-data" 지정
+  
   ```html
   <form action="/save" method="post" enctype="multipart/form-data">
     <inpout type="text" name="username" />

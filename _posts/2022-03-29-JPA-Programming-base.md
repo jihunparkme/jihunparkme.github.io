@@ -830,6 +830,7 @@ public class Member extends BaseEntity{
   - 동등성(equivalence) 비교: 인스턴스 값 비교 `equals()`
 - 값 타입의 equals() 메소드를 적절하게 재정의
   - 프록시 사용을 고려하여 getter() 사용 추천
+  
   ```java
   @Override
   public boolean equals(Object o) {

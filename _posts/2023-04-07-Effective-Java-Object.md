@@ -606,6 +606,7 @@ public Object pop() {
 
 (2) `WeakHashMap` 자료구조
 - 약한 참조로 저장(WeakHashMap애 Key로 저장) 시 가비지 컬렉터가 즉시 수거
+
 ```java
 public class PostRepository {
     private Map<CacheKey, Post> cache;
@@ -2091,6 +2092,7 @@ Optional(Java 8)을 활용해서 NPE를 최대한 피하자
     ```
   - [Phantom Reference](https://docs.oracle.com/javase/8/docs/api/java/lang/ref/PhantomReference.html)
     - Phantom Reference 만 남은 경우 GC 동작 시 원본은 정리되고 Reference Queue에 삽입
+    
     ```java
     BigObject strong = new BigObject(); // Strong Reference
     ReferenceQueue<BigObject> rq = new ReferenceQueue<>(); // Phantom Reference 사용을 위한 Queue
@@ -2460,6 +2462,7 @@ AbstractSet을 확장한 `정렬된 컬렉션`
 - 엘리먼트가 지닌 자연적인 순서(natural order, Comparable interface)에 따라 정렬 
 - NTS(Non-Thread safety)
   - Thread safety 하려면 synchronizedSet 활용
+  
   ```java
   TreeSet<PhoneNumber> numbers = new TreeSet<>(Comparator.comparingInt(PhoneNumber::hashCode));
 

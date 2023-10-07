@@ -600,17 +600,18 @@ PrototypeBean HelloBean() {
 - 싱글톤 빈은 생성 시점에만 의존성 주입을 받으므로, 프로토타입 빈을 사용할 때마다 새로 생성해서 사용하고자하는 의도와 다르게 프로토타입 빈 스코프가 싱글톤 빈과 함께 계속 유지
 - ObjectProvider 을 활용한 문제 해결
   - 지정한 빈을 컨테이너에서 대신 찾아주는 DL(Dependency Lookup) 서비스 제공
-  ```java
-  @Autowired
-  private ObjectProvider<PrototypeBean> prototypeBeanProvider;
+  
+```java
+@Autowired
+private ObjectProvider<PrototypeBean> prototypeBeanProvider;
 
-  public int logic() {
-      PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
-      prototypeBean.addCount();
-      int count = prototypeBean.getCount();
-      return count;
-  }
-  ```
+public int logic() {
+    PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+    prototypeBean.addCount();
+    int count = prototypeBean.getCount();
+    return count;
+}
+```
 
 .
 
