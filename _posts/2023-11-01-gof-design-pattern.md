@@ -98,3 +98,19 @@ public static Settings getInstance() {
     return SettingsHolder.SETTINGS;
 }
 ```
+
+.
+
+**`싱글톤 패턴을 깨트리는 방법`**
+
+- 리플렉션 사용
+  - declaredConstructor 로 newInstance() 호출 가능
+- 직렬화 & 역직렬화 사용
+  - 역직렬화 시 생성자를 사용해서 다시 한 번 인스턴스를 생성
+  - 직렬화/역직렬화 시 사용되는 메서드에서 싱글톤 인스턴스를 반환하여 해결 가능
+  
+  ```java
+  protected Object readResolve() {
+        return getInstance();
+  }
+  ```
