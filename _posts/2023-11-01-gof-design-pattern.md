@@ -19,6 +19,10 @@ featured-img: design-pattern
 - 시스템 런타임, 환경 세팅 정보 등.. 인스턴스가 여러개일 때 이슈가 생길 수 있는 경우
 - 인스턴스를 한 개만 만들어서 제공하는 클래스 필요
 
+.
+
+**`싱글톤 패턴을 만드는 방법`**
+
 (1) private 생성자와 public static 메소드를 사용
 - 단점. 여러 스레드가 동시에 접근할 경우 여러 인스턴스 생성 가능성 존재
 
@@ -113,7 +117,7 @@ public enum Settings {
 
 .
 
-**`싱글톤 패턴을 깨트리는 방법`**
+**`싱글톤 패턴을 깨뜨리는 방법`**
 
 - 리플렉션 사용
   - declaredConstructor 로 newInstance() 호출 가능
@@ -126,3 +130,12 @@ public enum Settings {
         return getInstance();
   }
   ```
+
+  .
+
+**`실무에서의 사용`**
+
+- 스프링 빈 스코프 중 하나(싱글톤 스코프)
+- java.lang.Runtime
+- 다른 디자인 패턴(빌더, 퍼사드, 추상 팩토리..) 구현체의 일부 사용
+
