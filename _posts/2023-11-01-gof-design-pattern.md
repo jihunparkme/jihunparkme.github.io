@@ -20,7 +20,7 @@ featured-img: design-pattern
 - 인스턴스를 한 개만 만들어서 제공하는 클래스 필요
 
 (1) private 생성자와 public static 메소드를 사용
-- 여러 스레드가 동시에 접근할 경우 여러 인스턴스 생성 가능성 존재
+- 단점. 여러 스레드가 동시에 접근할 경우 여러 인스턴스 생성 가능성 존재
 
 ```java
 public class Settings {
@@ -100,8 +100,8 @@ public static Settings getInstance() {
 ```
 
 (6) enum 사용하는 방법 > `권장 방법`
-- enum 은 리플렉션에서 인스턴스를 만들 수 없도록 막혀있음
-- 단점이라면, 클래스를 로딩하는 순간 인스턴스를 생성하고 상속 불가
+- 리플렉션에서 인스턴스를 생성할 수 없도록 방어
+- 단점. 클래스를 로딩하는 순간 인스턴스를 생성하고 상속 불가
 - Serializable 를 기본적으로 구현
   - extends Enum implements Serializable
 
