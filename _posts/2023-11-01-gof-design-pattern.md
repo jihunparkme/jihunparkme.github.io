@@ -84,7 +84,7 @@ public static Settings getInstance() {
 }
 ```
 
-(5) static inner 클래스를 사용하는 방법
+(5) static inner 클래스를 사용하는 방법 > `권장 방법`
 - 멀티 스레드에 안전하고, 필요한 시점에 인스턴스 생성(lazy initialization)
 
 ```java
@@ -96,6 +96,18 @@ private static class SettingsHolder {
 
 public static Settings getInstance() {
     return SettingsHolder.SETTINGS;
+}
+```
+
+(6) enum 사용하는 방법 > `권장 방법`
+- enum 은 리플렉션에서 인스턴스를 만들 수 없도록 막혀있음
+- 단점이라면, 클래스를 로딩하는 순간 인스턴스를 생성하고 상속 불가
+- Serializable 를 기본적으로 구현
+  - extends Enum implements Serializable
+
+```java
+public enum Settings {
+    INSTANCE;
 }
 ```
 
