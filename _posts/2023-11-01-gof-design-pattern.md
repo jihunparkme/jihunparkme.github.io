@@ -14,6 +14,8 @@ featured-img: design-pattern
 
 ## Singleton Patterns
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/singleton-pattern.png?raw=true 'Result')
+
 `인스턴스를 오직 한개만 제공`하는 클래스
 
 - 시스템 런타임, 환경 세팅 정보 등.. 인스턴스가 여러개일 때 이슈가 생길 수 있는 경우
@@ -139,3 +141,11 @@ public enum Settings {
 - java.lang.Runtime
 - 다른 디자인 패턴(빌더, 퍼사드, 추상 팩토리..) 구현체의 일부 사용
 
+.
+
+## Factory method Patterns
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-method-pattern.png?raw=true 'Result')
+
+구체적으로 어떤 인스턴스를 만들지는 `서브 클래스가` 정한다.
+- 다양한 구현체(Product)가 있고, 그 중에서 특정한 구현체를 만들 수 있는 다양한 팩토리(Creator) 제공
