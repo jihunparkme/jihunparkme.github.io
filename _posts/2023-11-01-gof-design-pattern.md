@@ -159,3 +159,38 @@ public enum Settings {
 - [factory-method-pattern example](https://github.com/jihunparkme/GoF-Design-Pattern/commit/7a1e9caf0e84d54c7f906d5747491ef432c6fa32)
   
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-method-pattern-example.png?raw=true 'Result')
+
+.
+
+**Factory Method Example**
+
+**단순한 팩토리 패턴**
+- 매개변수 값 또는 메소드에 따라 각기 다른 인스턴스를 리턴하는 단순한 버전의 팩토리 패턴
+
+`java.util.Calendar`
+
+```java
+System.out.println(Calendar.getInstance().getClass()); // class java.util.GregorianCalendar
+System.out.println(Calendar.getInstance(Locale.forLanguageTag("th-TH-x-lvariant-TH")).getClass()); // class sun.util.BuddhistCalendar
+System.out.println(Calendar.getInstance(Locale.forLanguageTag("ja-JP-x-lvariant-JP")).getClass()); // class java.util.JapaneseImperialCalendar
+```
+
+.
+
+**Spring BeanFactory**
+- Object 타입의 Product 를 만드는 BeanFacotry Creator
+- 스프링의 가장 핵심적인 IOC
+
+`org.springframework.beans.factory.BeanFactory`
+
+```java
+BeanFactory xmlFactory = new ClassPathXmlApplicationContext("config.xml");
+String hello = xmlFactory.getBean("hello", String.class);
+System.out.println(hello);
+
+BeanFactory javaFactory = new AnnotationConfigApplicationContext(Config.class);
+String hi = javaFactory.getBean("hello", String.class);
+System.out.println(hi);
+```
+
+.
