@@ -6,13 +6,13 @@ categories: JAVA
 featured-img: design-pattern
 ---
 
-# GoF Design Pattern
+# GoF Design Patterns
 
 # Creational Patterns
 
 생성 패턴
 
-## Singleton Patterns
+## Singleton Pattern
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/singleton-pattern.png?raw=true 'Result')
 
@@ -135,7 +135,7 @@ public enum Settings {
 
   .
 
-**`실무에서의 사용`**
+**`Singleton Pattern Example 사용`**
 
 - 스프링 빈 스코프 중 하나(싱글톤 스코프)
 - java.lang.Runtime
@@ -143,7 +143,7 @@ public enum Settings {
 
 .
 
-## Factory method Patterns
+## Factory Method Pattern
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-method-pattern.png?raw=true 'Result')
 
@@ -155,14 +155,16 @@ public enum Settings {
 
 .
 
-확장에는 열려있고, 변경에 닫혀있는 구조([OCP](https://ko.wikipedia.org/wiki/%EA%B0%9C%EB%B0%A9-%ED%8F%90%EC%87%84_%EC%9B%90%EC%B9%99), Open-Closed Principle)의 팩토리 메소드
-- [factory-method-pattern example](https://github.com/jihunparkme/GoF-Design-Pattern/commit/7a1e9caf0e84d54c7f906d5747491ef432c6fa32)
+**`팩토리 메소드 패턴의 구현 방법`**
+
+확장에는 열려있고, 변경에 닫혀있는 구조([OCP](https://ko.wikipedia.org/wiki/%EA%B0%9C%EB%B0%A9-%ED%8F%90%EC%87%84_%EC%9B%90%EC%B9%99), Open-Closed Principle)
+- [factory-method-pattern sample](https://github.com/jihunparkme/GoF-Design-Pattern/commit/7a1e9caf0e84d54c7f906d5747491ef432c6fa32)
   
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-method-pattern-example.png?raw=true 'Result')
 
 .
 
-**Factory Method Example**
+**`Factory Method Example`**
 
 **단순한 팩토리 패턴**
 - 매개변수 값 또는 메소드에 따라 각기 다른 인스턴스를 리턴하는 단순한 버전의 팩토리 패턴
@@ -194,3 +196,15 @@ System.out.println(hi);
 ```
 
 .
+
+## Abstract Factory Method Pattern
+
+서로 관련있는 여러 객체를 만들어주는 인터페이스
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/abstract-factory-method-pattern.png?raw=true 'Result')
+
+- 구체적으로 어떤 클래스의 인스턴스(concrete product)를 사용하는지 감출 수 있음.
+
+.
+
+**`추상 팩토리 패턴 구현 방법`**
