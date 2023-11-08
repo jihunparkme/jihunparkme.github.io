@@ -147,9 +147,15 @@ public enum Settings {
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-method-pattern.png?raw=true 'Result')
 
-구체적으로 어떤 인스턴스를 만들지는 `서브 클래스가` 정한다.
+구체적으로 어떤 인스턴스를 만들지는 `서브 클래스`가 정한다.
 - 다양한 구현체(Product)가 있고, 그 중에서 특정한 구현체를 만들 수 있는 다양한 팩토리(Creator) 제공
+- Loosely Coupled: Creator, Product 간의 느슨한 결합
+- 장점) 기존 코드를 건드리지 않으면서 새로운 기능 확장 가능, 간결한 코드
+- 단점) 역할을 나누면서 늘어나는 클래스
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-method-pattern-example.png?raw=true 'Result')
+.
 
+확장에는 열려있고, 변경에 닫혀있는 구조([OCP](https://ko.wikipedia.org/wiki/%EA%B0%9C%EB%B0%A9-%ED%8F%90%EC%87%84_%EC%9B%90%EC%B9%99), Open-Closed Principle)의 팩토리 메소드
 - [factory-method-pattern example](https://github.com/jihunparkme/GoF-Design-Pattern/commit/7a1e9caf0e84d54c7f906d5747491ef432c6fa32)
+  
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-method-pattern-example.png?raw=true 'Result')
