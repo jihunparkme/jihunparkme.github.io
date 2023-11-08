@@ -149,3 +149,7 @@ public enum Settings {
 
 구체적으로 어떤 인스턴스를 만들지는 `서브 클래스가` 정한다.
 - 다양한 구현체(Product)가 있고, 그 중에서 특정한 구현체를 만들 수 있는 다양한 팩토리(Creator) 제공
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-method-pattern-example.png?raw=true 'Result')
+
+- [factory-method-pattern example](https://github.com/jihunparkme/GoF-Design-Pattern/commit/7a1e9caf0e84d54c7f906d5747491ef432c6fa32)
