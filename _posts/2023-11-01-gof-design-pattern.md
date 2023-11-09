@@ -200,6 +200,7 @@ System.out.println(hi);
 ## Abstract Factory Method Pattern
 
 서로 관련있는 여러 객체를 만들어주는 인터페이스
+- 구체적인 팩토리에서 구체적인 인스턴스를 만드는 것은 팩토리 메소드와 유사하지만 클라이언트 쪽에 초점
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/abstract-factory-method-pattern.png?raw=true 'Result')
 
@@ -208,3 +209,9 @@ System.out.println(hi);
 .
 
 **`추상 팩토리 패턴 구현 방법`**
+
+클라이언트 코드에서 구체적인 클래스의 의존성을 제거
+- [abstract-factory-method-pattern sample](https://github.com/jihunparkme/GoF-Design-Pattern/commit/7ecf36d53b8a0e37ed06b18228c0b5407e451985)
+
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/abstract-factory-method-pattern-sample.png?raw=true 'Result')
