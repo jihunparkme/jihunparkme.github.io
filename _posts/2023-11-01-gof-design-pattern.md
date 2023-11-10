@@ -222,6 +222,8 @@ System.out.println(hi);
 
 둘 다 구체적인 객체 생성 과정을 추상화한 인터페이스 제공
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-mathod.png?raw=true 'Result')
+
 팩토리 메소드 패턴
 - *팩토리를 구현하는 방법*(inheritance)에 초점
 - 구체적인 객체 생성 과정을 하위 또는 구체적인 클래스로 옮기는 것이 목적
