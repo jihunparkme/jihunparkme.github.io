@@ -230,7 +230,14 @@ System.out.println(hi);
 - *팩토리를 사용하는 방법*(composition)에 초점
 - 관련있는 여러 객체를 구체적인 클래스에 의존하지 않고 만들 수 있게 해주는 것이 목적
 
+.
 
+**`Abstract Factory Method Example`**
 
+Java Library
+- javax.xml.xpath.XPathFactory#newInstance()
+- javax.xml.transform.TransformerFactory#newInstance()
+- javax.xml.parsers.DocumentBuilderFactory#newInstance() 
 
-
+Spring 
+- FactoryBean & 구현체
