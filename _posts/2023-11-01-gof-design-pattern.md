@@ -294,17 +294,20 @@ Spring
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/prototype-pattern.png?raw=true 'Result')
 
+- 장점)
+  - 복잡한 객체를 만드는 과정을 숨길 수 있음.
+  - 기존 객체를 복제하는 과정이 새 인스턴스를 만드는 것보다 비용(시간 또는 메모리)적인면에서 효율적일 수도 있음.
+  - 추상적인 타입 리턴 가능.
+- 단점)
+  - 복제한 객체를 만드는 과정 자체가 복잡할 수 있음
+  - 특히, 순환 참조가 있는 경우
 
 .
 
 **`Prototype Pattern 구현 방법`**
 
-![Result]( 'Result')
 
-
-- [builder-pattern sample]()
-
-![Result]( 'Result')
+- [builder-pattern sample](https://github.com/jihunparkme/GoF-Design-Pattern/commit/a53c2e878cb9dcd9c42a17d88c9d33823532288f)
 
 .
 
