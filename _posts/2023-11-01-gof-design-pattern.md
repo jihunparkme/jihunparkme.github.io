@@ -276,14 +276,16 @@ Spring
 **`Builder Pattern Example`**
 
 
-• 자바 8 Stream.Buidler API
-• StringBuilder는 빌더 패턴일까?
-• 롬복의 @Builder
-    • https://projectlombok.org/features/Builder
-• 스프링
-    • UriComponentsBuilder
-    • MockMvcWebClientBuilder
-    • …Builder
+- Java 8
+  - StringBuilder (Synchronized 미사용)
+  - Stream.Buidler
+  - UriComponentsBuilder
+- Lombok @Builder
+    - https://projectlombok.org/features/Builder
+- 스프링
+    - UriComponentsBuilder
+    - MockMvcWebClientBuilder
+    - …Builder
 
 
 
