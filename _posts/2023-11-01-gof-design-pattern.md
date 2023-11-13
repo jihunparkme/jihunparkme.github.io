@@ -313,9 +313,27 @@ Spring
 
 **`Prototype Pattern Example`**
 
+- Java Object class clone method
+  - 컬렉션은 clone 을 지원하지 않는 추상타입으로 받을 수 있으므로 clone 보다 생성자를 통한 복사를 주로 사용
+  
+  ```java
+  List<Student> students = new ArrayList<>();
+  students.add(aaron);
+  students.add(park);
 
+  List<Student> clone = new ArrayList<>(students);
+  ```
+- Cloneable Interface
+- [ModelMapper](https://modelmapper.org/)
 
+  ```java
+  GithubIssue githubIssue = new GithubIssue();
+  githubIssue.setId(1);
+  githubIssue.setTitle("This is title");
 
+  ModelMapper modelMapper = new ModelMapper();
+  GithubIssueData githubIssueData = modelMapper.map(githubIssue, GithubIssueData.class);
+  ```
 
 
 
