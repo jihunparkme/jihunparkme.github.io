@@ -234,7 +234,7 @@ System.out.println(hi);
 
 .
 
-**`Abstract Factory Method Example`**
+**`Abstract Factory Method Pattern Example`**
 
 Java Library
 - javax.xml.xpath.XPathFactory#newInstance()
@@ -243,3 +243,73 @@ Java Library
 
 Spring 
 - FactoryBean & 구현체
+
+.
+
+## Builder Pattern
+
+동일한 프로세스를 거쳐 다양한 구성의 인스턴스를 만드는 방법
+- 복잡한 객체를 만드는 프로세스를 독립적으로 분리
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/builder-pattern.png?raw=true 'Result')
+
+- 장점)
+  - 만들기 복잡한 객체를 순차적으로 생성 가능.
+  - 복잡한 객체를 만드는 구체적인 과정을 숨길 수 있음.
+  - 동일한 프로세스를 통해 각기 다르게 구성된 객체 생성 가능.
+  - 불완전한 객체를 사용하지 못하도록 방지 가능.
+
+- 단점)
+  - 원하는 객체를 만들려면 빌더부터 생성 필요.
+  - 구조가 복잡. (트레이드 오프)
+
+.
+
+**`빌드 패턴의 구현 방법`**
+
+- [builder-pattern sample](https://github.com/jihunparkme/GoF-Design-Pattern/commit/2d96bf1013e6d0bf06eafb244d809d2441b17a75)
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/builder-pattern-example.png?raw=true 'Result')
+
+.
+
+**`Builder Pattern Example`**
+
+
+• 자바 8 Stream.Buidler API
+• StringBuilder는 빌더 패턴일까?
+• 롬복의 @Builder
+    • https://projectlombok.org/features/Builder
+• 스프링
+    • UriComponentsBuilder
+    • MockMvcWebClientBuilder
+    • …Builder
+
+
+
+
+
+
+
+
+
+
+
+
+
+## -- Pattern
+
+![Result]( 'Result')
+
+
+.
+
+**`--의 구현 방법`**
+
+- [builder-pattern sample]()
+
+![Result]( 'Result')
+
+.
+
+**`--Pattern Example`**
