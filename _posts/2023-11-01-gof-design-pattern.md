@@ -254,14 +254,14 @@ Spring
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/builder-pattern.png?raw=true 'Result')
 
 - 장점)
-  - 만들기 복잡한 객체를 순차적으로 생성 가능.
+  - 만들기 복잡한 객체를 순차적으로 생성 가능. (ex. 다른 빌더 리턴)
   - 복잡한 객체를 만드는 구체적인 과정을 숨길 수 있음.
   - 동일한 프로세스를 통해 각기 다르게 구성된 객체 생성 가능.
   - 불완전한 객체를 사용하지 못하도록 방지 가능.
 
 - 단점)
   - 원하는 객체를 만들려면 빌더부터 생성 필요.
-  - 구조가 복잡. (트레이드 오프)
+  - 구조가 복잡. (trade-off)
 
 .
 
