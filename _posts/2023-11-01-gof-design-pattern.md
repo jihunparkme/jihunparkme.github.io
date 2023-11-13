@@ -23,7 +23,7 @@ featured-img: design-pattern
 
 .
 
-**`싱글톤 패턴을 만드는 방법`**
+**`Singleton Pattern 구현 방법`**
 
 (1) private 생성자와 public static 메소드를 사용
 - 단점. 여러 스레드가 동시에 접근할 경우 여러 인스턴스 생성 가능성 존재
@@ -119,7 +119,7 @@ public enum Settings {
 
 .
 
-**`싱글톤 패턴을 깨뜨리는 방법`**
+**`Singleton Pattern 깨뜨리는 방법`**
 
 - 리플렉션 사용
   - declaredConstructor 로 newInstance() 호출 가능
@@ -155,7 +155,7 @@ public enum Settings {
 
 .
 
-**`팩토리 메소드 패턴의 구현 방법`**
+**`Factory Method Pattern 구현 방법`**
 
 확장에는 열려있고, 변경에 닫혀있는 구조([OCP](https://ko.wikipedia.org/wiki/%EA%B0%9C%EB%B0%A9-%ED%8F%90%EC%87%84_%EC%9B%90%EC%B9%99), Open-Closed Principle)
 - [factory-method-pattern sample](https://github.com/jihunparkme/GoF-Design-Pattern/commit/7a1e9caf0e84d54c7f906d5747491ef432c6fa32)
@@ -164,7 +164,7 @@ public enum Settings {
 
 .
 
-**`Factory Method Example`**
+**`Factory Method Pattern Example`**
 
 **단순한 팩토리 패턴**
 - 매개변수 값 또는 메소드에 따라 각기 다른 인스턴스를 리턴하는 단순한 버전의 팩토리 패턴
@@ -208,7 +208,7 @@ System.out.println(hi);
 
 .
 
-**`추상 팩토리 패턴 구현 방법`**
+**`Abstract Factory Method Pattern 구현 방법`**
 
 클라이언트 코드에서 구체적인 클래스의 의존성을 제거
 - [abstract-factory-method-pattern sample](https://github.com/jihunparkme/GoF-Design-Pattern/commit/7ecf36d53b8a0e37ed06b18228c0b5407e451985)
@@ -265,7 +265,7 @@ Spring
 
 .
 
-**`빌드 패턴의 구현 방법`**
+**`Builder Pattern 구현 방법`**
 
 - [builder-pattern sample](https://github.com/jihunparkme/GoF-Design-Pattern/commit/2d96bf1013e6d0bf06eafb244d809d2441b17a75)
 
@@ -275,19 +275,40 @@ Spring
 
 **`Builder Pattern Example`**
 
-
 - Java 8
   - StringBuilder (Synchronized 미사용)
   - Stream.Buidler
-  - UriComponentsBuilder
-- Lombok @Builder
-    - https://projectlombok.org/features/Builder
+- Lombok
+  - [@Builder](https://projectlombok.org/features/Builder)
 - 스프링
-    - UriComponentsBuilder
-    - MockMvcWebClientBuilder
-    - …Builder
+  - UriComponentsBuilder
+  - MockMvcWebClientBuilder
+  - xxxBuilder
+
+.
+
+## Prototype Pattern
+
+기존 인스턴스를 복제하여 새로운 인스턴스를 만드는 방법
+- 복제 기능을 갖추고 있는 기존 인스턴스를 프로토타입으로 사용해 새 인스턴스 생성
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/prototype-pattern.png?raw=true 'Result')
 
 
+.
+
+**`Prototype Pattern 구현 방법`**
+
+![Result]( 'Result')
+
+
+- [builder-pattern sample]()
+
+![Result]( 'Result')
+
+.
+
+**`Prototype Pattern Example`**
 
 
 
