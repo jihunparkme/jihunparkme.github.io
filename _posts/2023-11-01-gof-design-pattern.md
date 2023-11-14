@@ -354,6 +354,22 @@ Spring
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/adapter-pattern-example.png?raw=true 'Result')
 
+- Adaptee
+  - Account
+  - AccountService
+- Adapter
+  - AccountUserDetailService
+  - AcconutUserDetails
+
+.
+
+- 장점)
+  - 기존 코드를 변경하지 않고 원하는 인터페이스 구현체를 만들어 재사용 가능 -> 패방-폐쇄 원칙(OCP, Open–closed principle)
+  - 기존 코드가 하던 일과 특정 인터페이스 구현체로 변환하는 작업을 각기 다른 클래스로 분리하여 관리 가능-> 단일 책임 원칙(SRP, Single Responsibility Principle)
+- 단점)
+  - 새 클래스가 생기면 복잡도 증가
+  - 경우에 따라서 기존 코드가 해당 인터페이스를 구현하도록 수정하는 것이 좋은 선택이 될 수도 있음.
+
 .
 
 **`Adapter Pattern Example`**
