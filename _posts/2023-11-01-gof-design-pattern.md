@@ -335,6 +335,35 @@ Spring
   GithubIssueData githubIssueData = modelMapper.map(githubIssue, GithubIssueData.class);
   ```
 
+.
+
+# Structural Patterns
+
+## Adapter Pattern
+
+기존 코드를 클라이언트가 사용하는 인터페이스의 구현체로 바꿔주는 패턴
+- 클라이언트가 사용하는 인터페이스를 따르지 않는 기존 코드 재사용 가능
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/adapter-pattern.png?raw=true 'Result')
+
+.
+
+**`Adapter 구현 방법`**
+
+- [Adapter-pattern sample]()
+
+![Result]( 'Result')
+
+.
+
+**`Adapter Pattern Example`**
+
+
+
+
+
+
+
 
 
 
