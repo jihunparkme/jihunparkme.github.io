@@ -374,9 +374,33 @@ Spring
 
 **`Adapter Pattern Example`**
 
+- JAVA
+  - java.util.Arrays#asList(T…)
+  - java.util.Collections#list(Enumeration)
+  - java.util.Collections#enumeration()
+  - java.io.InputStreamReader(InputStream)
+  - java.io.OutputStreamWriter(OutputStream)
+- Spring
+  - HandlerAdpter: 우리가 작성하는 다양한 형태의 핸들러 코드를 스프링 MVC가 실행할 수 있
+는 형태로 변환해주는 어댑터용 인터페이스.
 
+```java
+// collections
+List<String> strings = Arrays.asList("a", "b", "c");
+Enumeration<String> enumeration = Collections.enumeration(strings);
+ArrayList<String> list = Collections.list(enumeration);
 
-
+// io
+try(InputStream is = new FileInputStream("input.txt");
+    InputStreamReader isr = new InputStreamReader(is);
+    BufferedReader reader = new BufferedReader(isr)) {
+    while(reader.ready()) {
+        System.out.println(reader.readLine());
+    }
+} catch (IOException e) {
+    throw new RuntimeException(e);
+}
+```
 
 
 
