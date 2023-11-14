@@ -350,9 +350,9 @@ Spring
 
 **`Adapter 구현 방법`**
 
-- [Adapter-pattern sample]()
+- [Adapter-pattern sample](https://github.com/jihunparkme/GoF-Design-Pattern/commit/6b04e19c02f43891635d4abc8e6b22e3ac12ea39)
 
-![Result]( 'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/adapter-pattern-example.png?raw=true 'Result')
 
 .
 
