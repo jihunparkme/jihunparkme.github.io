@@ -354,14 +354,26 @@ Spring
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/adapter-pattern-example.png?raw=true 'Result')
 
+- Target
+  - UserDetails
+  - UserDetailsService
+- Adapter
+  - AccountUserDetailsService
+  - AcconutUserDetails
 - Adaptee
   - Account
   - AccountService
-- Adapter
-  - AccountUserDetailService
-  - AcconutUserDetails
 
-.
+
+```java
+AccountService accountService = new AccountService();
+// Target target = Adapter(Adaptee) 
+UserDetailsService userDetailsService = new AccountUserDetailsService(accountService);
+LoginHandler loginHandler = new LoginHandler(userDetailsService);
+
+String login = loginHandler.login("keesun", "keesun");
+System.out.println(login);
+```
 
 - 장점)
   - 기존 코드를 변경하지 않고 원하는 인터페이스 구현체를 만들어 재사용 가능 -> 패방-폐쇄 원칙(OCP, Open–closed principle)
