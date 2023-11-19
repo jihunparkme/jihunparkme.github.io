@@ -392,9 +392,6 @@ System.out.println(login);
   - java.util.Collections#enumeration()
   - java.io.InputStreamReader(InputStream)
   - java.io.OutputStreamWriter(OutputStream)
-- Spring
-  - HandlerAdpter: 우리가 작성하는 다양한 형태의 핸들러 코드를 스프링 MVC가 실행할 수 있
-는 형태로 변환해주는 어댑터용 인터페이스.
 
 ```java
 // collections
@@ -413,6 +410,15 @@ try(InputStream is = new FileInputStream("input.txt");
     throw new RuntimeException(e);
 }
 ```
+
+- Spring
+  - Spring Security
+    - `UserDetails`, `UserDetailsService`
+  - Spring MVC
+    - `HandlerAdpter`: 다양한 형태의 핸들러 코드를 스프링 MVC가 실행할 수 있는 형태로 변환해주는 어댑터용 인터페이스
+      - 가장 흔히 사용하는 어댑터: RequestMappingHandlerAdapter
+
+
 
 
 
