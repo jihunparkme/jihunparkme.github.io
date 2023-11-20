@@ -418,6 +418,27 @@ try(InputStream is = new FileInputStream("input.txt");
     - `HandlerAdpter`: 다양한 형태의 핸들러 코드를 스프링 MVC가 실행할 수 있는 형태로 변환해주는 어댑터용 인터페이스
       - 가장 흔히 사용하는 어댑터: RequestMappingHandlerAdapter
 
+.
+
+## Bridge Pattern
+
+추상적/구체적인 것을 분리하여 연결하는 패턴
+- 하나의 계층 구조일 때보다 각기 나누었을 때 독립적인 계층 구조로 발전시킬 수 있음
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/bridge-pattern.png?raw=true 'Result')
+
+
+.
+
+**`Bridge Pattern 구현 방법`**
+
+- [builder-pattern sample]()
+
+![Result]( 'Result')
+
+.
+
+**`Bridge Pattern Example`**
 
 
 
