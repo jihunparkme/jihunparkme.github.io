@@ -446,7 +446,7 @@ try(InputStream is = new FileInputStream("input.txt");
 
 - [builder-pattern sample]()
 
-![Result]( 'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/bridge-pattern-example.png?raw=true 'Result')
 
 .
 
