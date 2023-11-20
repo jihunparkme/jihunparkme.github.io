@@ -439,12 +439,17 @@ try(InputStream is = new FileInputStream("input.txt");
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/bridge-pattern.png?raw=true 'Result')
 
+- 장점)
+  - 추상적인 코드를 구체적인 코드 변경 없이도 독립적으로 확장 가능
+  - 추상적인 코드와 구체적인 코드 분리 가능
+- 단점)
+  - 계층 구조가 늘어나 복잡도가 증가할 수 있음
 
 .
 
 **`Bridge Pattern 구현 방법`**
 
-- [builder-pattern sample]()
+- [builder-pattern sample](https://github.com/jihunparkme/GoF-Design-Pattern/tree/main/src/main/java/me/whiteship/designpatterns/_02_structural_patterns/_07_bridge)
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/bridge-pattern-example.png?raw=true 'Result')
 
