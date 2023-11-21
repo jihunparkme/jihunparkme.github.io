@@ -476,6 +476,29 @@ Spring
 
 > [Bridge Design Pattern](https://sourcemaking.com/design_patterns/bridge)
 
+.
+
+## Composite Pattern
+
+그룹 전체와 개별 객체를 동일하게 처리할 수 있는 패턴
+- 클라이언트 입장에서는 '전체'나 '부분'이나 모두 동일한 컴포넌트로 인식할 수는 계층 구조를 만든다.
+- Part-Whole Hierarchy
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/composite-pattern.png?raw=true 'Result')
+
+.
+
+**`--의 구현 방법`**
+
+- [Composite Pattern sample](https://github.com/jihunparkme/GoF-Design-Pattern/tree/main/src/main/java/me/whiteship/designpatterns/_02_structural_patterns/_08_composite)
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/composite-pattern-example.png?raw=true 'Result')
+
+.
+
+**`--Pattern Example`**
+
+> [Composite Design Pattern](https://sourcemaking.com/design_patterns/composite)
 
 
 
@@ -500,7 +523,7 @@ Spring
 
 **`--의 구현 방법`**
 
-- [builder-pattern sample]()
+- [Pattern sample]()
 
 ![Result]( 'Result')
 
