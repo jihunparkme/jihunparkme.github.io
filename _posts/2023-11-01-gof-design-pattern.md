@@ -135,7 +135,7 @@ public enum Settings {
 
   .
 
-**`Singleton Pattern Example 사용`**
+**`Singleton Pattern Example`**
 
 - 스프링 빈 스코프 중 하나(싱글톤 스코프)
 - java.lang.Runtime
@@ -259,15 +259,15 @@ Spring
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/builder-pattern.png?raw=true 'Result')
 
-- 장점)
-  - 만들기 복잡한 객체를 순차적으로 생성 가능. (ex. 다른 빌더 리턴)
-  - 복잡한 객체를 만드는 구체적인 과정을 숨길 수 있음.
-  - 동일한 프로세스를 통해 각기 다르게 구성된 객체 생성 가능.
-  - 불완전한 객체를 사용하지 못하도록 방지 가능.
+장점)
+- 만들기 복잡한 객체를 순차적으로 생성 가능. (ex. 다른 빌더 리턴)
+- 복잡한 객체를 만드는 구체적인 과정을 숨길 수 있음.
+- 동일한 프로세스를 통해 각기 다르게 구성된 객체 생성 가능.
+- 불완전한 객체를 사용하지 못하도록 방지 가능.
 
-- 단점)
-  - 원하는 객체를 만들려면 빌더부터 생성 필요.
-  - 구조가 복잡. (trade-off)
+단점)
+- 원하는 객체를 만들려면 빌더부터 생성 필요.
+- 구조가 복잡. (trade-off)
 
 .
 
@@ -281,15 +281,17 @@ Spring
 
 **`Builder Pattern Example`**
 
-- Java 8
-  - StringBuilder (Synchronized 미사용)
-  - Stream.Buidler
-- Lombok
-  - [@Builder](https://projectlombok.org/features/Builder)
-- 스프링
-  - UriComponentsBuilder
-  - MockMvcWebClientBuilder
-  - xxxBuilder
+Java 8
+- StringBuilder (Synchronized 미사용)
+- Stream.Buidler
+
+Lombok
+- [@Builder](https://projectlombok.org/features/Builder)
+
+스프링
+- UriComponentsBuilder
+- MockMvcWebClientBuilder
+- xxxBuilder
 
 > [Builder Design Pattern](https://sourcemaking.com/design_patterns/builder)
 
@@ -302,13 +304,14 @@ Spring
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/prototype-pattern.png?raw=true 'Result')
 
-- 장점)
-  - 복잡한 객체를 만드는 과정을 숨길 수 있음.
-  - 기존 객체를 복제하는 과정이 새 인스턴스를 만드는 것보다 비용(시간 또는 메모리)적인면에서 효율적일 수도 있음.
-  - 추상적인 타입 리턴 가능.
-- 단점)
-  - 복제한 객체를 만드는 과정 자체가 복잡할 수 있음
-  - 특히, 순환 참조가 있는 경우
+장점)
+- 복잡한 객체를 만드는 과정을 숨길 수 있음.
+- 기존 객체를 복제하는 과정이 새 인스턴스를 만드는 것보다 비용(시간 또는 메모리)적인면에서 효율적일 수도 있음.
+- 추상적인 타입 리턴 가능.
+
+단점)
+- 복제한 객체를 만드는 과정 자체가 복잡할 수 있음
+- 특히, 순환 참조가 있는 경우
 
 .
 
@@ -385,23 +388,24 @@ String login = loginHandler.login("keesun", "keesun");
 System.out.println(login);
 ```
 
-- 장점)
-  - 기존 코드를 변경하지 않고 원하는 인터페이스 구현체를 만들어 재사용 가능 -> 패방-폐쇄 원칙(OCP, Open–closed principle)
-  - 기존 코드가 하던 일과 특정 인터페이스 구현체로 변환하는 작업을 각기 다른 클래스로 분리하여 관리 가능-> 단일 책임 원칙(SRP, Single Responsibility Principle)
-- 단점)
-  - 새 클래스가 생기면 복잡도 증가
-  - 경우에 따라서 기존 코드가 해당 인터페이스를 구현하도록 수정하는 것이 좋은 선택이 될 수도 있음.
+장점)
+- 기존 코드를 변경하지 않고 원하는 인터페이스 구현체를 만들어 재사용 가능 -> 패방-폐쇄 원칙(OCP, Open–closed principle)
+- 기존 코드가 하던 일과 특정 인터페이스 구현체로 변환하는 작업을 각기 다른 클래스로 분리하여 관리 가능-> 단일 책임 원칙(SRP, Single Responsibility Principle)
+
+단점)
+- 새 클래스가 생기면 복잡도 증가
+- 경우에 따라서 기존 코드가 해당 인터페이스를 구현하도록 수정하는 것이 좋은 선택이 될 수도 있음.
 
 .
 
 **`Adapter Pattern Example`**
 
-- JAVA
-  - java.util.Arrays#asList(T…)
-  - java.util.Collections#list(Enumeration)
-  - java.util.Collections#enumeration()
-  - java.io.InputStreamReader(InputStream)
-  - java.io.OutputStreamWriter(OutputStream)
+JAVA
+- java.util.Arrays#asList(T…)
+- java.util.Collections#list(Enumeration)
+- java.util.Collections#enumeration()
+- java.io.InputStreamReader(InputStream)
+- java.io.OutputStreamWriter(OutputStream)
 
 ```java
 // collections
@@ -421,12 +425,12 @@ try(InputStream is = new FileInputStream("input.txt");
 }
 ```
 
-- Spring
-  - Spring Security
-    - `UserDetails`, `UserDetailsService`
-  - Spring MVC
-    - `HandlerAdpter`: 다양한 형태의 핸들러 코드를 스프링 MVC가 실행할 수 있는 형태로 변환해주는 어댑터용 인터페이스
-      - 가장 흔히 사용하는 어댑터: RequestMappingHandlerAdapter
+Spring
+- Spring Security
+  - `UserDetails`, `UserDetailsService`
+- Spring MVC
+  - `HandlerAdpter`: 다양한 형태의 핸들러 코드를 스프링 MVC가 실행할 수 있는 형태로 변환해주는 어댑터용 인터페이스
+    - 가장 흔히 사용하는 어댑터: RequestMappingHandlerAdapter
 
 > [Adapter Design Pattern](https://sourcemaking.com/design_patterns/adapter)
 
@@ -436,14 +440,16 @@ try(InputStream is = new FileInputStream("input.txt");
 
 추상적/구체적인 것을 분리하여 연결하는 패턴
 - 하나의 계층 구조일 때보다 각기 나누었을 때 독립적인 계층 구조로 발전시킬 수 있음
+- Implementation이 변경되더라도 Abstraction은 변경이 필요 없음
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/bridge-pattern.png?raw=true 'Result')
 
-- 장점)
-  - 추상적인 코드를 구체적인 코드 변경 없이도 독립적으로 확장 가능
-  - 추상적인 코드와 구체적인 코드 분리 가능
-- 단점)
-  - 계층 구조가 늘어나 복잡도가 증가할 수 있음
+장점)
+- 추상적인 코드를 구체적인 코드 변경 없이도 독립적으로 확장 가능
+- 추상적인 코드와 구체적인 코드 분리 가능
+
+단점)
+- 계층 구조가 늘어나 복잡도가 증가할 수 있음
 
 .
 
@@ -457,9 +463,29 @@ try(InputStream is = new FileInputStream("input.txt");
 
 **`Bridge Pattern Example`**
 
+JAVA
+- JDBC API
+  - Abstraction: DriverManager, Connection, Statement
+  - Implementation: Driver
+- SLF4J (로깅 퍼사드와 로거)
 
+Spring
+- Portable Service Abstraction
+  - MailSender
+  - PlatformTransactionManager
 
 > [Bridge Design Pattern](https://sourcemaking.com/design_patterns/bridge)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -469,7 +495,6 @@ try(InputStream is = new FileInputStream("input.txt");
 ## -- Pattern
 
 ![Result]( 'Result')
-
 
 .
 
