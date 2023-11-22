@@ -501,6 +501,14 @@ Spring
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/composite-pattern.png?raw=true 'Result')
 
+장점)
+- 복잡한 트리 구조를 편리하게 사용 가능(공통 인터페이스를 구현하므로)
+- 다형성과 재귀 활용 가능
+- 클라이언트 코드를 변경하지 않고 새로운 엘리먼트 타입(Leaf) 추가 가능
+
+단점)
+- 트리를 만들어야 하므로(공통된 인터페이스를 정의해야 하기 때문에) 지나치게 일반화해야 하는 경우도 발생
+
 .
 
 **`Composite Pattern 구현 방법`**
