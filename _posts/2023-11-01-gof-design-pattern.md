@@ -142,6 +142,8 @@ public enum Settings {
 - 다른 디자인 패턴(빌더, 퍼사드, 추상 팩토리..) 구현체의 일부 사용
 
 > [Singleton Design Pattern](https://sourcemaking.com/design_patterns/singleton)
+>
+> [Singleton](https://refactoring.guru/design-patterns/singleton)
 
 .
 
@@ -198,6 +200,8 @@ System.out.println(hi);
 ```
 
 > [Factory Method Design Pattern](https://sourcemaking.com/design_patterns/factory_method)
+>
+> [Factory Method](https://refactoring.guru/design-patterns/factory-method)
 
 .
 
@@ -249,6 +253,8 @@ Spring
 - FactoryBean & 구현체
 
 > [Abstract Factory Design Pattern](https://sourcemaking.com/design_patterns/abstract_factory)
+>
+> [Abstract Factory](https://refactoring.guru/design-patterns/abstract-factory)
 
 .
 
@@ -294,6 +300,8 @@ Lombok
 - xxxBuilder
 
 > [Builder Design Pattern](https://sourcemaking.com/design_patterns/builder)
+>
+> [Builder](https://refactoring.guru/design-patterns/builder)
 
 .
 
@@ -347,6 +355,8 @@ Lombok
   ```
 
 > [Prototype Design Pattern](https://sourcemaking.com/design_patterns/prototype)
+>
+> [Prototype](https://refactoring.guru/design-patterns/prototype)
 
 .
 
@@ -433,6 +443,8 @@ Spring
     - 가장 흔히 사용하는 어댑터: RequestMappingHandlerAdapter
 
 > [Adapter Design Pattern](https://sourcemaking.com/design_patterns/adapter)
+>
+> [Adapter](https://refactoring.guru/design-patterns/adapter)
 
 .
 
@@ -475,6 +487,8 @@ Spring
   - PlatformTransactionManager
 
 > [Bridge Design Pattern](https://sourcemaking.com/design_patterns/bridge)
+>
+> [Bridge](https://refactoring.guru/design-patterns/bridge)
 
 .
 
@@ -500,7 +514,8 @@ Spring
 **`Composite Pattern Example`**
 
 > [Composite Design Pattern](https://sourcemaking.com/design_patterns/composite)
-
+>
+> [Composite](https://refactoring.guru/design-patterns/composite)
 
 
 
@@ -533,3 +548,5 @@ Spring
 **`-- Pattern Example`**
 
 > [xxx](https://sourcemaking.com/design_patterns)
+> 
+> [xxx](https://refactoring.guru/design-patterns/)
