@@ -141,6 +141,8 @@ public enum Settings {
 - java.lang.Runtime
 - 다른 디자인 패턴(빌더, 퍼사드, 추상 팩토리..) 구현체의 일부 사용
 
+.
+
 > [Singleton Design Pattern](https://sourcemaking.com/design_patterns/singleton)
 >
 > [Singleton](https://refactoring.guru/design-patterns/singleton)
@@ -199,6 +201,8 @@ String hi = javaFactory.getBean("hello", String.class);
 System.out.println(hi);
 ```
 
+.
+
 > [Factory Method Design Pattern](https://sourcemaking.com/design_patterns/factory_method)
 >
 > [Factory Method](https://refactoring.guru/design-patterns/factory-method)
@@ -252,6 +256,8 @@ Java Library
 Spring 
 - FactoryBean & 구현체
 
+.
+
 > [Abstract Factory Design Pattern](https://sourcemaking.com/design_patterns/abstract_factory)
 >
 > [Abstract Factory](https://refactoring.guru/design-patterns/abstract-factory)
@@ -298,6 +304,8 @@ Lombok
 - UriComponentsBuilder
 - MockMvcWebClientBuilder
 - xxxBuilder
+
+.
 
 > [Builder Design Pattern](https://sourcemaking.com/design_patterns/builder)
 >
@@ -353,6 +361,8 @@ Lombok
   ModelMapper modelMapper = new ModelMapper();
   GithubIssueData githubIssueData = modelMapper.map(githubIssue, GithubIssueData.class);
   ```
+
+.
 
 > [Prototype Design Pattern](https://sourcemaking.com/design_patterns/prototype)
 >
@@ -442,6 +452,8 @@ Spring
   - `HandlerAdpter`: 다양한 형태의 핸들러 코드를 스프링 MVC가 실행할 수 있는 형태로 변환해주는 어댑터용 인터페이스
     - 가장 흔히 사용하는 어댑터: RequestMappingHandlerAdapter
 
+.
+
 > [Adapter Design Pattern](https://sourcemaking.com/design_patterns/adapter)
 >
 > [Adapter](https://refactoring.guru/design-patterns/adapter)
@@ -486,6 +498,8 @@ Spring
   - MailSender
   - PlatformTransactionManager
 
+.
+
 > [Bridge Design Pattern](https://sourcemaking.com/design_patterns/bridge)
 >
 > [Bridge](https://refactoring.guru/design-patterns/bridge)
@@ -520,6 +534,12 @@ Spring
 .
 
 **`Composite Pattern Example`**
+
+JAVA
+- Swing Library
+- JSF(JavaServer Faces) Library
+
+.
 
 > [Composite Design Pattern](https://sourcemaking.com/design_patterns/composite)
 >
