@@ -545,6 +545,35 @@ JAVA
 >
 > [Composite](https://refactoring.guru/design-patterns/composite)
 
+.
+
+## Decorator Pattern
+
+기존 코드를 변경하지 않고 부가 기능을 추가하는 패턴
+- 상속이 아닌 위임을 사용해서 보다 유연하게 (런타임에) 부가 기능을 추가하는 것도 가능
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/decorator-pattern.png?raw=true 'Result')
+
+.
+
+**`Decorator Pattern 구현 방법`**
+
+- [Decorator Pattern sample](https://github.com/jihunparkme/GoF-Design-Pattern/tree/main/src/main/java/me/whiteship/designpatterns/_02_structural_patterns/_09_decorator)
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/decorator-pattern-example.png?raw=true 'Result')
+
+.
+
+**`Decorator Pattern Example`**
+
+.
+
+> [Decorator Design Pattern](https://sourcemaking.com/design_patterns/decorator)
+> 
+> [Decorator](https://refactoring.guru/design-patterns/decorator)
+
+
+
 
 
 
@@ -574,6 +603,8 @@ JAVA
 .
 
 **`-- Pattern Example`**
+
+.
 
 > [xxx](https://sourcemaking.com/design_patterns)
 > 
