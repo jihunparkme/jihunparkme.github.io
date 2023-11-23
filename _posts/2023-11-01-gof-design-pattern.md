@@ -549,8 +549,11 @@ JAVA
 
 ## Decorator Pattern
 
-기존 코드를 변경하지 않고 부가 기능을 추가하는 패턴
-- 상속이 아닌 위임을 사용해서 보다 유연하게 (런타임에) 부가 기능을 추가하는 것도 가능
+동작을 포함하는 특수 래퍼 개체 안에 다른 개체를 배치하여 개체에 새로운 동작을 추가할 수 있는 구조 설계 패턴
+- 기존 코드를 변경하지 않고 부가 기능을 추가
+- 상속이 아닌 위임을 사용해서 보다 유연하게 부가 기능을 추가(런타임에도 가능)
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/decorator-2x.png?raw=true 'Result')
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/decorator-pattern.png?raw=true 'Result')
 
@@ -630,3 +633,35 @@ Spring
 > [xxx](https://sourcemaking.com/design_patterns)
 > 
 > [xxx](https://refactoring.guru/design-patterns/)
+
+
+
+
+
+
+https://refactoring.guru/design-patterns
+- Creational Patterns
+  - Factory MEthod
+  - Abstract Factory
+  - Builder
+  - Prototype
+  - Singleton
+- Structural PAtterns
+  - Adapter
+  - Bridge
+  - Composite
+  - Decorator ✅
+  - Facade
+  - Flyweight
+  - Proxy
+- Behavioral Patterns
+  - Cain of Responsibility
+  - Command
+  - Iterator
+  - Mediator
+  - Memento
+  - Observer
+  - State
+  - Strategy
+  - Template Method
+  - Visitor
