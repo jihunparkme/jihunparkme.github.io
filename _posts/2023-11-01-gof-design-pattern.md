@@ -562,6 +562,13 @@ JAVA
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/decorator-pattern-example.png?raw=true 'Result')
 
+장점)
+- 새로운 클래스를 만들지 않고 기존 기능 조합 가능
+- 컴파일 타임이 아닌 런타임에 동적으로 기능 변경 가능
+
+단점)
+- 데코레이터를 조합하는 코드가 복잡할 수 있음
+
 .
 
 **`Decorator Pattern Example`**
