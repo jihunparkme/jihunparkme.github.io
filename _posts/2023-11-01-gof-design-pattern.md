@@ -8,7 +8,106 @@ featured-img: design-pattern
 
 # GoF Design Patterns
 
-# Creational Patterns
+# Creational Design Patterns
+
+생성 디자인 패턴은 기존 코드의 유연성과 재사용을 증가시키는 `객체를 생성하는 다양한 방법`을 제공
+
+## Factory Method
+
+부모 클래스에서 객체들을 생성할 수 있는 인터페이스를 제공하지만, `자식 클래스들이 생성될 객체들의 유형을 변경`할 수 있도록 하는 생성 패턴
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-method-ko-2x.png?raw=true 'Result')
+
+.
+
+**`Problem`**
+
+트럭 물류 관리 어플을 개발했다.
+
+요즘들어 어플이 유명해지면서 해상 물류 회사들로부터 해상 물류 기능을 추가해 달라는 요청이 들어오고 있다.
+
+하지만.. 지금 대부분 코드는 트럭 클래스에 의존되어 있고, 선박 클래스를 추가하기 위해 전체 코드 베이스 변경이 필요한 상황이다. 이후 다른 유형의 물류 교통수단도 추가된다면 다시 전체 코드 베이스 수정이 필요할 것이다.
+
+이대로라면 운송 수단 객체들이 추가될 때마다 많은 조건문들이 생겨나는 매우 복잡한 코드가 작성될텐데..
+
+어떻게 하는게 좋을까?😭
+
+.
+
+**`Solution`**
+
+.
+
+
+## Abstract Factory
+
+## Builder
+
+## Prototype
+
+## Singleton
+
+.
+
+# Structural Design Patterns
+
+## Adapter
+
+## Bridge
+
+## Composite
+
+## Decorator
+
+## Facade
+
+## Flyweight
+
+## Proxy
+
+.
+
+# Behavioral Design Patterns
+
+## Cain of Responsibility
+
+## Command
+
+## Iterator
+
+## Mediator
+
+## Memento
+
+## Observer
+
+## State
+
+## Strategy
+
+## Template Method
+
+## Visitor
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 생성 패턴
 
@@ -637,31 +736,3 @@ Spring
 
 
 
-
-
-https://refactoring.guru/design-patterns
-- Creational Patterns
-  - Factory MEthod
-  - Abstract Factory
-  - Builder
-  - Prototype
-  - Singleton
-- Structural PAtterns
-  - Adapter
-  - Bridge
-  - Composite
-  - Decorator ✅
-  - Facade
-  - Flyweight
-  - Proxy
-- Behavioral Patterns
-  - Cain of Responsibility
-  - Command
-  - Iterator
-  - Mediator
-  - Memento
-  - Observer
-  - State
-  - Strategy
-  - Template Method
-  - Visitor
