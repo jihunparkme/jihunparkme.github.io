@@ -573,6 +573,20 @@ JAVA
 
 **`Decorator Pattern Example`**
 
+JAVA
+- InputStream, OutputStream, Reader, Writer의 생성자를 활용한 Wrapper
+  - InputStream < InputStreamReader < BufferedReader
+- java.util.Collections가 제공하는 메소드들 활용한 Wrapper
+  - checkedList
+  - synchronizedList
+  - unmodifiableCollection
+- javax.servlet.http.HttpServletRequest/ResponseWrapper : 서블릿 요청/응답 랩퍼
+
+Spring
+- BeanDefinitionDecorator : Bean 설정 데코레이터
+- ServerHttpRequestDecorator : WebFlux Http 요청 데코레이터
+- ServerHttpResponseDecorator : WebFlux Http 응답 데코레이터
+
 .
 
 > [Decorator Design Pattern](https://sourcemaking.com/design_patterns/decorator)
