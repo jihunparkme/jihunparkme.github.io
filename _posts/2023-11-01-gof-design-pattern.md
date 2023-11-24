@@ -36,6 +36,21 @@ featured-img: design-pattern
 
 **`Solution`**
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/structure-2x.png?raw=true 'Result')
+
+Factory Method Pattern은 객체 생성 호출을 특별한 팩토리 메소드에 대한 호출로 대체
+- 자식 클래스들은 팩토리 메서드가 반환하는 객체들의 클래스를 변경 가능
+- 생성자 호출을 팩토리 메소드에게 위임하면서 자식 클래스에서 팩토리 메소드를 오버라이딩하고 생성되는 제품들의 클래스를 변경 가능
+- 약간의 제한이 있지만, 자식 클래스들은 다른 유형의 제품들을 해당 제품들이 공통 기초 클래스 또는 공통 인터페이스가 있는 경우에만 반환 가능
+  - ConcreteCreatorA 클래스에 포함된 팩토리 메소드는 ConcreteProductA 객체들을 반환
+  - ConcreteCreatorB 클래스에 포함된 팩토리 메소드는 ConcreteProductB 객체들을 반환
+
+모든 제품 클래스들이 공통 인터페이스를 구현하는 한, 제품 클래스들의 객체들을 손상시키지 않고 클라이언트 코드 작성 가능
+- 클라이언트는 다양한 자식 클래스들에서 실제로 반환되는 클래스를 알지 못함
+- 클라이언트는 모든 제품을 추상 클래스로 간주하고 메소드가 어떻게 동작하는지 중요하지 않음
+
+
+
 .
 
 
