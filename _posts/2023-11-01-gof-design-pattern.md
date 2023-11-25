@@ -8,9 +8,15 @@ featured-img: design-pattern
 
 # GoF Design Patterns
 
+[Refactoring.Guru](https://refactoring.guru/design-patterns) 의 [Design Patterns](https://refactoring.guru/design-patterns) 주제를 정리하며 실습한 내용들을 다루는 글입니다.
+
+.
+
 # Creational Design Patterns
 
 생성 디자인 패턴은 기존 코드의 유연성과 재사용을 증가시키는 `객체를 생성하는 다양한 방법`을 제공
+
+.
 
 ## Factory Method
 
@@ -30,7 +36,7 @@ featured-img: design-pattern
 
 이대로라면 운송 수단 객체들이 추가될 때마다 많은 조건문들이 생겨나는 매우 복잡한 코드가 작성될텐데..
 
-어떻게 하는게 좋을까?😭
+어떻게 하는게 좋을까? 😭
 
 .
 
@@ -40,16 +46,55 @@ featured-img: design-pattern
 
 Factory Method Pattern은 객체 생성 호출을 특별한 팩토리 메소드에 대한 호출로 대체
 - 자식 클래스들은 팩토리 메서드가 반환하는 객체들의 클래스를 변경 가능
-- 생성자 호출을 팩토리 메소드에게 위임하면서 자식 클래스에서 팩토리 메소드를 오버라이딩하고 생성되는 제품들의 클래스를 변경 가능
+  - 생성자 호출을 팩토리 메소드에게 위임하면서 자식 클래스에서 팩토리 메소드를 오버라이딩하고 생성되는 제품들의 클래스를 변경 가능
 - 약간의 제한이 있지만, 자식 클래스들은 다른 유형의 제품들을 해당 제품들이 공통 기초 클래스 또는 공통 인터페이스가 있는 경우에만 반환 가능
   - ConcreteCreatorA 클래스에 포함된 팩토리 메소드는 ConcreteProductA 객체들을 반환
   - ConcreteCreatorB 클래스에 포함된 팩토리 메소드는 ConcreteProductB 객체들을 반환
+
+.
 
 모든 제품 클래스들이 공통 인터페이스를 구현하는 한, 제품 클래스들의 객체들을 손상시키지 않고 클라이언트 코드 작성 가능
 - 클라이언트는 다양한 자식 클래스들에서 실제로 반환되는 클래스를 알지 못함
 - 클라이언트는 모든 제품을 추상 클래스로 간주하고 메소드가 어떻게 동작하는지 중요하지 않음
 
+```java
+public class App {
 
+    private static Logistics creator;
+
+    public void initialize(String type) {
+        if ("truck".equals(type)) {
+            creator = new RoadLogistics();
+            return;
+        }
+
+        if ("ship".equals(type)) {
+            creator = new SeaLogistics();
+            return;
+        }
+
+        throw new IllegalArgumentException("Unknown operating system.");
+    }
+
+    public static void main(String[] args) {
+        App app = new App();
+
+        app.initialize("truck");
+        creator.planDelivery(); //=> Truck deliver
+
+        app.initialize("ship");
+        creator.planDelivery(); //=> Ship deliver
+    }
+}
+```
+
+.
+
+**`Practice`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-,ethod-example.png?raw=true 'Result')
+
+[Factory Method Practice](https://github.com/jihunparkme/GoF-Design-Pattern/commit/d5c67235c2f954912dddb713a7e062ca0f52a083)
 
 .
 
