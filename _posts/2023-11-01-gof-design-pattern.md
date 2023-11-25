@@ -44,7 +44,7 @@ featured-img: design-pattern
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/structure-2x.png?raw=true 'Result')
 
-Factory Method Pattern은 객체 생성 호출을 특별한 팩토리 메소드에 대한 호출로 대체
+Factory Method Pattern은 `객체 생성 호출을 특별한 팩토리 메소드에 대한 호출로 대체`
 - 자식 클래스들은 팩토리 메서드가 반환하는 객체들의 클래스를 변경 가능
   - 생성자 호출을 팩토리 메소드에게 위임하면서 자식 클래스에서 팩토리 메소드를 오버라이딩하고 생성되는 제품들의 클래스를 변경 가능
 - 약간의 제한이 있지만, 자식 클래스들은 다른 유형의 제품들을 해당 제품들이 공통 기초 클래스 또는 공통 인터페이스가 있는 경우에만 반환 가능
@@ -92,9 +92,29 @@ public class App {
 
 **`Practice`**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-,ethod-example.png?raw=true 'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-method-example.png?raw=true 'Result')
 
-[Factory Method Practice](https://github.com/jihunparkme/GoF-Design-Pattern/commit/d5c67235c2f954912dddb713a7e062ca0f52a083)
+[Factory Method Pattern Practice](https://github.com/jihunparkme/GoF-Design-Pattern/commit/d5c67235c2f954912dddb713a7e062ca0f52a083)
+
+.
+
+**`Apply`**
+
+- 함께 작동해야 하는 객체들의 정확한 유형들과 의존관계들을 미리 모르는 경우 사용
+- 라이브러리 또는 프레임워크의 사용자들에게 내부 컴포넌트들을 확장하는 방법을 제공하고 싶을 때 사용
+- 기존 객체들을 매번 재구축하는 대신 이들을 재사용하여 시스템 리소스를 절약하고 싶을 때 사용
+
+.
+
+**`pros and cons`**
+
+장점.
+- Creator, Product 가 강하게 결합되지 않도록 할 수 있으
+- 단일 책임 원칙(SRP). 제품 생성 코드를 한 곳으로 이동
+- 개방/폐쇄 원칙(OCP). 기존 클라이언트 코드를 훼손하지 않고 새로운 유형의 제품을 추가
+
+단점.
+- 패턴을 구현하기 위해 많은 (자식)클래스 생성이 필요하여 코드가 복잡해질 수 있음
 
 .
 
