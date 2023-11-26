@@ -94,7 +94,7 @@ public class App {
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-method-example.png?raw=true 'Result')
 
-[Factory Method Pattern Practice](https://github.com/jihunparkme/GoF-Design-Pattern/commit/d5c67235c2f954912dddb713a7e062ca0f52a083)
+[Factory Method Pattern Practice](https://github.com/jihunparkme/GoF-Design-Pattern/tree/main/src/main/java/com/pattern/design/creationalDesignPatterns/factoryMethod)
 
 .
 
@@ -118,14 +118,176 @@ public class App {
 
 .
 
-
 ## Abstract Factory
+
+관련 객체들의 구상 클래스들을 지정하지 않고도 관련 객체들의 모음을 생성할 수 있도록 하는 생성패턴
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/abstract-factory-ko-2x.png?raw=true'Result')
+
+**`Problem`**
+
+의자, 소파, 테이블을 판매하는 프로그램을 만들고 있다.
+
+취향별로 디자인을 묶어 제품을 세트로 판매하고 싶다.
+
+A 디자인 세트, B 디자인 세트, C 디자인 세트..
+
+새로운 디자인 세트가 나오게 되면 추가할 때마다 기존 코드를 변경해야 하는 번거로움을 피하고 싶은데..
+
+어떻게 하는게 좋을까? 😭
+
+.
+
+**`Solution`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/abstract-factory-solution.png?raw=true 'Result')
+
+\1. 각 제품 디자인 세트​에 해당하는 개별적인 인터페이스를 명시적으로 선언하기
+- 제품의 모든 변형이 위 인터페이스를 따르도록 하기
+  - ex. 모든 의자의 변형들은 Chair 인터페이스를 구현
+  - ex. 모든 테이블 변형들은 ­Table 인터페이스를 구현.. 등의 규칙을 명시
+
+\2. 추상 팩토리 패턴을 선언하기
+- 추상 팩토리 패턴은 제품 디자인 새트 내의 모든 개별 제품들의 생성 메서드들이 목록화되어있는 인터페이스
+  - ex. create­Chair, create­Sofa, create­­Table
+
+\3. 제품 변형 다루기
+- 패밀리의 각 변형에 대해 Abstract­Factory 추상 팩토리 인터페이스를 기반으로 별도의 팩토리 클래스를 생성
+- 팩토리는 특정 종류의 제품을 반환하는 클래스
+  - ex. Modern­Furniture­Factory​에서는 다음 객체들만 생성(Modern­Chair, Modern­Sofa​, Modern­Coffee­Table​)
+
+\4. 클라이언트
+- 클라이언트는 자신에 해당하는 추상 인터페이스를 통해 팩토리들과 제품들 모두와 함께 작동해야 한다.
+- 그래야 클라이언트 코드에 넘기는 팩토리의 종류와 제품 변형들을 클라이언트 코드를 손상하지 않으며 자유자재로 변경 가능
+- 클라이언트는 함께 작업하는 팩토리의 구상 클래스에 대해 신경을 쓰지 않아야 한다.
+
+.
+
+**`Practice`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+[Abstract Factory Pattern Practice]()
+
+.
+
+**`Apply`**
+
+.
+
+**`pros and cons`**
+
+.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Builder
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+**`Problem`**
+
+.
+
+**`Solution`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+
+.
+
+**`Practice`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+[XXX Pattern Practice]()
+
+.
+
+**`Apply`**
+
+.
+
+**`pros and cons`**
+
+.
+
 ## Prototype
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+**`Problem`**
+
+.
+
+**`Solution`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+
+.
+
+**`Practice`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+[XXX Pattern Practice]()
+
+.
+
+**`Apply`**
+
+.
+
+**`pros and cons`**
+
+.
+
 ## Singleton
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+**`Problem`**
+
+.
+
+**`Solution`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+
+.
+
+**`Practice`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+[XXX Pattern Practice]()
+
+.
+
+**`Apply`**
+
+.
+
+**`pros and cons`**
 
 .
 
