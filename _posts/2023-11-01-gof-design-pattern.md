@@ -165,9 +165,9 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 **`Practice`**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/abstract-factory-method-pattern-practice.png?raw=true'Result')
 
-[Abstract Factory Pattern Practice]()
+[Abstract Factory Pattern Practice](https://github.com/jihunparkme/GoF-Design-Pattern/tree/main/src/main/java/com/pattern/design/creationalDesignPatterns/abstractFactory)
 
 .
 
