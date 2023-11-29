@@ -3,7 +3,7 @@ layout: post
 title: 실용주의 프로그래머
 summary: The Pragmatic Programmer
 categories: (Book)The-Pragmatic-Programmer
-featured-img: sample
+featured-img: the-pragmatic-programmer
 ---
 
 # The Pragmatic Programmer
