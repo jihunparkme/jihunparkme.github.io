@@ -124,7 +124,7 @@ public class App {
 
 [abstract-factory](https://refactoring.guru/design-patterns/abstract-factory)
 
-관련 객체들의 구상 클래스들을 지정하지 않고도 관련 객체들의 모음을 생성할 수 있도록 하는 생성패턴
+관련 객체들의 구상 클래스들을 지정하지 않고도 `관련 객체들의 모음을 생성`할 수 있도록 하는 생성패턴
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/abstract-factory-ko-2x.png?raw=true'Result')
 
@@ -202,7 +202,7 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 [builder](https://refactoring.guru/design-patterns/builder)
 
-빌더는 복잡한 객체들을 단계별로 생성할 수 있도록 하는 생성 디자인 패턴
+빌더는 복잡한 `객체들을 단계별로 생성`할 수 있도록 하는 생성 디자인 패턴
 - 같은 제작 코드를 사용하여 객체의 다양한 유형들과 표현 제작 가능
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/builder-pattern.png?raw=true'Result')
@@ -272,30 +272,29 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 .
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Prototype
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+[prototype](https://refactoring.guru/design-patterns/prototype)
+
+코드를 각 클래스들에 의존시키지 않고 `기존 객체들을 복사`할 수 있도록 하는 생성 디자인 패턴입
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/prototype-pattern.png?raw=true'Result')
+
+.
 
 **`Problem`**
+
+특정한 객체의 복사본을 만들고 싶다.
+
+그렇다면.. 먼저 같은 클래스의 새 객체를 생성하고.. 원본 객체의 모든 필드를 살피고.. 해당 값들을 새 객체에 복사해야 한다.
+
+하지만.. 객체 필드들 중 일부가 비공개라면 모든 객체에 이 방법을 적용할 수 없을 것이다.
+
+그리고.. 객체의 복제본을 생성하려면 객체의 클래스를 알아야 하므로, 코드는 해당 클래스에 의존하게 될 것이다.
+
+또, 인터페이스의 구현 클래스라면 인터페이스만 알고, 그 객체의 구상 클래스는 알지 못할 수 있다.
+
+그렇다면.. 어떻게 하는게 좋을까? 😭
 
 .
 
@@ -309,7 +308,7 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
 
-[XXX Pattern Practice]()
+[Prototype Pattern Practice]()
 
 .
 
@@ -320,6 +319,44 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 **`pros and cons`**
 
 .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Singleton
 
