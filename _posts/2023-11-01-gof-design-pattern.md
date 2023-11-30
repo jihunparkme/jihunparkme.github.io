@@ -20,6 +20,8 @@ featured-img: design-pattern
 
 ## Factory Method
 
+[factory-method](https://refactoring.guru/design-patterns/factory-method)
+
 부모 클래스에서 객체들을 생성할 수 있는 인터페이스를 제공하지만, `자식 클래스들이 생성될 객체들의 유형을 변경`할 수 있도록 하는 생성 패턴
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/factory-method-ko-2x.png?raw=true 'Result')
@@ -120,6 +122,8 @@ public class App {
 
 ## Abstract Factory
 
+[abstract-factory](https://refactoring.guru/design-patterns/abstract-factory)
+
 관련 객체들의 구상 클래스들을 지정하지 않고도 관련 객체들의 모음을 생성할 수 있도록 하는 생성패턴
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/abstract-factory-ko-2x.png?raw=true'Result')
@@ -196,6 +200,8 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 ## Builder
 
+[builder](https://refactoring.guru/design-patterns/builder)
+
 빌더는 복잡한 객체들을 단계별로 생성할 수 있도록 하는 생성 디자인 패턴
 - 같은 제작 코드를 사용하여 객체의 다양한 유형들과 표현 제작 가능
 
@@ -256,13 +262,15 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 **`pros and cons`**
 
+장점.
+- 객체들을 단계별로 생성하거나, 생성 단계들을 연기하거나, 재귀적으로 단계들을 실행 가능
+- 제품들의 다양한 표현을 만들 때 같은 생성 코드를 재사용 가능
+- 단일 책임 원칙(SRP). 제품의 비즈니스 로직에서 복잡한 생성 코드 고립 가능
+
+단점.
+- 패턴이 여러 개의 새 클래스들을 생성해야 하므로 코드의 전반적인 복잡성이 증가
+
 .
-
-
-
-
-
-
 
 
 
