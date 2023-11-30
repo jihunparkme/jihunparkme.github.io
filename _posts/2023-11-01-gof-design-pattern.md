@@ -231,34 +231,26 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 - `Director` 클래스는 제작 단계들을 실행하는 **순서를 정의**하는 반면 `Builder`는 이러한 단계들에 대한 **구현을 제공**
 - 디렉터 클래스는 필수가 아니지만, 다양한 생성 루틴들을 배치하여 재사용할 수 있는 좋은 장소가 될 수 있다.
 - 또한, 디렉터 클래스는 클라이언트 코드에서 제품 생성의 세부 정보를 완전히 숨길 수 있다.
-  - 클라이언트는 빌더를 디렉터와 연관시키고 디렉터와 생성을 시행한 후 빌더로부터 결과 획득
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  - 클라이언트는 빌더를 디렉터와 연관시키고 디렉터와 생성을 시행한 후 빌더로부터 결과를 얻기만 하면 됩니다.
 
 .
 
 **`Practice`**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/builder-pattern-practice.png?raw=true'Result')
 
-[XXX Pattern Practice]()
+[Builder Pattern Practice](https://github.com/jihunparkme/GoF-Design-Pattern/tree/main/src/main/java/com/pattern/design/creationalDesignPatterns/builder)
 
 .
 
 **`Apply`**
+
+- '점층적 생성자'를 제거하기 위해 빌더 패턴 사용
+  - 필요한 단계들만 사용하여 단계별로 객체들을 생성 가능
+  - 패턴 구현 후에는 수십 개의 매개변수를 생성자에 집어넣는 일은 불필요
+- 코드가 일부 제품의 다른 표현(ex. SUV)들​을 생성할 수 있도록 하고 싶을 때 사용
+- 복합체 트리, 기타 복잡한 객체들을 생성
+
 
 .
 
