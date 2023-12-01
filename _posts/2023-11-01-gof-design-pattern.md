@@ -202,7 +202,7 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 [builder](https://refactoring.guru/design-patterns/builder)
 
-빌더는 복잡한 `객체들을 단계별로 생성`할 수 있도록 하는 생성 디자인 패턴
+빌더는 `복잡한 객체들을 단계별로 생성`할 수 있도록 하는 생성 디자인 패턴
 - 같은 제작 코드를 사용하여 객체의 다양한 유형들과 표현 제작 가능
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/builder-pattern.png?raw=true'Result')
@@ -276,7 +276,7 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 [prototype](https://refactoring.guru/design-patterns/prototype)
 
-코드를 각 클래스들에 의존시키지 않고 `기존 객체들을 복사`할 수 있도록 하는 생성 디자인 패턴입
+코드를 각 클래스들에 의존시키지 않고 `기존 객체들을 복사`할 수 있도록 하는 생성 디자인 패턴
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/prototype-pattern.png?raw=true'Result')
 
@@ -300,7 +300,7 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 **`Solution`**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/prototype-pattern-structure.png?raw=true 'Result')
 
 프로토타입 패턴은 실제로 복제되는 객체들에 `복제 프로세스를 위임`
 - 복제를 지원하는 모든 객체에 대한 공통 인터페이스를 선언
@@ -315,29 +315,21 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 - 객체들에 수십 개의 필드와 수백 개의 가능한 설정들이 있는 경우 이를 복제하는 것이 서브클래싱의 대안이 될 수 있음
 - 프로그래밍의 프로토타입의 경우 생산과정에 참여하지 않고 자신을 복제하므로 세포의 유사분열 과정과 유사
 
-
-
-
-
-
-
-
-
-
-
-
-
 .
 
 **`Practice`**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/prototype-pattern-practice.png?raw=true'Result')
 
-[Prototype Pattern Practice]()
+[Prototype Pattern Practice](https://github.com/jihunparkme/GoF-Design-Pattern/tree/main/src/main/java/com/pattern/design/creationalDesignPatterns/prototype)
 
 .
 
 **`Apply`**
+
+
+
+
 
 .
 
