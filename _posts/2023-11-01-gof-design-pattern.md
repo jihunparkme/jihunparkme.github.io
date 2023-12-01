@@ -348,47 +348,100 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 .
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Singleton
 
+클래스에 인스턴스가 하나만 있도록 하면서 이 인스턴스에 대한 전역 접근 지점을 제공하는 생성 디자인 패턴
+
+[singleton](https://refactoring.guru/ko/design-patterns/singleton)
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/singleton-pattern.png?raw=true'Result')
+
+.
+
+**`Problem`**
+
+
+
+
+
+
+
+
+
+
+
+
+
+.
+
+**`Solution`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+
+.
+
+**`Practice`**
+
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+[Singleton Pattern Practice]()
+
+.
+
+**`Apply`**
+
+.
+
+**`pros and cons`**
+
+.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Structural Design Patterns
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+.
 
 **`Problem`**
 
@@ -416,21 +469,227 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 .
 
-# Structural Design Patterns
-
 ## Adapter
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+.
+
+**`Problem`**
+
+.
+
+**`Solution`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+
+.
+
+**`Practice`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+[XXX Pattern Practice]()
+
+.
+
+**`Apply`**
+
+.
+
+**`pros and cons`**
+
+.
 
 ## Bridge
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+.
+
+**`Problem`**
+
+.
+
+**`Solution`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+
+.
+
+**`Practice`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+[XXX Pattern Practice]()
+
+.
+
+**`Apply`**
+
+.
+
+**`pros and cons`**
+
+.
+
 ## Composite
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+.
+
+**`Problem`**
+
+.
+
+**`Solution`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+
+.
+
+**`Practice`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+[XXX Pattern Practice]()
+
+.
+
+**`Apply`**
+
+.
+
+**`pros and cons`**
+
+.
 
 ## Decorator
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+.
+
+**`Problem`**
+
+.
+
+**`Solution`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+
+.
+
+**`Practice`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+[XXX Pattern Practice]()
+
+.
+
+**`Apply`**
+
+.
+
+**`pros and cons`**
+
+.
+
 ## Facade
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+.
+
+**`Problem`**
+
+.
+
+**`Solution`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+
+.
+
+**`Practice`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+[XXX Pattern Practice]()
+
+.
+
+**`Apply`**
+
+.
+
+**`pros and cons`**
+
+.
 
 ## Flyweight
 
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+.
+
+**`Problem`**
+
+.
+
+**`Solution`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+
+.
+
+**`Practice`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+[XXX Pattern Practice]()
+
+.
+
+**`Apply`**
+
+.
+
+**`pros and cons`**
+
+.
+
 ## Proxy
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+.
+
+**`Problem`**
+
+.
+
+**`Solution`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+
+.
+
+**`Practice`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+
+[XXX Pattern Practice]()
+
+.
+
+**`Apply`**
+
+.
+
+**`pros and cons`**
 
 .
 
