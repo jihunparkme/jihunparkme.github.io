@@ -350,9 +350,9 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 ## Singleton
 
-클래스에 인스턴스가 하나만 있도록 하면서 이 인스턴스에 대한 전역 접근 지점을 제공하는 생성 디자인 패턴
-
 [singleton](https://refactoring.guru/ko/design-patterns/singleton)
+
+`클래스에 인스턴스가 하나만` 있도록 하면서 이 인스턴스에 대한 전역 접근 지점을 제공하는 생성 디자인 패턴
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/singleton-pattern.png?raw=true'Result')
 
@@ -375,7 +375,17 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 **`Solution`**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/singleton-structure.png?raw=true 'Result')
+
+싱글턴의 모든 구현에는 공통적으로 두 단계가 존재
+
+- 다른 객체들이 싱글턴 클래스와 함께 new 연산자를 사용하지 못하도록 `디폴트 생성자를 비공개`로 설정
+- `생성자 역할을 하는 정적 생성 메서드` 생성
+  - 내부적으로 이 메서드는 객체를 만들기 위하여 비공개 생성자를 호출한 후 객체를 정적 필드에 저장
+  - 이 메서드에 대한 그다음 호출들은 모두 캐시된 객체 반환
+ 
+싱글턴 클래스에 접근할 수 있는 경우, 이 코드는 싱글턴의 정적 메서드 호출 가능
+- 따라서 해당 메서드가 호출될 때마다 항상 같은 객체가 반환
 
 .
 
