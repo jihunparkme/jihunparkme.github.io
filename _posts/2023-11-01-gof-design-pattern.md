@@ -391,9 +391,18 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 **`Practice`**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/singleton-practice.png?raw=true'Result')
 
-[Singleton Pattern Practice]()
+[Singleton Pattern Practice](https://github.com/jihunparkme/GoF-Design-Pattern/tree/main/src/main/java/com/pattern/design/creationalDesignPatterns/singleton)
+
+단일 스레드에서 기본 싱글턴
+- 기본 싱글턴은 생성자를 숨기고 정적 생성 메서드를 구현
+
+멀티 스레드에서 기본 싱글턴
+- 여러 스레드가 생성 메서드를 동시에 호출할 수 있고, 싱글턴 클래스의 여러 인스턴스를 가져올 수 있음
+
+지연 로딩이 있는 스레드 안전한 싱글턴
+- 싱글턴 객체를 처음 생성하는 동안 스레드들을 동기화
 
 .
 
