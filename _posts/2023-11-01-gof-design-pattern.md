@@ -436,13 +436,13 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 # Structural Design Patterns
 
-[Adapter, Wrapper](https://refactoring.guru/ko/design-patterns/adapter)
-
 구조 패턴은 `구조를 유연하고 효율적으로 유지`하면서 객체와 클래스들을 `더 큰 구조로 조립`하는 방법 제공
 
 .
 
 ## Adapter
+
+[Adapter, Wrapper](https://refactoring.guru/ko/design-patterns/adapter)
 
 `호환되지 않는 인터페이스`를 가진 객체들이 `협업`할 수 있도록 하는 구조적 디자인 패턴
 
@@ -478,9 +478,17 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 
 **`Practice`**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/adapter-pattern-practice.png?raw=true'Result')
 
 [Adapter Pattern Practice]()
+
+객체 어댑터
+- 객체 합성 원칙을 사용
+- 어댑터는 한 객체의 인터페이스를 구현하고 다른 객체는 래핑
+
+클래스 어댑터
+- 상속을 사용
+- 어댑터는 동시에 두 객체의 인터페이스를 상속
 
 .
 
@@ -1333,44 +1341,6 @@ Spring
 > [Decorator Design Pattern](https://sourcemaking.com/design_patterns/decorator)
 > 
 > [Decorator](https://refactoring.guru/design-patterns/decorator)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## -- Pattern
-
-![Result]( 'Result')
-
-.
-
-**`-- 구현 방법`**
-
-- [Pattern sample]()
-
-![Result]( 'Result')
-
-.
-
-**`-- Pattern Example`**
-
-.
-
-> [xxx](https://sourcemaking.com/design_patterns)
-> 
-> [xxx](https://refactoring.guru/design-patterns/)
 
 
 
