@@ -38,7 +38,7 @@ featured-img: design-pattern
 
 이대로라면 운송 수단 객체들이 추가될 때마다 많은 조건문들이 생겨나는 매우 복잡한 코드가 작성될텐데..
 
-어떻게 하는게 좋을까? 😭
+어떻게 하는 게 좋을까? 😭
 
 .
 
@@ -138,7 +138,7 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 새로운 디자인 세트가 나오게 되면 추가할 때마다 기존 코드를 변경해야 하는 번거로움을 피하고 싶은데..
 
-어떻게 하는게 좋을까? 😭
+어떻게 하는 게 좋을까? 😭
 
 .
 
@@ -219,7 +219,7 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 여기에 특정 케이스에만 사용되는 매개변수들이 조금씩 추가되다 보면 생성자 호출 코드는 알아볼 수 없을 지경이 되어 버릴 것이다..
 
-어떻게 하는게 좋을까? 😭
+어떻게 하는 게 좋을까? 😭
 
 .
 
@@ -294,7 +294,7 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 또, 인터페이스의 구현 클래스라면 인터페이스만 알고, 그 객체의 구상 클래스는 알지 못할 수 있다.
 
-그렇다면.. 어떻게 하는게 좋을까? 😭
+그렇다면.. 어떻게 하는 게 좋을까? 😭
 
 .
 
@@ -434,92 +434,45 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 .
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Structural Design Patterns
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+[Adapter, Wrapper](https://refactoring.guru/ko/design-patterns/adapter)
 
-.
-
-**`Problem`**
-
-.
-
-**`Solution`**
-
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
-
-.
-
-**`Practice`**
-
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
-
-[XXX Pattern Practice]()
-
-.
-
-**`Apply`**
-
-.
-
-**`pros and cons`**
+구조 패턴은 `구조를 유연하고 효율적으로 유지`하면서 객체와 클래스들을 `더 큰 구조로 조립`하는 방법 제공
 
 .
 
 ## Adapter
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+`호환되지 않는 인터페이스`를 가진 객체들이 `협업`할 수 있도록 하는 구조적 디자인 패턴
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/adapter-pattern.png?raw=true'Result')
 
 .
 
 **`Problem`**
 
+XML 형식으로 데이터를 내려주는 API 가 있다.
+
+하지만 우리가 사용하는 라이브러리는 JSON 형식의 데이터로만 동작한다.
+
+XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하는 라이브러리를 호환시키고 싶은데..
+
+어떻게 하는 게 좋을까? 😭
+
 .
 
 **`Solution`**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/adapter-pattern-structure.png?raw=true 'Result')
+
+`어댑터`는 한 객체의 인터페이스를 다른 객체가 이해할 수 있도록 변환하는 특별한 객체
+- 변환의 복잡성을 숨기기 위해 객체 중 하나를 래핑​(포장)
+- ​래핑된 객체는 어댑터 인식 불가
+- ex. km, m 단위로 동작하는 객체를 ft, mile 같은 영국식 단위로 변환하는 어댑터
+
+데이터를 다양한 형식으로 변환 가능하고 다른 인터페이스를 가진 객체들이 협업하는 데 도움
+- 양방향으로 호출을 변환할 수 있는 양방향 어댑터를 만드는 것도 가능
 
 .
 
@@ -527,7 +480,7 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
 
-[XXX Pattern Practice]()
+[Adapter Pattern Practice]()
 
 .
 
@@ -538,6 +491,28 @@ A 디자인 세트, B 디자인 세트, C 디자인 세트..
 **`pros and cons`**
 
 .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Bridge
 
