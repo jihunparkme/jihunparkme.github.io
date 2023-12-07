@@ -536,7 +536,32 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 
 **`Solution`**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/bridge-pattern-structure.png?raw=true 'Result')
+
+브리지 패턴은 상속에서 객체 합성으로 전환하여 이 문제를 해결
+- 차원 중 하나를 별도의 클래스 계층구조로 추출하여 원래 클래스들이 한 클래스 내에서 모든 상태와 행동들을 갖는 대신 새 계층구조의 객체를 참조
+
+```text
+[ AS-IS ]
+모양
+ ㄴ 빨간색 원
+ ㄴ 빨간색 직사각형
+ ㄴ 파랑색 원
+ ㄴ 파란색 직사각형
+
+[ TO-BE ]
+모양
+ ㄴ 원
+ ㄴ 직사각형
+
+색
+ ㄴ 빨간색
+ ㄴ 파란색
+```
+
+추상화와 구현
+- 추상화: 앱의 GUI 레이어(IOS, Window, Linux)
+- 구현: 운영 체제의 API
 
 .
 
