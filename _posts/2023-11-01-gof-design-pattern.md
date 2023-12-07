@@ -514,35 +514,23 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 
 .
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Bridge
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+[Bridge](https://refactoring.guru/ko/design-patterns/bridge)
+
+브리지는 큰 클래스 또는 밀접하게 관련된 클래스들의 집합을 두 개의 개별 계층구조​(추상화 및 구현)​로 나눈 후 각각 독립적으로 개발할 수 있도록 하는 구조 디자인 패턴
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/bridge-pattern.png?raw=true'Result')
 
 .
 
 **`Problem`**
+
+모양(원, 직사각형)과 색상(빨간색, 파란색)으로 조합을 만들려고 한다.
+
+빨간색 원, 빨간색 직사각형, 파란색 원, 파란색 직사각형의 조합이 생기게 될텐데 새로운 모양과 색상이 추가될 떄마다 계층 구조는 기하급수적으로 많아지고 코드도 복잡해질 것이다.
+
+복잡성을 줄이려면 어떻게 하는 게 좋을까? 😭
 
 .
 
@@ -556,7 +544,7 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
 
-[XXX Pattern Practice]()
+[Bridge Pattern Practice]()
 
 .
 
@@ -567,6 +555,34 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 **`pros and cons`**
 
 .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Composite
 
