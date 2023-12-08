@@ -480,7 +480,7 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/adapter-pattern-practice.png?raw=true'Result')
 
-[Adapter Pattern Practice]()
+[Adapter Pattern Practice](https://github.com/jihunparkme/GoF-Design-Pattern/tree/main/src/main/java/com/pattern/design/structuralDesignPatterns/adapter)
 
 객체 어댑터
 - 객체 합성 원칙을 사용
@@ -518,7 +518,7 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 
 [Bridge](https://refactoring.guru/ko/design-patterns/bridge)
 
-브리지는 큰 클래스 또는 밀접하게 관련된 클래스들의 집합을 두 개의 개별 계층구조​(추상화 및 구현)​로 나눈 후 각각 독립적으로 개발할 수 있도록 하는 구조 디자인 패턴
+브리지는 큰 클래스 또는 밀접하게 관련된 `클래스들의 집합을 두 개의 개별 계층구조​(추상화 및 구현)​로 나눈` 후 각각 독립적으로 개발할 수 있도록 하는 구조 디자인 패턴
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/bridge-pattern.png?raw=true'Result')
 
@@ -569,17 +569,43 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/bridge-pattern-practice.png?raw=true'Result')
 
-[Bridge Pattern Practice]()
+[Bridge Pattern Practice](https://github.com/jihunparkme/GoF-Design-Pattern/tree/main/src/main/java/com/pattern/design/structuralDesignPatterns/bridge)
 
 .
 
 **`Apply`**
 
+- 특정 기능의 여러 변형을 가진 모놀리식 클래스를 여러 클래스 계층구조로 나눌 경우
+  - ex. 클래스가 다양한 데이터베이스 서버들과 작동하는 경우
+- 여러 독립 차원에서 클래스를 확장해야 할 경우
+  - 모든 작업을 자체적으로 수행하는 대신 추출된 계층구조들에 속한 객체들에게 관련 작업들을 위임
+- 런타임​에 구현을 전환할 수 있어야 할 경우
+  - 필드에 새 값을 할당하면 추상화 내부 구현 객체 변경 가능
+
 .
 
 **`pros and cons`**
 
+장점.
+- 플랫폼 독립적인 클래스와 앱을 만들 수 있음
+- 클라이언트 코드는 상위 수준의 추상화를 통해 작동하며, 플랫폼 세부 정보에 노출되지 않음
+- 개방/폐쇄 원칙(OCP). 새로운 추상화들과 구현들을 상호 독립적으로 도입 가능
+- 단일 책임 원칙(SRP). 추상화의 상위 수준 논리와 구현의 플랫폼 세부 정보에 집중 가능
+
+단점.
+- 결합도가 높은 클래스에 패턴을 적용하여 코드를 더 복잡하게 만들 수 있음
+
 .
+
+
+
+
+
+
+
+
+
+
 
 
 
