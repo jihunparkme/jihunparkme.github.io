@@ -567,7 +567,7 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 
 **`Practice`**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/bridge-pattern-practice.png?raw=true'Result')
 
 [Bridge Pattern Practice]()
 
