@@ -609,6 +609,20 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 
 **`Problem`**
 
+복합체 패턴은 앱의 핵심 모델이 트리로 표현될 수 있을 때만 사용.
+
+.
+
+아래와 같이 복잡한 주문이 들어왔다.
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/composite-pattern-example.png?raw=true'Result')
+
+주문의 총 가격을 구해야 할 때, 현실 세계라면 모든 상자를 푼 후 내부의 모든 제품을 확인할 수 있을 것이다.
+
+하지만, 프로그램이서는 상자의 중첩 수준과 세부 사항들을 미리 알고 있어야 하기 때문에 현실 세계와 같은 직접적인 접근 방식으로 총 가격을 구하기 어렵다.
+
+어떻게 하는 게 좋을까? 😭
+
 .
 
 **`Solution`**
@@ -621,7 +635,7 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
 
-[XXX Pattern Practice]()
+[Composite Pattern Practice]()
 
 .
 
