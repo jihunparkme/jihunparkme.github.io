@@ -627,25 +627,25 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 
 **`Solution`**
 
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true 'Result')
-
-.
-
-**`Practice`**
-
-![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
-
-[Composite Pattern Practice]()
-
-.
-
-**`Apply`**
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/composite-pattern-structure.png?raw=true 'Result')
 
 - 복합체 패턴를 적용하면, 총 가격을 계산하는 메서드가 선언된 공통 인터페이스를 통해 제품 및 상자 클래스들과 작업해볼 수 있다.
   - 제품: 단순히 제품 가격 반환
   - 상자: 상자에 포함된 각 항목과 가격을 확인 후 상자의 총 가격 반환
 - 상자 안에 상자가 있는 객체 트리의 모든 컴포넌트들에 대해 재귀적으로 행동을 실행
   - 메서드를 호출하면 객체들은 트리 아래로 요청을 전달
+
+.
+
+**`Practice`**
+
+![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/composite-pattern-practice.png?raw=true'Result')
+
+[Composite Pattern Practice](https://github.com/jihunparkme/GoF-Design-Pattern/tree/main/src/main/java/com/pattern/design/structuralDesignPatterns/composite)
+
+.
+
+**`Apply`**
 
 .
 
