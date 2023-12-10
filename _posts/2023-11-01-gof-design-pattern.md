@@ -665,36 +665,6 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 
 .
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Decorator
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
@@ -715,7 +685,7 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 
 ![Result](https://github.com/jihunparkme/jihunparkme.github.io/blob/master/post_img/gof-design-pattern/.png?raw=true'Result')
 
-[XXX Pattern Practice]()
+[Decorator Pattern Practice]()
 
 .
 
@@ -726,6 +696,31 @@ XML 형식의 데이터를 주는 API와 JSON 형식의 데이터로 동작하�
 **`pros and cons`**
 
 .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Facade
 
